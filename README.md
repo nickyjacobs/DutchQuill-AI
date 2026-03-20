@@ -106,8 +106,8 @@ Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
 ### 1. Repository klonen
 
 ```bash
-git clone https://github.com/nickyjacobs/dutchquill-ai.git
-cd dutchquill-ai
+git clone https://github.com/nickyjacobs/DutchQuill-AI.git
+cd DutchQuill-AI
 ```
 
 ### 2. Dependencies installeren
@@ -261,6 +261,10 @@ rapporten/          Invoermap voor .docx bestanden
   hooks/            check_verboden_woorden.py (Stop hook)
   rules/            schrijfstijl.md (aanvullende schrijfregels)
   settings.json     Permissies voor alle tools + Write(.tmp/*)
+.github/            GitHub-configuratie
+  ISSUE_TEMPLATE/   Templates voor bugrapporten en feature requests
+  PULL_REQUEST_TEMPLATE.md    Checklist voor pull requests
+  workflows/        GitHub Actions CI (tool validation)
 .tmp/               Tijdelijke werkbestanden
   schrijven/        Output van /schrijven (.docx)
   herschrijven/     Output van /herschrijven (.docx)
@@ -328,12 +332,16 @@ Zie [docs/claude-code-setup.md](docs/claude-code-setup.md) voor meer toelichting
 
 ## Bijdragen
 
-Bijdragen zijn welkom. Een paar dingen om rekening mee te houden:
+Bijdragen zijn welkom. Zie [CONTRIBUTING.md](CONTRIBUTING.md) voor spelregels, de ontwikkelomgeving en hoe je een PR indient.
 
-1. **Workflows:** pas bestaande workflows niet aan zonder overleg. Ze zijn zorgvuldig afgestemd.
+Kort samengevat:
+
+1. **Workflows:** niet aanpassen zonder overleg. Ze zijn zorgvuldig afgestemd.
 2. **Tools:** nieuwe tools volgen het patroon `tools/<functie>.py` met `argparse` en `--help`.
 3. **Skills:** elke skill markeert tools als `[VERPLICHT]` en sluit af met een verificatiechecklist.
 4. **Testen:** draai `python3 tools/<tool>.py --help` om te controleren of het script correct laadt.
+
+Bugs melden of een feature voorstellen? Gebruik de [issue templates](https://github.com/nickyjacobs/DutchQuill-AI/issues/new/choose).
 
 ---
 

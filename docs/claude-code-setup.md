@@ -5,7 +5,7 @@ DutchQuill AI draait als project binnen [Claude Code](https://docs.anthropic.com
 ## Project openen
 
 ```bash
-cd /pad/naar/dutchquill-ai
+cd /pad/naar/DutchQuill-AI
 claude
 ```
 
