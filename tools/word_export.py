@@ -543,14 +543,21 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         p.paragraph_format.space_before = Pt(0)
         p.paragraph_format.space_after = Pt(0)
 
-    # Titel (vet)
+    # APA 7 student paper volgorde:
+    # 1. Instelling + faculteit (boven de titel)
+    if metadata.get("institution"):
+        centered_para(metadata["institution"])
+    if metadata.get("faculty"):
+        centered_para(metadata["faculty"])
+
+    # 2. Titel (vet)
     centered_para(metadata.get("title", "Zonder Titel"), bold=True)
 
-    # Optionele subtitel
+    # 3. Optionele subtitel
     if metadata.get("subtitle"):
         centered_para(metadata["subtitle"])
 
-    # Auteurs en studentnummers
+    # 4. Auteurs en studentnummers
     authors = metadata.get("authors", [])
     student_numbers = metadata.get("student_numbers", [])
     for i, author in enumerate(authors):
@@ -558,13 +565,9 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         if i < len(student_numbers):
             centered_para(student_numbers[i])
 
-    # Instelling en faculteit (als affiliatie, onder de naam)
-    if metadata.get("institution"):
-        centered_para(metadata["institution"])
-    if metadata.get("faculty"):
-        centered_para(metadata["faculty"])
-
-    # Opleiding, begeleider, datum
+    # 5. Opleiding, vak, begeleider, datum
+    if metadata.get("opleiding"):
+        centered_para(metadata["opleiding"])
     if metadata.get("course"):
         centered_para(metadata["course"])
     if metadata.get("supervisor"):

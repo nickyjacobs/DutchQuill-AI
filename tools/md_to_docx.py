@@ -68,6 +68,8 @@ _ABSTRACT_HEADING = re.compile(r'^(samenvatting|abstract)\s*$', re.IGNORECASE)
 # Labels die in front matter herkend worden
 _FM_STUDENTNUMMER = re.compile(r'^Studentnummer:\s*(.+)', re.IGNORECASE)
 _FM_OPLEIDING = re.compile(r'^Opleiding:\s*(.+)', re.IGNORECASE)
+_FM_VAK = re.compile(r'^Vak(?:naam)?(?:\s*[-/]\s*\S+)?:\s*(.+)', re.IGNORECASE)
+_FM_BEGELEIDER = re.compile(r'^(?:Begeleider|Docent|Examinator|Supervisor)s?:\s*(.+)', re.IGNORECASE)
 _FM_DATUM = re.compile(r'^Datum:\s*(.+)', re.IGNORECASE)
 _FM_TOC = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
@@ -142,6 +144,18 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
         m = _FM_OPLEIDING.match(line)
         if m:
             meta['opleiding'] = m.group(1).strip()
+            consumed.add(i)
+            continue
+
+        m = _FM_VAK.match(line)
+        if m:
+            meta['vak'] = m.group(1).strip()
+            consumed.add(i)
+            continue
+
+        m = _FM_BEGELEIDER.match(line)
+        if m:
+            meta['begeleider'] = m.group(1).strip()
             consumed.add(i)
             continue
 
@@ -524,7 +538,17 @@ def build_payload(
     # Opleiding
     opleiding = (metadata_extra.get('opleiding') or fm.get('opleiding', '')).strip()
     if opleiding:
-        meta["course"] = opleiding
+        meta["opleiding"] = opleiding
+
+    # Vak (aparte regel onder opleiding, boven begeleider)
+    vak = (metadata_extra.get('vak') or fm.get('vak', '')).strip()
+    if vak:
+        meta["course"] = vak
+
+    # Begeleider / docent
+    begeleider = (metadata_extra.get('begeleider') or fm.get('begeleider', '')).strip()
+    if begeleider:
+        meta["supervisor"] = begeleider
 
     # Datum
     datum = (metadata_extra.get('datum') or fm.get('datum', '')).strip()

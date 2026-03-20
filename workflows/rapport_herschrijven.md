@@ -20,6 +20,8 @@ Gebruik in plaats hiervan `rapport_schrijven.md` als er nog geen tekst bestaat.
 ```bash
 python3 tools/docx_to_text.py --input <pad naar .docx>
 ```
+`docx_to_text.py` extraheert automatisch inline afbeeldingen naar `.tmp/images/figure_NN.ext` en schrijft `![caption](pad)` Markdown-placeholders in de tekst. `md_to_docx.py` plaatst de afbeeldingen bij de generatie van de .docx terug op hun originele plek. Gebruik NOOIT `--no-images` bij het herschrijven van een rapport met figuren.
+
 Gebruik de geëxtraheerde tekst als de te herschrijven tekst en ga verder met de rest van de stap.
 
 **Rapporten-map als invoer:** De map `rapporten/` bevat eerder aangeleverde rapportbestanden (.docx). Als de gebruiker verwijst naar een bestaand rapport zonder volledig pad, zoek in `rapporten/`. Converteer met `docx_to_text.py`.
@@ -285,9 +287,25 @@ Vergelijk intern de originele en herschreven tekst:
 
 **Word-export:**
 ```bash
-python3 tools/md_to_docx.py --input .tmp/herschreven.txt --output .tmp/herschreven.docx
+python3 tools/md_to_docx.py \
+  --input .tmp/herschreven.txt \
+  --output .tmp/herschrijven/<titel>.docx
 ```
-Voor volledige rapporten met figuren of specifiek titelblad-data: gebruik `tools/word_export.py` met JSON-payload.
+`md_to_docx.py` verwerkt de `![caption](pad)` placeholders die `docx_to_text.py` heeft geschreven en plaatst de afbeeldingen terug in het .docx bestand. Zorg dat `.tmp/images/` nog aanwezig is tijdens de export (opruimen pas in Stap 9d).
+
+**Titelpagina front matter — verplichte labelvelden:**
+Gebruik in `.tmp/herschreven.txt` altijd gelabelde velden voor de titelpagina-metadata (platte tekst vóór de eerste `#` heading):
+```
+Hogeschool NOVI
+Titel van het Rapport
+Auteur Naam
+Studentnummer: 12345
+Opleiding: HBO-ICT
+Vak: Systems Security
+Begeleider: Naam Docent
+Datum: 12 maart 2026
+```
+APA 7 volgorde (door `word_export.py` afgedwongen): Instelling → Titel (vet) → Auteur → Studentnummer → Opleiding → Vak → Begeleider → Datum.
 
 ---
 
