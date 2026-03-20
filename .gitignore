@@ -1,0 +1,38 @@
+# Secrets & credentials
+.env
+.mcp.json
+credentials.json
+token.json
+
+# Tijdelijke bestanden (inhoud, niet de mappenstructuur)
+.tmp/*
+!.tmp/.gitkeep
+!.tmp/schrijven/
+!.tmp/herschrijven/
+!.tmp/reviewen/
+!.tmp/humaniseer/
+.tmp/schrijven/*
+!.tmp/schrijven/.gitkeep
+.tmp/herschrijven/*
+!.tmp/herschrijven/.gitkeep
+.tmp/reviewen/*
+!.tmp/reviewen/.gitkeep
+.tmp/humaniseer/*
+!.tmp/humaniseer/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS
+.DS_Store
+~$*
+
+# Persoonlijke configuratie
+config/user_profile.json
+.claude/settings.local.json
+
+# Gebruikersrapporten
+rapporten/*.docx
