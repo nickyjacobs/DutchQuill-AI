@@ -286,6 +286,59 @@ def aanbevelingen_tabel(items: list, risico: str, s) -> Table:
     return tbl
 
 
+def domein_scores_tabel(domein_scores: list, s) -> Table:
+    """
+    domein_scores = lijst van tuples: (naam, beoordeling)
+    bijv. [('Taalcorrectheid', 'Kleine aandachtspunten'), ('APA Compliance', 'Aanpassingen nodig')]
+    """
+    _status_colors = {
+        'correct':            C_GREEN,
+        'volledig correct':   C_GREEN,
+        'sterk':              C_GREEN,
+        'goed':               C_GREEN,
+        'laag':               C_GREEN,
+        'kleine aandachtspunten': C_AMBER,
+        'aanpassingen nodig': C_AMBER,
+        'aandachtspunten':    C_AMBER,
+        'gemiddeld':          C_AMBER,
+        'gemiddeld risico':   C_AMBER,
+        'structurele fouten': C_RED,
+        'meerdere fouten':    C_RED,
+        'herschrijven aanbevolen': C_RED,
+        'hoog':               C_RED,
+        'hoog risico':        C_RED,
+    }
+
+    rows = []
+    for i, (naam, beoordeling) in enumerate(domein_scores):
+        kleur = C_AMBER
+        for key, val in _status_colors.items():
+            if key in beoordeling.lower():
+                kleur = val
+                break
+        rows.append([
+            Paragraph(naam, ParagraphStyle(
+                'dom_naam', fontName='Helvetica-Bold', fontSize=9, leading=13, textColor=C_TEXT,
+            )),
+            Paragraph(
+                f'<font color="{hex_str(kleur)}"><b>{beoordeling}</b></font>',
+                ParagraphStyle('dom_sts', fontName='Helvetica', fontSize=9, leading=13, textColor=kleur),
+            ),
+        ])
+
+    tbl = Table(rows, colWidths=['45%', '55%'])
+    tbl.setStyle(TableStyle([
+        ('FONTSIZE', (0, 0), (-1, -1), 9),
+        ('TOPPADDING', (0, 0), (-1, -1), 7),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 7),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [C_PANEL, C_BG]),
+        ('LINEBELOW', (0, 0), (-1, -2), 0.4, C_BORDER),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    return tbl
+
+
 def generate_pdf(
     output_path: str,
     risico: str,
@@ -298,6 +351,9 @@ def generate_pdf(
     aanbevelingen: list,
     chart_base64: str = '',
     rapport_type: str = 'humaniseer',
+    domein_scores: list = None,
+    apa_bevindingen: list = None,
+    stijl_bevindingen: list = None,
 ) -> str:
     """Genereer het PDF-rapport. Geeft het absoluut pad terug."""
 
@@ -356,6 +412,13 @@ def generate_pdf(
         except Exception:
             pass  # chart overslaan bij decode-fout
 
+    # ── Sectie: Domein Overzicht (alleen reviewen) ────────────────────────────
+    if rapport_type.lower() == 'reviewen' and domein_scores:
+        story.append(Paragraph('Domein Overzicht', s['section_header']))
+        story.append(hr())
+        story.append(domein_scores_tabel(domein_scores, s))
+        story.append(Spacer(1, 3 * mm))
+
     # ── Sectie: Niveau 1-patronen ──────────────────────────────────────────────
     if niveau1_items:
         story.append(Paragraph('Niveau 1 — Directe AI-indicatoren', s['section_header']))
@@ -368,6 +431,20 @@ def generate_pdf(
         story.append(Paragraph('Kritieke bevindingen', s['section_header']))
         story.append(hr())
         story.append(waarschuwingen_tabel(waarschuwingen, s))
+        story.append(Spacer(1, 3 * mm))
+
+    # ── Sectie: APA Compliance (alleen reviewen) ──────────────────────────────
+    if rapport_type.lower() == 'reviewen' and apa_bevindingen:
+        story.append(Paragraph('APA 7 Compliance', s['section_header']))
+        story.append(hr())
+        story.append(waarschuwingen_tabel(apa_bevindingen, s))
+        story.append(Spacer(1, 3 * mm))
+
+    # ── Sectie: Academisch Schrijven (alleen reviewen) ────────────────────────
+    if rapport_type.lower() == 'reviewen' and stijl_bevindingen:
+        story.append(Paragraph('Academisch Schrijven', s['section_header']))
+        story.append(hr())
+        story.append(waarschuwingen_tabel(stijl_bevindingen, s))
         story.append(Spacer(1, 3 * mm))
 
     # ── Sectie: Aanbevelingen ─────────────────────────────────────────────────
@@ -488,6 +565,12 @@ def main():
     parser.add_argument('--rapport-type', default='humaniseer', dest='rapport_type',
                         choices=['humaniseer', 'reviewen'],
                         help='Type rapport: humaniseer (standaard) of reviewen')
+    parser.add_argument('--domein-scores', default='', dest='domein_scores',
+                        help='Domein:Beoordeling||Domein2:Beoordeling2||... (alleen reviewen)')
+    parser.add_argument('--apa-bevindingen', default='', dest='apa_bevindingen',
+                        help='APA-bevinding 1|APA-bevinding 2|... (alleen reviewen)')
+    parser.add_argument('--stijl-bevindingen', default='', dest='stijl_bevindingen',
+                        help='Stijl-bevinding 1|Stijl-bevinding 2|... (alleen reviewen)')
     parser.add_argument('--output',       default='.tmp/humaniseer_rapport.pdf')
     args = parser.parse_args()
 
@@ -501,6 +584,17 @@ def main():
     waarschuwingen = parse_lijst(args.waarschuwingen) if args.waarschuwingen else []
     aanbevelingen = parse_lijst(args.aanbevelingen) if args.aanbevelingen else []
 
+    # Domein scores: "Naam:Beoordeling||Naam2:Beoordeling2"
+    domein_scores = []
+    if args.domein_scores:
+        for entry in args.domein_scores.split('||'):
+            parts = entry.split(':', 1)
+            if len(parts) == 2:
+                domein_scores.append((parts[0].strip(), parts[1].strip()))
+
+    apa_bevindingen = parse_lijst(args.apa_bevindingen) if args.apa_bevindingen else []
+    stijl_bevindingen = parse_lijst(args.stijl_bevindingen) if args.stijl_bevindingen else []
+
     out = generate_pdf(
         output_path=args.output,
         risico=args.risico,
@@ -513,6 +607,9 @@ def main():
         aanbevelingen=aanbevelingen,
         chart_base64=chart_b64,
         rapport_type=args.rapport_type,
+        domein_scores=domein_scores,
+        apa_bevindingen=apa_bevindingen,
+        stijl_bevindingen=stijl_bevindingen,
     )
     print(out)
 

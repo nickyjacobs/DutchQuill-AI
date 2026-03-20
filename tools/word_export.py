@@ -864,6 +864,10 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
             p_img = doc.add_paragraph()
             set_paragraph_format(p_img, font_config, first_line_indent=False,
                                  alignment=WD_ALIGN_PARAGRAPH.CENTER)
+            # Gebruik AT_LEAST regelafstand zodat de afbeelding niet wordt afgeknipt
+            # (EXACTLY knipt de alineahoogte af tot de lettergrootte × 2)
+            p_img.paragraph_format.line_spacing_rule = WD_LINE_SPACING.AT_LEAST
+            p_img.paragraph_format.line_spacing = Pt(2)
             run_img = p_img.add_run()
             run_img.add_picture(image_path, width=Inches(5.5))
         except FileNotFoundError:
@@ -886,14 +890,16 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
         run.font.color.rgb = RGBColor(0x99, 0x99, 0x99)
         _apply_font(run, font_config)
 
-    # Onderschrift: "Figuur N" vet + cursieve beschrijving
-    p_caption = doc.add_paragraph()
-    set_paragraph_format(p_caption, font_config, first_line_indent=False)
-    run_num = p_caption.add_run(f"Figuur {number}")
+    # Onderschrift: "Figuur N." vet op eigen alinea, caption cursief op volgende alinea
+    p_label = doc.add_paragraph()
+    set_paragraph_format(p_label, font_config, first_line_indent=False)
+    run_num = p_label.add_run(f"Figuur {number}.")
     run_num.bold = True
     _apply_font(run_num, font_config)
     if caption:
-        run_cap = p_caption.add_run("\n" + caption)
+        p_caption = doc.add_paragraph()
+        set_paragraph_format(p_caption, font_config, first_line_indent=False)
+        run_cap = p_caption.add_run(caption)
         run_cap.italic = True
         _apply_font(run_cap, font_config)
 
