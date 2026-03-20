@@ -13,59 +13,67 @@ Schrijfassistent voor Nederlandse academische rapporten op HBO-niveau. Gebouwd o
 ## Procesoverzicht
 
 ```
- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
- │                                                  DutchQuill AI                                                   │
- │                                    WAT-framework (Workflows · Agent · Tools)                                     │
- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                  DutchQuill AI                                                   │
+│                                    WAT-framework (Workflows · Agent · Tools)                                     │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-   INVOER             SKILL (Sonnet 4.6)             GIDSEN                          TOOLS + OUTPUT
+       /schrijven               /herschrijven             /reviewen                /humaniseer
+      (Sonnet 4.6)              (Sonnet 4.6)              (Sonnet 4.6)             (Haiku 4.5)
 
- ┌──────────────┐   ┌──────────────────────────┐   ┌───────────────────────────┐   ┌────────────────────────────────┐
- │ Onderwerp    │   │ /schrijven               │   │ apa_nl_gids.md            │   │ grammar_check.py               │
- │ Invalshoek   │──▶│ rapport_schrijven.md     │──▶│ academische_stijl_gids.md │──▶│ apa_checker.py                 │
- │ Bronnen      │   │ [Stap 0–9]               │   │ taal_gids.md              │   │ humanizer_nl.py --suggest      │
- │ rapporten/   │   └──────────────────────────┘   │ humanize_nl_gids.md       │   │ readability_nl.py              │
- └──────────────┘                                  └───────────────────────────┘   │ tekst-analist + review chart   │
-                                                                                   │ → .tmp/schrijven/<titel>.docx  │
-                                                                                   └────────────────────────────────┘
+  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+  │ INVOER           │    │ INVOER           │    │ INVOER           │    │ INVOER           │
+  ├──────────────────┤    ├──────────────────┤    ├──────────────────┤    ├──────────────────┤
+  │ Onderwerp        │    │ Bestaande tekst  │    │ Afgerond rapport │    │ Geplakte tekst   │
+  │ Invalshoek       │    │ rapporten/       │    │ rapporten/       │    │                  │
+  │ Bronnen          │    │                  │    │                  │    │                  │
+  │ rapporten/       │    │                  │    │                  │    │                  │
+  └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘
+           │                       │                        │                        │
+           ▼                       ▼                        ▼                        ▼
+  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+  │ SKILL            │    │ SKILL            │    │ SKILL            │    │ SKILL            │
+  ├──────────────────┤    ├──────────────────┤    ├──────────────────┤    ├──────────────────┤
+  │ /schrijven       │    │ /herschrijven    │    │ /reviewen        │    │ /humaniseer      │
+  │ rapport_         │    │ rapport_         │    │ rapport_         │    │ humaniseer/      │
+  │   schrijven.md   │    │   herschrijven   │    │   reviewen.md    │    │   SKILL.md       │
+  │ [Stap 0–9]       │    │   .md            │    │ [4 domeinen]     │    │ [snel, geen      │
+  │                  │    │ [Stap 0–9, 6c.]  │    │                  │    │  workflow]       │
+  └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘
+           │                       │                        │                        │
+           ▼                       ▼                        ▼                        ▼
+  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+  │ GIDSEN           │    │ GIDSEN           │    │ GIDSEN           │    │ GIDSEN           │
+  ├──────────────────┤    ├──────────────────┤    ├──────────────────┤    ├──────────────────┤
+  │ apa_nl_gids      │    │ humanize_nl_gids │    │ apa_nl_gids      │    │ humanize_nl_gids │
+  │ academische_     │    │ apa_nl_gids      │    │ humanize_nl_gids │    │ (20 detectie-    │
+  │   stijl_gids     │    │ taal_gids        │    │ academische_     │    │  categorieën)    │
+  │ taal_gids        │    │ academische_     │    │   stijl_gids     │    │                  │
+  │ humanize_nl_gids │    │   stijl_gids     │    │ taal_gids        │    │                  │
+  └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘
+           │                       │                        │                        │
+           ▼                       ▼                        ▼                        ▼
+  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+  │ TOOLS            │    │ TOOLS            │    │ TOOLS            │    │ TOOLS            │
+  ├──────────────────┤    ├──────────────────┤    ├──────────────────┤    ├──────────────────┤
+  │ grammar_check    │    │ grammar_check    │    │ grammar_check    │    │ humanizer_nl     │
+  │ apa_checker      │    │ apa_checker      │    │ apa_checker      │    │   --suggest      │
+  │ humanizer_nl     │    │ humanizer_nl     │    │ humanizer_nl     │    │ readability_nl   │
+  │   --suggest      │    │   --suggest      │    │   --suggest      │    │ tekst-analist    │
+  │ readability_nl   │    │ readability_nl   │    │ readability_nl   │    │ review chart     │
+  │ tekst-analist    │    │ diff_viewer      │    │ tekst-analist    │    │                  │
+  │ review chart     │    │ tekst-analist    │    │   (Haiku 4.5)    │    │                  │
+  │                  │    │ review chart     │    │ review chart     │    │                  │
+  └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘
+           │                       │                        │                        │
+           ▼                       ▼                        ▼                        ▼
+  .tmp/schrijven/        .tmp/herschrijven/       .tmp/reviewen/           .tmp/humaniseer/
+  <titel>.docx           <titel>.docx             <titel>.pdf              <titel>.pdf
 
- ┌──────────────┐   ┌──────────────────────────┐   ┌───────────────────────────┐   ┌────────────────────────────────┐
- │ Bestaande    │   │ /herschrijven            │   │ humanize_nl_gids.md       │   │ grammar_check.py               │
- │ tekst        │──▶│ rapport_herschrijven.md  │──▶│ apa_nl_gids.md            │──▶│ apa_checker.py                 │
- │ rapporten/   │   │ [Stap 0–9, 6 cat.]       │   │ taal_gids.md              │   │ humanizer_nl.py --suggest      │
- └──────────────┘   └──────────────────────────┘   │ academische_stijl_gids.md │   │ readability_nl.py              │
-                                                   └───────────────────────────┘   │ diff_viewer.py + --compare     │
-                                                                                   │ tekst-analist + review chart   │
-                                                                                   │ → .tmp/herschrijven/<titel>.docx│
-                                                                                   └────────────────────────────────┘
-
- ┌──────────────┐   ┌──────────────────────────┐   ┌───────────────────────────┐   ┌────────────────────────────────┐
- │ Afgerond     │   │ /reviewen                │   │ apa_nl_gids.md            │   │ grammar_check.py               │
- │ rapport      │──▶│ rapport_reviewen.md      │──▶│ humanize_nl_gids.md       │──▶│ apa_checker.py                 │
- │ rapporten/   │   │ [4 domeinen]             │   │ academische_stijl_gids.md │   │ humanizer_nl.py --suggest      │
- └──────────────┘   └──────────────────────────┘   │ taal_gids.md              │   │ readability_nl.py              │
-                                                   └───────────────────────────┘   └────────────────┬───────────────┘
-                                                                                                    │
-                                                                                                    ▼
-                                                                                   ┌────────────────────────────────┐
-                                                                                   │ tekst-analist (Haiku 4.5)      │
-                                                                                   │ review chart + report PDF      │
-                                                                                   │ → samenvatting in chat         │
-                                                                                   │ → .tmp/reviewen/<titel>.pdf    │
-                                                                                   └────────────────────────────────┘
-
- ┌──────────────┐   ┌──────────────────────────┐   ┌───────────────────────────┐   ┌────────────────────────────────┐
- │ Geplakte     │   │ /humaniseer              │   │ humanize_nl_gids.md       │   │ humanizer_nl.py --suggest      │
- │ tekst        │──▶│ humaniseer/SKILL.md      │──▶│ (20 detectie-            │──▶│ readability_nl.py              │
- │              │   │ [snel, geen workflow]    │   │  categorieën)             │   │ tekst-analist agent            │
- └──────────────┘   │ Haiku 4.5                │   └───────────────────────────┘   │ review chart + report PDF      │
-                    └──────────────────────────┘                                   │ → .tmp/humaniseer/<titel>.pdf  │
-                                                                                   └────────────────────────────────┘
-
- ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
- Na elke response - Stop hook: check_verboden_woorden.py
- Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
- ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Na elke response - Stop hook: check_verboden_woorden.py
+Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
 ---
