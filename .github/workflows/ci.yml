@@ -1,0 +1,28 @@
+name: Tool validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-tools:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Validate all tools load correctly
+        run: |
+          for tool in tools/*.py; do
+            echo "Checking $tool..."
+            python3 "$tool" --help > /dev/null
+          done
