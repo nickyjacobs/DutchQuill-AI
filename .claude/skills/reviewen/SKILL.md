@@ -208,6 +208,15 @@ python3 tools/history_writer.py \
 ```
 
 **Stap 6c — Genereer review-PDF [VERPLICHT]:**
+
+Leid de domeinbeoordelingen af uit de reviewresultaten:
+- `--domein-scores`: geef per domein een korte statuslabel, bijv.:
+  `"1. Taalcorrectheid:Kleine aandachtspunten||2. APA Compliance:Aanpassingen nodig||3. Humanisering:Gemiddeld risico||4. Structuur:Sterk"`
+  Gebruik als statuslabel: `Correct`, `Kleine aandachtspunten`, `Aanpassingen nodig`, `Structurele fouten`, `Sterk`, `Gemiddeld risico`, `Hoog risico`
+- `--apa-bevindingen`: specifieke APA-bevindingen als pipe-separated lijst (uit Domein 2)
+- `--stijl-bevindingen`: specifieke stijl/structuurbevindingen als pipe-separated lijst (uit Domein 4)
+- `--waarschuwingen`: overige taal- en humaniseringsbevindingen (Domein 1 + 3)
+
 ```bash
 python3 tools/generate_report_pdf.py \
   --rapport-type reviewen \
@@ -217,7 +226,10 @@ python3 tools/generate_report_pdf.py \
   --ttr <score> \
   --bestandsnaam "<bestandsnaam van het beoordeelde rapport>" \
   --niveau1 "<patroon1>|<alt1>||<patroon2>|<alt2>" \
-  --waarschuwingen "<domein1 bevindingen>|<domein2 bevindingen>" \
+  --domein-scores "1. Taalcorrectheid:<status>||2. APA Compliance:<status>||3. Humanisering:<status>||4. Structuur:<status>" \
+  --apa-bevindingen "<apa-bevinding1>|<apa-bevinding2>|..." \
+  --stijl-bevindingen "<stijl-bevinding1>|<stijl-bevinding2>|..." \
+  --waarschuwingen "<taal- en humaniseringsbevindingen>|..." \
   --aanbevelingen "<aanbeveling1>|<aanbeveling2>" \
   --chart-file .tmp/review_chart.b64 \
   --output .tmp/reviewen/<titel>.pdf

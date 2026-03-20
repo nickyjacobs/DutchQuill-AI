@@ -329,6 +329,65 @@ def parse_table_lines(table_lines: List[str]) -> Dict:
     }
 
 
+def preprocess_figure_blocks(lines: List[str]) -> List[str]:
+    """
+    Normaliseer figuurblokken: als een ![...](path) regel gevolgd wordt door
+    **Figuur N** en/of *caption*, merge de caption in de figuurmarkering en
+    verwijder de losse label/caption-regels.
+
+    Input:
+        ![](.tmp/images/figure_01.png)
+        **Figuur 1**
+        *Nmap scan output.*
+
+    Output:
+        ![Nmap scan output.](.tmp/images/figure_01.png)
+    """
+    _fig_line = re.compile(r'^!\[([^\]]*)\]\(([^)]+)\)\s*$')
+    _bold_figuur = re.compile(r'^\*\*Figuur\s+\d+\.?\*\*\s*$')
+    _italic_caption = re.compile(r'^\*([^*].+[^*])\*\s*$|^\*([^*]+)\*\s*$')
+
+    result: List[str] = []
+    i = 0
+    while i < len(lines):
+        m = _fig_line.match(lines[i])
+        if m:
+            existing_caption = m.group(1)
+            path = m.group(2)
+            caption = existing_caption
+            j = i + 1
+
+            # Sla lege regels over
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+
+            # Optionele **Figuur N** regel overslaan
+            if j < len(lines) and _bold_figuur.match(lines[j].strip()):
+                j += 1
+                # Sla lege regels over
+                while j < len(lines) and not lines[j].strip():
+                    j += 1
+                # Optionele *caption* regel opnemen als caption
+                if j < len(lines):
+                    cm = _italic_caption.match(lines[j].strip())
+                    if cm:
+                        caption = (cm.group(1) or cm.group(2) or '').strip()
+                        j += 1
+
+            result.append(f'![{caption}]({path})')
+            i = j
+        else:
+            result.append(lines[i])
+            i += 1
+    return result
+
+
+# Patroon voor de inhoudsopgave-placeholder
+_TOC_PLACEHOLDER = re.compile(r'^\[inhoudsopgave\b', re.IGNORECASE)
+# Koppen die niet naar de body mogen (al aangemaakt door word_export.py)
+_SKIP_HEADINGS = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
+
+
 def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dict[str, str]]:
     """
     Parset markdown naar:
@@ -338,6 +397,8 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     - front_matter_meta (dict): metadata uit front matter
     """
     lines = text.splitlines()
+    # Pre-verwerk figuurblokken: merge **Figuur N** / *caption* regels
+    lines = preprocess_figure_blocks(lines)
 
     # Stap 1: extraheer front matter
     front_matter_meta, start_idx = extract_front_matter(lines)
@@ -355,7 +416,8 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     def flush_paragraph():
         if paragraph_buffer:
             combined = ' '.join(paragraph_buffer).strip()
-            if combined:
+            # Sla inhoudsopgave-placeholders over (worden automatisch gegenereerd)
+            if combined and not _TOC_PLACEHOLDER.match(combined):
                 blocks.append({"type": "paragraph", "text": combined})
             paragraph_buffer.clear()
 
@@ -474,6 +536,10 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             heading_text = strip_inline(heading_match.group(2))
             # Strip optioneel numeriek prefix (bijv. "1.", "3.1") uit kopnaam
             heading_text = _HEADING_NUMBER_PREFIX.sub('', heading_text).strip()
+
+            # Sla Inhoudsopgave-koppen over: word_export.py genereert de TOC automatisch
+            if _SKIP_HEADINGS.match(heading_text):
+                continue
 
             if not has_front_matter and level_md == 1 and title is None:
                 # Fallback: geen front matter, eerste H1 = documenttitel
