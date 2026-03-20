@@ -71,6 +71,16 @@ _FM_OPLEIDING = re.compile(r'^Opleiding:\s*(.+)', re.IGNORECASE)
 _FM_DATUM = re.compile(r'^Datum:\s*(.+)', re.IGNORECASE)
 _FM_TOC = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
+# Nederlandse datum zonder label-prefix: "12 maart 2026", "1 januari 2025"
+_NL_MONTHS = (
+    'januari', 'februari', 'maart', 'april', 'mei', 'juni',
+    'juli', 'augustus', 'september', 'oktober', 'november', 'december',
+)
+_FM_NL_DATE = re.compile(
+    r'^\d{1,2}\s+(' + '|'.join(_NL_MONTHS) + r')\s+\d{4}$',
+    re.IGNORECASE
+)
+
 # Trefwoorden om instellingen te herkennen
 _INSTITUTION_KEYWORDS = [
     'hogeschool', 'universiteit', 'university', 'college',
@@ -159,12 +169,26 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
     if not has_structured:
         return {}, first_heading_idx
 
-    # Pass 2: resterende regels → titelkandidaten
+    # Pass 2: resterende regels → titelkandidaten + ongelabelde datums
+    remaining_indices = [i for i in range(len(fm_lines)) if i not in consumed]
+    remaining = [fm_lines[i] for i in remaining_indices]
+
+    # Detecteer ongelabelde Nederlandse datum (bijv. "12 maart 2026") in resterende regels
+    if 'datum' not in meta:
+        for i, (idx, line) in enumerate(zip(remaining_indices, remaining)):
+            if _FM_NL_DATE.match(line):
+                meta['datum'] = line
+                consumed.add(idx)
+                remaining_indices.pop(i)
+                remaining.pop(i)
+                break
+
+    # Eerste niet-verwerkte regel = titel (inline markdown strippen)
     remaining = [fm_lines[i] for i in range(len(fm_lines)) if i not in consumed]
     if remaining:
-        meta['titel'] = remaining[0]
+        meta['titel'] = strip_inline(remaining[0])
         if len(remaining) > 1:
-            meta['ondertitel'] = remaining[1]
+            meta['ondertitel'] = strip_inline(remaining[1])
 
     return meta, first_heading_idx
 

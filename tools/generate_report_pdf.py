@@ -297,8 +297,18 @@ def generate_pdf(
     waarschuwingen: list,
     aanbevelingen: list,
     chart_base64: str = '',
+    rapport_type: str = 'humaniseer',
 ) -> str:
     """Genereer het PDF-rapport. Geeft het absoluut pad terug."""
+
+    # Koptekst bepalen op basis van rapport-type
+    _rapport_labels = {
+        'humaniseer': ('HUMANISERINGSANALYSE', 'Humaniseringsanalyse'),
+        'reviewen':   ('REVIEWRAPPORT',         'Reviewrapport'),
+    }
+    header_label, doc_title_label = _rapport_labels.get(
+        rapport_type.lower(), _rapport_labels['humaniseer']
+    )
 
     doc = SimpleDocTemplate(
         output_path,
@@ -307,7 +317,7 @@ def generate_pdf(
         rightMargin=2.2 * cm,
         topMargin=2.2 * cm,
         bottomMargin=2.0 * cm,
-        title='Humaniseringsanalyse — DutchQuill AI',
+        title=f'{doc_title_label} — DutchQuill AI',
         author='DutchQuill AI',
     )
 
@@ -317,7 +327,7 @@ def generate_pdf(
     vandaag = date.today().strftime('%d %B %Y').lstrip('0')
 
     # ── Header ─────────────────────────────────────────────────────────────────
-    story.append(Paragraph('HUMANISERINGSANALYSE', ParagraphStyle(
+    story.append(Paragraph(header_label, ParagraphStyle(
         'rapporttitel',
         fontName='Helvetica-Bold',
         fontSize=9,
@@ -475,6 +485,9 @@ def main():
                         help='Base64-encoded PNG van generate_review_chart.py')
     parser.add_argument('--chart-file',   default='', dest='chart_file',
                         help='Pad naar bestand met base64 chart-output')
+    parser.add_argument('--rapport-type', default='humaniseer', dest='rapport_type',
+                        choices=['humaniseer', 'reviewen'],
+                        help='Type rapport: humaniseer (standaard) of reviewen')
     parser.add_argument('--output',       default='.tmp/humaniseer_rapport.pdf')
     args = parser.parse_args()
 
@@ -499,6 +512,7 @@ def main():
         waarschuwingen=waarschuwingen,
         aanbevelingen=aanbevelingen,
         chart_base64=chart_b64,
+        rapport_type=args.rapport_type,
     )
     print(out)
 

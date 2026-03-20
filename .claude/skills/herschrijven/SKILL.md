@@ -189,6 +189,18 @@ python3 tools/md_to_docx.py \
   --output .tmp/herschrijven/<titel>.docx
 ```
 
+**Vereist formaat voor .tmp/herschreven.txt (kritiek voor correcte .docx-output):**
+
+| Element | Vereiste opmaak | Fout bij afwijking |
+|---------|-----------------|-------------------|
+| Titelpagina-metadata | Platte tekst vóór eerste `#` heading | Metadata niet herkend |
+| Datum | `Datum: 12 maart 2026` (gelabeld) of bare NL-datum `12 maart 2026` | Datum ontbreekt in docx |
+| Vetgedrukte tekst | `**tekst**` is toegestaan in bodytekst | Literal `**` in output |
+| Inleiding-kop | `# Inleiding` MOET aanwezig zijn | Inleidingtekst belandt in body |
+| Afkortingenlijst | Markdown-tabel: `\| Afkorting \| Definitie \|` | Alles samengeperst in één alinea |
+| Figuren/afbeeldingen | Afbeeldingen gaan verloren bij docx→tekst→docx conversie; enkel bijschriften blijven als tekst bewaard | Geen afbeeldingen in output |
+| Bronnenlijst-kop | `# Literatuurlijst` (exact, of varianten: Bronnen, Referentielijst) | Bronnen niet herkend |
+
 **Stap 9d — Werkbestanden opruimen:**
 Verwijder tussenbestanden uit `.tmp/` root die voor deze sessie zijn aangemaakt (bijv. `origineel.txt`, `herschreven.txt`, `bronnen.json`). Alleen het eindproduct in `.tmp/herschrijven/` blijft bewaard.
 
