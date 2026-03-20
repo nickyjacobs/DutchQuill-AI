@@ -489,13 +489,34 @@ in veel gevallen, in sommige gevallen, in zekere mate, biedt, bieden
 
 ---
 
-## Aanvullende Detectiecategorieën
+## Aanvullende Detectiecategorieën (Tool: 10–16, 20)
 
-De beschikbare `tools/humanizer_nl.py` controleert naast de bovenstaande categorieën ook op:
+`tools/humanizer_nl.py` controleert naast de bovenstaande secties ook op de volgende technische categorieën. De nummers verwijzen naar de interne toolnummering.
 
-### Alinea-lengtevariatie (Categorie 20)
+### Categorie 10 — Zinsstarter-diversiteit
+Binnen een alinea mogen niet meer dan drie opeenvolgende zinnen met hetzelfde woord beginnen. "Daarnaast" als veelvuldig gebruikte opener wordt apart gesignaleerd.
 
-**Nieuw geïmplementeerd.** ChatGPT genereert alinea's van gelijkmatige lengte. Menselijk schrijven varieert sterk per alinea.
+### Categorie 11 — Passief-dichtheid
+AI genereert overmatig passieve constructies. De tool waarschuwt bij meer dan 40% passieve zinnen. Herschrijf passief naar actief waar de handelende persoon bekend is.
+
+### Categorie 12 — Connector-dichtheid
+AI begint zinnen overmatig met connectors (bovendien, tevens, daarnaast, echter, etc.). De tool waarschuwt als meer dan 30% van de zinnen met een connector begint. Varieer zinsopeningen.
+
+### Categorie 13 — Bijvoeglijk-naamwoordstapeling
+AI stapelt meerdere bijvoeglijke naamwoorden: "een innovatief, baanbrekend en transformatief project". Kies het belangrijkste bijvoeglijk naamwoord of beschrijf eigenschappen in aparte zinnen.
+
+### Categorie 14 — Tricolon-detectie
+Driedelige opsommingen ("A, B en C") zijn een AI-patroon bij herhaling (4+ keer in een tekst). Wissel af met twee- of vierdelige opsommingen.
+
+### Categorie 15 — MATTR (Moving Average Type-Token Ratio)
+Verbeterde versie van TTR die onafhankelijk is van tekstlengte. Venster van 50 woorden. Menselijk schrijven: 0.65–0.80. AI-schrijven: 0.50–0.65. Waarschuwing bij MATTR < 0.60.
+
+### Categorie 16 — Proportionele Niveau 1-scoring
+Schaalt de Niveau 1-woordscore met de documentlengte zodat kortere teksten niet automatisch laag scoren. Voorkomt dat een tekst van 100 woorden met één Niveau 1-woord hetzelfde telt als een tekst van 1.000 woorden.
+
+### Categorie 20 — Alinea-lengtevariatie
+
+ChatGPT genereert alinea's van gelijkmatige lengte. Menselijk schrijven varieert sterk per alinea.
 
 De tool berekent de Coefficient of Variation (CV) over alle alinea's van ≥ 30 tekens, bij minimaal 4 alinea's.
 
@@ -506,27 +527,9 @@ De tool berekent de Coefficient of Variation (CV) over alle alinea's van ≥ 30 
 
 **Actie bij signaal:** Voeg bewust een korte alinea toe (1–2 zinnen) voor nadruk, of splits een te lange alinea op in een substantieel deel en een samenvattende slotzin.
 
-### Passief-dichtheid
-AI genereert overmatig passieve constructies. De tool waarschuwt bij meer dan 40% passieve zinnen. Herschrijf passief naar actief waar de handelende persoon bekend is.
-
-### Connector-dichtheid
-AI begint zinnen overmatig met connectors (bovendien, tevens, daarnaast, echter, etc.). De tool waarschuwt als meer dan 30% van de zinnen met een connector begint. Varieer zinsopeningen.
-
-### Zinsstarter-diversiteit
-Binnen een alinea mogen niet meer dan drie opeenvolgende zinnen met hetzelfde woord beginnen. Specifiek "Daarnaast" als veelvuldig gebruikte opener wordt apart gesignaleerd.
-
-### Bijvoeglijk-naamwoordstapeling
-AI stapelt meerdere bijvoeglijke naamwoorden: "een innovatief, baanbrekend en transformatief project". Kies het belangrijkste bijvoeglijk naamwoord of beschrijf eigenschappen in aparte zinnen.
-
-### Tricolon-detectie
-Driedelige opsommingen ("A, B en C") zijn een AI-patroon bij herhaling (4+ keer in een tekst). Wissel af met twee- of vierdelige opsommingen.
-
-### MATTR (Moving Average Type-Token Ratio)
-Verbeterde versie van TTR die onafhankelijk is van tekstlengte. Venster van 50 woorden. Menselijk schrijven: 0.65-0.80. AI-schrijven: 0.50-0.65. Waarschuwing bij MATTR < 0.60.
-
 ---
 
-## Categorie 7: Directe Engelse Vertalingen (Anglicismen)
+## Categorie 7: Directe Engelse Vertalingen (Anglicismen) — Tool Categorie 18
 
 AI-modellen zijn voornamelijk op Engelse data getraind. Ze vertalen Engelse constructies letterlijk naar het Nederlands. De tekst is grammaticaal correct maar klinkt on-Nederlands.
 
@@ -551,7 +554,7 @@ AI-modellen zijn voornamelijk op Engelse data getraind. Ze vertalen Engelse cons
 
 ---
 
-## Categorie 8: Oxford Comma in Nederlands
+## Categorie 8: Oxford Comma in Nederlands — Tool Categorie 17
 
 ### Wat is de Oxford comma?
 
