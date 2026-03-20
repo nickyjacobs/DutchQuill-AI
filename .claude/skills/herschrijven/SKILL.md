@@ -195,13 +195,16 @@ python3 tools/md_to_docx.py \
 |---------|-----------------|-------------------|
 | Titelpagina-metadata | Platte tekst vóór eerste `#` heading | Metadata niet herkend |
 | Datum | `Datum: 12 maart 2026` (gelabeld) of bare NL-datum `12 maart 2026` | Datum ontbreekt in docx |
+| Vak | `Vak: Systems Security` (gelabeld met `Vak:`) | Vak wordt als ondertitel behandeld |
+| Begeleider | `Begeleider: Naam Docent` (gelabeld met `Begeleider:`) | Begeleider wordt genegeerd |
+| APA 7 titelpagina-volgorde | Instelling → Titel (vet) → Auteur → Studentnummer → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
 | Vetgedrukte tekst | `**tekst**` is toegestaan in bodytekst | Literal `**` in output |
 | Inleiding-kop | `# Inleiding` MOET aanwezig zijn | Inleidingtekst belandt in body |
 | Afkortingenlijst | Markdown-tabel: `\| Afkorting \| Definitie \|` | Alles samengeperst in één alinea |
-| Figuren/afbeeldingen | Afbeeldingen gaan verloren bij docx→tekst→docx conversie; enkel bijschriften blijven als tekst bewaard | Geen afbeeldingen in output |
+| Figuren/afbeeldingen | `docx_to_text.py` extraheert afbeeldingen automatisch naar `.tmp/images/` en schrijft `![caption](pad)` placeholders. `md_to_docx.py` plaatst ze terug. Afbeeldingen blijven bewaard in de herschreven .docx. | Afbeeldingen ontbreken als `--no-images` gebruikt is |
 | Bronnenlijst-kop | `# Literatuurlijst` (exact, of varianten: Bronnen, Referentielijst) | Bronnen niet herkend |
 
 **Stap 9d — Werkbestanden opruimen:**
-Verwijder tussenbestanden uit `.tmp/` root die voor deze sessie zijn aangemaakt (bijv. `origineel.txt`, `herschreven.txt`, `bronnen.json`). Alleen het eindproduct in `.tmp/herschrijven/` blijft bewaard.
+Verwijder tussenbestanden uit `.tmp/` root die voor deze sessie zijn aangemaakt (bijv. `origineel.txt`, `herschreven.txt`, `bronnen.json`). Verwijder ook `.tmp/images/` als deze map tijdens de sessie is aangemaakt. Alleen het eindproduct in `.tmp/herschrijven/` blijft bewaard.
 
 Meld daarna aan de gebruiker: "Opgeslagen in geschiedenis. Herschreven versie beschikbaar als `.tmp/herschrijven/<titel>.docx`"
