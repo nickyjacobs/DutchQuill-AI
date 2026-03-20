@@ -83,7 +83,7 @@ Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
 ## Wat kan het?
 
 - 4 skills: `/schrijven`, `/herschrijven`, `/reviewen`, `/humaniseer`
-- Detecteert AI-patronen in 20 categorieën (typische woordkeuzes, Oxford comma, anglicismen, zinsritme)
+- Detecteert AI-patronen in 20 categorieën (typische woordkeuzes, Oxford comma, anglicismen, zinsritme) — zie [docs/ai-detectie.md](docs/ai-detectie.md)
 - Controleert APA 7e editie (citaties, koppen, literatuurlijst, figuren)
 - Grammaticacheck via LanguageTool
 - Leesbaarheid meten met de Flesch-Douma index
@@ -169,79 +169,24 @@ Het bestand staat in `.gitignore`, dus je persoonlijke gegevens worden nooit gec
 
 ## Skills
 
-### `/schrijven` - Nieuwe academische tekst
+DutchQuill AI heeft vier skills. Je typt ze als slash-commando in Claude Code.
 
-| Stap | Actie | Tool |
-|------|-------|------|
-| 0 | Gebruikersprofiel laden (optioneel) | Read: `config/user_profile.json` |
-| 1 | Invoer verzamelen (onderwerp, sectie, doelgroep, niveau) | Bij .docx: `docx_to_text.py` |
-| 2 | 4 gidsen laden + outline opstellen | Read: `apa_nl_gids`, `academische_stijl_gids`, `taal_gids`, `humanize_nl_gids` |
-| 3 | Tekst schrijven (APA-citaties inline) | - |
-| 4 | Taal- en APA-check | `grammar_check.py` + `apa_checker.py` |
-| 5 | Humaniseringscheck + risicobeoordeling | `humanizer_nl.py` + `readability_nl.py` + `tekst-analist` |
-| 6 | Kwaliteitscheck + reviewchart | `generate_review_chart.py` |
-| 7 | Tekst aanbieden + verificatiechecklist | - |
-| 8 | (Optioneel) .docx export via payload | `word_export.py` |
-| 9 | History + .docx genereren | `history_writer.py` + `md_to_docx.py` → `.tmp/schrijven/<titel>.docx` |
+| Skill | Wanneer | Output |
+|-------|---------|--------|
+| `/schrijven` | Nieuwe rapporttekst schrijven | `.docx` in `.tmp/schrijven/` |
+| `/herschrijven` | Bestaande tekst verbeteren (6 doelen) | `.docx` in `.tmp/herschrijven/` |
+| `/reviewen` | Rapport nakijken op 4 domeinen | `.pdf` in `.tmp/reviewen/` |
+| `/humaniseer` | Snelle AI-detectiecheck | `.pdf` in `.tmp/humaniseer/` |
 
-### `/herschrijven` - Bestaande tekst verbeteren
-
-| Stap | Actie | Tool |
-|------|-------|------|
-| 0 | Gebruikersprofiel laden (optioneel) | Read: `config/user_profile.json` |
-| 1 | Invoer + doel (humaniseren / formaliseren / APA / inkorten) | Bij .docx: `docx_to_text.py` |
-| 2 | 4 gidsen laden + origineel analyseren (6 categorieën) | `grammar_check.py` + `humanizer_nl.py` op origineel |
-| 3-4 | Aanpak bepalen + herschrijven | - |
-| 5 | APA-check op herschreven versie | `apa_checker.py` |
-| 6 | Humaniseringscheck herschreven versie | `humanizer_nl.py` + `readability_nl.py` + `tekst-analist` |
-| 7 | Vergelijking origineel vs. herschreven | `diff_viewer.py` + `humanizer_nl.py --compare` + `generate_review_chart.py` |
-| 8 | Beide versies aanbieden + verificatiechecklist | - |
-| 9 | History + .docx genereren | `history_writer.py` + `md_to_docx.py` → `.tmp/herschrijven/<titel>.docx` |
-
-### `/reviewen` - Rapport nakijken (4 domeinen)
-
-| Stap | Actie | Tool |
-|------|-------|------|
-| 0 | Gebruikersprofiel + tekst voorbereiden | Bij .docx: `docx_to_text.py` |
-| 1 | 4 gidsen laden | Read: alle 4 gidsen |
-| D1 | Taalcorrectheid (d/t, samenstellingen, komma's) | `grammar_check.py` |
-| D2 | APA 7 (citaties, koppen, literatuurlijst, figuren) | `apa_checker.py` |
-| D3 | Humanisering (Niveau 1/2, anglicismen, zinsritme) | `tekst-analist` subagent (Haiku 4.5) |
-| D4 | Structuur (macro / meso / micro) | Handmatig o.b.v. stijlgids |
-| 5 | Reviewchart genereren | `generate_review_chart.py` |
-| 6 | History + PDF genereren | `history_writer.py` + `generate_report_pdf.py` → `.tmp/reviewen/<titel>.pdf` |
-
-> Output: korte samenvatting in de chat + volledig reviewrapport als PDF
-
-### `/humaniseer` - Snelle AI-detectiecheck
-
-| Stap | Actie | Tool |
-|------|-------|------|
-| 1 | Tekst ontvangen (< 100 woorden = waarschuwing) | - |
-| 2 | Tekst opslaan + gids laden | Read: `humanize_nl_gids` |
-| 3 | Analyse: risicoscore, patronen, anglicismen | `tekst-analist` subagent (Haiku 4.5) |
-| 4 | Resultaten + aanbeveling (laag / gemiddeld / hoog) | `generate_review_chart.py` |
-| 5 | History + PDF genereren | `history_writer.py` + `generate_report_pdf.py` → `.tmp/humaniseer/<titel>.pdf` |
+Volledige uitleg per skill — invoer, opties, subtypes en output: [docs/skills.md](docs/skills.md)
 
 ---
 
 ## Alle Tools
 
-| Tool | Functie | Aanroep |
-|------|---------|---------|
-| `humanizer_nl.py` | AI-patroondetectie (20 categorieën), risicoscore | `python3 tools/humanizer_nl.py --input <bestand> --suggest` |
-| `readability_nl.py` | Flesch-Douma leesbaarheidsindex | `python3 tools/readability_nl.py --input <bestand>` |
-| `apa_checker.py` | APA 7 validatie (citaties, literatuurlijst) | `python3 tools/apa_checker.py --input <bestand>` |
-| `grammar_check.py` | Grammaticacheck via LanguageTool API | `python3 tools/grammar_check.py --input <bestand>` |
-| `word_export.py` | APA 7-conforme .docx generatie | `python3 tools/word_export.py --input <payload.json>` |
-| `md_to_docx.py` | Markdown/tekst → APA .docx conversie | `python3 tools/md_to_docx.py --input <bestand> --output <output.docx>` |
-| `diff_viewer.py` | Woorddiff: origineel vs. herschreven | `python3 tools/diff_viewer.py --original <orig> --rewritten <nieuw>` |
-| `source_formatter.py` | Ruwe brondata → APA 7-referentie | `python3 tools/source_formatter.py --input <bronnen.json>` |
-| `docx_to_text.py` | Tekst extraheren uit .docx bestanden | `python3 tools/docx_to_text.py --input <bestand.docx>` |
-| `generate_review_chart.py` | Visueel reviewdashboard (PNG) | `python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <niveau>` |
-| `generate_report_pdf.py` | PDF-analyserapport genereren | `python3 tools/generate_report_pdf.py --risico <niveau> --patronen <n> --flesch <score> --ttr <score> --output <bestand.pdf>` |
-| `history_writer.py` | Verwerking opslaan in history.json | `python3 tools/history_writer.py --type <type> --titel <titel>` |
-| `check_verboden_woorden.py` | Stop-hook: verboden AI-woorden detecteren | Automatisch na elke Claude-response |
+13 Python-scripts in `tools/` plus één stop-hook in `.claude/hooks/`. Ze worden automatisch aangeroepen door de skills, maar je kunt ze ook los draaien via de terminal.
+
+Volledige referentie met alle vlaggen, invoer- en uitvoerformaten en voorbeeldaanroepen: [docs/tools.md](docs/tools.md)
 
 ---
 
