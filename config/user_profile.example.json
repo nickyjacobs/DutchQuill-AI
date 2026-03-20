@@ -1,0 +1,22 @@
+{
+  "voornaam": "",
+  "tussenvoegsel": "",
+  "achternaam": "",
+  "studentnummer": "",
+  "instelling": "",
+  "faculteit": "",
+  "opleiding": "",
+  "docenten": [
+    {
+      "naam": "",
+      "rol": "begeleider",
+      "vak": ""
+    }
+  ],
+  "vakken": [
+    {
+      "naam": "",
+      "code": ""
+    }
+  ]
+}
