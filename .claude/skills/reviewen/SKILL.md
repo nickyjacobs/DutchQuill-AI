@@ -210,6 +210,7 @@ python3 tools/history_writer.py \
 **Stap 6c — Genereer review-PDF [VERPLICHT]:**
 ```bash
 python3 tools/generate_report_pdf.py \
+  --rapport-type reviewen \
   --risico <laag|gemiddeld|hoog> \
   --patronen <n> \
   --flesch <score> \

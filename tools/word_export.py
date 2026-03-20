@@ -242,14 +242,21 @@ def add_hyperlink(paragraph, url: str, text: str, font_config: dict):
 
 def parse_inline_markdown(paragraph, text: str, font_config: dict, extra_bold: bool = False):
     """
-    Verwerk *tekst* naar cursieve runs in de alinea.
+    Verwerk **tekst** (vet) en *tekst* (cursief) naar runs in de alinea.
     Ondersteunt ook DOI-URL's als hyperlinks.
-    Tekst buiten *...* is normaal (of vet als extra_bold=True).
+    Tekst buiten opmaakmarkeringen is normaal (of vet als extra_bold=True).
     """
-    # Splits op * delimiters
-    parts = re.split(r"(\*[^*]+\*)", text)
+    # Splits op ** en * delimiters — ** eerst zodat **bold** niet als *italic* matcht
+    parts = re.split(r"(\*\*[^*]+\*\*|\*[^*]+\*)", text)
     for part in parts:
-        if part.startswith("*") and part.endswith("*") and len(part) > 2:
+        if part.startswith("**") and part.endswith("**") and len(part) > 4:
+            # Vetgedrukte tekst: **tekst**
+            inner = part[2:-2]
+            run = paragraph.add_run(inner)
+            run.bold = True
+            run.italic = extra_bold
+            _apply_font(run, font_config)
+        elif part.startswith("*") and part.endswith("*") and len(part) > 2:
             inner = part[1:-1]
             # Controleer op DOI in cursief stuk
             doi_match = re.search(r"(https?://doi\.org/\S+)", inner)
