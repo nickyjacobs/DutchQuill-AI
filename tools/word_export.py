@@ -864,7 +864,6 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
     set_paragraph_format(p_label, font_config, first_line_indent=False)
     run_num = p_label.add_run(f"Figuur {number}")
     run_num.bold = True
-    run_num.italic = True
     _apply_font(run_num, font_config)
     if caption:
         p_caption = doc.add_paragraph()

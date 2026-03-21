@@ -290,6 +290,12 @@ Bugs melden of een feature voorstellen? Gebruik de [issue templates](https://git
 
 ---
 
+## Disclaimer
+
+DutchQuill AI is in actieve ontwikkeling en wordt continu getest en verbeterd; de output kan fouten bevatten en is geen vervanging voor eigen controle.
+
+---
+
 ## Licentie
 
 Dit project is gelicenseerd onder de [MIT License](LICENSE).

@@ -83,8 +83,8 @@ Voor elke afbeelding:
 2. Bepaal plaatsingsplek in de tekst
 3. Schrijf in-tekst verwijzing voor de figuur: "(zie Figuur X)"
 4. Sla de afbeelding op in `.tmp/` als dat nog niet gedaan is
-5. Schrijf APA-conforme caption: label vet direct onder figuur (`Figuur 1`), caption op volgende regel eindigend met punt
-6. Noteer het pad voor de JSON-payload (Stap 8)
+5. Schrijf APA-conforme figuur-markup: `**Figuur X**` (vet label) op eigen regel, gevolgd door `*Beschrijvende caption.*` (cursief) op de volgende regel, daarna `![caption](pad)` voor de afbeelding
+6. Noteer het pad voor de markdown-output
 
 ## Stap 4 — APA-integratie en taalcheck [VERPLICHT]
 
@@ -141,6 +141,8 @@ De tekst mag **niet** worden aangeboden bij gemiddeld of hoog risico.
 python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog>
 ```
 
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
+
 Beantwoord intern:
 - [ ] Centrale vraag beantwoord?
 - [ ] APA correct toegepast?
@@ -163,22 +165,17 @@ Bevestig intern dat ALLE stappen zijn uitgevoerd voordat je de tekst aanbiedt. A
 - [ ] Stap 5: humanize_nl_gids.md handmatig geraadpleegd (sectietype-regels, burstiness, communicatievormen)
 - [ ] Stap 6: generate_review_chart.py uitgevoerd
 - [ ] Tekst voldoet aan risicobeoordeling (laag of aangepast)
+- [ ] Stap 8b: history_writer.py uitgevoerd
+- [ ] Stap 8c: md_to_docx.py uitgevoerd → .tmp/schrijven/<titel>.docx aangemaakt
+- [ ] Stap 8d: Werkbestanden opgeruimd
 
-## Stap 8 — .docx export [ALLEEN als gebruiker payload-export wil]
-
-Alleen na Stap 5 en 6. Stel JSON-payload samen conform het schema in `tools/word_export.py`. Figuren: gebruik `figure_placeholder` blok met `image_path`.
-
-```bash
-python3 tools/word_export.py --input .tmp/export_payload.json --output .tmp/<naam>.docx
-```
-
-## Stap 9 — History opslaan + .docx via md_to_docx.py [VERPLICHT]
+## Stap 8 — History opslaan + .docx genereren [VERPLICHT]
 
 Voer dit altijd uit na Stap 7, ook als de gebruiker er niet om vraagt.
 
-**Stap 9a — Schrijf de volledige output naar .tmp/tekst.txt** (als dat nog niet gedaan is via Stap 8).
+**Stap 8a — Schrijf de volledige output naar .tmp/tekst.txt** (als dat nog niet gedaan is).
 
-**Stap 9b — Sla op in geschiedenis:**
+**Stap 8b — Sla op in geschiedenis:**
 ```bash
 python3 tools/history_writer.py \
   --type schrijven \
@@ -187,14 +184,14 @@ python3 tools/history_writer.py \
   --output-file .tmp/tekst.txt
 ```
 
-**Stap 9c — Genereer .docx [VERPLICHT als Stap 8 niet is uitgevoerd]:**
+**Stap 8c — Genereer .docx [VERPLICHT]:**
 ```bash
 python3 tools/md_to_docx.py \
   --input .tmp/tekst.txt \
   --output .tmp/schrijven/<titel>.docx
 ```
 
-**Stap 9d — Werkbestanden opruimen:**
+**Stap 8d — Werkbestanden opruimen:**
 Verwijder tussenbestanden uit `.tmp/` root die voor deze sessie zijn aangemaakt (bijv. `tekst.txt`, `bronnen.json`). Alleen het eindproduct in `.tmp/schrijven/` blijft bewaard.
 
 Meld daarna aan de gebruiker: "Opgeslagen in geschiedenis. Tekst beschikbaar als `.tmp/schrijven/<titel>.docx`"

@@ -361,7 +361,7 @@ Zinnen die ruimte innemen maar niets zeggen. **Altijd verwijderen.**
 
 ## Risicoscore Drempelwaarden
 
-De `tools/humanizer_nl.py` berekent een risicoscore op basis van gedetecteerde patronen. Elk patroon levert 1 punt op (Flesch-Douma < 30 = +2 pt).
+De `tools/humanizer_nl.py` berekent een risicoscore op basis van gedetecteerde patronen. Elk patroon levert 1 punt op (Flesch-Douma < 30 = +2 pt). **Het `score` veld in de `--json` output bevat alle penalties al, inclusief de Flesch-Douma bonus. Gebruik dit getal direct als `--patronen` waarde. Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.**
 
 | Score | Risiconiveau | Betekenis |
 |-------|-------------|-----------|

@@ -65,6 +65,9 @@ Gebruik de scores uit Stap 3 (tekst-analist of handmatige tools):
 ```bash
 python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog>
 ```
+
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
+
 Sla de output op in een tijdelijk bestand:
 ```bash
 python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog> > .tmp/humaniseer_chart.b64

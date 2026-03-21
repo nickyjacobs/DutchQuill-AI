@@ -272,11 +272,11 @@ def extract_sections(blocks: List[Dict]) -> Tuple[Optional[Dict], List[Dict], Li
             if b.get('type') == 'paragraph':
                 t = b['text'].strip()
                 kw_match = re.match(
-                    r'^[\*_]?sleutelwoorden[\*_]?:\s*(.+)',
+                    r'^[\*_]{0,3}sleutelwoorden[\*_]{0,3}:\s*(.+?)[\*_]{0,3}\s*$',
                     t, re.IGNORECASE
                 )
                 if kw_match:
-                    keywords = [k.strip() for k in kw_match.group(1).split(',')]
+                    keywords = [k.strip().rstrip('*_') for k in kw_match.group(1).split(',')]
                 else:
                     text_parts.append(strip_inline(t))
         abstract_text = ' '.join(text_parts).strip()
@@ -331,20 +331,18 @@ def parse_table_lines(table_lines: List[str]) -> Dict:
 
 def preprocess_figure_blocks(lines: List[str]) -> List[str]:
     """
-    Normaliseer figuurblokken: als een ![...](path) regel gevolgd wordt door
-    **Figuur N** en/of *caption*, merge de caption in de figuurmarkering en
-    verwijder de losse label/caption-regels.
+    Normaliseer figuurblokken: merge **Figuur N**, *caption* en ![...](path)
+    tot één ![caption](path) regel, ongeacht de volgorde.
 
-    Input:
-        ![](.tmp/images/figure_01.png)
-        **Figuur 1**
-        *Nmap scan output.*
+    Herkende patronen:
+    1. ![](path) → **Figuur N** → *caption*
+    2. **Figuur N** → *caption* → ![](path)
+    3. ***Figuur N*** → *caption* → ![](path)
 
-    Output:
-        ![Nmap scan output.](.tmp/images/figure_01.png)
+    Output altijd: ![caption](path)
     """
     _fig_line = re.compile(r'^!\[([^\]]*)\]\(([^)]+)\)\s*$')
-    _bold_figuur = re.compile(r'^\*\*Figuur\s+\d+\.?\*\*\s*$')
+    _bold_figuur = re.compile(r'^\*{2,3}Figuur\s+\d+\.?\*{2,3}\s*$')
     _italic_caption = re.compile(r'^\*([^*].+[^*])\*\s*$|^\*([^*]+)\*\s*$')
 
     result: List[str] = []
@@ -352,6 +350,7 @@ def preprocess_figure_blocks(lines: List[str]) -> List[str]:
     while i < len(lines):
         m = _fig_line.match(lines[i])
         if m:
+            # Patroon 1: ![](path) komt eerst
             existing_caption = m.group(1)
             path = m.group(2)
             caption = existing_caption
@@ -376,6 +375,39 @@ def preprocess_figure_blocks(lines: List[str]) -> List[str]:
 
             result.append(f'![{caption}]({path})')
             i = j
+        elif _bold_figuur.match(lines[i].strip()):
+            # Patroon 2: **Figuur N** komt eerst — zoek *caption* en ![](path)
+            j = i + 1
+            caption = ''
+
+            # Sla lege regels over
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+
+            # Optionele *caption* regel
+            if j < len(lines):
+                cm = _italic_caption.match(lines[j].strip())
+                if cm:
+                    caption = (cm.group(1) or cm.group(2) or '').strip()
+                    j += 1
+                    # Sla lege regels over
+                    while j < len(lines) and not lines[j].strip():
+                        j += 1
+
+            # Zoek de ![](path) regel
+            if j < len(lines):
+                fm = _fig_line.match(lines[j])
+                if fm:
+                    path = fm.group(2)
+                    if not caption:
+                        caption = fm.group(1)
+                    result.append(f'![{caption}]({path})')
+                    i = j + 1
+                    continue
+
+            # Geen ![](path) gevonden — bewaar originele regels
+            result.append(lines[i])
+            i += 1
         else:
             result.append(lines[i])
             i += 1
@@ -637,6 +669,11 @@ def build_payload(
                         "afkorting": strip_inline(row[0]),
                         "definitie": strip_inline(row[1]),
                     })
+            # Verwijder ook de heading die er direct boven staat
+            if (remaining_blocks
+                    and remaining_blocks[-1].get('type') == 'heading'
+                    and 'afkorting' in remaining_blocks[-1].get('text', '').lower()):
+                remaining_blocks.pop()
         else:
             remaining_blocks.append(block)
     blocks = remaining_blocks

@@ -189,6 +189,9 @@ Gebruik de scores uit Domein 3 (tekst-analist of handmatige tools):
 ```bash
 python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog>
 ```
+
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
+
 Sla de base64-output op — deze wordt meegegeven als `chartImage` in de metadata van Stap 6.
 
 ## Stap 6 — History opslaan + PDF genereren [VERPLICHT]

@@ -150,6 +150,8 @@ python3 tools/humanizer_nl.py --compare .tmp/origineel.txt .tmp/herschreven.txt 
 python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog>
 ```
 
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
+
 Intern checken: kernboodschap bewaard? Geen nieuwe fouten? APA correct? Toon consistent?
 
 ## Stap 8 — Aanbieden
