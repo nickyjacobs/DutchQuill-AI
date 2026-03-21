@@ -82,7 +82,7 @@ Controleer op basis van `workflows/apa_nl_gids.md`:
 - Bijlagen (na literatuurlijst, elk op nieuwe pagina, vet gecentreerde titel)
 
 **Figuurchecklist (8 punten):**
-- [ ] Label `Figuur X` onder de figuur, vet
+- [ ] Label `Figuur X` **boven** de figuur, vet + cursief (APA 7)
 - [ ] Caption direct na label, eindigt met punt
 - [ ] In-tekst verwijzing "(zie Figuur X)" staat voor de figuur
 - [ ] Nummering doorlopend

@@ -33,6 +33,7 @@ from reportlab.lib.units import cm, mm
 from reportlab.platypus import (
     HRFlowable,
     Image,
+    PageBreak,
     Paragraph,
     SimpleDocTemplate,
     Spacer,
@@ -428,6 +429,9 @@ def generate_pdf(
 
     # ── Sectie: Kritieke waarschuwingen ───────────────────────────────────────
     if waarschuwingen:
+        # Bij reviewrapporten: Kritieke bevindingen op nieuwe pagina
+        if rapport_type.lower() == 'reviewen':
+            story.append(PageBreak())
         story.append(Paragraph('Kritieke bevindingen', s['section_header']))
         story.append(hr())
         story.append(waarschuwingen_tabel(waarschuwingen, s))

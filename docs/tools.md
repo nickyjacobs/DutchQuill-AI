@@ -455,6 +455,7 @@ Alleen `metadata.title` is verplicht. Alle andere velden zijn optioneel.
 { "type": "table", "number": 1, "title": "Tabeltitel", "headers": ["Kolom 1", "Kolom 2"], "rows": [["r1c1", "r1c2"]], "note": "Noot onder de tabel." }
 
 { "type": "figure_placeholder", "number": 1, "caption": "Figuuromschrijving.", "image_path": "afbeeldingen/figuur1.png", "note": "Noot onder de figuur." }
+// APA 7: nummer + titel staan boven de afbeelding; noot staat onder
 
 { "type": "page_break" }
 ```
@@ -528,6 +529,10 @@ De tool past APA-regels toe per sectienaam:
 ### Front matter
 
 Platte tekst vóór de eerste kop wordt herkend als titelpaginagegevens. De tool zoekt naar patronen zoals "Studentnummer:", "Opleiding:" en instellingsnamen (hogeschool, universiteit, fontys, avans, saxion, novi). Alle niet-herkende regels worden de titel of ondertitel.
+
+Titelpagina-volgorde (APA 7 student paper): Titel (vet) → Auteur → Studentnummer → Instelling → Opleiding → Vak → Begeleider → Datum.
+
+Afkortingentabellen (markdown-tabellen met headers "Afkorting" en "Definitie") worden automatisch herkend en als aparte afkortingenlijst in het document geplaatst, zonder "Tabel N" label.
 
 ---
 

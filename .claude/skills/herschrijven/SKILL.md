@@ -98,6 +98,8 @@ Loop systematisch door zes categorieen — gebruik de mini-checklists als minimu
 Behoud altijd: kernboodschap, feitelijke informatie, correcte bronvermeldingen.
 Verbeter altijd: zinsbouw, AI-woordkeuze, APA-opmaak, onnodig passief.
 
+**Sleutelwoorden:** Als het rapport een samenvatting bevat, voeg dan een regel `*Sleutelwoorden:* trefwoord1, trefwoord2, ...` toe na de samenvattingstekst. Dit wordt automatisch herkend door md_to_docx.py en correct gerenderd in de .docx.
+
 ## Stap 5 — APA-check [VERPLICHT]
 
 Controleer alle bronvermeldingen, directe citaten en koppen na herschrijven. Markeer [BRON NODIG] expliciet.
@@ -197,7 +199,7 @@ python3 tools/md_to_docx.py \
 | Datum | `Datum: 12 maart 2026` (gelabeld) of bare NL-datum `12 maart 2026` | Datum ontbreekt in docx |
 | Vak | `Vak: Systems Security` (gelabeld met `Vak:`) | Vak wordt als ondertitel behandeld |
 | Begeleider | `Begeleider: Naam Docent` (gelabeld met `Begeleider:`) | Begeleider wordt genegeerd |
-| APA 7 titelpagina-volgorde | Instelling → Titel (vet) → Auteur → Studentnummer → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
+| APA 7 titelpagina-volgorde | Titel (vet) → Auteur → Studentnummer → Instelling → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
 | Vetgedrukte tekst | `**tekst**` is toegestaan in bodytekst | Literal `**` in output |
 | Inleiding-kop | `# Inleiding` MOET aanwezig zijn | Inleidingtekst belandt in body |
 | Afkortingenlijst | Markdown-tabel: `\| Afkorting \| Definitie \|` | Alles samengeperst in één alinea |
