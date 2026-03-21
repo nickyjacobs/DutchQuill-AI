@@ -94,7 +94,7 @@ Figuurplaatshouder:
     "note": "Noot onder het figuur."    — optioneel
   }
   — Met image_path: beeldinbedding via add_picture(); zonder: grijze plaatshouder
-  — Label + onderschrift staan altijd ónder de afbeelding (APA-vereiste)
+  — APA 7: label + titel staan altijd bóven de afbeelding; noot staat ónder
 
 Pagina-einde:
   {"type": "page_break"}
@@ -544,26 +544,26 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         p.paragraph_format.space_after = Pt(0)
 
     # APA 7 student paper volgorde:
-    # 1. Instelling + faculteit (boven de titel)
-    if metadata.get("institution"):
-        centered_para(metadata["institution"])
-    if metadata.get("faculty"):
-        centered_para(metadata["faculty"])
-
-    # 2. Titel (vet)
+    # 1. Titel (vet)
     centered_para(metadata.get("title", "Zonder Titel"), bold=True)
 
-    # 3. Optionele subtitel
+    # 2. Optionele subtitel
     if metadata.get("subtitle"):
         centered_para(metadata["subtitle"])
 
-    # 4. Auteurs en studentnummers
+    # 3. Auteurs en studentnummers
     authors = metadata.get("authors", [])
     student_numbers = metadata.get("student_numbers", [])
     for i, author in enumerate(authors):
         centered_para(author)
         if i < len(student_numbers):
             centered_para(student_numbers[i])
+
+    # 4. Instelling + faculteit
+    if metadata.get("institution"):
+        centered_para(metadata["institution"])
+    if metadata.get("faculty"):
+        centered_para(metadata["faculty"])
 
     # 5. Opleiding, vak, begeleider, datum
     if metadata.get("opleiding"):
@@ -773,29 +773,31 @@ def render_block_quote(doc: Document, block: dict, font_config: dict):
 
 def render_table(doc: Document, block: dict, font_config: dict):
     """Render een APA-tabel: label + titel bóven, geen verticale lijnen, noot ónder."""
-    number = block.get("number", 1)
+    number = block.get("number")
     title = block.get("title", "")
     headers = block.get("headers", [])
     rows = block.get("rows", [])
     note = block.get("note", "")
 
-    # Tabelnummer — vet
-    p_num = doc.add_paragraph()
-    set_paragraph_format(p_num, font_config, first_line_indent=False)
-    run = p_num.add_run(f"Tabel {number}")
-    run.bold = True
-    _apply_font(run, font_config)
+    # Tabelnummer + titel alleen als expliciet opgegeven (voorkomt "Tabel 1" op niet-APA tabellen)
+    if number is not None:
+        p_num = doc.add_paragraph()
+        set_paragraph_format(p_num, font_config, first_line_indent=False)
+        run = p_num.add_run(f"Tabel {number}")
+        run.bold = True
+        _apply_font(run, font_config)
 
-    # Tabeltitel — cursief
-    p_title = doc.add_paragraph()
-    set_paragraph_format(p_title, font_config, first_line_indent=False)
-    run = p_title.add_run(title)
-    run.italic = True
-    _apply_font(run, font_config)
+    if title:
+        p_title = doc.add_paragraph()
+        set_paragraph_format(p_title, font_config, first_line_indent=False)
+        run = p_title.add_run(title)
+        run.italic = True
+        _apply_font(run, font_config)
 
     # Validatie: headers verplicht, rijen moeten kloppen met kolomaantal
+    tbl_label = f"Tabel {number}" if number is not None else "Tabel"
     if not headers:
-        msg = f"WAARSCHUWING: Tabel {number} heeft geen headers — tabel overgeslagen."
+        msg = f"WAARSCHUWING: {tbl_label} heeft geen headers — tabel overgeslagen."
         _build_warnings.append(msg)
         print(msg, file=sys.stderr)
         return
@@ -803,7 +805,7 @@ def render_table(doc: Document, block: dict, font_config: dict):
     validated_rows = []
     for i, row_data in enumerate(rows):
         if len(row_data) != n_cols:
-            msg = (f"WAARSCHUWING: Tabel {number} rij {i + 1} heeft {len(row_data)} cel(len), "
+            msg = (f"WAARSCHUWING: {tbl_label} rij {i + 1} heeft {len(row_data)} cel(len), "
                    f"verwacht {n_cols}. Rij wordt aangevuld of afgekapt.")
             _build_warnings.append(msg)
             print(msg, file=sys.stderr)
@@ -835,8 +837,7 @@ def render_table(doc: Document, block: dict, font_config: dict):
             cell.text = ""
             p = cell.paragraphs[0]
             set_paragraph_format(p, font_config, first_line_indent=False)
-            run = p.add_run(str(cell_text))
-            _apply_font(run, font_config)
+            parse_inline_markdown(p, str(cell_text), font_config)
 
     set_apa_table_borders(table, has_header_row=True)
 
@@ -852,11 +853,25 @@ def render_table(doc: Document, block: dict, font_config: dict):
 
 
 def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
-    """Render een figuur of plaatshouder met onderschrift ónder (APA)."""
+    """Render een figuur met label + caption bóven de afbeelding (APA 7)."""
     number = block.get("number", 1)
     caption = block.get("caption", "")
     note = block.get("note", "")
     image_path = block.get("image_path", "")
+
+    # APA 7: Figuur N. (vet) + caption (cursief) BOVEN de afbeelding
+    p_label = doc.add_paragraph()
+    set_paragraph_format(p_label, font_config, first_line_indent=False)
+    run_num = p_label.add_run(f"Figuur {number}")
+    run_num.bold = True
+    run_num.italic = True
+    _apply_font(run_num, font_config)
+    if caption:
+        p_caption = doc.add_paragraph()
+        set_paragraph_format(p_caption, font_config, first_line_indent=False)
+        run_cap = p_caption.add_run(caption)
+        run_cap.italic = True
+        _apply_font(run_cap, font_config)
 
     # Afbeelding of plaatshouder
     if image_path:
@@ -864,12 +879,22 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
             p_img = doc.add_paragraph()
             set_paragraph_format(p_img, font_config, first_line_indent=False,
                                  alignment=WD_ALIGN_PARAGRAPH.CENTER)
-            # Gebruik AT_LEAST regelafstand zodat de afbeelding niet wordt afgeknipt
-            # (EXACTLY knipt de alineahoogte af tot de lettergrootte × 2)
             p_img.paragraph_format.line_spacing_rule = WD_LINE_SPACING.AT_LEAST
             p_img.paragraph_format.line_spacing = Pt(2)
             run_img = p_img.add_run()
-            run_img.add_picture(image_path, width=Inches(5.5))
+            # Bewaar originele beeldverhouding: schaal alleen als breder dan 5.5 inch
+            img_width = Inches(5.5)
+            try:
+                from PIL import Image as PILImage
+                with PILImage.open(image_path) as pil_img:
+                    w_px, h_px = pil_img.size
+                    dpi = pil_img.info.get('dpi', (96, 96))
+                    w_inch = w_px / dpi[0]
+                    if w_inch < 5.5:
+                        img_width = Inches(w_inch)
+            except Exception:
+                pass  # fallback naar 5.5 inch
+            run_img.add_picture(image_path, width=img_width)
         except FileNotFoundError:
             msg = f"WAARSCHUWING: afbeelding niet gevonden — {image_path}. Plaatshouder ingevoegd."
             print(msg, file=sys.stderr)
@@ -890,20 +915,7 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
         run.font.color.rgb = RGBColor(0x99, 0x99, 0x99)
         _apply_font(run, font_config)
 
-    # Onderschrift: "Figuur N." vet op eigen alinea, caption cursief op volgende alinea
-    p_label = doc.add_paragraph()
-    set_paragraph_format(p_label, font_config, first_line_indent=False)
-    run_num = p_label.add_run(f"Figuur {number}.")
-    run_num.bold = True
-    _apply_font(run_num, font_config)
-    if caption:
-        p_caption = doc.add_paragraph()
-        set_paragraph_format(p_caption, font_config, first_line_indent=False)
-        run_cap = p_caption.add_run(caption)
-        run_cap.italic = True
-        _apply_font(run_cap, font_config)
-
-    # Figuurvoetnoot
+    # Figuurvoetnoot (onder de afbeelding)
     if note:
         p_note = doc.add_paragraph()
         set_paragraph_format(p_note, font_config, first_line_indent=False)

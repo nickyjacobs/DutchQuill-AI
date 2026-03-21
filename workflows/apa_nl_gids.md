@@ -745,7 +745,7 @@ In de tekst daarna mag je afkorten als je dit bij eerste gebruik introduceert:
 |------|---------|
 | (De Vries, 2021, pagina 45) | (De Vries, 2021, p. 45) |
 | Bibliografie | Literatuurlijst |
-| Figuur bijschrift staat boven de figuur | Figuur bijschrift staat **onder** de figuur |
+| Figuur bijschrift staat onder de figuur | APA 7: Figuur nummer + titel staan **boven** de figuur; noot staat onder |
 | Tabel titel staat onder de tabel | Tabel titel staat **boven** de tabel |
 | et al. bij 2 auteurs | et al. alleen bij **3 of meer** auteurs |
 | & in lopende tekst: "De Vries & Jansen" | In lopende tekst: "De Vries **en** Jansen" |

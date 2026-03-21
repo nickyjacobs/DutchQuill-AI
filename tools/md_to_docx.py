@@ -621,6 +621,26 @@ def build_payload(
     if datum:
         meta["submission_date"] = datum
 
+    # Detecteer afkortingentabellen en verplaats naar abbreviations-payload
+    abbreviations = []
+    remaining_blocks = []
+    _abbrev_headers = {'afkorting', 'afkortingen', 'abbreviation', 'abbreviations'}
+    _def_headers = {'definitie', 'definities', 'definition', 'definitions', 'betekenis', 'omschrijving'}
+    for block in blocks:
+        if (block.get('type') == 'table'
+                and len(block.get('headers', [])) == 2
+                and block['headers'][0].strip().lower() in _abbrev_headers
+                and block['headers'][1].strip().lower() in _def_headers):
+            for row in block.get('rows', []):
+                if len(row) >= 2:
+                    abbreviations.append({
+                        "afkorting": strip_inline(row[0]),
+                        "definitie": strip_inline(row[1]),
+                    })
+        else:
+            remaining_blocks.append(block)
+    blocks = remaining_blocks
+
     # Extraheer samenvatting, inleiding en conclusie uit body-blocks
     abstract_data, intro_blocks, body_blocks, conclusion_blocks = extract_sections(blocks)
 
@@ -634,6 +654,8 @@ def build_payload(
 
     if abstract_data:
         payload["abstract"] = abstract_data
+    if abbreviations:
+        payload["abbreviations"] = abbreviations
 
     return payload
 
