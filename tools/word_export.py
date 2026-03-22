@@ -99,6 +99,12 @@ Figuurplaatshouder:
 Pagina-einde:
   {"type": "page_break"}
 
+Codeblok (terminal-output, broncode, commandoregel):
+  {"type": "code", "tekst": "nmap -sV 192.168.1.1\nPORT   STATE SERVICE"}
+  — Courier New 11pt, grijze achtergrond (#D9D9D9), links inspringen 1 cm, enkelvoudige regelafstand
+  — Elke regel = eigen alinea, zodat achtergrond doorloopt als blok
+  — Niet APA-standaard, maar goedgekeurd voor gebruik in DutchQuill AI rapporten
+
 ---------------------------------------------------------------------------
 COMPACT VOORBEELDPAYLOAD (minimaal werkend document)
 ---------------------------------------------------------------------------
@@ -750,6 +756,45 @@ def render_heading(doc: Document, block: dict, font_config: dict):
             _apply_font(inline_run, font_config)
 
 
+def _set_paragraph_shading(paragraph, fill_color: str):
+    """Zet achtergrondkleur op een alinea via pPr/shd XML."""
+    pPr = paragraph._p.get_or_add_pPr()
+    # Verwijder bestaande shd-elementen
+    for existing in pPr.findall(qn("w:shd")):
+        pPr.remove(existing)
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:color"), "auto")
+    shd.set(qn("w:fill"), fill_color)
+    pPr.append(shd)
+
+
+def render_code(doc: Document, block: dict, font_config: dict):
+    """
+    Render een codeblok of terminal-output.
+    Opmaak: Courier New 11pt, grijze achtergrond (#D9D9D9), 1 cm links inspringen, enkelvoudig.
+    Elke regel = aparte alinea zodat de achtergrond ononderbroken doorloopt.
+    """
+    tekst = block.get("tekst", block.get("text", ""))
+    lines = tekst.split("\n") if tekst else [""]
+
+    for line in lines:
+        p = doc.add_paragraph()
+        pf = p.paragraph_format
+        pf.left_indent = Cm(1)
+        pf.first_line_indent = Cm(0)
+        pf.line_spacing = Pt(14)          # Enkelvoudig voor 11pt = ~14pt; geen dubbele afstand
+        pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
+        pf.space_before = Pt(0)
+        pf.space_after = Pt(0)
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        _set_paragraph_shading(p, "D9D9D9")
+
+        run = p.add_run(line)
+        run.font.name = "Courier New"
+        run.font.size = Pt(11)
+
+
 def render_block_quote(doc: Document, block: dict, font_config: dict):
     """Render een blokcitaat (≥40 woorden, APA)."""
     p = doc.add_paragraph()
@@ -939,6 +984,8 @@ def render_block(doc: Document, block: dict, font_config: dict):
         render_table(doc, block, font_config)
     elif block_type == "figure_placeholder":
         render_figure_placeholder(doc, block, font_config)
+    elif block_type == "code":
+        render_code(doc, block, font_config)
     elif block_type == "page_break":
         doc.add_page_break()
     else:

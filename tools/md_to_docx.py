@@ -59,6 +59,15 @@ REFERENCES_HEADERS = re.compile(
     re.IGNORECASE
 )
 
+# Bijlagen-sectie (overkoepelend) — wordt genegeerd als kop; wisselt naar bijlagen-modus
+_BIJLAGEN_SECTION = re.compile(r'^#{1,3}\s+Bijlagen?\s*$', re.IGNORECASE)
+
+# Individuele bijlage-kop: ## Bijlage A: Titel  of  ## Bijlage A — Titel
+_BIJLAGE_ITEM = re.compile(
+    r'^#{1,3}\s+(Bijlage\s+[A-Z])\s*(?:[:\-]\s*(.+))?$',
+    re.IGNORECASE
+)
+
 # Optioneel numeriek prefix in kopnamen (bijv. "1.", "3.1") — altijd verwijderen uit .docx
 _HEADING_NUMBER_PREFIX = re.compile(r'^\d+\.?\d*\.?\s*')
 
@@ -420,13 +429,74 @@ _TOC_PLACEHOLDER = re.compile(r'^\[inhoudsopgave\b', re.IGNORECASE)
 _SKIP_HEADINGS = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
 
-def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dict[str, str]]:
+def _parse_appendix_lines(raw_lines: List[str]) -> List[Dict]:
+    """
+    Converteer ruwe regels (van een bijlage-sectie) naar content-blokken.
+    Ondersteunt fenced code blocks (```), koppen (#), tabellen (|) en alinea's.
+    """
+    content: List[Dict] = []
+    in_fence = False
+    fence_lines: List[str] = []
+    para_buffer: List[str] = []
+
+    def flush_para():
+        if para_buffer:
+            combined = ' '.join(para_buffer).strip()
+            if combined:
+                content.append({"type": "paragraph", "text": combined})
+            para_buffer.clear()
+
+    def close_fence():
+        nonlocal in_fence, fence_lines
+        content.append({"type": "code", "tekst": "\n".join(fence_lines)})
+        fence_lines = []
+        in_fence = False
+
+    for raw in raw_lines:
+        line = raw.rstrip()
+
+        if line.strip().startswith("```"):
+            if not in_fence:
+                flush_para()
+                in_fence = True
+                fence_lines = []
+            else:
+                close_fence()
+            continue
+
+        if in_fence:
+            fence_lines.append(line)
+            continue
+
+        if not line.strip():
+            flush_para()
+            continue
+
+        heading_match = re.match(r'^(#{1,4})\s+(.+)', line)
+        if heading_match:
+            flush_para()
+            level = len(heading_match.group(1))
+            text = strip_inline(heading_match.group(2))
+            content.append({"type": "heading", "level": level, "text": text})
+            continue
+
+        para_buffer.append(line)
+
+    flush_para()
+    if in_fence and fence_lines:
+        close_fence()
+
+    return content
+
+
+def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dict[str, str], List[Dict]]:
     """
     Parset markdown naar:
     - title (str|None): fallback-titel uit eerste H1 (alleen als geen front matter)
     - blocks (list[dict]): word_export.py blokken voor 'body'
     - references (list[str]): APA-bronnenregels (met inline markdown bewaard)
     - front_matter_meta (dict): metadata uit front matter
+    - appendices (list[dict]): bijlagen-structuur voor word_export.py
     """
     lines = text.splitlines()
     # Pre-verwerk figuurblokken: merge **Figuur N** / *caption* regels
@@ -444,6 +514,32 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     table_buffer = []  # type: List[str]
     quote_buffer = []  # type: List[str]
     figure_counter = 0
+
+    # Fenced code block state (main body)
+    in_code_block = False
+    code_block_lines: List[str] = []
+
+    # Bijlagen state
+    in_appendix_section = False
+    appendices_raw: List[tuple] = []   # (label, title, [raw_lines])
+    current_appendix_label: Optional[str] = None
+    current_appendix_title: str = ""
+    current_appendix_lines: List[str] = []
+
+    def save_current_appendix():
+        if current_appendix_label:
+            appendices_raw.append((
+                current_appendix_label,
+                current_appendix_title,
+                list(current_appendix_lines),
+            ))
+
+    def start_new_appendix(label: str, title: str):
+        nonlocal current_appendix_label, current_appendix_title, current_appendix_lines
+        save_current_appendix()
+        current_appendix_label = label
+        current_appendix_title = title
+        current_appendix_lines = []
 
     def flush_paragraph():
         if paragraph_buffer:
@@ -474,7 +570,43 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     for line in lines[start_idx:]:
         raw = line.rstrip()
 
-        # Lege regel → alinea-scheiding
+        # ── Fenced code block (``` ... ```) — verwerking vóór alle andere checks ──
+        if raw.strip().startswith('```'):
+            if in_appendix_section:
+                # Bijlagen: sla ruwe regel op — _parse_appendix_lines handelt de ``` af
+                current_appendix_lines.append(raw)
+            elif not in_code_block:
+                flush_paragraph()
+                flush_table()
+                flush_quote()
+                in_code_block = True
+                code_block_lines = []
+            else:
+                in_code_block = False
+                blocks.append({"type": "code", "tekst": "\n".join(code_block_lines)})
+                code_block_lines = []
+            continue
+
+        # Regels binnen een code block gaan rechtstreeks naar de buffer
+        if in_code_block:
+            code_block_lines.append(raw)
+            continue
+
+        # ── Bijlagen-sectie ──
+        if in_appendix_section:
+            # Nieuwe bijlage-kop: ## Bijlage A: Titel
+            m = _BIJLAGE_ITEM.match(raw.strip())
+            if m:
+                start_new_appendix(
+                    label=m.group(1).strip(),
+                    title=(m.group(2) or "").strip(),
+                )
+            else:
+                # Overige content: bewaar als ruwe regel (incl. lege regels)
+                current_appendix_lines.append(raw)
+            continue
+
+        # ── Lege regel → alinea-scheiding ──
         if not raw.strip():
             if in_references:
                 pass  # lege regels in bronnenlijst overslaan
@@ -486,7 +618,7 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
                 flush_paragraph()
             continue
 
-        # Detecteer referentieblok-header
+        # ── Detecteer referentieblok-header ──
         if REFERENCES_HEADERS.match(raw):
             flush_paragraph()
             flush_table()
@@ -494,8 +626,23 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             in_references = True
             continue
 
-        # Verwerk regels in referentieblok — bewaar inline markdown voor cursief
+        # ── Verwerk regels in referentieblok ──
         if in_references:
+            # Overkoepelende Bijlagen-kop → schakel naar bijlagen-modus
+            if _BIJLAGEN_SECTION.match(raw.strip()):
+                in_references = False
+                in_appendix_section = True
+                continue
+            # Individuele bijlage-kop zonder voorafgaande # Bijlagen
+            m = _BIJLAGE_ITEM.match(raw.strip())
+            if m:
+                in_references = False
+                in_appendix_section = True
+                start_new_appendix(
+                    label=m.group(1).strip(),
+                    title=(m.group(2) or "").strip(),
+                )
+                continue
             ref = raw.strip()
             if ref:
                 references.append(ref)
@@ -588,8 +735,22 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     flush_paragraph()
     flush_table()
     flush_quote()
+    # Sluit open code block af
+    if in_code_block and code_block_lines:
+        blocks.append({"type": "code", "tekst": "\n".join(code_block_lines)})
+    # Sla laatste bijlage op
+    save_current_appendix()
 
-    return title, blocks, references, front_matter_meta
+    # Converteer ruwe bijlagen-regels naar blokken
+    appendices: List[Dict] = []
+    for label, app_title, raw_lines in appendices_raw:
+        appendices.append({
+            "label": label,
+            "title": app_title,
+            "content": _parse_appendix_lines(raw_lines),
+        })
+
+    return title, blocks, references, front_matter_meta, appendices
 
 
 def build_payload(
@@ -598,6 +759,7 @@ def build_payload(
     references: List[str],
     metadata_extra: dict,
     front_matter_meta: Optional[dict] = None,
+    appendices: Optional[List[Dict]] = None,
 ):
     """Bouw het word_export.py JSON-payload. CLI --metadata overschrijft front matter."""
     fm = front_matter_meta or {}
@@ -680,8 +842,10 @@ def build_payload(
     # Detectie 2: bold+tab formaat onder afkortingen-heading
     # Herkent regels als: **ABBR**\tDefinitie (vet afkorting gevolgd door tab en definitie)
     if not abbreviations:
+        # Gebruik finditer (niet match) zodat ook space-joined paragrafen met meerdere
+        # afkortingen op één regel correct worden gesplitst.
         _bold_tab_re = re.compile(
-            r'^\*\*([A-Z][A-Za-z0-9/.\-]*)\*\*\s*\t+(.+)$'
+            r'\*\*([A-Z][A-Za-z0-9/.\-]*)\*\*\s*\t+([^*]+?)(?=\s*\*\*[A-Z]|$)'
         )
         collecting = False
         abbrev_blocks_to_remove = set()
@@ -696,12 +860,13 @@ def build_payload(
                 elif collecting:
                     break
             if collecting and block.get('type') == 'paragraph':
-                m = _bold_tab_re.match(block.get('text', ''))
-                if m:
-                    abbreviations.append({
-                        "afkorting": m.group(1),
-                        "definitie": m.group(2).strip(),
-                    })
+                found = list(_bold_tab_re.finditer(block.get('text', '')))
+                if found:
+                    for fm in found:
+                        abbreviations.append({
+                            "afkorting": fm.group(1),
+                            "definitie": fm.group(2).strip(),
+                        })
                     abbrev_blocks_to_remove.add(idx)
         if abbreviations:
             if abbrev_heading_idx is not None:
@@ -728,6 +893,8 @@ def build_payload(
         payload["abstract"] = abstract_data
     if abbreviations:
         payload["abbreviations"] = abbreviations
+    if appendices:
+        payload["appendices"] = appendices
 
     return payload
 
@@ -762,10 +929,10 @@ def main():
         sys.exit(1)
 
     # Parse markdown
-    title, blocks, references, front_matter_meta = parse_markdown(text)
+    title, blocks, references, front_matter_meta, appendices = parse_markdown(text)
 
     # Bouw payload
-    payload = build_payload(title, blocks, references, metadata_extra, front_matter_meta)
+    payload = build_payload(title, blocks, references, metadata_extra, front_matter_meta, appendices)
 
     # Bepaal output-pad
     if args.output:

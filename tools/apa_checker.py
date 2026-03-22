@@ -13,6 +13,7 @@ Gecontroleerde regels:
   5. Citatiepositie: staat citatie vóór de punt?
   6. Literatuurlijst aanwezig en juist benoemd?
   7. z.d.-differentiatie: meerdere bronnen van dezelfde auteur zonder letter-suffix
+  8. Citatie-dekking: in-text citaties zonder overeenkomstige literatuurlijst-entry
 
 Let op: regex-gebaseerde checker — controleer bevindingen altijd zelf.
 
@@ -370,6 +371,76 @@ def check_zd_differentiation(text: str) -> List[Finding]:
 
 
 # ─────────────────────────────────────────────
+# CHECK 8: Citatie-dekking (in-text vs literatuurlijst)
+# ─────────────────────────────────────────────
+
+def check_citation_coverage(text: str) -> List[Finding]:
+    """
+    Controleer of alle in-text citaties een overeenkomstige entry hebben in de
+    literatuurlijst. Splitst tekst bij de literatuurlijst-heading en vergelijkt
+    geciteerde auteursleutels met auteurs die in de referentie-entries voorkomen.
+    """
+    findings = []
+
+    # Splits tekst bij literatuurlijst-heading
+    lit_split = re.split(
+        r'\n#+\s*(?:literatuurlijst|referentielijst|referenties)\s*\n',
+        text, maxsplit=1, flags=re.IGNORECASE
+    )
+    if len(lit_split) < 2:
+        return findings  # check_reference_list rapporteert ontbrekende heading
+
+    body_text, ref_text = lit_split
+
+    # Extraheer eerste auteur uit elke parenthetische in-text citatie
+    citation_pattern = re.compile(
+        r'\(([A-Z][a-zA-ZÀ-ÿ\-]+(?:\s+et\s+al\.)?'
+        r'(?:\s+&\s+[A-Z][a-zA-ZÀ-ÿ\-]+)*),\s*(?:19|20)\d{2}[a-z]?\)',
+        re.UNICODE
+    )
+    cited_authors: set = set()
+    for m in citation_pattern.finditer(body_text):
+        raw = m.group(1)
+        # Neem alleen het eerste achternaam-token (vóór '&' of 'et al')
+        first = re.split(r'\s+et\s+al|\s*&', raw)[0].strip()
+        if first:
+            cited_authors.add(first.lower())
+
+    if not cited_authors:
+        return findings
+
+    # Extraheer auteur-sleutels uit de literatuurlijst (eerste hoofdletter-woord per regel)
+    ref_author_re = re.compile(r'^([A-Z][a-zA-ZÀ-ÿ\-]+)', re.UNICODE)
+    ref_author_keys: set = set()
+    for line in ref_text.splitlines():
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        m = ref_author_re.match(line)
+        if m:
+            ref_author_keys.add(m.group(1).lower())
+
+    # Rapporteer geciteerde auteurs die niet in de literatuurlijst staan
+    for author in sorted(cited_authors):
+        if author not in ref_author_keys:
+            findings.append({
+                "regel": 0,
+                "categorie": "Literatuurlijst (dekking)",
+                "tekst": author.capitalize(),
+                "melding": (
+                    f"In-text citatie \"{author.capitalize()}\" heeft geen "
+                    "overeenkomstige entry in de literatuurlijst"
+                ),
+                "suggestie": (
+                    f"Voeg een referentie-entry toe voor \"{author.capitalize()}\" "
+                    "in de literatuurlijst, of verwijder de in-text citatie."
+                ),
+            })
+
+    return findings
+
+
+# ─────────────────────────────────────────────
 # HOOFDFUNCTIE
 # ─────────────────────────────────────────────
 
@@ -383,6 +454,7 @@ def run_checks(text: str) -> List[Finding]:
     findings += check_reference_list(text)
     findings += check_narrative_voornamen(lines)
     findings += check_zd_differentiation(text)
+    findings += check_citation_coverage(text)
     return findings
 
 
