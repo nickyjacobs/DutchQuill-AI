@@ -17,6 +17,7 @@ Afbeeldingen:
 """
 
 import argparse
+import re
 import sys
 from pathlib import Path
 from docx import Document
@@ -107,6 +108,7 @@ def extract_text(docx_path: str, images_dir: Path = None) -> str:
     doc = Document(docx_path)
     lines = []
     image_counter = 0
+    in_code_block = False   # bijhoudt of we midden in een Code Snippet blok zitten
 
     # Bouw lookup-maps van XML-element → python-docx object (behoudt correcte parent-chain)
     para_map = {para._element: para for para in doc.paragraphs}
@@ -185,16 +187,41 @@ def extract_text(docx_path: str, images_dir: Path = None) -> str:
             lines.append('')
             continue
 
-        if 'Heading 1' in style:
+        if style == 'Code Snippet':
+            # Wikkel Code Snippet alinea's in een gedeeld code fence blok
+            if not in_code_block:
+                lines.append('```')
+                in_code_block = True
+            lines.append(text)
+            continue
+        elif in_code_block:
+            # Eerste niet-Code Snippet alinea sluit het blok
+            lines.append('```')
+            lines.append('')
+            in_code_block = False
+
+        # Herken Engelse standaard Heading-stijlen én Nederlandse/aangepaste varianten:
+        # 'Heading 1', 'Kop 1', 'Kop 1 (APA)', 'Titre 1', etc.
+        style_lower = style.lower()
+        if 'heading 1' in style_lower or re.match(r'^kop\s+1', style_lower):
             lines.append(f'# {text}')
-        elif 'Heading 2' in style:
+        elif 'heading 2' in style_lower or re.match(r'^kop\s+2', style_lower):
             lines.append(f'## {text}')
-        elif 'Heading 3' in style:
+        elif 'heading 3' in style_lower or re.match(r'^kop\s+3', style_lower):
             lines.append(f'### {text}')
+        elif 'heading 4' in style_lower or re.match(r'^kop\s+4', style_lower):
+            lines.append(f'#### {text}')
         elif 'List' in style or para.style.name.startswith('List'):
             lines.append(f'- {text}')
         else:
             lines.append(text)
+            # Voeg lege regel toe na gewone alinea's zodat md_to_docx.py ze als
+            # afzonderlijke alinea's herkent (niet samenvoegt in één paragraaf)
+            lines.append('')
+
+    # Sluit open code fence af indien document eindigt binnen Code Snippet blok
+    if in_code_block:
+        lines.append('```')
 
     return '\n'.join(lines)
 

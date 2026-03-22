@@ -75,11 +75,14 @@ _HEADING_NUMBER_PREFIX = re.compile(r'^\d+\.?\d*\.?\s*')
 _ABSTRACT_HEADING = re.compile(r'^(samenvatting|abstract)\s*$', re.IGNORECASE)
 
 # Labels die in front matter herkend worden
+_FM_TITEL = re.compile(r'^(?:Titel|Title):\s*(.+)', re.IGNORECASE)
+_FM_AUTEUR = re.compile(r'^(?:Auteur|Author|Naam):\s*(.+)', re.IGNORECASE)
+_FM_INSTELLING = re.compile(r'^(?:Instelling|Institution|School|Universiteit|Hogeschool):\s*(.+)', re.IGNORECASE)
 _FM_STUDENTNUMMER = re.compile(r'^Studentnummer:\s*(.+)', re.IGNORECASE)
 _FM_OPLEIDING = re.compile(r'^Opleiding:\s*(.+)', re.IGNORECASE)
 _FM_VAK = re.compile(r'^Vak(?:naam)?(?:\s*[-/]\s*\S+)?:\s*(.+)', re.IGNORECASE)
 _FM_BEGELEIDER = re.compile(r'^(?:Begeleider|Docent|Examinator|Supervisor)s?:\s*(.+)', re.IGNORECASE)
-_FM_DATUM = re.compile(r'^Datum:\s*(.+)', re.IGNORECASE)
+_FM_DATUM = re.compile(r'^(?:Datum|Date):\s*(.+)', re.IGNORECASE)
 _FM_TOC = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
 # Nederlandse datum zonder label-prefix: "12 maart 2026", "1 januari 2025"
@@ -105,16 +108,95 @@ _CONCLUSION_HEADING = re.compile(
     re.IGNORECASE
 )
 
+# Plain-text sectie-headers (zonder # prefix — van .docx met normale alineastijl)
+_REFERENCES_PLAIN = re.compile(
+    r'^(literatuurlijst|bronnenlijst|referentielijst|bronnen|literatuur)\s*$',
+    re.IGNORECASE
+)
+_BIJLAGEN_PLAIN = re.compile(r'^Bijlagen?\s*$', re.IGNORECASE)
+_BIJLAGE_PLAIN = re.compile(
+    r'^(Bijlage\s+[A-Z])\s*(?:[:\-]\s*(.+))?$',
+    re.IGNORECASE
+)
+# Tabel-/figuurlabel op eigen regel: **Tabel N** of **Tabel N: ...**
+_TABLE_LABEL_LINE = re.compile(r'^\*\*(Tabel|Figuur)\s+\d+', re.IGNORECASE)
+# nmap-stijl commentaarregels die ten onrechte als # Heading worden herkend in bijlagen
+_NMAP_COMMENT_RE = re.compile(
+    r'^(Nmap\s+\d|Starting\s+Nmap|Nmap\s+done|Host\s+is\s+up|'
+    r'Not\s+shown|Scanned\s+at|Scan\s+report\s+for)',
+    re.IGNORECASE
+)
+
 
 def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
     """
-    Herkent titelpagina-metadata uit platte tekst vóór de eerste markdown heading.
+    Herkent titelpagina-metadata op twee manieren:
+
+    1. YAML-stijl front matter (--- ... ---):
+       Als het document begint met een `---` blok, worden de Key: Value
+       regels daarin geparseerd. De sluitende `---` en alles daarvoor wordt
+       overgeslagen als body-content.
+
+    2. Plain-text front matter (originele stijl):
+       Regels vóór de eerste # heading worden heuristisch geparseerd.
 
     Returns:
-        (front_matter_meta, first_heading_index)
-        Als er geen herkenbare front matter is, is first_heading_index 0
-        en front_matter_meta leeg.
+        (front_matter_meta, first_content_index)
+        first_content_index = index van de eerste regel na de front matter.
     """
+
+    # ── Detecteer YAML-stijl front matter (--- blok) ──
+    if lines and lines[0].strip() == '---':
+        closing_idx = None
+        for i in range(1, len(lines)):
+            if lines[i].strip() == '---':
+                closing_idx = i
+                break
+        if closing_idx is not None:
+            meta: Dict[str, str] = {}
+            yaml_lines = [l.strip() for l in lines[1:closing_idx] if l.strip()]
+            for line in yaml_lines:
+                m = _FM_TITEL.match(line)
+                if m:
+                    meta['titel'] = strip_inline(m.group(1).strip())
+                    continue
+                m = _FM_AUTEUR.match(line)
+                if m:
+                    meta['naam'] = m.group(1).strip()
+                    continue
+                m = _FM_INSTELLING.match(line)
+                if m:
+                    meta['instelling'] = m.group(1).strip()
+                    continue
+                m = _FM_STUDENTNUMMER.match(line)
+                if m:
+                    meta['studentnummer'] = m.group(1).strip()
+                    continue
+                m = _FM_OPLEIDING.match(line)
+                if m:
+                    meta['opleiding'] = m.group(1).strip()
+                    continue
+                m = _FM_VAK.match(line)
+                if m:
+                    meta['vak'] = m.group(1).strip()
+                    continue
+                m = _FM_BEGELEIDER.match(line)
+                if m:
+                    meta['begeleider'] = m.group(1).strip()
+                    continue
+                m = _FM_DATUM.match(line)
+                if m:
+                    meta['datum'] = m.group(1).strip()
+                    continue
+                # Ongelabeld: instelling-keyword detectie
+                line_lower = line.lower()
+                if any(kw in line_lower for kw in _INSTITUTION_KEYWORDS):
+                    if 'instelling' not in meta:
+                        meta['instelling'] = line
+                    continue
+            return meta, closing_idx + 1
+
+    # ── Plain-text front matter (originele heuristiek) ──
     # Zoek de eerste heading-regel
     first_heading_idx = len(lines)
     for i, line in enumerate(lines):
@@ -135,17 +217,35 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
     if not fm_lines:
         return {}, first_heading_idx
 
-    meta: Dict[str, str] = {}
+    meta = {}
     consumed: set = set()  # indices van verwerkte regels
 
     # Pass 1: herken gelabelde velden
     for i, line in enumerate(fm_lines):
+        m = _FM_TITEL.match(line)
+        if m:
+            meta['titel'] = strip_inline(m.group(1).strip())
+            consumed.add(i)
+            continue
+
+        m = _FM_AUTEUR.match(line)
+        if m:
+            meta['naam'] = m.group(1).strip()
+            consumed.add(i)
+            continue
+
+        m = _FM_INSTELLING.match(line)
+        if m:
+            meta['instelling'] = m.group(1).strip()
+            consumed.add(i)
+            continue
+
         m = _FM_STUDENTNUMMER.match(line)
         if m:
             meta['studentnummer'] = m.group(1).strip()
             consumed.add(i)
-            # Auteur = vorige niet-verwerkte regel
-            if i > 0 and (i - 1) not in consumed:
+            # Auteur = vorige niet-verwerkte regel (als er geen Auteur: label was)
+            if 'naam' not in meta and i > 0 and (i - 1) not in consumed:
                 meta['naam'] = fm_lines[i - 1]
                 consumed.add(i - 1)
             continue
@@ -179,7 +279,7 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
             consumed.add(i)
             continue
 
-        # Instelling herkennen
+        # Instelling herkennen via keywords (ongelabelde regels)
         line_lower = line.lower()
         if any(kw in line_lower for kw in _INSTITUTION_KEYWORDS):
             if 'instelling' not in meta:
@@ -207,11 +307,12 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
                 break
 
     # Eerste niet-verwerkte regel = titel (inline markdown strippen)
-    remaining = [fm_lines[i] for i in range(len(fm_lines)) if i not in consumed]
-    if remaining:
-        meta['titel'] = strip_inline(remaining[0])
-        if len(remaining) > 1:
-            meta['ondertitel'] = strip_inline(remaining[1])
+    if 'titel' not in meta:
+        remaining = [fm_lines[i] for i in range(len(fm_lines)) if i not in consumed]
+        if remaining:
+            meta['titel'] = strip_inline(remaining[0])
+            if len(remaining) > 1:
+                meta['ondertitel'] = strip_inline(remaining[1])
 
     return meta, first_heading_idx
 
@@ -261,6 +362,22 @@ def extract_sections(blocks: List[Dict]) -> Tuple[Optional[Dict], List[Dict], Li
                     state = 'conclusion'
                     section_level = level
                     continue  # Heading overslaan
+
+        # Ook paragrafen checken op sectie-koppen (docx soms zonder heading-stijl)
+        elif block.get('type') == 'paragraph':
+            text = block.get('text', '').strip()
+            if _ABSTRACT_HEADING.match(text):
+                state = 'abstract'
+                section_level = 1
+                continue
+            elif _INTRO_HEADING.match(text):
+                state = 'intro'
+                section_level = 1
+                continue
+            elif _CONCLUSION_HEADING.match(text):
+                state = 'conclusion'
+                section_level = 1
+                continue
 
         # Append naar juiste lijst
         if state == 'abstract':
@@ -429,15 +546,25 @@ _TOC_PLACEHOLDER = re.compile(r'^\[inhoudsopgave\b', re.IGNORECASE)
 _SKIP_HEADINGS = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
 
-def _parse_appendix_lines(raw_lines: List[str]) -> List[Dict]:
+def _parse_appendix_lines(raw_lines: List[str], title: str = "") -> List[Dict]:
     """
     Converteer ruwe regels (van een bijlage-sectie) naar content-blokken.
     Ondersteunt fenced code blocks (```), koppen (#), tabellen (|) en alinea's.
+
+    Uitzondering: bijlagen over AI-prompts (title bevat "ai" of "prompt", case-insensitive)
+    behandelen code fences als gewone tekst — AI-prompttekst hoort niet in Code Snippet.
     """
     content: List[Dict] = []
     in_fence = False
     fence_lines: List[str] = []
     para_buffer: List[str] = []
+    # Bijlage over AI-prompts: code fences worden genegeerd (inhoud als alinea's).
+    # Controleer de heading-titel; als die leeg is, scan de eerste paar content-regels
+    # (bijv. als titel op een aparte bold-paragraaf staat: "**Gebruikte AI-prompts**").
+    _ai_search_text = title
+    if not _ai_search_text:
+        _ai_search_text = ' '.join(l.strip() for l in raw_lines[:5] if l.strip())
+    is_ai_prompts = bool(re.search(r'\bai\b|prompt', _ai_search_text, re.IGNORECASE))
 
     def flush_para():
         if para_buffer:
@@ -456,6 +583,8 @@ def _parse_appendix_lines(raw_lines: List[str]) -> List[Dict]:
         line = raw.rstrip()
 
         if line.strip().startswith("```"):
+            if is_ai_prompts:
+                continue  # negeer code fences in AI-prompt bijlage
             if not in_fence:
                 flush_para()
                 in_fence = True
@@ -474,9 +603,14 @@ def _parse_appendix_lines(raw_lines: List[str]) -> List[Dict]:
 
         heading_match = re.match(r'^(#{1,4})\s+(.+)', line)
         if heading_match:
+            heading_text = heading_match.group(2)
+            # Bewaar nmap/tool commentaarregels (# Nmap...) als gewone tekst, niet als koptitel
+            if _NMAP_COMMENT_RE.match(heading_text):
+                para_buffer.append(line)
+                continue
             flush_para()
             level = len(heading_match.group(1))
-            text = strip_inline(heading_match.group(2))
+            text = strip_inline(heading_text)
             content.append({"type": "heading", "level": level, "text": text})
             continue
 
@@ -594,8 +728,8 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
 
         # ── Bijlagen-sectie ──
         if in_appendix_section:
-            # Nieuwe bijlage-kop: ## Bijlage A: Titel
-            m = _BIJLAGE_ITEM.match(raw.strip())
+            # Nieuwe bijlage-kop: ## Bijlage A: Titel  OF  Bijlage A: Titel (plain)
+            m = _BIJLAGE_ITEM.match(raw.strip()) or _BIJLAGE_PLAIN.match(raw.strip())
             if m:
                 start_new_appendix(
                     label=m.group(1).strip(),
@@ -628,13 +762,13 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
 
         # ── Verwerk regels in referentieblok ──
         if in_references:
-            # Overkoepelende Bijlagen-kop → schakel naar bijlagen-modus
-            if _BIJLAGEN_SECTION.match(raw.strip()):
+            # Overkoepelende Bijlagen-kop → schakel naar bijlagen-modus (met of zonder # prefix)
+            if _BIJLAGEN_SECTION.match(raw.strip()) or _BIJLAGEN_PLAIN.match(raw.strip()):
                 in_references = False
                 in_appendix_section = True
                 continue
-            # Individuele bijlage-kop zonder voorafgaande # Bijlagen
-            m = _BIJLAGE_ITEM.match(raw.strip())
+            # Individuele bijlage-kop zonder voorafgaande # Bijlagen (met of zonder # prefix)
+            m = _BIJLAGE_ITEM.match(raw.strip()) or _BIJLAGE_PLAIN.match(raw.strip())
             if m:
                 in_references = False
                 in_appendix_section = True
@@ -655,7 +789,13 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             table_buffer.append(raw.strip())
             continue
 
-        # Als we in een tabel zaten maar deze regel is geen tabelregel, flush
+        # Multi-line tabelcel: als we in een tabel zitten en de regel is niet leeg,
+        # plak de tekst aan de laatste tabelregel (cel-inhoud loopt door op volgende regel)
+        if table_buffer and raw.strip():
+            table_buffer[-1] = table_buffer[-1] + ' ' + raw.strip()
+            continue
+
+        # Als we in een tabel zaten maar lege regel of einde tabel, flush
         if table_buffer:
             flush_table()
 
@@ -728,6 +868,51 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
                 blocks.append({"type": "heading", "level": level_md, "text": heading_text})
             continue
 
+        # ── Plain-text referentielijst-header (zonder # prefix) ──
+        if _REFERENCES_PLAIN.match(raw.strip()):
+            flush_paragraph()
+            flush_table()
+            flush_quote()
+            in_references = True
+            continue
+
+        # ── Plain-text bijlagen-sectie (zonder # prefix) ──
+        if _BIJLAGEN_PLAIN.match(raw.strip()):
+            flush_paragraph()
+            flush_table()
+            flush_quote()
+            in_references = False
+            in_appendix_section = True
+            continue
+
+        # ── Plain-text individuele bijlage-kop (zonder # prefix) ──
+        _bm = _BIJLAGE_PLAIN.match(raw.strip())
+        if _bm:
+            flush_paragraph()
+            flush_table()
+            flush_quote()
+            in_references = False
+            in_appendix_section = True
+            start_new_appendix(
+                label=_bm.group(1).strip(),
+                title=(_bm.group(2) or "").strip(),
+            )
+            continue
+
+        # ── Tabel-/figuurlabels: elk hun eigen alinea-blok (APA: label en caption apart) ──
+        if _TABLE_LABEL_LINE.match(raw.strip()):
+            flush_paragraph()
+            blocks.append({"type": "paragraph", "text": raw.strip()})
+            continue
+
+        # Detecteer alinea die volledig uit één inline code-expressie bestaat: `cmd`
+        # Bijv. `nmap -sn 10.120.1.0/24` op een eigen regel → Code Snippet blok
+        inline_code_match = re.match(r'^`([^`]+)`\s*$', raw.strip())
+        if inline_code_match:
+            flush_paragraph()
+            blocks.append({"type": "code", "tekst": inline_code_match.group(1)})
+            continue
+
         # Gewone tekstregel → verzamel in buffer voor huidige alinea
         paragraph_buffer.append(raw)
 
@@ -747,7 +932,7 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
         appendices.append({
             "label": label,
             "title": app_title,
-            "content": _parse_appendix_lines(raw_lines),
+            "content": _parse_appendix_lines(raw_lines, title=app_title),
         })
 
     return title, blocks, references, front_matter_meta, appendices
@@ -841,11 +1026,18 @@ def build_payload(
 
     # Detectie 2: bold+tab formaat onder afkortingen-heading
     # Herkent regels als: **ABBR**\tDefinitie (vet afkorting gevolgd door tab en definitie)
+    # Ook plain-text: ABBR\tDefinitie (plain tekst met tabs, zoals geëxtraheerd uit .docx)
     if not abbreviations:
         # Gebruik finditer (niet match) zodat ook space-joined paragrafen met meerdere
         # afkortingen op één regel correct worden gesplitst.
         _bold_tab_re = re.compile(
             r'\*\*([A-Z][A-Za-z0-9/.\-]*)\*\*\s*\t+([^*]+?)(?=\s*\*\*[A-Z]|$)'
+        )
+        # Plain-text afkorting+tab patroon: ABBR (1-10 tekens, hoofdletters/cijfers)
+        # gevolgd door één of meer tabs en een definitie.
+        # Herkent ook de vorm waarbij de afkorting gevolgd door spaties+tab staat.
+        _plain_tab_re = re.compile(
+            r'^([A-Z][A-Za-z0-9/.\-]{0,9})\s*\t+(.+)$'
         )
         collecting = False
         abbrev_blocks_to_remove = set()
@@ -860,7 +1052,9 @@ def build_payload(
                 elif collecting:
                     break
             if collecting and block.get('type') == 'paragraph':
-                found = list(_bold_tab_re.finditer(block.get('text', '')))
+                text_val = block.get('text', '')
+                # Probeer eerst bold+tab formaat
+                found = list(_bold_tab_re.finditer(text_val))
                 if found:
                     for fm in found:
                         abbreviations.append({
@@ -868,6 +1062,17 @@ def build_payload(
                             "definitie": fm.group(2).strip(),
                         })
                     abbrev_blocks_to_remove.add(idx)
+                else:
+                    # Probeer plain-text tab formaat: elke alinea kan één afkorting zijn
+                    # OF meerdere afkortingen samengevloten door paragraph_buffer (ruimte+tab)
+                    # Splits op de scheiding tussen afkortingen door te zoeken op tabs
+                    pm = _plain_tab_re.match(text_val.strip())
+                    if pm:
+                        abbreviations.append({
+                            "afkorting": pm.group(1).strip(),
+                            "definitie": pm.group(2).strip(),
+                        })
+                        abbrev_blocks_to_remove.add(idx)
         if abbreviations:
             if abbrev_heading_idx is not None:
                 abbrev_blocks_to_remove.add(abbrev_heading_idx)
