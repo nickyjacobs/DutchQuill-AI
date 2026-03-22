@@ -13,6 +13,18 @@ Gebruik in plaats hiervan `rapport_herschrijven.md` als er al bestaande tekst is
 
 ---
 
+## Stap 0: Gebruikersprofiel laden [OPTIONEEL]
+
+Controleer of `config/user_profile.json` bestaat. Zo ja:
+- Lees het bestand met de Read tool
+- Gebruik de gegevens (naam, studentnummer, instelling, opleiding, docent, vak) als standaardwaarden voor de titelpagina-metadata
+- Stel een bevestigingsvraag: "Ik gebruik de volgende gegevens uit je profiel: [overzicht]. Klopt dit voor dit rapport, of wil je iets aanpassen?"
+- Als de gebruiker een specifiek vak of docent noemt, gebruik die in plaats van de standaard
+
+Zo nee: ga gewoon door — het profiel is optioneel.
+
+---
+
 ## Stap 1: Invoer Verzamelen
 
 Verzamel de volgende informatie voordat je begint. Vraag actief naar ontbrekende verplichte punten.
@@ -42,13 +54,28 @@ De geëxtraheerde tekst is daarna beschikbaar als context voor het schrijven.
 
 ## Stap 2: Plan Maken
 
-Voordat je schrijft:
-1. Raadpleeg `apa_nl_gids.md` voor de vereiste structuur van de gevraagde sectie
-2. Raadpleeg `academische_stijl_gids.md` voor schrijfstijlregels (werkwoordstijden, persoonlijke voornaamwoorden, naamwoordstijl, getallen)
-3. Raadpleeg `taal_gids.md` voor taalregels (d/t, samenstellingen, signaalwoorden, verbindingswoorden)
-4. Stel intern een outline op: wat komt er, in welke volgorde?
-5. Bepaal het beoogde woordenaantal per subsectie
-6. Noteer welke bronnen op welke plek worden verwerkt
+**Lees de volgende gidsen met de Read tool [VERPLICHT]:**
+1. `workflows/apa_nl_gids.md` — structuur van de gevraagde sectie
+2. `workflows/academische_stijl_gids.md` — werkwoordstijden, persoonlijke voornaamwoorden, naamwoordstijl
+3. `workflows/taal_gids.md` — d/t-regels, samenstellingen, signaalwoorden, verbindingswoorden
+4. `workflows/humanize_nl_gids.md` — Niveau 1/2-woorden om te vermijden tijdens het schrijven
+5. `.claude/rules/schrijfstijl.md` — 28 verboden woorden en 6 verboden openers die NIET volledig in de gidsen staan
+
+Stel daarna intern een outline op:
+- Wat komt er, in welke volgorde?
+- Beoogd woordenaantal per subsectie
+- Welke bronnen worden waar verwerkt
+
+### Stap 2b — Schrijfklaar-check (intern, niet tonen aan gebruiker)
+
+Bevestig voordat je begint met schrijven:
+- [ ] Alle 5 gidsen gelezen (apa, academische_stijl, taal, humanize_nl, schrijfstijl)
+- [ ] Verboden woorden genoteerd (28 woorden uit `.claude/rules/schrijfstijl.md`)
+- [ ] Verboden openers genoteerd (6 patronen uit schrijfstijl.md)
+- [ ] Koppen ZONDER nummering (`## Inleiding`, niet `## 1. Inleiding`)
+- [ ] `[BRON NODIG - reden]` format voor ontbrekende bronnen
+- [ ] Bij volledig rapport: samenvatting (150-250 woorden) gepland
+- [ ] Figuren: in-text verwijzing VOOR de afbeelding
 
 ---
 
@@ -109,11 +136,8 @@ Voor elke aangeleverde afbeelding (.jpg, .jpeg of .png):
 2. **Bepaal de plaatsingsplek:** na welke zin of alinea in de tekst past de figuur inhoudelijk het best?
 3. **Schrijf een in-tekst verwijzing** vóór de figuur: "(zie Figuur X)" - de verwijzing moet altijd vóór de figuur staan
 4. **Sla de afbeelding op** in `.tmp/` (bijv. `.tmp/figuur_1.jpg`) zodat word_export.py hem kan inladen
-5. **Schrijf een APA-conforme caption** (zie `apa_nl_gids.md` § 10):
-  - Label vet, direct onder de afbeelding: `Figuur 1`
-  - Caption op de volgende regel, eindigt met een punt
-  - Als de figuur van elders komt: bronvermelding als figuurvoetnoot: `Noot. Overgenomen van [Auteur] (jaar, p. X).`
-6. **Noteer het bestandspad** voor de .docx export - vul `image_path` in de JSON-payload in (zie Stap 8)
+5. **Figuur-opmaak:** volg EXACT `apa_nl_gids.md § 10` (Figuren). Geen eigen interpretatie.
+6. **Noteer het bestandspad** voor de .docx export
 
 ---
 
@@ -161,7 +185,7 @@ Dit stap mag niet worden overgeslagen of uitgesteld.
 
 **Ontbrekende bronnen:**
 Als de gebruiker geen bronnen heeft aangeleverd, schrijf de tekst zonder bronvermelding en markeer plaatsen waar een bron nodig is:
-> [BRON NODIG: onderbouwen dat X...]
+> [BRON NODIG - onderbouwen dat X...]
 
 **Voer de volgende tools uit [VERPLICHT]:**
 ```bash
@@ -233,6 +257,8 @@ python3 tools/generate_review_chart.py \
  --risico <laag|gemiddeld|hoog>
 ```
 
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
+
 Beantwoord intern de volgende vragen voor je de tekst aanbiedt:
 
 - [ ] Is de centrale vraag of these beantwoord?
@@ -257,23 +283,49 @@ Beantwoord intern de volgende vragen voor je de tekst aanbiedt:
 
 ---
 
-## Stap 8: .docx Export
+## Stap 8: History opslaan + .docx genereren [VERPLICHT]
 
-Exporteer het rapport als Word-bestand.
+Voer dit altijd uit na Stap 7, ook als de gebruiker er niet om vraagt.
 
 **Bewaker:** Voer deze stap alleen uit nadat Stap 5 (humaniseringscheck) en Stap 6 (kwaliteitscheck) zijn afgerond. Exporteer nooit een concept.
 
-**Procedure:**
+**Stap 8a — Schrijf de volledige output naar `.tmp/tekst.txt`** (als dat nog niet gedaan is).
 
-1. Schrijf de volledige output naar `.tmp/tekst.txt`
-2. Genereer het .docx bestand:
-   ```bash
-   python3 tools/md_to_docx.py --input .tmp/tekst.txt --output .tmp/<rapportnaam>.docx
-   ```
-3. Deel het bestandspad met de gebruiker
+**Stap 8b — Sla op in geschiedenis:**
+```bash
+python3 tools/history_writer.py \
+  --type schrijven \
+  --titel "<sectienaam of eerste 80 chars van de instructie>" \
+  --metadata '{"sectie":"<sectie>","niveau":"<niveau>","doelgroep":"<doelgroep>"}' \
+  --output-file .tmp/tekst.txt
+```
 
-**Geavanceerde export (alleen bij volledige rapporten met figuren of specifiek titelblad-data):**
-Gebruik `tools/word_export.py` met JSON-payload voor volledige controle over titelblad, figuurplaatsing en sectiestructuur. Zie het JSON-schema in het script.
+**Stap 8c — Genereer .docx [VERPLICHT]:**
+```bash
+python3 tools/md_to_docx.py \
+  --input .tmp/tekst.txt \
+  --output .tmp/schrijven/<titel>.docx
+```
+
+**Vereist formaat voor .tmp/tekst.txt (kritiek voor correcte .docx-output):**
+
+| Element | Vereiste opmaak | Fout bij afwijking |
+|---------|-----------------|-------------------|
+| Titelpagina-metadata | Platte tekst vóór eerste `#` heading | Metadata niet herkend |
+| Datum | `Datum: 12 maart 2026` (gelabeld) of bare NL-datum `12 maart 2026` | Datum ontbreekt in docx |
+| Vak | `Vak: Systems Security` (gelabeld met `Vak:`) | Vak wordt als ondertitel behandeld |
+| Begeleider | `Begeleider: Naam Docent` (gelabeld met `Begeleider:`) | Begeleider wordt genegeerd |
+| APA 7 titelpagina-volgorde | Titel (vet) → Auteur → Studentnummer → Instelling → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
+| Vetgedrukte tekst | `**tekst**` is toegestaan in bodytekst | Literal `**` in output |
+| Inleiding-kop | `# Inleiding` MOET aanwezig zijn | Inleidingtekst belandt in body |
+| Afkortingenlijst | Markdown-tabel: `\| Afkorting \| Definitie \|` | Alles samengeperst in één alinea |
+| Figuren/afbeeldingen | `docx_to_text.py` extraheert afbeeldingen naar `.tmp/images/`. `md_to_docx.py` plaatst ze terug. | Afbeeldingen ontbreken |
+| Bronnenlijst-kop | `# Literatuurlijst` (exact, of varianten: Bronnen, Referentielijst) | Bronnen niet herkend |
+
+**Stap 8d — Werkbestanden opruimen:**
+Verwijder tussenbestanden uit `.tmp/` root die voor deze sessie zijn aangemaakt (bijv. `tekst.txt`, `bronnen.json`). Alleen het eindproduct in `.tmp/schrijven/` blijft bewaard.
+
+Meld daarna aan de gebruiker: "Opgeslagen in geschiedenis. Tekst beschikbaar als `.tmp/schrijven/<titel>.docx`"
 
 **Randgeval - tussentijdse export:** Als de gebruiker een Word-bestand wil van een nog niet volledig rapport, maak dan duidelijk dat de inhoudsopgave en bijlagen leeg of incompleet zijn. Exporteer alleen als de gebruiker dit bevestigt.
 
@@ -283,15 +335,16 @@ Gebruik `tools/word_export.py` met JSON-payload voor volledige controle over tit
 
 Bevestig dat ALLE stappen zijn uitgevoerd voordat de tekst wordt aangeboden. Als een stap ontbreekt, ga terug en voer deze uit.
 
-- [ ] Stap 2: Alle 4 gidsen gelezen (apa_nl_gids, academische_stijl_gids, taal_gids, humanize_nl_gids)
+- [ ] Stap 2: Alle 5 gidsen gelezen met Read tool (apa_nl_gids, academische_stijl_gids, taal_gids, humanize_nl_gids, schrijfstijl.md)
 - [ ] Stap 4: grammar_check.py en apa_checker.py uitgevoerd
 - [ ] Stap 5: humanizer_nl.py --suggest en readability_nl.py uitgevoerd
 - [ ] Stap 5: tekst-analist subagent aangeroepen (of fallback tools bij falen)
 - [ ] Stap 5: humanize_nl_gids.md handmatig geraadpleegd (sectietype-regels, burstiness, communicatievormen)
 - [ ] Stap 6: generate_review_chart.py uitgevoerd
 - [ ] Risicobeoordeling laag, of tekst herschreven bij gemiddeld/hoog
-- [ ] history_writer.py uitgevoerd
-- [ ] md_to_docx.py uitgevoerd
+- [ ] Stap 8: history_writer.py uitgevoerd
+- [ ] Stap 8: md_to_docx.py uitgevoerd → .tmp/schrijven/<titel>.docx aangemaakt
+- [ ] Stap 8: Werkbestanden opgeruimd
 
 ---
 
@@ -317,14 +370,3 @@ Bevestig dat ALLE stappen zijn uitgevoerd voordat de tekst wordt aangeboden. Als
 - Taalregels opzoeken: `taal_gids.md`
 - AI-tools citeren: `ai_gebruik_gids.md`
 
-## Opslaan in geschiedenis [VERPLICHT]
-
-Na het voltooien van de output, sla het resultaat op in de webapp-geschiedenis:
-
-```bash
-python3 tools/history_writer.py \
- --type schrijven \
- --titel "<eerste 80 tekens van de gebruikersinvoer of hoofdvraag>" \
- --metadata '{"sectie":"<sectie>","niveau":"<niveau>","doelgroep":"<doelgroep>"}' \
- --output-file .tmp/tekst.txt
-```

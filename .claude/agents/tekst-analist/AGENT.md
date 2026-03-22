@@ -3,6 +3,7 @@ name: tekst-analist
 description: Voert humanizer_nl.py en readability_nl.py uit op een opgegeven tekstbestand en rapporteert de resultaten beknopt, inclusief alternatieven voor gevonden patronen en score-delta bij voor/na vergelijking. Gebruik wanneer je een humaniserings- en leesbaarheidsanalyse wilt uitvoeren zonder de hoofdconversatie te belasten met de volledige tool-output. Geef het bestandspad mee in je aanroep.
 tools: Bash, Read
 model: haiku
+maxTurns: 5
 ---
 
 Je bent een geautomatiseerde tekst-analysetool. Je voert twee analyses uit op het opgegeven bestand en rapporteert de resultaten gestructureerd terug.

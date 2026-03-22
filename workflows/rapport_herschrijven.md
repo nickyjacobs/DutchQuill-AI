@@ -14,6 +14,17 @@ Gebruik in plaats hiervan `rapport_schrijven.md` als er nog geen tekst bestaat.
 
 ---
 
+## Stap 0: Gebruikersprofiel laden [OPTIONEEL]
+
+Controleer of `config/user_profile.json` bestaat. Zo ja:
+- Lees het bestand met de Read tool
+- Gebruik de gegevens als context voor de herschrijving (bijv. instelling, opleiding, vak)
+- Stel een bevestigingsvraag als de gegevens relevant zijn voor de titelpagina
+
+Zo nee: ga gewoon door — het profiel is optioneel.
+
+---
+
 ## Stap 1: Invoer Verzamelen
 
 **Word-bestand als invoer:** Als de gebruiker een `.docx` bestandspad aanlevert in plaats van geplakte tekst, lees de inhoud eerst uit:
@@ -37,7 +48,23 @@ Gebruik de geëxtraheerde tekst als de te herschrijven tekst en ga verder met de
 
 ---
 
-## Stap 2: Analyseer de Originele Tekst
+## Stap 2: Gidsen laden + tekst analyseren [VERPLICHT]
+
+**Lees de volgende gidsen met de Read tool [VERPLICHT]:**
+1. `workflows/taal_gids.md` — taalfouten, afkortingen, samenstellingen, kommaregels
+2. `workflows/humanize_nl_gids.md` — AI-patronen, Niveau 1/2-woorden, formulaische openers
+3. `workflows/apa_nl_gids.md` — citaties, koppen, literatuurlijst
+4. `workflows/academische_stijl_gids.md` — schrijfstijl, registers, naamwoordstijl
+5. `.claude/rules/schrijfstijl.md` — 28 verboden woorden en 6 verboden openers die NIET volledig in de gidsen staan
+
+### Stap 2a — Schrijfklaar-check (intern, niet tonen aan gebruiker)
+
+Bevestig voordat je begint met herschrijven:
+- [ ] Alle 5 gidsen gelezen (taal, humanize_nl, apa, academische_stijl, schrijfstijl)
+- [ ] Verboden woorden genoteerd (28 woorden uit `.claude/rules/schrijfstijl.md`)
+- [ ] Verboden openers genoteerd (6 patronen uit schrijfstijl.md)
+- [ ] `[BRON NODIG - reden]` format voor ontbrekende bronnen
+- [ ] Figuren: in-text verwijzing VOOR de afbeelding
 
 **Voer de volgende analysetools uit op het origineel [VERPLICHT]:**
 ```bash
@@ -96,10 +123,10 @@ Voordat je één woord wijzigt, analyseer je de tekst op vier gebieden:
 - [ ] Te stijf of wollig (omslachtige formuleringen)?
 - [ ] Te vaag (geen specifieke details, alleen algemeenheden)?
 
-### Figuren
-- [ ] Figuren aanwezig in de tekst? Controleer of label + caption APA-conform zijn (zie `apa_nl_gids.md` § 10)
-- [ ] Figuur vóór eerste verwijzing in tekst? ("zie Figuur X" moet altijd vóór de figuur staan)
-- [ ] Figuur inhoudelijk op de juiste plek? (past de context van de omliggende tekst bij wat de figuur toont?)
+### Figuren (volg EXACT `apa_nl_gids.md § 10`)
+- [ ] Label + caption APA-conform volgens `apa_nl_gids.md § 10`?
+- [ ] In-tekst verwijzing vóór de figuur? ("zie Figuur X" moet altijd vóór de figuur staan)
+- [ ] Figuur inhoudelijk op de juiste plek?
 - [ ] Nieuwe figuren aangeleverd? → verwerk via `rapport_schrijven.md` Stap 3b
 
 **Noteer per gevonden probleem:** categorie + locatie (alinea/zin) + voorgestelde oplossing.
@@ -266,6 +293,8 @@ python3 tools/generate_review_chart.py \
  --risico <laag|gemiddeld|hoog>
 ```
 
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
+
 Vergelijk intern de originele en herschreven tekst:
 
 - [ ] Is de kernboodschap volledig bewaard?
@@ -346,7 +375,7 @@ Bevestig dat ALLE stappen zijn uitgevoerd voordat de tekst wordt aangeboden. Als
 
 | Stap | Check | Herstelstap als NIET afgevinkt |
 |------|-------|-------------------------------|
-| 2 | Alle 4 gidsen gelezen (taal_gids, humanize_nl_gids, apa_nl_gids, academische_stijl_gids) | Lees de ontbrekende gids(en) alsnog - ga pas verder na lezing |
+| 2 | Alle 5 gidsen gelezen (taal_gids, humanize_nl_gids, apa_nl_gids, academische_stijl_gids, schrijfstijl.md) | Lees de ontbrekende gids(en) alsnog - ga pas verder na lezing |
 | 2 | grammar_check.py op origineel uitgevoerd | Voer grammar_check.py uit; rapporteer fout als API onbereikbaar is, sla stap niet stil over |
 | 2 | humanizer_nl.py --suggest op origineel uitgevoerd | Voer tool uit; gebruik output als baseline voor de score-vergelijking in Stap 7 |
 | 5 | apa_checker.py op herschreven tekst uitgevoerd | Voer tool uit; herstel kritieke bevindingen (z.d.-suffix, voornamen, paginanummers) voordat je doorgaat |
@@ -384,14 +413,31 @@ Bevestig dat ALLE stappen zijn uitgevoerd voordat de tekst wordt aangeboden. Als
 - Taalregels opzoeken: `taal_gids.md`
 - AI-tools citeren: `ai_gebruik_gids.md`
 
-## Opslaan in geschiedenis [VERPLICHT]
+## Stap 10: History opslaan + .docx genereren [VERPLICHT]
 
-Na het voltooien van de output, sla het resultaat op in de webapp-geschiedenis:
+Voer dit altijd uit na Stap 8, ook als de gebruiker er niet om vraagt.
 
+**Stap 10a — Schrijf de herschreven output naar `.tmp/herschreven.txt`** (als dat nog niet gedaan is).
+
+**Stap 10b — Sla op in geschiedenis:**
 ```bash
 python3 tools/history_writer.py \
- --type herschrijven \
- --titel "<eerste 80 tekens van de te herschrijven tekst of bestandsnaam>" \
- --metadata '{"doelen":["<doel1>","<doel2>"],"doelgroep":"<doelgroep>"}' \
- --output-file .tmp/herschreven.txt
+  --type herschrijven \
+  --titel "<eerste 80 chars van de originele invoertekst of bestandsnaam>" \
+  --metadata '{"doelen":["<doel1>","<doel2>"],"doelgroep":"<doelgroep>"}' \
+  --output-file .tmp/herschreven.txt
 ```
+
+**Stap 10c — Genereer .docx [VERPLICHT]:**
+```bash
+python3 tools/md_to_docx.py \
+  --input .tmp/herschreven.txt \
+  --output .tmp/herschrijven/<titel>.docx
+```
+
+**Sleutelwoorden:** Als het rapport een samenvatting bevat, voeg dan een regel `*Sleutelwoorden:* trefwoord1, trefwoord2, ...` toe na de samenvattingstekst. Dit wordt automatisch herkend door md_to_docx.py en correct gerenderd in de .docx.
+
+**Stap 10d — Werkbestanden opruimen:**
+Verwijder tussenbestanden uit `.tmp/` root die voor deze sessie zijn aangemaakt (bijv. `origineel.txt`, `herschreven.txt`, `bronnen.json`). Verwijder ook `.tmp/images/` als deze map tijdens de sessie is aangemaakt. Alleen het eindproduct in `.tmp/herschrijven/` blijft bewaard.
+
+Meld daarna aan de gebruiker: "Opgeslagen in geschiedenis. Herschreven versie beschikbaar als `.tmp/herschrijven/<titel>.docx`"
