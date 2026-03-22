@@ -77,6 +77,7 @@ De skill analyseert je tekst, bepaalt wat er verbeterd moet worden en herschrijf
 **Optioneel:**
 - Doelgroep
 - Specifieke instructies ("maak korter", "verwijder herhaling", "houd alinea 2 intact")
+- Figuren (`.jpg`, `.png`) — de skill leest de afbeeldingen, begrijpt de inhoud en plaatst ze logisch in de tekst met APA-conforme verwijzingen
 
 ### Subtypes
 

@@ -104,6 +104,10 @@ Dit project is een schrijfassistent voor Nederlandse academische rapporten (hoge
 
 **history_writer.py aanroepen is even verplicht als de APA-check.** Doe het altijd, ook als de gebruiker er niet om vraagt.
 
+**Markdown-structuur voor .docx export (altijd van kracht):**
+- `# Inleiding` MOET altijd aanwezig zijn in de markdown. `word_export.py` vervangt deze kop automatisch door de documenttitel (APA 7). Zonder `# Inleiding` wordt de introductiesectie niet herkend en belandt de tekst in de body.
+- Afkortingenlijst: markdown-tabel (`| Afkorting | Definitie |`) OF bold+tab formaat (`**ABBR**\tDefinitie`). Beide worden herkend door `md_to_docx.py`.
+
 ## Skill-uitvoering (altijd van kracht)
 
 **Gidsen lezen is VERPLICHT:**

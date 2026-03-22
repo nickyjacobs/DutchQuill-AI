@@ -676,6 +676,41 @@ def build_payload(
                 remaining_blocks.pop()
         else:
             remaining_blocks.append(block)
+
+    # Detectie 2: bold+tab formaat onder afkortingen-heading
+    # Herkent regels als: **ABBR**\tDefinitie (vet afkorting gevolgd door tab en definitie)
+    if not abbreviations:
+        _bold_tab_re = re.compile(
+            r'^\*\*([A-Z][A-Za-z0-9/.\-]*)\*\*\s*\t+(.+)$'
+        )
+        collecting = False
+        abbrev_blocks_to_remove = set()
+        abbrev_heading_idx = None
+        for idx, block in enumerate(remaining_blocks):
+            if block.get('type') == 'heading':
+                txt = block.get('text', '').strip().lower()
+                if any(k in txt for k in ('afkorting', 'abbreviat')):
+                    collecting = True
+                    abbrev_heading_idx = idx
+                    continue
+                elif collecting:
+                    break
+            if collecting and block.get('type') == 'paragraph':
+                m = _bold_tab_re.match(block.get('text', ''))
+                if m:
+                    abbreviations.append({
+                        "afkorting": m.group(1),
+                        "definitie": m.group(2).strip(),
+                    })
+                    abbrev_blocks_to_remove.add(idx)
+        if abbreviations:
+            if abbrev_heading_idx is not None:
+                abbrev_blocks_to_remove.add(abbrev_heading_idx)
+            remaining_blocks = [
+                b for i, b in enumerate(remaining_blocks)
+                if i not in abbrev_blocks_to_remove
+            ]
+
     blocks = remaining_blocks
 
     # Extraheer samenvatting, inleiding en conclusie uit body-blocks

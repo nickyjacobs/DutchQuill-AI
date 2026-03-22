@@ -122,7 +122,7 @@ python3 tools/source_formatter.py --input .tmp/bronnen.json
 
 ### Structuur en Koppen
 - [ ] Koppen volgen APA-hiërarchie (Level 1–3, correct opgemaakt)
-- [ ] Geen kop "Inleiding" - tekst begint direct
+- [ ] Inleiding begint met `# Inleiding` in markdown (word_export vervangt dit door de documenttitel)
 - [ ] Minimaal twee koppen op elk niveau dat gebruikt wordt
 - [ ] Geen nummering van koppen (tenzij instituut vereist)
 - [ ] Inhoudsopgave aanwezig bij rapporten > 5 pagina's

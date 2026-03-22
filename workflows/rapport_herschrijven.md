@@ -35,6 +35,14 @@ python3 tools/docx_to_text.py --input <pad naar .docx>
 
 Gebruik de geëxtraheerde tekst als de te herschrijven tekst en ga verder met de rest van de stap.
 
+**Stap 1b — Figuren inventariseren [indien aanwezig]:**
+1. Controleer of `.tmp/images/` bestanden bevat (geëxtraheerd door `docx_to_text.py`)
+2. Lees elke afbeelding met de Read tool om de inhoud te begrijpen
+3. Noteer per figuur: bestandsnaam, wat de afbeelding toont, logische positie in de tekst
+4. Behoud `![caption](pad)` placeholders in de herschreven tekst op de juiste plek
+5. Pas APA-figuurreferenties aan: "zie Figuur X" moet altijd vóór de figuur staan
+6. Nieuwe figuren die de gebruiker aanlevert: kopieer naar `.tmp/images/` en voeg een `![caption](pad)` placeholder toe
+
 **Rapporten-map als invoer:** De map `rapporten/` bevat eerder aangeleverde rapportbestanden (.docx). Als de gebruiker verwijst naar een bestaand rapport zonder volledig pad, zoek in `rapporten/`. Converteer met `docx_to_text.py`.
 
 | Invoer | Beschrijving | Verplicht? |
@@ -321,6 +329,10 @@ python3 tools/md_to_docx.py \
   --output .tmp/herschrijven/<titel>.docx
 ```
 `md_to_docx.py` verwerkt de `![caption](pad)` placeholders die `docx_to_text.py` heeft geschreven en plaatst de afbeeldingen terug in het .docx bestand. Zorg dat `.tmp/images/` nog aanwezig is tijdens de export (opruimen pas in Stap 9d).
+
+**Vereisten voor correcte .docx-generatie:**
+- `# Inleiding` MOET aanwezig zijn in de markdown — `word_export.py` vervangt deze kop automatisch door de documenttitel (APA 7). Zonder `# Inleiding` wordt de introductiesectie niet herkend en belandt de tekst in de body.
+- Afkortingenlijst: markdown-tabel (`| Afkorting | Definitie |`) OF bold+tab formaat (`**ABBR**\tDefinitie`) onder een heading met "Afkortingen". Beide worden herkend door `md_to_docx.py`.
 
 **Titelpagina front matter — verplichte labelvelden:**
 Gebruik in `.tmp/herschreven.txt` altijd gelabelde velden voor de titelpagina-metadata (platte tekst vóór de eerste `#` heading):

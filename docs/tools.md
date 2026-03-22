@@ -371,6 +371,9 @@ python3 tools/docx_to_text.py --input rapport.docx --output .tmp/rapport.txt
 | Cursief | `*tekst*` |
 | Vet en cursief | `***tekst***` |
 | Lijstitems | `- item` |
+| Tabellen | Markdown-tabelformaat (`\| kop \| kop \|`) |
+
+De tool itereert over paragrafen én tabellen in documentvolgorde. Word-tabellen worden als markdown-tabellen in de output opgenomen.
 
 De tekst wordt opgeslagen in het uitvoerbestand en ook naar stdout gestuurd. Een bevestiging verschijnt op stderr: `[Opgeslagen in .tmp/origineel.txt]`.
 
@@ -532,7 +535,10 @@ Platte tekst vóór de eerste kop wordt herkend als titelpaginagegevens. De tool
 
 Titelpagina-volgorde (APA 7 student paper): Titel (vet) → Auteur → Studentnummer → Instelling → Opleiding → Vak → Begeleider → Datum.
 
-Afkortingentabellen (markdown-tabellen met headers "Afkorting" en "Definitie") worden automatisch herkend en als aparte afkortingenlijst in het document geplaatst, zonder "Tabel N" label.
+Afkortingentabellen worden automatisch herkend en als aparte afkortingenlijst in het document geplaatst, zonder "Tabel N" label. Twee formaten worden ondersteund:
+
+1. **Markdown-tabel:** `| Afkorting | Definitie |` met rijen eronder
+2. **Bold+tab formaat:** `**ABBR**\tDefinitie` onder een heading met "Afkortingen"
 
 ---
 

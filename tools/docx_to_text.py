@@ -83,13 +83,56 @@ def extract_image_rids(para):
     return rids
 
 
+def _table_to_markdown(table) -> list:
+    """Converteer een python-docx Table naar markdown-tabelregels."""
+    rows = []
+    for row in table.rows:
+        cells = [cell.text.strip() for cell in row.cells]
+        rows.append(cells)
+    if not rows:
+        return []
+    md_lines = []
+    # Eerste rij als header
+    header = rows[0]
+    md_lines.append('| ' + ' | '.join(header) + ' |')
+    md_lines.append('| ' + ' | '.join('---' for _ in header) + ' |')
+    for row in rows[1:]:
+        # Zorg dat rij evenveel kolommen heeft als header
+        padded = row + [''] * (len(header) - len(row))
+        md_lines.append('| ' + ' | '.join(padded[:len(header)]) + ' |')
+    return md_lines
+
+
 def extract_text(docx_path: str, images_dir: Path = None) -> str:
     doc = Document(docx_path)
     lines = []
     image_counter = 0
-    pending_caption = None  # caption van de volgende tekstalinea na een figuur
 
-    for i, para in enumerate(doc.paragraphs):
+    # Bouw lookup-maps van XML-element → python-docx object (behoudt correcte parent-chain)
+    para_map = {para._element: para for para in doc.paragraphs}
+    table_map = {table._element: table for table in doc.tables}
+
+    # Itereer over body-elementen in documentvolgorde (paragrafen én tabellen)
+    body = doc.element.body
+    for child in body:
+        # --- Tabel ---
+        if child.tag == qn('w:tbl'):
+            table = table_map.get(child)
+            if table:
+                md_lines = _table_to_markdown(table)
+                if md_lines:
+                    lines.append('')
+                    lines.extend(md_lines)
+                    lines.append('')
+            continue
+
+        # --- Paragraaf ---
+        if child.tag != qn('w:p'):
+            continue
+
+        para = para_map.get(child)
+        if not para:
+            continue
         style = para.style.name if para.style else ''
 
         # Detecteer alinea met afbeelding

@@ -99,7 +99,7 @@ Schrijf de eerste versie met de volgende principes:
 **Structuurregels:**
 - Geen opsommingen tenzij inhoudelijk noodzakelijk
 - Geen koppen als er maar één subsectie is
-- De tekst begint direct - geen kop "Inleiding" (zie APA-gids)
+- De inleiding begint met `# Inleiding` in de markdown (word_export vervangt dit automatisch door de documenttitel conform APA 7)
 
 **Koppen [ALTIJD van kracht - nooit nummers in kopnamen]:**
 - Schrijf `## Inleiding`, NOOIT `## 1. Inleiding`
