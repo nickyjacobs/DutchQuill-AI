@@ -148,19 +148,4 @@ Dit project is een schrijfassistent voor Nederlandse academische rapporten (hoge
 
 ## Schrijfstijl bij het genereren van inhoud
 
-Wanneer je Nederlandse rapporttekst schrijft, gelden deze regels altijd - ook zonder expliciete instructie:
-
-**Verboden woorden** (nooit gebruiken):
-cruciaal, essentieel, robuust, baanbrekend, naadloos, transformatief, katalysator, speerpunt, faciliteert, demonstreert, onderstreept, weerspiegelt, stroomlijnen, duiken in, scala aan, betekenisvol, diepgaand, genuanceerd, uitgebreid, proactief, integraal, zodoende, passie, verheugd, fosteren, testament aan
-
-**Verboden openers** (nooit zo beginnen):
-"In de huidige samenleving...", "In een wereld waar...", "In het huidige tijdperk...", "Het is belangrijk om te benadrukken dat...", "In het kader van...", "Het is belangrijker dan ooit..."
-
-**Schrijfregels:**
-- Gebruik "is" in plaats van "vormt", "fungeert als" of "demonstreert"
-- Varieer zinslengtes - wissel kort (< 10 woorden), middellang en lang bewust af
-- Gebruik specifieke cijfers, namen en data - geen vage beweringen
-- Elke feitelijke claim heeft een APA-citatie - geen "uit onderzoek blijkt dat" zonder bron
-- Geen em dashes (—) - gebruik komma, punt of gedachtestreepje met spaties ( - )
-- Eindig concreet - nooit met "de toekomst ziet er rooskleurig uit" of vergelijkbare platitudes
-- Schrijf als auteur, niet als assistent - geen meta-commentaar, geen chatbot-formuleringen
+Wanneer je Nederlandse rapporttekst schrijft, volg je altijd `.claude/rules/schrijfstijl.md`. Dat bestand bevat de volledige lijst verboden woorden (28), verboden openers (6) en schrijfregels. De stop-hook handhaaft deze regels automatisch na elke respons.

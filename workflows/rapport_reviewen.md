@@ -13,6 +13,16 @@ en tekststructuur.
 
 ---
 
+## Stap 0: Gebruikersprofiel laden [OPTIONEEL]
+
+Controleer of `config/user_profile.json` bestaat. Zo ja:
+- Lees het bestand met de Read tool
+- Gebruik de gegevens als context bij de review (bijv. instelling voor APA-titelpaginacheck)
+
+Zo nee: ga gewoon door — het profiel is optioneel.
+
+---
+
 ## Stap 1: Invoer Verzamelen
 
 **Word-bestand als invoer:** Als de gebruiker een `.docx` bestandspad aanlevert in plaats van geplakte tekst, lees de inhoud eerst uit:
@@ -36,11 +46,18 @@ Gebruik de geëxtraheerde tekst als de te reviewen tekst en ga verder met de res
 
 Alle vier domeinen zijn **verplicht** bij een volledige review. Bij een deelreview voer je alleen het gevraagde domein uit, maar noem je kort eventuele ernstige problemen in de andere domeinen.
 
+**Lees de volgende gidsen met de Read tool [VERPLICHT]:**
+1. `workflows/taal_gids.md` — voor Domein 1 (taalcorrectheid)
+2. `workflows/apa_nl_gids.md` — voor Domein 2 (APA 7e editie)
+3. `workflows/humanize_nl_gids.md` — voor Domein 3 (AI-patroondetectie)
+4. `workflows/academische_stijl_gids.md` — voor Domein 2 + 4 (schrijfstijl, structuur)
+5. `.claude/rules/schrijfstijl.md` — 28 verboden woorden en 6 verboden openers
+
 ---
 
 ## [VERPLICHT] Domein 1: Nederlandse Taalcorrectheid
 
-*Raadpleeg `taal_gids.md` voor details bij elk taalkundig punt. Raadpleeg `academische_stijl_gids.md` voor schrijfstijlregels.*
+*Raadpleeg `taal_gids.md` en `academische_stijl_gids.md` voor details bij elk punt.*
 
 **Voer grammar_check.py uit [VERPLICHT]:**
 ```bash
@@ -320,7 +337,7 @@ Klaar voor inlevering / Kleine aanpassingen nodig / Herschrijven aanbevolen
 Bevestig dat ALLE stappen zijn uitgevoerd voordat het reviewrapport wordt aangeboden. Als een stap ontbreekt, ga terug en voer deze uit.
 
 - [ ] Tekst beschikbaar als .tmp/tekst.txt
-- [ ] Alle 4 gidsen gelezen (taal_gids, apa_nl_gids, humanize_nl_gids, academische_stijl_gids)
+- [ ] Alle 5 gidsen gelezen (taal_gids, apa_nl_gids, humanize_nl_gids, academische_stijl_gids, schrijfstijl.md)
 - [ ] Domein 1: grammar_check.py uitgevoerd
 - [ ] Domein 2: apa_checker.py uitgevoerd
 - [ ] Domein 3: tekst-analist subagent aangeroepen (of fallback tools bij falen)
@@ -365,6 +382,8 @@ python3 tools/generate_review_chart.py \
  --patronen <aantal_patronen_gevonden> \
  --risico <laag|gemiddeld|hoog>
 ```
+
+**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
 
 Sla de base64-output op als `chartImage` in de metadata.
 
