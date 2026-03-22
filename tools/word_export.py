@@ -152,6 +152,7 @@ import sys
 from datetime import datetime
 
 from docx import Document
+from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -462,6 +463,7 @@ def _configure_heading_style(doc: Document, style_name: str, font_config: dict,
     pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
     pf.first_line_indent = Cm(0)
     pf.left_indent = Cm(0)
+    pf.page_break_before = False  # Overschrijf Word-standaard True voor H1
 
 
 def setup_document(doc: Document, font_config: dict):
@@ -504,6 +506,24 @@ def setup_document(doc: Document, font_config: dict):
                              bold=True, italic=True,
                              alignment=WD_ALIGN_PARAGRAPH.LEFT)
 
+    # "Code Snippet" stijl aanmaken (Courier New 11pt, grijze achtergrond, 1 cm inspringing)
+    try:
+        code_style = doc.styles.add_style('Code Snippet', WD_STYLE_TYPE.PARAGRAPH)
+    except ValueError:
+        # Stijl bestaat al (bijv. bij hergebruik van een template)
+        code_style = doc.styles['Code Snippet']
+    code_style.base_style = doc.styles['Normal']
+    code_font = code_style.font
+    code_font.name = 'Courier New'
+    code_font.size = Pt(11)
+    code_pf = code_style.paragraph_format
+    code_pf.left_indent = Cm(1)
+    code_pf.first_line_indent = Cm(0)
+    code_pf.space_before = Pt(0)
+    code_pf.space_after = Pt(0)
+    code_pf.line_spacing = Pt(14)
+    code_pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
+
     # Paginanummer rechts in koptekst (vanaf pagina 2)
     header = section.header
     if header.paragraphs:
@@ -541,23 +561,27 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         run.font.name = font_config["name"]
         run.font.size = font_size or font_config["size"]
 
-    # Titelblad: 8 lege regels boven voor verticale centrering, geen tussenruimte
-    for _ in range(8):
+    # Titelblad: 3 lege regels boven per APA ("Titel staat drie tot vier regels van boven")
+    for _ in range(3):
         p = doc.add_paragraph()
         p.paragraph_format.line_spacing = get_line_spacing(font_config)
         p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.EXACTLY
         p.paragraph_format.space_before = Pt(0)
         p.paragraph_format.space_after = Pt(0)
 
-    # APA 7 student paper volgorde:
-    # 1. Titel (vet)
-    centered_para(metadata.get("title", "Zonder Titel"), bold=True)
+    # APA 7 student paper volgorde (Scribbr NL):
+    # 1. Instelling + faculteit
+    if metadata.get("institution"):
+        centered_para(metadata["institution"])
+    if metadata.get("faculty"):
+        centered_para(metadata["faculty"])
 
-    # 2. Optionele subtitel
+    # 2. Titel (vet) + ondertitel
+    centered_para(metadata.get("title", "Zonder Titel"), bold=True)
     if metadata.get("subtitle"):
         centered_para(metadata["subtitle"])
 
-    # 3. Auteurs en studentnummers
+    # 3. Auteurs + studentnummers
     authors = metadata.get("authors", [])
     student_numbers = metadata.get("student_numbers", [])
     for i, author in enumerate(authors):
@@ -565,13 +589,7 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         if i < len(student_numbers):
             centered_para(student_numbers[i])
 
-    # 4. Instelling + faculteit
-    if metadata.get("institution"):
-        centered_para(metadata["institution"])
-    if metadata.get("faculty"):
-        centered_para(metadata["faculty"])
-
-    # 5. Opleiding, vak, begeleider, datum
+    # 4. Opleiding, vak, begeleider, datum
     if metadata.get("opleiding"):
         centered_para(metadata["opleiding"])
     if metadata.get("course"):
@@ -599,11 +617,11 @@ def build_abstract(doc: Document, abstract: dict, font_config: dict):
     run = p.add_run(abstract.get("text", ""))
     _apply_font(run, font_config)
 
-    # Sleutelwoorden (APA §2: eerste regel ingesprongen met één tab)
+    # Sleutelwoorden (APA: géén eerste-regels-inspringing bij keywords-label)
     keywords = abstract.get("keywords", [])
     if keywords:
         p = doc.add_paragraph()
-        set_paragraph_format(p, font_config, first_line_indent=True)
+        set_paragraph_format(p, font_config, first_line_indent=False)
         kw_run = p.add_run("Sleutelwoorden: ")
         kw_run.italic = True
         _apply_font(kw_run, font_config)
@@ -779,14 +797,9 @@ def render_code(doc: Document, block: dict, font_config: dict):
     lines = tekst.split("\n") if tekst else [""]
 
     for line in lines:
-        p = doc.add_paragraph()
-        pf = p.paragraph_format
-        pf.left_indent = Cm(1)
-        pf.first_line_indent = Cm(0)
-        pf.line_spacing = Pt(14)          # Enkelvoudig voor 11pt = ~14pt; geen dubbele afstand
-        pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
-        pf.space_before = Pt(0)
-        pf.space_after = Pt(0)
+        if not line:
+            continue  # lege regels in codeblok overslaan — voorkomt grijze gaten
+        p = doc.add_paragraph(style='Code Snippet')
         p.alignment = WD_ALIGN_PARAGRAPH.LEFT
         _set_paragraph_shading(p, "D9D9D9")
 
