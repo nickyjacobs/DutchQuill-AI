@@ -165,11 +165,12 @@ python3 tools/source_formatter.py --input .tmp/bronnen.json
 ### Tabellen (indien aanwezig)
 - [ ] Nummer + titel **boven** de tabel (`Tabel 1`, vet; titel, cursief)
 - [ ] Geen verticale lijnen
+- [ ] Horizontale lijn onder de koptekstrij (geen andere horizontale of verticale lijnen)
 - [ ] Noot correct: *Noot.* (cursief) gevolgd door reguliere tekst
 - [ ] In tekst benoemd vóór de tabel verschijnt
 
 ### Figuren (indien aanwezig)
-- [ ] Label `Figuur X` staat **onder** de figuur (niet erboven), in vet
+- [ ] Nummer `Figuur X` (vet) + beschrijvend bijschrift (cursief) staan **boven** de afbeelding; noot staat eronder
 - [ ] Bijschrift staat direct na het label op de volgende regel, eindigt met een punt
 - [ ] Figuur wordt in de tekst benoemd **vóór** de figuur verschijnt: "(zie Figuur X)"
 - [ ] Nummering doorlopend en consistent door het rapport (Figuur 1, Figuur 2, ...)
@@ -181,7 +182,8 @@ python3 tools/source_formatter.py --input .tmp/bronnen.json
 ### Bijlagen (indien aanwezig)
 - [ ] Na de literatuurlijst
 - [ ] Elke bijlage op nieuwe pagina
-- [ ] Titel vet, gecentreerd (`Bijlage A`)
+- [ ] Label vet, gecentreerd (`Bijlage A`) als Heading 1 (verschijnt in TOC)
+- [ ] Beschrijvende titel onder bijlage-label: vet, gecentreerd (Normal-stijl, niet in TOC)
 - [ ] Elke bijlage minimaal één keer vermeld in de **hoofdtekst** van het rapport (niet alleen in de bijlage zelf) - zoek actief naar "(zie Bijlage X)" of vergelijkbare verwijzing
 
 **Beoordeling:**

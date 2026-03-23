@@ -520,15 +520,17 @@ Figuren omvatten alles wat geen tabel is: grafieken, diagrammen, foto's, illustr
 ### Opmaak
 
 ```
-[figuur zelf]
-
 Figuur 1
 Beschrijvend bijschrift dat de figuur verklaart.
+
+[figuur zelf]
+
+Noot. Eventuele toelichting of bronvermelding.
 ```
 
 ### Regels
-- **Figuurlabel**: vet, onder de figuur (`Figuur 1`)
-- **Bijschrift**: begint direct na het label op dezelfde of volgende regel, eindigt met een punt
+- **Figuurlabel**: vet, boven de afbeelding (`Figuur 1`)
+- **Bijschrift**: cursief, direct na het label op dezelfde of volgende regel, eindigt met een punt
 - Tekst in figuren: schreefloze letter (Arial), 8–14pt
 - Kleur alleen als het inhoudelijk noodzakelijk is
 - Elke figuur heeft een uniek volgnummer (Figuur 1, Figuur 2, ...)

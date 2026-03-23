@@ -17,11 +17,11 @@ Gebruik in plaats hiervan `rapport_herschrijven.md` als er al bestaande tekst is
 
 Controleer of `config/user_profile.json` bestaat. Zo ja:
 - Lees het bestand met de Read tool
-- Gebruik de gegevens (naam, studentnummer, instelling, opleiding, docent, vak) als standaardwaarden voor de titelpagina-metadata
+- Gebruik de gegevens (naam, studentnummer, instelling, opleiding, faculteit, docent, vak) als standaardwaarden voor de titelpagina-metadata
 - Stel een bevestigingsvraag: "Ik gebruik de volgende gegevens uit je profiel: [overzicht]. Klopt dit voor dit rapport, of wil je iets aanpassen?"
 - Als de gebruiker een specifiek vak of docent noemt, gebruik die in plaats van de standaard
 
-Zo nee: ga gewoon door — het profiel is optioneel.
+Zo nee: ga gewoon door — het profiel is optioneel. `md_to_docx.py` gebruikt `config/user_profile.json` automatisch als fallback voor ontbrekende front-matter velden.
 
 ---
 
@@ -109,12 +109,15 @@ Schrijf de eerste versie met de volgende principes:
 **Titelpagina-metadata [VERPLICHT formaat voor md_to_docx.py]:**
 Zet naam, studentnummer, opleiding, instelling en datum als platte tekst VÓÓR de eerste markdown heading - nooit als headings zelf:
 ```
+Naam Instelling
+Faculteit: IT
 Rapporttitel
 Ondertitel (indien van toepassing)
 Naam Student
 Studentnummer: 123456
 Opleiding: Naam opleiding
-Naam Instelling
+Vak: Vaknaam
+Begeleider: Naam Docent
 Datum: 21 februari 2026
 
 # Documenttitel (dit is de eerste heading)
@@ -315,7 +318,7 @@ python3 tools/md_to_docx.py \
 | Datum | `Datum: 12 maart 2026` (gelabeld) of bare NL-datum `12 maart 2026` | Datum ontbreekt in docx |
 | Vak | `Vak: Systems Security` (gelabeld met `Vak:`) | Vak wordt als ondertitel behandeld |
 | Begeleider | `Begeleider: Naam Docent` (gelabeld met `Begeleider:`) | Begeleider wordt genegeerd |
-| APA 7 titelpagina-volgorde | Titel (vet) → Auteur → Studentnummer → Instelling → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
+| APA 7 titelpagina-volgorde | Instelling → Faculteit → Titel (vet) → Auteur → Studentnummer → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
 | Vetgedrukte tekst | `**tekst**` is toegestaan in bodytekst | Literal `**` in output |
 | Inleiding-kop | `# Inleiding` MOET aanwezig zijn | Inleidingtekst belandt in body |
 | Afkortingenlijst | Markdown-tabel: `\| Afkorting \| Definitie \|` | Alles samengeperst in één alinea |

@@ -54,6 +54,37 @@ def strip_inline(text: str) -> str:
     return text.strip()
 
 
+def _load_user_profile() -> dict:
+    """Laad config/user_profile.json als fallback voor ontbrekende front-matter velden."""
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    profile_path = os.path.join(project_root, 'config', 'user_profile.json')
+    if not os.path.exists(profile_path):
+        return {}
+    try:
+        with open(profile_path, encoding='utf-8') as f:
+            data = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+    result = {}
+    # Naam samenstellen uit voornaam + tussenvoegsel + achternaam
+    parts = [data.get('voornaam', ''), data.get('tussenvoegsel', ''), data.get('achternaam', '')]
+    naam = ' '.join(p for p in parts if p).strip()
+    if naam:
+        result['naam'] = naam
+    for key in ('instelling', 'studentnummer', 'opleiding'):
+        if data.get(key):
+            result[key] = data[key]
+    if data.get('faculteit'):
+        result['faculteit'] = data['faculteit']
+    docenten = data.get('docenten', [])
+    if docenten and docenten[0].get('naam'):
+        result['begeleider'] = docenten[0]['naam']
+    vakken = data.get('vakken', [])
+    if vakken and vakken[0].get('naam'):
+        result['vak'] = vakken[0]['naam']
+    return result
+
+
 REFERENCES_HEADERS = re.compile(
     r'^#{1,3}\s*(?:\d+\.?\d*\.?\s*)?(literatuurlijst|bronnenlijst|referentielijst|bronnen|literatuur)\s*$',
     re.IGNORECASE
@@ -83,6 +114,7 @@ _FM_OPLEIDING = re.compile(r'^Opleiding:\s*(.+)', re.IGNORECASE)
 _FM_VAK = re.compile(r'^Vak(?:naam)?(?:\s*[-/]\s*\S+)?:\s*(.+)', re.IGNORECASE)
 _FM_BEGELEIDER = re.compile(r'^(?:Begeleider|Docent|Examinator|Supervisor)s?:\s*(.+)', re.IGNORECASE)
 _FM_DATUM = re.compile(r'^(?:Datum|Date):\s*(.+)', re.IGNORECASE)
+_FM_FACULTEIT = re.compile(r'^(?:Faculteit|Faculty):\s*(.+)', re.IGNORECASE)
 _FM_TOC = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
 # Nederlandse datum zonder label-prefix: "12 maart 2026", "1 januari 2025"
@@ -188,6 +220,10 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
                 if m:
                     meta['datum'] = m.group(1).strip()
                     continue
+                m = _FM_FACULTEIT.match(line)
+                if m:
+                    meta['faculteit'] = m.group(1).strip()
+                    continue
                 # Ongelabeld: instelling-keyword detectie
                 line_lower = line.lower()
                 if any(kw in line_lower for kw in _INSTITUTION_KEYWORDS):
@@ -271,6 +307,12 @@ def extract_front_matter(lines: List[str]) -> Tuple[Dict[str, str], int]:
         m = _FM_DATUM.match(line)
         if m:
             meta['datum'] = m.group(1).strip()
+            consumed.add(i)
+            continue
+
+        m = _FM_FACULTEIT.match(line)
+        if m:
+            meta['faculteit'] = m.group(1).strip()
             consumed.add(i)
             continue
 
@@ -945,9 +987,14 @@ def build_payload(
     metadata_extra: dict,
     front_matter_meta: Optional[dict] = None,
     appendices: Optional[List[Dict]] = None,
+    user_profile: Optional[dict] = None,
 ):
-    """Bouw het word_export.py JSON-payload. CLI --metadata overschrijft front matter."""
+    """Bouw het word_export.py JSON-payload.
+
+    Prioriteit per veld: CLI --metadata > front matter > user_profile.json
+    """
     fm = front_matter_meta or {}
+    profile = user_profile or {}
 
     # Bepaal titel (prioriteit: CLI > front matter > eerste H1 > default)
     doc_title = (
@@ -966,32 +1013,37 @@ def build_payload(
         meta["subtitle"] = subtitle
 
     # Auteur
-    naam = (metadata_extra.get('naam') or fm.get('naam', '')).strip()
+    naam = (metadata_extra.get('naam') or fm.get('naam') or profile.get('naam', '')).strip()
     if naam:
         meta["authors"] = [naam]
 
     # Studentnummer
-    studentnummer = (metadata_extra.get('studentnummer') or fm.get('studentnummer', '')).strip()
+    studentnummer = (metadata_extra.get('studentnummer') or fm.get('studentnummer') or profile.get('studentnummer', '')).strip()
     if studentnummer:
         meta["student_numbers"] = [studentnummer]
 
     # Instelling
-    instelling = (metadata_extra.get('instelling') or fm.get('instelling', '')).strip()
+    instelling = (metadata_extra.get('instelling') or fm.get('instelling') or profile.get('instelling', '')).strip()
     if instelling:
         meta["institution"] = instelling
 
+    # Faculteit
+    faculteit = (metadata_extra.get('faculteit') or fm.get('faculteit') or profile.get('faculteit', '')).strip()
+    if faculteit:
+        meta["faculty"] = faculteit
+
     # Opleiding
-    opleiding = (metadata_extra.get('opleiding') or fm.get('opleiding', '')).strip()
+    opleiding = (metadata_extra.get('opleiding') or fm.get('opleiding') or profile.get('opleiding', '')).strip()
     if opleiding:
         meta["opleiding"] = opleiding
 
     # Vak (aparte regel onder opleiding, boven begeleider)
-    vak = (metadata_extra.get('vak') or fm.get('vak', '')).strip()
+    vak = (metadata_extra.get('vak') or fm.get('vak') or profile.get('vak', '')).strip()
     if vak:
         meta["course"] = vak
 
     # Begeleider / docent
-    begeleider = (metadata_extra.get('begeleider') or fm.get('begeleider', '')).strip()
+    begeleider = (metadata_extra.get('begeleider') or fm.get('begeleider') or profile.get('begeleider', '')).strip()
     if begeleider:
         meta["supervisor"] = begeleider
 
@@ -1136,8 +1188,11 @@ def main():
     # Parse markdown
     title, blocks, references, front_matter_meta, appendices = parse_markdown(text)
 
+    # Laad user profile als fallback voor ontbrekende metadata
+    profile = _load_user_profile()
+
     # Bouw payload
-    payload = build_payload(title, blocks, references, metadata_extra, front_matter_meta, appendices)
+    payload = build_payload(title, blocks, references, metadata_extra, front_matter_meta, appendices, user_profile=profile)
 
     # Bepaal output-pad
     if args.output:
