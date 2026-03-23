@@ -39,7 +39,7 @@ Schrijfassistent voor Nederlandse academische rapporten op HBO-niveau. Gebouwd o
   │ /schrijven       │    │ /herschrijven    │    │ /reviewen        │    │ /humaniseer      │
   │ rapport_         │    │ rapport_         │    │ rapport_         │    │ humaniseer/      │
   │   schrijven.md   │    │   herschrijven   │    │   reviewen.md    │    │   SKILL.md       │
-  │ [Stap 0–9]       │    │   .md            │    │ [4 domeinen]     │    │ [snel, geen      │
+  │ [Stap 0–9]       │    │   .md            │    │ [4+1 domeinen]   │    │ [snel, geen      │
   │                  │    │ [Stap 0–9, 6c.]  │    │                  │    │  workflow]       │
   └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘
            │                       │                        │                        │
@@ -175,7 +175,7 @@ DutchQuill AI heeft vier skills. Je typt ze als slash-commando in Claude Code.
 |-------|---------|--------|
 | `/schrijven` | Nieuwe rapporttekst schrijven | `.docx` in `.tmp/schrijven/` |
 | `/herschrijven` | Bestaande tekst verbeteren (6 doelen) | `.docx` in `.tmp/herschrijven/` |
-| `/reviewen` | Rapport nakijken op 4 domeinen | `.pdf` in `.tmp/reviewen/` |
+| `/reviewen` | Rapport nakijken op 4+1 domeinen | `.pdf` in `.tmp/reviewen/` |
 | `/humaniseer` | Snelle AI-detectiecheck | `.pdf` in `.tmp/humaniseer/` |
 
 Volledige uitleg per skill — invoer, opties, subtypes en output: [docs/skills.md](docs/skills.md)
