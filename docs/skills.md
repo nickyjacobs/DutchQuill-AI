@@ -111,7 +111,7 @@ Na het herschrijven toont de skill:
 
 ### Wat doet het
 
-De skill beoordeelt je tekst op vier domeinen en levert een volledig reviewrapport als PDF. In de chat zie je een korte samenvatting. De details staan in het PDF-bestand.
+De skill beoordeelt je tekst op vier verplichte domeinen (+ optioneel een vijfde) en levert een volledig reviewrapport als PDF. In de chat zie je een korte samenvatting. De details staan in het PDF-bestand.
 
 ### Wat je aanlevert
 
@@ -123,9 +123,9 @@ De skill beoordeelt je tekst op vier domeinen en levert een volledig reviewrappo
 - Opleidingsniveau
 - Specifieke aandachtspunten ("check vooral de literatuurlijst")
 
-### Vier reviewdomeinen
+### Reviewdomeinen
 
-Een volledige review dekt alle vier domeinen:
+Een volledige review dekt vier verplichte domeinen + een optioneel vijfde:
 
 **Domein 1 — Taalcorrectheid**
 De/het, d/t-fouten, samenstellingen, kommaregels, werkwoordsvormen, consistentie in terminologie.
@@ -138,6 +138,9 @@ AI-patronen in 20 categorieën. Risicoscore (0–2 Laag / 3–6 Gemiddeld / 7+ H
 
 **Domein 4 — Structuur**
 Macrostructuur (zijn alle secties aanwezig?), mesostructuur (één idee per alinea, topic sentence aanwezig?), microstructuur (geen wees-zinnen, geen herhaling zonder nieuwe informatie).
+
+**Domein 5 — Inlevereisen & Beoordelingscriteria** *(optioneel)*
+Wordt alleen uitgevoerd als `config/quick_scans/<VAKCODE>.md` en/of `config/beoordelingscriteria/<VAKCODE>.md` bestaan. Checkt elk rapportage-item uit de quick scan en beoordelingscriteria tegen de tekst. Zie [docs/configuratie.md](configuratie.md) voor het instellen.
 
 ### Partiële review
 

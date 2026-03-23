@@ -37,7 +37,7 @@ Skills zijn slash-commando's die je in Claude Code typt:
 |----------|---------|-------|
 | `/schrijven` | Nieuwe rapportsectie schrijven | Sonnet 4.6 |
 | `/herschrijven` | Bestaande tekst verbeteren | Sonnet 4.6 |
-| `/reviewen` | Rapport nakijken op 4 domeinen | Sonnet 4.6 |
+| `/reviewen` | Rapport nakijken op 4+1 domeinen | Sonnet 4.6 |
 | `/humaniseer` | Snelle AI-detectiecheck | Haiku 4.5 |
 
 De definities staan in `.claude/skills/<naam>/SKILL.md`.
