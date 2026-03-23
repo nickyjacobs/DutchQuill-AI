@@ -302,6 +302,20 @@ De tool berekent de score intern — geen aparte `readability_nl.py` aanroep nod
 - Menselijk schrijven heeft typisch CV > 0.40
 - Gecombineerd met lokale ritme-runs: max +2 pt voor zinsritme
 
+### Flesch-Douma Plafond bij Technisch Jargon
+
+De Flesch-Douma formule is: `206,835 - 0,93 × ASL - 77 × ASW`
+
+Bij technische domeinen (cybersecurity, medisch, juridisch) is ASW structureel hoog (2.0+) door lange vaktermen. Dit beperkt de maximaal haalbare Flesch-score:
+
+| ASW (lettergrepen/woord) | Domein | Flesch 30 vereist ASL | Flesch 35 vereist ASL |
+|--------------------------|--------|----------------------|----------------------|
+| 2.04 | Pentest / cybersecurity | ~21 | ~16 (te kort) |
+| 1.80 | Technisch HBO | ~19 | ~13 (te kort) |
+| 1.60 | Standaard HBO | ~24 | ~19 |
+
+**Richtlijn:** Bij ASW ≥ 2.0, accepteer Flesch-Douma scores tot 25 zonder verdere zinssplitsing te forceren. Focus dan op zinshelderheid in plaats van de score. `readability_nl.py` geeft bij `gemiddelde_lettergrepen_per_woord ≥ 2.2` al de melding "Lage score is vermoedelijk domeinspecifiek."
+
 ---
 
 ## Categorie 4: Communicatievormen
@@ -370,6 +384,36 @@ De `tools/humanizer_nl.py` berekent een risicoscore op basis van gedetecteerde p
 | 7+ | Hoog | Sterke AI-indicatie — structureel herschrijven aanbevolen |
 
 **Let op:** De drempels zijn aangepast van de oorspronkelijke 6+ (Hoog) naar 7+ om ruimte te houden voor de extra detectiecategorieën (Type 2b, vage bronvermeldingen, alinea-variatie) zonder goede teksten te onterecht als "Hoog" te markeren.
+
+### Puntentelling per categorie
+
+De onderstaande tabel toont exact hoeveel punten elke categorie bijdraagt aan de risicoscore (`calculate_score()` in humanizer_nl.py):
+
+| Categorie | Punten | Conditie |
+|-----------|--------|----------|
+| Niveau 1-woorden | min(n, cap) | Cap = 3 + (woordenaantal - 1000) / 500 |
+| Niveau 2-dichtheid | n | Elk woord boven dichtheidsdrempel |
+| Niveau 3-dichtheid | 1 | Als er bevindingen zijn |
+| Formulaïsche openers | n | Per gevonden opener |
+| Opvulzinnen | min(n, 2) | Max 2 punten |
+| Zinsritme (lokaal) | 1 | Als 5+ opeenvolgende zinnen vergelijkbare lengte |
+| Zinsritme (globaal CV) | 1 | Als CV < 0.30 over hele tekst |
+| Herhalende para_starters | 1 | Als gevonden |
+| Zinsstarter-variatie | 1 | Als 3+ opeenvolgende zinnen met zelfde woord |
+| Em-dashes | min(n, 2) | Max 2 punten |
+| Vage bronvermelding | min(n, 2) | Max 2 punten |
+| Passief-dichtheid | 2 als ≥60%, 1 als ≥40% | Gradient scoring |
+| Connector-dichtheid | 2 als ≥50%, 1 als ≥30% | Gradient scoring |
+| Bijvoeglijk stapelen | 1 | Als 3+ opeenvolgende adjectieven |
+| Tricolon | 1 | Als ≥5x of buzz-tricolon (2+ N1/N2 woorden) |
+| MATTR | 1 | Als < 0.60 |
+| Oxford comma | 1 | Als ≥2 gevonden |
+| Anglicismen | min(n_uniek, 2) | Max 2 punten |
+| Flesch-Douma < 30 | 2 | Sterk AI-signaal |
+| Communicatievormen | min(n, 2) | Max 2 punten |
+| Alinea-variatie | 1 | Als CV < 0.25 |
+
+**Theoretisch maximum:** ~30+ punten. In de praktijk scoren zelfs AI-teksten zelden boven 15.
 
 ---
 

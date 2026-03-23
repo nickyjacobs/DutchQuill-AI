@@ -247,6 +247,27 @@ Geef `.tmp/tekst.txt` als input. De agent voert `humanizer_nl.py --json` en `rea
 
 De tekst mag **niet worden aangeboden bij gemiddeld of hoog risico** zonder eerst te herschrijven.
 
+#### Context-afhankelijke drempels (technische rapporten)
+
+Bij technische rapporten (pentestrapport, security assessment, IT-audit) gelden aangepaste drempels. Technische teksten hebben structureel hogere scores door herhalende alineastarters en technisch jargon (hoge ASW drukt Flesch-Douma).
+
+| Maat | Standaard | Technisch rapport |
+|------|-----------|-------------------|
+| Risicoscore | ≤ 2 (Laag) | ≤ 4 (mits Niveau 1 = 0, rest structureel) |
+| Flesch-Douma | 30–50 | 25–50 (beoordeel ASW eerst — zie `humanize_nl_gids.md` § Flesch plafond) |
+| MATTR | ≥ 0.75 | ≥ 0.70 |
+
+### Stap 5b: Iteratieve verbeterlus (optioneel)
+
+Als de score na Stap 5 niet binnen de acceptatiedrempels valt, herhaal dan gericht:
+
+1. **Identificeer top-3 scorebijdragers** — welke categorieën leveren de meeste punten?
+2. **Herschrijf gericht** — pas alleen de alinea's aan die de hoogste bijdrage leveren
+3. **Meet opnieuw** — draai `humanizer_nl.py --json` en `readability_nl.py --json`
+4. **Evalueer** — is de score gedaald zonder dat Flesch-Douma verslechterde?
+
+**Maximum 3 iteraties.** Na 3 iteraties: documenteer resterende patronen als structureel onvermijdbaar en accepteer de score.
+
 ---
 
 ## Stap 6: Kwaliteitscheck
@@ -274,6 +295,7 @@ Beantwoord intern de volgende vragen voor je de tekst aanbiedt:
 - [ ] Niveau 2-woorden niet te dicht op elkaar?
 - [ ] Alinea's beginnen niet telkens met hetzelfde woord?
 - [ ] Tekst eindigt concreet (geen platitude)?
+- [ ] Samenvatting bevat 150–250 woorden (APA 7)?
 
 ---
 

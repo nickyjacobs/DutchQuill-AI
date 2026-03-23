@@ -42,7 +42,7 @@ De tool detecteert patronen in 20 categorieën:
 
 | Nr. | Categorie | Wat het detecteert |
 |-----|-----------|-------------------|
-| 1 | Niveau 1-woorden | 47 directe AI-verraders (cruciaal, faciliteert, inzichten, etc.) — altijd vervangen |
+| 1 | Niveau 1-woorden | 47 directe AI-verraders (cruciaal, faciliteert, inzichten, etc.) + ~25 morfologische varianten via NIVEAU_1_STEMS — altijd vervangen |
 | 2 | Niveau 2-dichtheid | 44 woorden die bij clustering verdacht zijn (drempel: >1,0 per 500 woorden) |
 | 3 | Niveau 3-dichtheid | 6 context-afhankelijke termen (drempel: >3% van de tekst) |
 | 4 | Formulaïsche openers | Type 1 brede intro's, Type 2 aankondigingen, Type 2b kaderstellingen, Type 3 samenvattingen |
@@ -62,6 +62,14 @@ De tool detecteert patronen in 20 categorieën:
 | 18 | Anglicismen | 9 directe vertalingen (duiken in, fosteren, testament aan, etc.) |
 | 19 | Communicatievormen | 9 chatbotpatronen ("Ik kan je helpen met...", "Samengevat..." etc.) |
 | 20 | Alinealengtevariatie | Structurele uniformiteit in alinealengtes — AI schrijft alle alinea's even lang |
+
+### Morfologische detectie
+
+Naast de 47 basiswoorden in de Niveau 1-lijst detecteert de tool ook werkwoordvarianten via `NIVEAU_1_STEMS`. Dit zijn stammen zoals "faciliteer", "demonstreer", "stroomlijn" die vervoegde vormen vangen ("faciliteert", "faciliteerde", "gefaciliteerd", etc.) — in totaal ~25 extra woordvormen bovenop de letterlijke lijst.
+
+### Zinsgrens bij opsommingstekens
+
+Zowel `humanizer_nl.py` als `readability_nl.py` herkennen het Unicode-opsommingsteken `•` (U+2022) als zinsgrens. Zonder deze herkenning worden alle bullet points als één mega-zin geteld, wat de gemiddelde zinslengte kunstmatig verhoogt en de Flesch-Douma score verlaagt.
 
 ### Whitelist
 
@@ -120,7 +128,7 @@ python3 tools/readability_nl.py --input tekst.txt --json
 Score = 206,835 − 0,93 × (woorden / zinnen) − 77 × (lettergrepen / woorden)
 ```
 
-De tool telt lettergrepen via Nederlandse klinkergroepen (ui, eu, au, oe, etc.) en herkent afkortingen (dr., drs., mr.) zodat die niet als zinsgrens gelden.
+De tool telt lettergrepen via Nederlandse klinkergroepen (ui, eu, au, oe, etc.) en herkent afkortingen (dr., drs., mr.) zodat die niet als zinsgrens gelden. Het Unicode-opsommingsteken `•` (U+2022) wordt als zinsgrens herkend, zodat bullet-lijsten correct worden geteld.
 
 ### JSON-uitvoer
 
@@ -156,7 +164,7 @@ python3 tools/apa_checker.py --input rapport.txt --json
 | `--input, -i` | pad | Invoerbestand (optioneel; standaard: stdin) |
 | `--json` | schakelaar | Uitvoer als JSON-array |
 
-### 8 APA-checks
+### 9 APA-checks
 
 1. **"&" in lopende tekst** — buiten haakjes moet "en" staan; binnen haakjes is "&" correct
 2. **In-tekst citatieformaat** — detecteert voornamen, ontbrekende komma's, puntkomma tussen meerdere bronnen
@@ -166,6 +174,7 @@ python3 tools/apa_checker.py --input rapport.txt --json
 6. **Voornamen in narratieve citaties** — "Jan de Vries (2021)" moet "De Vries (2021)" zijn
 7. **Meerdere z.d.-bronnen van dezelfde auteur** — moeten z.d.-a, z.d.-b, etc. worden
 8. **Citatie-dekking** — controleert of in-tekst citaties een overeenkomstige entry in de literatuurlijst hebben
+9. **Samenvatting woordentelling** — controleert of de samenvatting tussen 150 en 250 woorden bevat (APA 7)
 
 ### JSON-uitvoer
 
@@ -598,7 +607,8 @@ python3 tools/generate_report_pdf.py \
 | `--niveau1` | tekst | Pipe-gescheiden AI-woorden met alternatieven (VERPLICHT) |
 | `--waarschuwingen` | tekst | Pipe-gescheiden waarschuwingen (VERPLICHT) |
 | `--aanbevelingen` | tekst | Pipe-gescheiden aanbevelingen (VERPLICHT) |
-| `--chart-base64` | tekst | Base64-PNG van generate_review_chart.py (optioneel) |
+| `--chart-base64` | tekst | Base64-PNG als string op de commandoregel (optioneel) |
+| `--chart-file` | pad | Pad naar een bestand met de base64-PNG (optioneel; alternatief voor `--chart-base64`) |
 | `--output` | pad | Uitvoerpad .pdf (VERPLICHT) |
 
 ### Formaat voor --niveau1

@@ -14,6 +14,7 @@ Gecontroleerde regels:
   6. Literatuurlijst aanwezig en juist benoemd?
   7. z.d.-differentiatie: meerdere bronnen van dezelfde auteur zonder letter-suffix
   8. Citatie-dekking: in-text citaties zonder overeenkomstige literatuurlijst-entry
+  9. Samenvatting woordentelling: 150–250 woorden (APA 7)
 
 Let op: regex-gebaseerde checker — controleer bevindingen altijd zelf.
 
@@ -352,6 +353,12 @@ def check_zd_differentiation(text: str) -> List[Finding]:
 
     for author, line_nums in authors_intext.items():
         if len(line_nums) >= 2:
+            # Cross-refereer met de literatuurlijst: als de auteur maar 1 z.d.-entry
+            # heeft (of 0), verwijzen alle in-text citaties naar dezelfde bron —
+            # dan zijn letter-suffixen niet nodig.
+            reflist_count = len(authors_reflist.get(author, []))
+            if reflist_count <= 1:
+                continue
             for ln in line_nums:
                 findings.append({
                     "regel": ln,
@@ -441,6 +448,66 @@ def check_citation_coverage(text: str) -> List[Finding]:
 
 
 # ─────────────────────────────────────────────
+# CHECK 9: Samenvatting woordentelling
+# ─────────────────────────────────────────────
+
+def check_abstract_length(text: str) -> List[Finding]:
+    """
+    Controleer of de samenvatting tussen 150 en 250 woorden bevat (APA 7).
+    Zoekt de samenvatting-sectie via kopregex en telt woorden exclusief
+    de sleutelwoorden-regel.
+    """
+    findings = []
+
+    # Zoek samenvatting-sectie (## Samenvatting of # Samenvatting)
+    abstract_match = re.search(
+        r'#+\s*Samenvatting\s*\n(.*?)(?=\n#+\s|\Z)',
+        text, re.IGNORECASE | re.DOTALL
+    )
+    if not abstract_match:
+        return findings  # Geen samenvatting gevonden — check_reference_list dekt dit niet
+
+    abstract_text = abstract_match.group(1)
+
+    # Verwijder sleutelwoorden-regel
+    abstract_text = re.sub(
+        r'^\s*\*?\*?(?:Sleutelwoorden|Trefwoorden|Keywords)\*?\*?\s*[:.].*$',
+        '', abstract_text, flags=re.MULTILINE | re.IGNORECASE
+    )
+
+    # Tel woorden (min. 2 tekens)
+    words = [w for w in re.findall(r'\b[a-zA-Záéíóúàèìòùäëïöü]+\b', abstract_text) if len(w) >= 2]
+    word_count = len(words)
+
+    line_num = text[:abstract_match.start()].count('\n') + 1
+
+    if word_count < 150:
+        findings.append({
+            "regel": line_num,
+            "categorie": "Samenvatting",
+            "tekst": f"Samenvatting bevat {word_count} woorden",
+            "melding": f"Samenvatting is te kort ({word_count} woorden, APA vereist 150–250)",
+            "suggestie": (
+                f"Breid de samenvatting uit met {150 - word_count} woorden. "
+                "Neem doel, methode, resultaten en conclusie op."
+            ),
+        })
+    elif word_count > 250:
+        findings.append({
+            "regel": line_num,
+            "categorie": "Samenvatting",
+            "tekst": f"Samenvatting bevat {word_count} woorden",
+            "melding": f"Samenvatting is te lang ({word_count} woorden, APA vereist 150–250)",
+            "suggestie": (
+                f"Kort de samenvatting in met {word_count - 250} woorden. "
+                "Focus op de hoofdpunten: doel, methode, resultaten en conclusie."
+            ),
+        })
+
+    return findings
+
+
+# ─────────────────────────────────────────────
 # HOOFDFUNCTIE
 # ─────────────────────────────────────────────
 
@@ -455,6 +522,7 @@ def run_checks(text: str) -> List[Finding]:
     findings += check_narrative_voornamen(lines)
     findings += check_zd_differentiation(text)
     findings += check_citation_coverage(text)
+    findings += check_abstract_length(text)
     return findings
 
 

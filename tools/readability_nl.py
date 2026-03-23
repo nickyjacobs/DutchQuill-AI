@@ -66,6 +66,9 @@ def split_sentences(text: str) -> List[str]:
     # Vervang afkortingen tijdelijk (punt → speciaal teken)
     text_clean = ABBREVIATION_PATTERN.sub(lambda m: m.group(0).replace('.', '\x00'), text_clean)
 
+    # Behandel bullet points (•) als zinsgrens: elk opsommingspunt is een apart punt
+    text_clean = re.sub(r'\s*\n\s*\u2022\s*', '. ', text_clean)
+
     # Splits op punt/uitroep/vraagteken gevolgd door spatie + hoofdletter
     raw = re.split(r'(?<=[.!?])\s+(?=[A-Z\u201c\u201e"\d])', text_clean)
 

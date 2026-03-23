@@ -265,6 +265,29 @@ Geef `.tmp/herschreven.txt` als input. De agent voert `humanizer_nl.py --json` e
 | | < 0.75 | Vervang herhaalde zelfstandig naamwoorden door synoniemen of pronomen |
 | APA-overtredingen | 0 kritieke fouten ✓ | Kritiek: ontbrekende pagina's bij directe citaten, z.d. zonder suffix, voornamen |
 
+#### Context-afhankelijke drempels (technische rapporten)
+
+Bij technische rapporten (pentestrapport, security assessment, IT-audit) gelden aangepaste drempels. Technische teksten hebben structureel hogere scores door herhalende alineastarters (elke kwetsbaarheid opent met dezelfde structuur) en technisch jargon (hoge ASW drukt Flesch-Douma).
+
+| Maat | Standaard | Technisch rapport |
+|------|-----------|-------------------|
+| Risicoscore | ≤ 2 (Laag) | ≤ 4 (mits Niveau 1 = 0, rest structureel) |
+| Flesch-Douma | 30–50 | 25–50 (beoordeel ASW eerst — zie `humanize_nl_gids.md` § Flesch plafond) |
+| MATTR | ≥ 0.75 | ≥ 0.70 |
+
+**Wanneer toepassen:** Als de tekst bevindingen/kwetsbaarheden bevat die elk dezelfde structuur volgen (risicoclassificatie, beschrijving, tegenmaatregelen), en de gemiddelde lettergrepen per woord (ASW) ≥ 2.0 is.
+
+### Stap 6b: Iteratieve verbeterlus (optioneel)
+
+Als de score na Stap 6 niet binnen de acceptatiedrempels valt, herhaal dan gericht:
+
+1. **Identificeer top-3 scorebijdragers** — welke categorieën leveren de meeste punten?
+2. **Herschrijf gericht** — pas alleen de alinea's aan die de hoogste bijdrage leveren
+3. **Meet opnieuw** — draai `humanizer_nl.py --json` en `readability_nl.py --json`
+4. **Evalueer** — is de score gedaald zonder dat Flesch-Douma verslechterde?
+
+**Maximum 3 iteraties.** Na 3 iteraties: documenteer resterende patronen als structureel onvermijdbaar (bijv. herhalende alineastarters bij kwetsbaarheidsrapporten) en accepteer de score.
+
 **Volledige gids toepassen [VERPLICHT]:**
 `humanize_nl_gids.md` bevat meer dan wat de tools detecteren. Controleer handmatig op:
 - Sectietype-specifieke regels (Cat. 9): passief beoordelen per sectietype

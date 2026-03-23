@@ -583,6 +583,13 @@ def check_sentence_rhythm(text: str) -> List[str]:
     if len(sentences) < 5:
         return findings
 
+    # Bereken regelnummers per zin via positie in de originele tekst
+    sentence_lines = []
+    for s in sentences:
+        pos = text.find(s[:40])  # Zoek op eerste 40 tekens
+        line_num = text[:pos].count('\n') + 1 if pos >= 0 else 0
+        sentence_lines.append(line_num)
+
     window = 5
     reported = set()
 
@@ -597,9 +604,13 @@ def check_sentence_rhythm(text: str) -> List[str]:
                 if key not in reported:
                     reported.add(key)
                     snippet = chunk[0][:60] + ("..." if len(chunk[0]) > 60 else "")
+                    line_info = f"regel {sentence_lines[i]}" if sentence_lines[i] > 0 else ""
+                    lengths_str = ", ".join(str(l) for l in lengths)
                     findings.append(
                         f"{window} opeenvolgende zinnen vergelijkbare lengte "
-                        f"(~{int(avg)} woorden): \"{snippet}\""
+                        f"(~{int(avg)} woorden, [{lengths_str}])"
+                        f"{f' — {line_info}' if line_info else ''}"
+                        f": \"{snippet}\""
                     )
 
     # Globale CV-check: lage variatie over hele tekst (Fase 3)
@@ -852,30 +863,44 @@ def find_adjective_stacking(text: str) -> List[str]:
     return findings[:3]
 
 
-def check_tricolons(text: str) -> Tuple[int, bool]:
+def check_tricolons(text: str) -> Tuple[int, bool, List[Dict]]:
     """
     Tel driedelige opsommingen (X, Y en Z).
     AI gebruikt overmatig driedelige lijsten over meerdere alinea's.
     Alarmerend als 5+ tricolons in de tekst voorkomen (algemeen),
     of als een tricolon bestaat uit 3 Niveau 1/2-woorden (altijd AI-indicator).
+
+    Retourneert (count, is_hoog, locations) met per match:
+      {"text": "X, Y en Z", "context": "...omringende tekst...", "line": regelnummer}
     """
     # Match: "woord, woord en woord" (minimaal 3 tekens per onderdeel)
     pattern = re.compile(r'\b(\w{3,})\s*,\s*(\w{3,})\s+en\s+(\w{3,})\b', re.IGNORECASE)
-    matches = pattern.findall(text)
-    count = len(matches)
 
-    # Controleer ook op tricolons van AI-buzzwords (altijd flaggen, ook bij 1 occurrence)
     niveau1_set = set(NIVEAU_1)
     niveau2_set = set(NIVEAU_2)
     buzz_tricolon_found = False
-    for m in matches:
-        items = [w.lower() for w in m]
+    locations = []
+
+    for m in pattern.finditer(text):
+        match_text = m.group(0)
+        line_num = text[:m.start()].count('\n') + 1
+        # Context: ~30 tekens voor en na de match
+        ctx_start = max(0, m.start() - 30)
+        ctx_end = min(len(text), m.end() + 30)
+        context = text[ctx_start:ctx_end].replace('\n', ' ').strip()
+        locations.append({
+            "text": match_text,
+            "context": context,
+            "line": line_num,
+        })
+
+        items = [m.group(1).lower(), m.group(2).lower(), m.group(3).lower()]
         if sum(1 for w in items if w in niveau1_set or w in niveau2_set) >= 2:
             buzz_tricolon_found = True
-            break
 
+    count = len(locations)
     is_hoog = count >= 5 or buzz_tricolon_found
-    return count, is_hoog
+    return count, is_hoog, locations
 
 
 def check_ttr(text: str) -> Tuple[float, bool]:
@@ -925,6 +950,8 @@ def _flesch_douma_score(text: str) -> Tuple[float, bool]:
     """
     text_clean = re.sub(r'https?://\S+', 'URL', text)
     text_clean = _ABBREV_PATTERN.sub(lambda m: m.group(0).replace('.', '\x00'), text_clean)
+    # Behandel bullet points (•) als zinsgrens
+    text_clean = re.sub(r'\s*\n\s*\u2022\s*', '. ', text_clean)
     raw_sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z\u201c\u201e"\d])', text_clean)
     sentences = [s.replace('\x00', '.').strip() for s in raw_sentences
                  if s.strip() and len(s.split()) >= 2]
@@ -1080,7 +1107,7 @@ def analyze(text: str) -> Dict:
     passive_pct, passive_hoog, passive_count = check_passive_density(text)
     connector_pct, connector_hoog = check_connector_density(text)
     adj_stacking = find_adjective_stacking(text)
-    tricolon_count, tricolon_hoog = check_tricolons(text)
+    tricolon_count, tricolon_hoog, tricolon_locations = check_tricolons(text)
     ttr, ttr_laag = check_ttr(text)
     oxford_comma = find_oxford_comma(text)
     anglicisms_found = find_anglicisms(text)
@@ -1133,6 +1160,7 @@ def analyze(text: str) -> Dict:
         "adj_stacking": adj_stacking,
         "tricolon_count": tricolon_count,
         "tricolon_hoog": tricolon_hoog,
+        "tricolon_locations": tricolon_locations,
         "ttr": ttr,
         "ttr_laag": ttr_laag,
         "oxford_comma": oxford_comma,
@@ -1271,6 +1299,10 @@ def print_report(result: Dict, label: str = "Analyse", suggest: bool = False) ->
 
     if r.get("tricolon_hoog"):
         print(f"\n⚠  OVERMATIG TRICOLONS ({r['tricolon_count']}x)")
+        if suggest and r.get("tricolon_locations"):
+            for loc in r["tricolon_locations"]:
+                print(f"   • Regel {loc['line']}: \"{loc['text']}\"")
+                print(f"     Context: \"{loc['context']}\"")
         print(f"     → Driedelige opsommingen ('A, B en C') zijn AI-typisch bij herhaling")
         print(f"     → Wissel af met twee- of vierdelige opsommingen")
     else:
