@@ -109,11 +109,11 @@ Schrijf de eerste versie met de volgende principes:
 **Titelpagina-metadata [VERPLICHT formaat voor md_to_docx.py]:**
 Zet naam, studentnummer, opleiding, instelling en datum als platte tekst VÓÓR de eerste markdown heading - nooit als headings zelf:
 ```
-Naam Instelling
-Faculteit: IT
 Rapporttitel
 Ondertitel (indien van toepassing)
 Naam Student
+Naam Instelling
+Faculteit: IT
 Studentnummer: 123456
 Opleiding: Naam opleiding
 Vak: Vaknaam
@@ -318,7 +318,7 @@ python3 tools/md_to_docx.py \
 | Datum | `Datum: 12 maart 2026` (gelabeld) of bare NL-datum `12 maart 2026` | Datum ontbreekt in docx |
 | Vak | `Vak: Systems Security` (gelabeld met `Vak:`) | Vak wordt als ondertitel behandeld |
 | Begeleider | `Begeleider: Naam Docent` (gelabeld met `Begeleider:`) | Begeleider wordt genegeerd |
-| APA 7 titelpagina-volgorde | Instelling → Faculteit → Titel (vet) → Auteur → Studentnummer → Opleiding → Vak → Begeleider → Datum | Verkeerde volgorde op titelblad |
+| APA 7 titelpagina-volgorde | Titel (vet) → Auteur → Instelling (+ faculteit) → Studentnummer → Opleiding → Vak + vakcode → Begeleider(s) → Datum | Verkeerde volgorde op titelblad |
 | Vetgedrukte tekst | `**tekst**` is toegestaan in bodytekst | Literal `**` in output |
 | Inleiding-kop | `# Inleiding` MOET aanwezig zijn | Inleidingtekst belandt in body |
 | Afkortingenlijst | Markdown-tabel: `\| Afkorting \| Definitie \|` | Alles samengeperst in één alinea |

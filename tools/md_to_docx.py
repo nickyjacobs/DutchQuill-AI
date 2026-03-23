@@ -77,11 +77,18 @@ def _load_user_profile() -> dict:
     if data.get('faculteit'):
         result['faculteit'] = data['faculteit']
     docenten = data.get('docenten', [])
-    if docenten and docenten[0].get('naam'):
-        result['begeleider'] = docenten[0]['naam']
+    docent_namen = [d['naam'] for d in docenten if d.get('naam')]
+    if docent_namen:
+        if len(docent_namen) <= 2:
+            result['begeleider'] = ' en '.join(docent_namen)
+        else:
+            result['begeleider'] = ', '.join(docent_namen[:-1]) + ' en ' + docent_namen[-1]
     vakken = data.get('vakken', [])
     if vakken and vakken[0].get('naam'):
-        result['vak'] = vakken[0]['naam']
+        vak_str = vakken[0]['naam']
+        if vakken[0].get('code'):
+            vak_str = f"{vak_str} \u2014 {vakken[0]['code']}"
+        result['vak'] = vak_str
     return result
 
 
@@ -656,6 +663,18 @@ def _parse_appendix_lines(raw_lines: List[str], title: str = "") -> List[Dict]:
             content.append({"type": "heading", "level": level, "text": text})
             continue
 
+        # Detecteer lijstitems (- item of * item of 1. item)
+        list_match = re.match(r'^[-*]\s+(.+)', line)
+        if list_match:
+            flush_para()
+            content.append({"type": "list_item", "text": list_match.group(1)})
+            continue
+        numbered_match = re.match(r'^(\d+)\.\s+(.+)', line)
+        if numbered_match:
+            flush_para()
+            content.append({"type": "list_item", "text": numbered_match.group(2)})
+            continue
+
         para_buffer.append(line)
 
     flush_para()
@@ -876,17 +895,17 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             })
             continue
 
-        # Detecteer lijstitems → behandel als alinea (bewaar inline markdown)
+        # Detecteer lijstitems → behandel als list_item (bullet-opmaak in word_export)
         list_match = re.match(r'^[-*]\s+(.+)', raw)
         if list_match:
             flush_paragraph()
-            blocks.append({"type": "paragraph", "text": list_match.group(1)})
+            blocks.append({"type": "list_item", "text": list_match.group(1)})
             continue
 
         numbered_match = re.match(r'^\d+\.\s+(.+)', raw)
         if numbered_match:
             flush_paragraph()
-            blocks.append({"type": "paragraph", "text": numbered_match.group(1)})
+            blocks.append({"type": "list_item", "text": numbered_match.group(1)})
             continue
 
         # Detecteer koppen

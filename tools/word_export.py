@@ -488,6 +488,7 @@ def setup_document(doc: Document, font_config: dict):
     pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
     pf.space_before = Pt(0)
     pf.space_after = Pt(0)
+    pf.left_indent = Cm(0)
 
     # Kopstijlen configureren met APA-opmaak (vereist voor de inhoudsopgave)
     _configure_heading_style(doc, "Heading 1", font_config,
@@ -561,7 +562,7 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         run.font.name = font_config["name"]
         run.font.size = font_size or font_config["size"]
 
-    # Titelblad: 3 lege regels boven per APA ("Titel staat drie tot vier regels van boven")
+    # Titelblad: 3 lege regels boven ("drie tot vier regels van boven" — Scribbr NL)
     for _ in range(3):
         p = doc.add_paragraph()
         p.paragraph_format.line_spacing = get_line_spacing(font_config)
@@ -569,25 +570,25 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         p.paragraph_format.space_before = Pt(0)
         p.paragraph_format.space_after = Pt(0)
 
-    # APA 7 student paper volgorde (Scribbr NL):
-    # 1. Instelling + faculteit
-    if metadata.get("institution"):
-        centered_para(metadata["institution"])
-    if metadata.get("faculty"):
-        centered_para(metadata["faculty"])
-
-    # 2. Titel (vet) + ondertitel
+    # APA 7 student paper volgorde (Scribbr NL — scribbr.nl/apa-stijl/titelpagina/):
+    # 1. Titel (vet) + ondertitel
     centered_para(metadata.get("title", "Zonder Titel"), bold=True)
     if metadata.get("subtitle"):
         centered_para(metadata["subtitle"])
 
-    # 3. Auteurs + studentnummers
+    # 2. Auteurs (lege regel onder titel) + studentnummers
     authors = metadata.get("authors", [])
     student_numbers = metadata.get("student_numbers", [])
     for i, author in enumerate(authors):
         centered_para(author)
         if i < len(student_numbers):
             centered_para(student_numbers[i])
+
+    # 3. Instelling + faculteit
+    if metadata.get("institution"):
+        centered_para(metadata["institution"])
+    if metadata.get("faculty"):
+        centered_para(metadata["faculty"])
 
     # 4. Opleiding, vak, begeleider, datum
     if metadata.get("opleiding"):
@@ -599,8 +600,7 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
     if metadata.get("submission_date"):
         centered_para(metadata["submission_date"])
 
-    # Pagina-einde na titelblad
-    doc.add_page_break()
+    # Geen doc.add_page_break() — volgende sectie start via page_break_before op H1
 
 
 # ---------------------------------------------------------------------------
@@ -627,8 +627,6 @@ def build_abstract(doc: Document, abstract: dict, font_config: dict):
         _apply_font(kw_run, font_config)
         rest_run = p.add_run(", ".join(keywords))
         _apply_font(rest_run, font_config)
-
-    doc.add_page_break()
 
 
 # ---------------------------------------------------------------------------
@@ -671,8 +669,6 @@ def build_toc(doc: Document, font_config: dict):
     run_end.append(fld_end)
     p_elem.append(run_end)
 
-    doc.add_page_break()
-
 
 # ---------------------------------------------------------------------------
 # Lijst van Afkortingen
@@ -708,7 +704,6 @@ def build_abbreviations(doc: Document, abbreviations: list, font_config: dict):
         _apply_font(run, font_config)
 
     set_apa_table_borders(table, has_header_row=False)
-    doc.add_page_break()
 
 
 # ---------------------------------------------------------------------------
@@ -829,6 +824,23 @@ def render_block_quote(doc: Document, block: dict, font_config: dict):
         _apply_font(run2, font_config)
 
 
+def render_list_item(doc: Document, block: dict, font_config: dict):
+    """Render een lijstitem met bullet-teken en inspringing."""
+    p = doc.add_paragraph()
+    text = block.get("text", "")
+    pf = p.paragraph_format
+    pf.left_indent = Cm(1.27)
+    pf.first_line_indent = Cm(-0.63)
+    pf.line_spacing = get_line_spacing(font_config)
+    pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
+    pf.space_before = Pt(0)
+    pf.space_after = Pt(0)
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    run = p.add_run("\u2022 ")
+    _apply_font(run, font_config)
+    parse_inline_markdown(p, text, font_config)
+
+
 def render_table(doc: Document, block: dict, font_config: dict):
     """Render een APA-tabel: label + titel bóven, geen verticale lijnen, noot ónder."""
     number = block.get("number")
@@ -840,14 +852,14 @@ def render_table(doc: Document, block: dict, font_config: dict):
     # Tabelnummer + titel alleen als expliciet opgegeven (voorkomt "Tabel 1" op niet-APA tabellen)
     if number is not None:
         p_num = doc.add_paragraph()
-        set_paragraph_format(p_num, font_config, first_line_indent=False)
+        set_paragraph_format(p_num, font_config, first_line_indent=False, left_indent=Cm(0))
         run = p_num.add_run(f"Tabel {number}")
         run.bold = True
         _apply_font(run, font_config)
 
     if title:
         p_title = doc.add_paragraph()
-        set_paragraph_format(p_title, font_config, first_line_indent=False)
+        set_paragraph_format(p_title, font_config, first_line_indent=False, left_indent=Cm(0))
         run = p_title.add_run(title)
         run.italic = True
         _apply_font(run, font_config)
@@ -919,13 +931,13 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
 
     # APA 7: Figuur N. (vet) + caption (cursief) BOVEN de afbeelding
     p_label = doc.add_paragraph()
-    set_paragraph_format(p_label, font_config, first_line_indent=False)
+    set_paragraph_format(p_label, font_config, first_line_indent=False, left_indent=Cm(0))
     run_num = p_label.add_run(f"Figuur {number}")
     run_num.bold = True
     _apply_font(run_num, font_config)
     if caption:
         p_caption = doc.add_paragraph()
-        set_paragraph_format(p_caption, font_config, first_line_indent=False)
+        set_paragraph_format(p_caption, font_config, first_line_indent=False, left_indent=Cm(0))
         run_cap = p_caption.add_run(caption)
         run_cap.italic = True
         _apply_font(run_cap, font_config)
@@ -999,6 +1011,8 @@ def render_block(doc: Document, block: dict, font_config: dict):
         render_figure_placeholder(doc, block, font_config)
     elif block_type == "code":
         render_code(doc, block, font_config)
+    elif block_type == "list_item":
+        render_list_item(doc, block, font_config)
     elif block_type == "page_break":
         doc.add_page_break()
     else:
@@ -1014,6 +1028,7 @@ def build_section_heading(doc: Document, text: str, font_config: dict):
     """Kop niveau 1 (gecentreerd, vet) als sectie-opener — met Word Heading 1-stijl voor de TOC."""
     p = doc.add_paragraph(style="Heading 1")
     p.paragraph_format.keep_with_next = True
+    p.paragraph_format.page_break_before = True
     run = p.add_run(text)
     _apply_font(run, font_config)
 
@@ -1043,7 +1058,6 @@ def build_reference_list(doc: Document, references: list, font_config: dict):
     Bouw de literatuurlijst: hangende inspringing, cursief via *...*, DOI als hyperlink.
     Kop: 'Literatuurlijst' (kop niveau 1, apart pagina).
     """
-    doc.add_page_break()
     build_section_heading(doc, "Literatuurlijst", font_config)
 
     for ref in references:
@@ -1062,8 +1076,6 @@ def build_appendices(doc: Document, appendices: list, font_config: dict):
         return
 
     for i, appendix in enumerate(appendices):
-        doc.add_page_break()
-
         # Bijlage-label (bijv. "Bijlage A"): Heading 1 → verschijnt in TOC
         label = appendix.get("label", f"Bijlage {chr(65 + i)}")
         build_section_heading(doc, label, font_config)
@@ -1121,7 +1133,6 @@ def build_document(data: dict, output_path: str) -> str:
     # 8. Conclusie — alleen als er inhoud is
     conclusion_blocks = data.get("conclusion_text", [])
     if conclusion_blocks:
-        doc.add_page_break()
         build_conclusion(doc, conclusion_blocks, font_config)
 
     # 9. Literatuurlijst (altijd aanwezig)

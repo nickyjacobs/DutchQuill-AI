@@ -10,13 +10,13 @@ Gebruik deze gids bij elke schrijf-, herschrijf- of reviewtaak.
 *Bron: scribbr.nl/apa-stijl/titelpagina/*
 
 ### Verplichte elementen
-De volgende informatie hoort op de titelpagina, alles gecentreerd:
+De volgende informatie hoort op de titelpagina, alles gecentreerd en in deze volgorde:
 
-1. Naam van de onderwijsinstelling (+ faculteit indien van toepassing)
-2. Rapporttitel — **vetgedrukt, gecentreerd**, gebruik title case (kernwoorden met hoofdletter)
-3. Ondertitel (indien van toepassing)
-4. Volledige naam van de auteur(s) — geen titels (geen drs., ir., etc.)
-5. Studentnummer
+1. Rapporttitel — **vetgedrukt, gecentreerd**, drie tot vier regels van boven, title case (kernwoorden met hoofdletter)
+2. Ondertitel (indien van toepassing)
+3. Volledige naam van de auteur(s) — geen titels (geen drs., ir., etc.), lege regel onder titel
+4. Naam van de onderwijsinstelling (eventueel faculteit)
+5. Studentnummer (niet APA-verplicht, wel gebruikelijk bij hogescholen)
 6. Vaknaam en vakcode
 7. Naam begeleider(s) / examinator
 8. Inleverdatum (dag maand jaar)
@@ -25,8 +25,8 @@ De volgende informatie hoort op de titelpagina, alles gecentreerd:
 - Titel staat drie tot vier regels van boven op de pagina
 - Alles gecentreerd uitgelijnd
 - Dubbele regelafstand
+- Alleen een paginanummer in de rechterbovenhoek (geen "running head" — afgeschaft in APA 7)
 - **Geen paginanummer op de titelpagina** (de titelpagina telt mee, maar krijgt geen zichtbaar nummer)
-- Geen "running head" in APA 7 — dit is afgeschaft
 - Afbeeldingen op de titelpagina vereisen een bronvermelding in de literatuurlijst en een noot onder de figuur
 
 ### Meerdere auteurs

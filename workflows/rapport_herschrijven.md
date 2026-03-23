@@ -346,7 +346,7 @@ Vak: Systems Security
 Begeleider: Naam Docent
 Datum: 12 maart 2026
 ```
-APA 7 volgorde (door `word_export.py` afgedwongen): Instelling → Titel (vet) → Auteur → Studentnummer → Opleiding → Vak → Begeleider → Datum.
+APA 7 volgorde (door `word_export.py` afgedwongen, bron: Scribbr NL): Titel (vet) → Auteur → Instelling (+ faculteit) → Studentnummer → Opleiding → Vak + vakcode → Begeleider(s) → Datum.
 
 ---
 
