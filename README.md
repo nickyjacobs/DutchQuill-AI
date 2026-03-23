@@ -197,7 +197,7 @@ config/             Gebruikersconfiguratie
   user_profile.example.json   Voorbeeldprofiel (commit-safe)
   user_profile.json           Jouw profiel (gitignored)
 workflows/          Markdown-workflows en referentiegidsen (9 bestanden)
-tools/              Python-scripts voor deterministische uitvoering (12 tools)
+tools/              Python-scripts voor deterministische uitvoering (13 tools)
 docs/               Projectdocumentatie
 rapporten/          Invoermap voor .docx bestanden
 .claude/            Claude Code configuratie

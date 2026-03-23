@@ -63,7 +63,7 @@ config/         # Gebruikersconfiguratie: user_profile.json (optioneel, persoonl
   herschrijven/ # .docx output van /herschrijven
   reviewen/     # .pdf output van /reviewen
   humaniseer/   # .pdf output van /humaniseer
-tools/          # Python-scripts voor deterministische uitvoering (12 tools; humanizer_nl.py: 20 detectiecategorieën)
+tools/          # Python-scripts voor deterministische uitvoering (13 tools; humanizer_nl.py: 20 detectiecategorieën)
 workflows/      # Markdown-SOP’s die definiëren wat er moet gebeuren en hoe (9 bestanden)
 docs/           # Projectdocumentatie (configuratie, claude-code-setup, usage_kosten)
 rapporten/      # Invoermap voor aangeleverde .docx bestanden
@@ -152,4 +152,4 @@ Dit project is een schrijfassistent voor Nederlandse academische rapporten (hoge
 
 ## Schrijfstijl bij het genereren van inhoud
 
-Wanneer je Nederlandse rapporttekst schrijft, volg je altijd `.claude/rules/schrijfstijl.md`. Dat bestand bevat de volledige lijst verboden woorden (28), verboden openers (6) en schrijfregels. De stop-hook handhaaft deze regels automatisch na elke respons.
+Wanneer je Nederlandse rapporttekst schrijft, volg je altijd `.claude/rules/schrijfstijl.md`. Dat bestand bevat de volledige lijst verboden woorden (26), verboden openers (6) en schrijfregels. De stop-hook handhaaft deze regels automatisch na elke respons.

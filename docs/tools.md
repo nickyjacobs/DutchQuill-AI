@@ -156,15 +156,16 @@ python3 tools/apa_checker.py --input rapport.txt --json
 | `--input, -i` | pad | Invoerbestand (optioneel; standaard: stdin) |
 | `--json` | schakelaar | Uitvoer als JSON-array |
 
-### 7 APA-checks
+### 8 APA-checks
 
 1. **"&" in lopende tekst** — buiten haakjes moet "en" staan; binnen haakjes is "&" correct
-2. **In-tekst citatieformaat** — detecteert voornamen, ontbrekende komma's en onjuiste notatie
+2. **In-tekst citatieformaat** — detecteert voornamen, ontbrekende komma's, puntkomma tussen meerdere bronnen
 3. **Directe citaten (<40 woorden)** — paginanummer verplicht (p. X of par. X)
 4. **Positie van citatie** — moet vóór de punt staan, niet erna
 5. **Aanwezigheid literatuurlijst** — zoekt naar kopjes "Literatuurlijst", "Referentielijst" of "Referenties"
 6. **Voornamen in narratieve citaties** — "Jan de Vries (2021)" moet "De Vries (2021)" zijn
 7. **Meerdere z.d.-bronnen van dezelfde auteur** — moeten z.d.-a, z.d.-b, etc. worden
+8. **Citatie-dekking** — controleert of in-tekst citaties een overeenkomstige entry in de literatuurlijst hebben
 
 ### JSON-uitvoer
 
