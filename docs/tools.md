@@ -1,6 +1,6 @@
 # Tools — Technische Referentie
 
-DutchQuill AI heeft 13 tools in de map `tools/` plus één hook in `.claude/hooks/`. Ze worden automatisch aangeroepen vanuit de skills. Je kunt ze ook handmatig draaien via de terminal voor losse taken.
+DutchQuill AI heeft 12 tools in de map `tools/` plus één hook in `.claude/hooks/`. Ze worden automatisch aangeroepen vanuit de skills. Je kunt ze ook handmatig draaien via de terminal voor losse taken.
 
 Alle tools accepteren invoer via een bestand (`--input`) of via stdin. De output gaat standaard naar stdout tenzij je `--output` of `--json` gebruikt.
 
