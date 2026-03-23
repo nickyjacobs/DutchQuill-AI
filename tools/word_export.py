@@ -489,6 +489,7 @@ def setup_document(doc: Document, font_config: dict):
     pf.space_before = Pt(0)
     pf.space_after = Pt(0)
     pf.left_indent = Cm(0)
+    pf.first_line_indent = Cm(0)
 
     # Kopstijlen configureren met APA-opmaak (vereist voor de inhoudsopgave)
     _configure_heading_style(doc, "Heading 1", font_config,
@@ -562,8 +563,8 @@ def build_title_page(doc: Document, metadata: dict, font_config: dict):
         run.font.name = font_config["name"]
         run.font.size = font_size or font_config["size"]
 
-    # Titelblad: 3 lege regels boven ("drie tot vier regels van boven" — Scribbr NL)
-    for _ in range(3):
+    # Titelblad: 8 lege regels boven voor visuele centrering
+    for _ in range(8):
         p = doc.add_paragraph()
         p.paragraph_format.line_spacing = get_line_spacing(font_config)
         p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.EXACTLY
@@ -853,6 +854,7 @@ def render_table(doc: Document, block: dict, font_config: dict):
     if number is not None:
         p_num = doc.add_paragraph()
         set_paragraph_format(p_num, font_config, first_line_indent=False, left_indent=Cm(0))
+        p_num.paragraph_format.keep_with_next = True
         run = p_num.add_run(f"Tabel {number}")
         run.bold = True
         _apply_font(run, font_config)
@@ -860,6 +862,7 @@ def render_table(doc: Document, block: dict, font_config: dict):
     if title:
         p_title = doc.add_paragraph()
         set_paragraph_format(p_title, font_config, first_line_indent=False, left_indent=Cm(0))
+        p_title.paragraph_format.keep_with_next = True
         run = p_title.add_run(title)
         run.italic = True
         _apply_font(run, font_config)
@@ -911,6 +914,19 @@ def render_table(doc: Document, block: dict, font_config: dict):
 
     set_apa_table_borders(table, has_header_row=True)
 
+    # Tabel bij elkaar houden: cantSplit op elke rij + keep_with_next op alle
+    # cel-paragrafen behalve de laatste rij (zelfde principe als figuren)
+    for row_idx, row in enumerate(table.rows):
+        # cantSplit: voorkomt dat één rij over pagina's splitst
+        tr_pr = row._tr.get_or_add_trPr()
+        cant_split = OxmlElement('w:cantSplit')
+        tr_pr.append(cant_split)
+        # keep_with_next: koppel rij aan de volgende (behalve laatste rij)
+        if row_idx < total_rows - 1:
+            for cell in row.cells:
+                for p in cell.paragraphs:
+                    p.paragraph_format.keep_with_next = True
+
     # Tabelvoetnoot — "Noot." cursief + gewone tekst
     if note:
         p_note = doc.add_paragraph()
@@ -930,14 +946,17 @@ def render_figure_placeholder(doc: Document, block: dict, font_config: dict):
     image_path = block.get("image_path", "")
 
     # APA 7: Figuur N. (vet) + caption (cursief) BOVEN de afbeelding
+    # keep_with_next houdt label + caption + afbeelding bij elkaar op dezelfde pagina
     p_label = doc.add_paragraph()
     set_paragraph_format(p_label, font_config, first_line_indent=False, left_indent=Cm(0))
+    p_label.paragraph_format.keep_with_next = True
     run_num = p_label.add_run(f"Figuur {number}")
     run_num.bold = True
     _apply_font(run_num, font_config)
     if caption:
         p_caption = doc.add_paragraph()
         set_paragraph_format(p_caption, font_config, first_line_indent=False, left_indent=Cm(0))
+        p_caption.paragraph_format.keep_with_next = True
         run_cap = p_caption.add_run(caption)
         run_cap.italic = True
         _apply_font(run_cap, font_config)
