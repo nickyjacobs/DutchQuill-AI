@@ -80,14 +80,14 @@ def _load_user_profile() -> dict:
     docent_namen = [d['naam'] for d in docenten if d.get('naam')]
     if docent_namen:
         if len(docent_namen) <= 2:
-            result['begeleider'] = ' en '.join(docent_namen)
+            result['begeleider'] = ' & '.join(docent_namen)
         else:
-            result['begeleider'] = ', '.join(docent_namen[:-1]) + ' en ' + docent_namen[-1]
+            result['begeleider'] = ', '.join(docent_namen[:-1]) + ' & ' + docent_namen[-1]
     vakken = data.get('vakken', [])
     if vakken and vakken[0].get('naam'):
         vak_str = vakken[0]['naam']
         if vakken[0].get('code'):
-            vak_str = f"{vak_str} \u2014 {vakken[0]['code']}"
+            vak_str = f"{vak_str} ({vakken[0]['code']})"
         result['vak'] = vak_str
     return result
 
@@ -451,7 +451,7 @@ def extract_sections(blocks: List[Dict]) -> Tuple[Optional[Dict], List[Dict], Li
                     t, re.IGNORECASE
                 )
                 if kw_match:
-                    keywords = [k.strip().rstrip('*_') for k in kw_match.group(1).split(',')]
+                    keywords = [k.strip().strip('*_').strip() for k in kw_match.group(1).split(',')]
                 else:
                     text_parts.append(strip_inline(t))
         abstract_text = ' '.join(text_parts).strip()
@@ -502,6 +502,60 @@ def parse_table_lines(table_lines: List[str]) -> Dict:
         "headers": headers,
         "rows": rows,
     }
+
+
+def _merge_table_labels(blocks: List[Dict]) -> List[Dict]:
+    """
+    Post-processing: merge losse tabel-label en -titel paragrafen in het
+    bijbehorende tabelblok zodat render_table() correcte opmaak toepast.
+
+    Herkent patronen:
+      1. paragraph("**Tabel N**")  → table  →  table(number=N)
+      2. paragraph("**Tabel N**")  → paragraph("*titel*")  → table  →  table(number=N, title=titel)
+      3. paragraph("**Tabel N: titel**")  → table  →  table(number=N, title=titel)
+    """
+    _LABEL_RE = re.compile(
+        r'^\*\*(Tabel)\s+(\d+)\s*(?:[:.\-]\s*(.+?))?\*\*$',
+        re.IGNORECASE,
+    )
+    _ITALIC_TITLE_RE = re.compile(r'^\*(.+)\*$')
+
+    result: List[Dict] = []
+    i = 0
+    while i < len(blocks):
+        b = blocks[i]
+        # Controleer of dit een tabel-label paragraaf is
+        if b.get("type") == "paragraph":
+            text = b.get("text", "").strip()
+            m = _LABEL_RE.match(text)
+            if m:
+                number = int(m.group(2))
+                title = (m.group(3) or "").strip()
+                j = i + 1
+                # Optioneel: volgende paragraaf is cursieve titel
+                if (not title and j < len(blocks)
+                        and blocks[j].get("type") == "paragraph"):
+                    t2 = blocks[j].get("text", "").strip()
+                    tm = _ITALIC_TITLE_RE.match(t2)
+                    if tm:
+                        title = tm.group(1).strip()
+                        j += 1
+                # Zoek het tabelblok (sla lege paragrafen over)
+                while j < len(blocks) and blocks[j].get("type") == "paragraph" and not blocks[j].get("text", "").strip():
+                    j += 1
+                if j < len(blocks) and blocks[j].get("type") == "table":
+                    # Merge: voeg number en title toe aan het tabelblok
+                    tbl = blocks[j]
+                    tbl["number"] = number
+                    if title:
+                        tbl["title"] = title
+                    result.append(tbl)
+                    i = j + 1
+                    continue
+                # Geen tabelblok gevonden — behoud als losse paragraaf
+        result.append(b)
+        i += 1
+    return result
 
 
 def preprocess_figure_blocks(lines: List[str]) -> List[str]:
@@ -607,6 +661,13 @@ def _parse_appendix_lines(raw_lines: List[str], title: str = "") -> List[Dict]:
     in_fence = False
     fence_lines: List[str] = []
     para_buffer: List[str] = []
+    table_buf: List[str] = []
+
+    def flush_table_buf():
+        if table_buf:
+            content.append(parse_table_lines(table_buf[:]))
+            table_buf.clear()
+
     # Bijlage over AI-prompts: code fences worden genegeerd (inhoud als alinea's).
     # Controleer de heading-titel; als die leeg is, scan de eerste paar content-regels
     # (bijv. als titel op een aparte bold-paragraaf staat: "**Gebruikte AI-prompts**").
@@ -663,8 +724,25 @@ def _parse_appendix_lines(raw_lines: List[str], title: str = "") -> List[Dict]:
             content.append({"type": "heading", "level": level, "text": text})
             continue
 
-        # Detecteer lijstitems (- item of * item of 1. item)
-        list_match = re.match(r'^[-*]\s+(.+)', line)
+        # Detecteer tabel-/figuurlabels op eigen regel
+        if _TABLE_LABEL_LINE.match(line.strip()):
+            flush_para()
+            flush_table_buf()
+            content.append({"type": "paragraph", "text": line.strip()})
+            continue
+
+        # Detecteer tabelregels (beginnen met |)
+        if line.strip().startswith('|'):
+            flush_para()
+            table_buf.append(line.strip())
+            continue
+
+        # Als we in een tabel zaten maar lege regel of einde tabel, flush
+        if table_buf:
+            flush_table_buf()
+
+        # Detecteer lijstitems (- item, * item, • item of 1. item)
+        list_match = re.match(r'^[-*\u2022]\s+(.+)', line)
         if list_match:
             flush_para()
             content.append({"type": "list_item", "text": list_match.group(1)})
@@ -678,8 +756,12 @@ def _parse_appendix_lines(raw_lines: List[str], title: str = "") -> List[Dict]:
         para_buffer.append(line)
 
     flush_para()
+    flush_table_buf()
     if in_fence and fence_lines:
         close_fence()
+
+    # Merge tabel-labels in tabelblokken (zelfde als body)
+    content = _merge_table_labels(content)
 
     return content
 
@@ -896,7 +978,8 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             continue
 
         # Detecteer lijstitems → behandel als list_item (bullet-opmaak in word_export)
-        list_match = re.match(r'^[-*]\s+(.+)', raw)
+        # Ook • (Unicode bullet) herkennen voor round-trip vanuit .docx
+        list_match = re.match(r'^[-*\u2022]\s+(.+)', raw)
         if list_match:
             flush_paragraph()
             blocks.append({"type": "list_item", "text": list_match.group(1)})
@@ -987,9 +1070,23 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     # Sla laatste bijlage op
     save_current_appendix()
 
+    # Merge tabel-label/titel-paragrafen in het bijbehorende tabelblok
+    blocks = _merge_table_labels(blocks)
+
     # Converteer ruwe bijlagen-regels naar blokken
     appendices: List[Dict] = []
     for label, app_title, raw_lines in appendices_raw:
+        # Als geen titel in heading, probeer eerste bold-only regel als titel te gebruiken
+        if not app_title and raw_lines:
+            for i, line in enumerate(raw_lines):
+                stripped = line.strip()
+                if not stripped:
+                    continue
+                bold_match = re.match(r'^\*\*(.+)\*\*$', stripped)
+                if bold_match:
+                    app_title = bold_match.group(1)
+                    raw_lines = raw_lines[:i] + raw_lines[i+1:]
+                break  # alleen eerste niet-lege regel controleren
         appendices.append({
             "label": label,
             "title": app_title,
@@ -1026,12 +1123,7 @@ def build_payload(
     # Bouw metadata
     meta: dict = {"title": doc_title, "font": metadata_extra.get('font', 'times')}
 
-    # Ondertitel
-    subtitle = metadata_extra.get('ondertitel') or fm.get('ondertitel')
-    if subtitle:
-        meta["subtitle"] = subtitle
-
-    # Auteur
+    # Auteur (vóór ondertitel: nodig voor deduplicatie)
     naam = (metadata_extra.get('naam') or fm.get('naam') or profile.get('naam', '')).strip()
     if naam:
         meta["authors"] = [naam]
@@ -1070,6 +1162,16 @@ def build_payload(
     datum = (metadata_extra.get('datum') or fm.get('datum', '')).strip()
     if datum:
         meta["submission_date"] = datum
+
+    # Ondertitel (na alle andere velden: deduplicatie tegen fout-positieven uit front matter)
+    subtitle = metadata_extra.get('ondertitel') or fm.get('ondertitel')
+    if subtitle:
+        # Voorkom dat metadata-velden per ongeluk als ondertitel worden geparseerd
+        known_values = {v.strip().lower() for v in
+                        [naam, studentnummer, instelling, faculteit, opleiding, vak, begeleider, datum]
+                        if v.strip()}
+        if subtitle.strip().lower() not in known_values:
+            meta["subtitle"] = subtitle
 
     # Detecteer afkortingentabellen en verplaats naar abbreviations-payload
     abbreviations = []
@@ -1150,6 +1252,33 @@ def build_payload(
             remaining_blocks = [
                 b for i, b in enumerate(remaining_blocks)
                 if i not in abbrev_blocks_to_remove
+            ]
+
+    # Detectie 3: round-trip — tabel direct na afkortingen-heading (ongeacht headers)
+    if not abbreviations:
+        abbrev_blocks_to_remove_3 = set()
+        for idx, block in enumerate(remaining_blocks):
+            if (block.get('type') == 'heading'
+                    and 'afkorting' in block.get('text', '').lower()
+                    and idx + 1 < len(remaining_blocks)
+                    and remaining_blocks[idx + 1].get('type') == 'table'
+                    and len(remaining_blocks[idx + 1].get('headers', [])) == 2):
+                tbl = remaining_blocks[idx + 1]
+                # Eerste rij = headers (eigenlijk data in round-trip), plus echte rijen
+                all_rows = [tbl['headers']] + tbl.get('rows', [])
+                for row in all_rows:
+                    if len(row) >= 2 and row[0].strip():
+                        abbreviations.append({
+                            "afkorting": strip_inline(row[0]),
+                            "definitie": strip_inline(row[1]),
+                        })
+                abbrev_blocks_to_remove_3.add(idx)
+                abbrev_blocks_to_remove_3.add(idx + 1)
+                break
+        if abbreviations:
+            remaining_blocks = [
+                b for i, b in enumerate(remaining_blocks)
+                if i not in abbrev_blocks_to_remove_3
             ]
 
     blocks = remaining_blocks
