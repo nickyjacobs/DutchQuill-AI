@@ -184,7 +184,7 @@ Volledige uitleg per skill — invoer, opties, subtypes en output: [docs/skills.
 
 ## Alle Tools
 
-13 Python-scripts in `tools/` plus één stop-hook in `.claude/hooks/`. Ze worden automatisch aangeroepen door de skills, maar je kunt ze ook los draaien via de terminal.
+12 Python-scripts in `tools/` plus één stop-hook in `.claude/hooks/`. Ze worden automatisch aangeroepen door de skills, maar je kunt ze ook los draaien via de terminal.
 
 Volledige referentie met alle vlaggen, invoer- en uitvoerformaten en voorbeeldaanroepen: [docs/tools.md](docs/tools.md)
 
@@ -197,7 +197,7 @@ config/             Gebruikersconfiguratie
   user_profile.example.json   Voorbeeldprofiel (commit-safe)
   user_profile.json           Jouw profiel (gitignored)
 workflows/          Markdown-workflows en referentiegidsen (9 bestanden)
-tools/              Python-scripts voor deterministische uitvoering (13 tools)
+tools/              Python-scripts voor deterministische uitvoering (12 tools)
 docs/               Projectdocumentatie
 rapporten/          Invoermap voor .docx bestanden
 .claude/            Claude Code configuratie
