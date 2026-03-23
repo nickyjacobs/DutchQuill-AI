@@ -32,6 +32,10 @@ venv/
 
 # Persoonlijke configuratie
 config/user_profile.json
+config/quick_scans/*.md
+!config/quick_scans/VOORBEELD.md
+config/beoordelingscriteria/*.md
+!config/beoordelingscriteria/VOORBEELD.md
 .claude/settings.local.json
 
 # Gebruikersrapporten

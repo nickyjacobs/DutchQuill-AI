@@ -13,13 +13,23 @@ en tekststructuur.
 
 ---
 
-## Stap 0: Gebruikersprofiel laden [OPTIONEEL]
+## Stap 0: Gebruikersprofiel + Criteria laden [OPTIONEEL]
 
 Controleer of `config/user_profile.json` bestaat. Zo ja:
 - Lees het bestand met de Read tool
 - Gebruik de gegevens als context bij de review (bijv. instelling voor APA-titelpaginacheck)
 
-Zo nee: ga gewoon door — het profiel is optioneel.
+**Quick scan en beoordelingscriteria laden:**
+Als het profiel een `vakken`-array bevat met een `code`-veld:
+1. Lees de vakcode uit `vakken[0].code` (bijv. "SYS")
+2. Check of `config/quick_scans/<VAKCODE>.md` bestaat → zo ja, lees met de Read tool
+3. Check of `config/beoordelingscriteria/<VAKCODE>.md` bestaat → zo ja, lees met de Read tool
+4. Lees alleen de items onder de `## Rapportage` sectie — items onder `## Praktijk` worden genegeerd
+5. Meld aan de gebruiker welke criteria zijn geladen: "Quick scan en beoordelingscriteria voor [vaknaam] ([vakcode]) geladen"
+
+Als geen bestanden gevonden of profiel ontbreekt: standaard review zonder Domein 5 (huidige gedrag).
+
+Zo nee: ga gewoon door — het profiel en de criteria zijn optioneel.
 
 ---
 
@@ -286,6 +296,40 @@ Verifieer alle bevindingen zelf.
 
 ---
 
+## [OPTIONEEL] Domein 5: Inlevereisen & Beoordelingscriteria
+
+Dit domein wordt alleen uitgevoerd als in Stap 0 quick scan- en/of beoordelingscriteria-bestanden zijn geladen vanuit `config/quick_scans/<VAKCODE>.md` en `config/beoordelingscriteria/<VAKCODE>.md`. Als geen bestanden zijn geladen, sla dit domein over.
+
+### 5a. Quick Scan (inlevereisen)
+
+Loop elk item onder `## Rapportage` uit het quick scan-bestand door en beoordeel:
+
+| Symbool | Betekenis |
+|---------|-----------|
+| ✓ | Voldoet |
+| ✗ | Voldoet niet (geef toelichting) |
+| ? | Kan niet automatisch beoordeeld worden (handmatige controle nodig) |
+
+### 5b. Beoordelingscriteria
+
+Loop elk item onder `## Rapportage` uit het beoordelingscriteria-bestand door en beoordeel:
+
+| Symbool | Betekenis |
+|---------|-----------|
+| ✓ | Voldoet |
+| ⚠ | Gedeeltelijk (geef toelichting) |
+| ✗ | Voldoet niet (geef aanbeveling) |
+| ? | Kan niet automatisch beoordeeld worden |
+
+### 5c. Samenvatting
+
+Rapporteer aan het einde van het domein:
+- Quick scan: X van Y rapportage-items voldaan
+- Beoordelingscriteria: X van Y rapportage-items voldaan
+- Verdict: "Voldoet aan inlevereisen" / "Nog niet klaar — X items missen"
+
+---
+
 ## Feedbackformaat
 
 Geef de review als gestructureerd rapport:
@@ -326,6 +370,14 @@ Status: Sterk / Aandachtspunten / Herstructurering aanbevolen
 
 ---
 
+### 5. Inlevereisen & Beoordelingscriteria (indien geladen)
+Quick scan: X/Y voldaan
+Beoordelingscriteria: X/Y voldaan
+
+[Per item: ✓/⚠/✗/? met toelichting]
+
+---
+
 ### Eindoordeel
 Klaar voor inlevering / Kleine aanpassingen nodig / Herschrijven aanbevolen
 
@@ -345,6 +397,7 @@ Bevestig dat ALLE stappen zijn uitgevoerd voordat het reviewrapport wordt aangeb
 - [ ] Domein 3: tekst-analist subagent aangeroepen (of fallback tools bij falen)
 - [ ] Domein 3: humanize_nl_gids.md handmatig geraadpleegd (sectietype-regels, burstiness, communicatievormen)
 - [ ] Domein 4: structuurcheck handmatig uitgevoerd
+- [ ] Domein 5: quick scan + beoordelingscriteria gecontroleerd (indien geladen in Stap 0)
 - [ ] generate_review_chart.py uitgevoerd
 - [ ] history_writer.py uitgevoerd
 - [ ] generate_report_pdf.py uitgevoerd → .tmp/reviewen/<titel>.pdf

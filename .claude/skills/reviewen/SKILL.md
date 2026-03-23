@@ -16,6 +16,7 @@ Je voert de `rapport_reviewen.md` workflow uit.
 
 - Lees ALLE gidsen die in de workflow genoemd worden met de Read tool — "raadpleeg" is niet voldoende
 - Alle vier reviewdomeinen zijn VERPLICHT bij een volledige review
+- Domein 5 (Inlevereisen & Beoordelingscriteria) is OPTIONEEL — wordt alleen uitgevoerd als config-bestanden bestaan voor de actieve vakcode
 - Tools gemarkeerd als [VERPLICHT] MOETEN worden uitgevoerd via Bash
 - Een tool die een fout geeft: rapporteer de fout, maar sla de tool NIET over
 - De verificatiechecklist aan het einde MOET volledig worden doorlopen

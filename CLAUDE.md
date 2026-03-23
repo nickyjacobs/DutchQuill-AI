@@ -57,7 +57,9 @@ Deze lus is hoe het framework in de loop van de tijd verbetert.
 
 **Mappenstructuur:**
 ```text
-config/         # Gebruikersconfiguratie: user_profile.json (optioneel, persoonlijke gegevens voor titelpagina)
+config/         # Gebruikersconfiguratie: user_profile.json, quick scans, beoordelingscriteria
+  quick_scans/        # Inlevereisen per vak (bestandsnaam = vakcode, bijv. SYS.md)
+  beoordelingscriteria/  # Beoordelingsrubrics per vak (bestandsnaam = vakcode)
 .tmp/           # Tijdelijke bestanden + output-submappen per skill
   schrijven/    # .docx output van /schrijven
   herschrijven/ # .docx output van /herschrijven
