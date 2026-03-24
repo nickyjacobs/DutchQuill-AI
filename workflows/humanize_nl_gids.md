@@ -185,8 +185,8 @@ Ze zeggen niets. Ze kondigen aan in plaats van te doen. Begin direct met de inho
 De em dash (—) is een Engels leesteken dat in Nederlandse teksten niet thuishoort.
 Toch gebruiken AI-modellen het consequent, omdat ze voornamelijk op Engelstalige data zijn getraind.
 
-**Regel:** Gebruik nooit een em dash in een Nederlands rapport.
-- Vervang `—` door een komma, punt of gedachtestreepje met spaties (` - `)
+**Regel:** Gebruik nooit een em dash of gedachtestreepje in lopende tekst.
+- Vervang `—` en ` - ` door een komma, punt of splits de zin
 - Meer dan één em dash in een tekst is een directe AI-indicator
 
 **Voorbeelden:**

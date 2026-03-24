@@ -79,7 +79,7 @@ AI begint alinea's en secties met herkenbare patronen. De tool detecteert vier t
 
 **Categorie 6 — Em-dashes**
 
-De em-dash (—) hoort niet in Nederlandse teksten. AI gebruikt hem consequent omdat het op Engelstalige data is getraind. Vervang door een komma, punt of gedachtestreepje met spaties (` - `).
+De em-dash (—) en het gedachtestreepje (` - `) horen niet in lopende Nederlandse tekst. AI gebruikt ze consequent omdat het op Engelstalige data is getraind. Vervang door een komma, punt of splits de zin.
 
 **Categorie 7 — Vage bronverwijzingen**
 

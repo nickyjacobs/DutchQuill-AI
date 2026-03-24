@@ -52,7 +52,7 @@ EUR-bedragen zijn indicatief op basis van een wisselkoers van ~1 USD = 0,92 EUR.
 
 ## Tekst-analist subagent (Haiku 4.5)
 
-De subagent draait `humanizer_nl.py` en `readability_nl.py` en levert een beknopte analyse op. Hij wordt alleen gebruikt bij `/reviewen` wanneer de analyse-stap actief is.
+De subagent draait `humanizer_nl.py` en `readability_nl.py` en levert een beknopte analyse op. Hij wordt gebruikt bij alle vier de skills (`/schrijven`, `/herschrijven`, `/reviewen`, `/humaniseer`).
 
 Prijs: **$0,80/M input en $4,00/M output**
 

@@ -2,7 +2,7 @@
 
 ![DutchQuill AI](assets/DutchQuill-AI.png)
 
-![Dutch Quill AI](https://img.shields.io/badge/Dutch%20Quill%20AI-v1.0-brightgreen) ![Claude Code](https://img.shields.io/badge/Claude%20Code-required-blueviolet) ![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![JSON](https://img.shields.io/badge/config-JSON-lightgrey) ![Markdown](https://img.shields.io/badge/workflows-Markdown-lightgrey) ![APA 7](https://img.shields.io/badge/APA-7e%20editie-orange) ![AI Detectie](https://img.shields.io/badge/AI%20Detectie-20%20categorie%C3%ABn-red) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Dutch Quill AI](https://img.shields.io/badge/Dutch%20Quill%20AI-v1.2-brightgreen) ![Claude Code](https://img.shields.io/badge/Claude%20Code-required-blueviolet) ![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![JSON](https://img.shields.io/badge/config-JSON-lightgrey) ![Markdown](https://img.shields.io/badge/workflows-Markdown-lightgrey) ![APA 7](https://img.shields.io/badge/APA-7e%20editie-orange) ![AI Detectie](https://img.shields.io/badge/AI%20Detectie-20%20categorie%C3%ABn-red) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 Schrijfassistent voor Nederlandse academische rapporten op HBO-niveau. Gebouwd op het WAT-framework (Workflows, Agent, Tools) en draait als CLI via [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 

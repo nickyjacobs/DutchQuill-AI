@@ -40,3 +40,4 @@ config/beoordelingscriteria/*.md
 
 # Gebruikersrapporten
 rapporten/*.docx
+rapporten/*.pdf
