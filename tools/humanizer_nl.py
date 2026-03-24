@@ -1259,7 +1259,7 @@ def print_report(result: Dict, label: str = "Analyse", suggest: bool = False) ->
         print(f"\n⚠  EM DASHES (—) — {len(r['em_dashes'])} gevonden")
         for item in r["em_dashes"]:
             print(f"   • {item['context']}")
-        print("     → Vervang — door komma, punt of gedachtestreepje ( - )")
+        print("     → Vervang — door komma, punt of splits de zin")
     else:
         print("✓  Geen em dashes gevonden")
 
