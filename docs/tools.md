@@ -492,8 +492,6 @@ In alle tekstvelden werkt Markdown-inline-opmaak:
 - `*cursief*` wordt cursief
 - DOI-URL's in de literatuurlijst worden automatisch klikbare hyperlinks
 
----
-
 ## 9. `md_to_docx.py` — Markdown naar APA .docx
 
 Converteert een Markdown- of platte-tekstbestand naar een APA-conform Word-document. Herkent secties automatisch op basis van hun kopnaam.
@@ -622,8 +620,6 @@ Schei term-alternatiefparen met dubbele pipe (`||`). Schei term en alternatief m
 ### PDF-structuur
 
 Het rapport bevat: koptekst met risicolabel, scorekaart, tabel met Niveau 1-woorden en alternatieven, waarschuwingen, aanbevelingen en de statistiekenkaart als de `--chart-base64` wordt meegegeven.
-
----
 
 ## 12. `history_writer.py` — Sessielog
 

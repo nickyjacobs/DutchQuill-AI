@@ -80,9 +80,9 @@ def _load_user_profile() -> dict:
     docent_namen = [d['naam'] for d in docenten if d.get('naam')]
     if docent_namen:
         if len(docent_namen) <= 2:
-            result['begeleider'] = ' & '.join(docent_namen)
+            result['begeleider'] = ' en '.join(docent_namen)
         else:
-            result['begeleider'] = ', '.join(docent_namen[:-1]) + ' & ' + docent_namen[-1]
+            result['begeleider'] = ', '.join(docent_namen[:-1]) + ' en ' + docent_namen[-1]
     vakken = data.get('vakken', [])
     if vakken and vakken[0].get('naam'):
         vak_str = vakken[0]['naam']

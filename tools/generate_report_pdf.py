@@ -374,8 +374,10 @@ def generate_pdf(
         rightMargin=2.2 * cm,
         topMargin=2.2 * cm,
         bottomMargin=2.0 * cm,
-        title=f'{doc_title_label} — DutchQuill AI',
-        author='DutchQuill AI',
+        title=doc_title_label,
+        author='',
+        creator='',
+        producer='',
     )
 
     s = build_styles()
