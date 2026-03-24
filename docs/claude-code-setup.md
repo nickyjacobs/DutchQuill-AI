@@ -55,7 +55,8 @@ De tekst-analist wordt automatisch aangeroepen vanuit de skills. De definitie st
 ## Hooks
 
 De stop-hook `check_verboden_woorden.py` draait na elke Claude-response:
-- Checkt of de gegenereerde tekst verboden AI-woorden bevat
+- Checkt op verboden AI-woorden (26 woorden) en verboden openers (6 patronen)
+- Checkt op em-dashes (—) en gedachtestreepjes ( - ) in lopende tekst
 - Bij een match: exit code 2, waarna Claude de passage automatisch herschrijft
 
 De configuratie staat in `.claude/settings.json` onder `hooks.Stop`.

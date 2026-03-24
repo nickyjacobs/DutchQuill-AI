@@ -21,6 +21,6 @@ cruciaal, essentieel, robuust, baanbrekend, naadloos, transformatief, katalysato
 - Varieer zinslengtes, wissel kort (< 10 woorden), middellang en lang bewust af
 - Gebruik specifieke cijfers, namen en data, geen vage beweringen
 - Elke feitelijke claim heeft een APA-citatie, nooit "uit onderzoek blijft dat" zonder bron
-- Geen em dashes (—) - gebruik komma, punt of gedachtestreepje met spaties ( - )
+- Geen em dashes (—) en geen gedachtestreepjes ( - ) in lopende tekst - gebruik komma, punt of splits de zin
 - Eindig concreet, nooit met "de toekomst ziet er rooskleurig uit" of vergelijkbare platitudes
 - Schrijf als auteur, niet als assistent, geen meta-commentaar, geen chatbot-formuleringen

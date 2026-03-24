@@ -59,7 +59,7 @@ De geëxtraheerde tekst is daarna beschikbaar als context voor het schrijven.
 2. `workflows/academische_stijl_gids.md` — werkwoordstijden, persoonlijke voornaamwoorden, naamwoordstijl
 3. `workflows/taal_gids.md` — d/t-regels, samenstellingen, signaalwoorden, verbindingswoorden
 4. `workflows/humanize_nl_gids.md` — Niveau 1/2-woorden om te vermijden tijdens het schrijven
-5. `.claude/rules/schrijfstijl.md` — 28 verboden woorden en 6 verboden openers die NIET volledig in de gidsen staan
+5. `.claude/rules/schrijfstijl.md` — 26 verboden woorden en 6 verboden openers die NIET volledig in de gidsen staan
 
 Stel daarna intern een outline op:
 - Wat komt er, in welke volgorde?
@@ -70,12 +70,24 @@ Stel daarna intern een outline op:
 
 Bevestig voordat je begint met schrijven:
 - [ ] Alle 5 gidsen gelezen (apa, academische_stijl, taal, humanize_nl, schrijfstijl)
-- [ ] Verboden woorden genoteerd (28 woorden uit `.claude/rules/schrijfstijl.md`)
+- [ ] Verboden woorden genoteerd (26 woorden uit `.claude/rules/schrijfstijl.md`)
 - [ ] Verboden openers genoteerd (6 patronen uit schrijfstijl.md)
 - [ ] Koppen ZONDER nummering (`## Inleiding`, niet `## 1. Inleiding`)
 - [ ] `[BRON NODIG - reden]` format voor ontbrekende bronnen
 - [ ] Bij volledig rapport: samenvatting (150-250 woorden) gepland
 - [ ] Figuren: in-text verwijzing VOOR de afbeelding
+
+### Stap 2c — Prioriteitsmatrix (intern, niet tonen aan gebruiker)
+
+Bij het beoordelen van je eigen output na het schrijven, prioriteer:
+
+| Prioriteit | Categorie | Actie |
+|-----------|-----------|-------|
+| 1 (hoog) | Niveau 1 AI-woorden | Altijd vervangen |
+| 2 (hoog) | APA-fouten (citaties, koppen, literatuurlijst) | Altijd corrigeren |
+| 3 (midden) | Formulaïsche openers (Type 1–3) | Herschrijven |
+| 4 (midden) | Zinsritme-uniformiteit (5+ gelijke zinslengtes) | Variëren |
+| 5 (laag) | Niveau 2 AI-woorden | Alleen bij clustering (≥3 in één alinea) |
 
 ---
 

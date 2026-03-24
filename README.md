@@ -74,7 +74,7 @@ Schrijfassistent voor Nederlandse academische rapporten op HBO-niveau. Gebouwd o
 
 ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 Na elke response - Stop hook: check_verboden_woorden.py
-Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
+Verboden woord, opener of streepje gevonden → exit 2 → Claude herformuleert automatisch
 ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
@@ -89,7 +89,7 @@ Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
 - Leesbaarheid meten met de Flesch-Douma index
 - Exporteert naar APA-conforme .docx met titelpagina
 - Genereert een PDF-analyserapport met reviewchart
-- Stop-hook die automatisch verboden AI-woorden onderschept
+- Stop-hook die automatisch verboden AI-woorden, openers en streepjes onderschept
 - Optioneel gebruikersprofiel zodat je naam, instelling en vak niet steeds opnieuw hoeft in te vullen
 
 ---
