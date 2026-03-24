@@ -106,6 +106,15 @@ Dit project is een schrijfassistent voor Nederlandse academische rapporten (hoge
 
 **history_writer.py aanroepen is even verplicht als de APA-check.** Doe het altijd, ook als de gebruiker er niet om vraagt.
 
+## Metadata-opschoning (altijd van kracht)
+
+Gegenereerde bestanden bevatten geen sporen van python-docx, ReportLab, of DutchQuill AI in documentmetadata:
+
+- `.docx`: `word_export.py` schoont automatisch `docProps/app.xml` en `core.xml` op (AppVersion → 16.0000, TotalTime → realistisch, revision → variabel, timestamps → offset)
+- `.pdf`: `generate_report_pdf.py` schrijft geen tool-identificerende metadata (geen "DutchQuill AI" of "ReportLab" in Author/Creator/Producer)
+- Claude/Anthropic in bijlage-citaties is correct en gewenst (APA-transparantie over AI-gebruik)
+- Zie `docs/metadata-opschoning.md` voor technische details en Turnitin Document Details informatie
+
 **Markdown-structuur voor .docx export (altijd van kracht):**
 - `# Inleiding` MOET altijd aanwezig zijn in de markdown. `word_export.py` vervangt deze kop automatisch door de documenttitel (APA 7). Zonder `# Inleiding` wordt de introductiesectie niet herkend en belandt de tekst in de body.
 - Afkortingenlijst: markdown-tabel (`| Afkorting | Definitie |`) OF bold+tab formaat (`**ABBR**\tDefinitie`). Beide worden herkend door `md_to_docx.py`.

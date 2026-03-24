@@ -87,6 +87,7 @@ Verboden woord gevonden → exit 2 → Claude herformuleert automatisch
 - Controleert APA 7e editie (citaties, koppen, literatuurlijst, figuren)
 - Grammaticacheck via LanguageTool
 - Leesbaarheid meten met de Flesch-Douma index
+- Automatische metadata-opschoning: .docx-bestanden bevatten geen python-docx fingerprints (Turnitin Document Details-proof)
 - Exporteert naar APA-conforme .docx met titelpagina
 - Genereert een PDF-analyserapport met reviewchart
 - Stop-hook die automatisch verboden AI-woorden onderschept
