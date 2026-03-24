@@ -21,3 +21,16 @@ Je voert de `rapport_schrijven.md` workflow uit.
 - `history_writer.py` + `md_to_docx.py` zijn ALTIJD de laatste stappen
 - Output gaat naar `.tmp/schrijven/<titel>.docx`
 - Werkbestanden in `.tmp/` root worden na afloop opgeruimd
+
+## Verificatiechecklist [VERPLICHT]
+
+Bevestig intern dat ALLE stappen zijn uitgevoerd:
+
+- [ ] Alle 5 gidsen gelezen met Read tool (apa_nl, academische_stijl, taal, humanize_nl, schrijfstijl)
+- [ ] grammar_check.py + apa_checker.py uitgevoerd
+- [ ] humanizer_nl.py --suggest + readability_nl.py uitgevoerd
+- [ ] tekst-analist subagent aangeroepen (of fallback bij falen)
+- [ ] generate_review_chart.py uitgevoerd
+- [ ] Risicobeoordeling laag, of tekst herschreven bij gemiddeld/hoog
+- [ ] history_writer.py + md_to_docx.py uitgevoerd → .tmp/schrijven/<titel>.docx
+- [ ] Werkbestanden in .tmp/ root opgeruimd

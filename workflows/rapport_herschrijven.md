@@ -63,13 +63,13 @@ Gebruik de geëxtraheerde tekst als de te herschrijven tekst en ga verder met de
 2. `workflows/humanize_nl_gids.md` — AI-patronen, Niveau 1/2-woorden, formulaische openers
 3. `workflows/apa_nl_gids.md` — citaties, koppen, literatuurlijst
 4. `workflows/academische_stijl_gids.md` — schrijfstijl, registers, naamwoordstijl
-5. `.claude/rules/schrijfstijl.md` — 28 verboden woorden en 6 verboden openers die NIET volledig in de gidsen staan
+5. `.claude/rules/schrijfstijl.md` — 26 verboden woorden en 6 verboden openers die NIET volledig in de gidsen staan
 
 ### Stap 2a — Schrijfklaar-check (intern, niet tonen aan gebruiker)
 
 Bevestig voordat je begint met herschrijven:
 - [ ] Alle 5 gidsen gelezen (taal, humanize_nl, apa, academische_stijl, schrijfstijl)
-- [ ] Verboden woorden genoteerd (28 woorden uit `.claude/rules/schrijfstijl.md`)
+- [ ] Verboden woorden genoteerd (26 woorden uit `.claude/rules/schrijfstijl.md`)
 - [ ] Verboden openers genoteerd (6 patronen uit schrijfstijl.md)
 - [ ] `[BRON NODIG - reden]` format voor ontbrekende bronnen
 - [ ] Figuren: in-text verwijzing VOOR de afbeelding

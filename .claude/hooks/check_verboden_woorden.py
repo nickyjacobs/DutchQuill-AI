@@ -177,6 +177,45 @@ def check_verboden(text: str, woorden: list[str], openers: list[str]) -> list[st
     return gevonden
 
 
+def check_streepjes(text: str) -> list[str]:
+    """
+    Controleer tekst op em-dashes (—) en gedachtestreepjes ( - ) in lopende tekst.
+    Sluit uit: codeblokken, tabelrijen, bullet lists, [BRON NODIG - ...] markers.
+    """
+    if not text.strip():
+        return []
+
+    clean = strip_code_blocks(text)
+    gevonden = []
+
+    for line in clean.splitlines():
+        stripped = line.strip()
+        # Sla tabelrijen over (markdown tabellen)
+        if stripped.startswith("|"):
+            continue
+        # Sla bullet lists over (- als lijstmarker)
+        if re.match(r"^\s*[-*]\s", line):
+            continue
+        # Sla lege regels over
+        if not stripped:
+            continue
+
+        # Verwijder [BRON NODIG - ...] markers voor de check
+        check_line = re.sub(r"\[BRON NODIG\s*-\s*[^\]]*\]", "", stripped)
+
+        # Em-dash detectie
+        if "—" in check_line:
+            gevonden.append("em-dash (—)")
+
+        # Gedachtestreepje detectie: spatie-streepje-spatie in lopende tekst
+        # Maar niet aan het begin van een regel (dat is een bullet)
+        if re.search(r"\w\s-\s\w", check_line):
+            gevonden.append("gedachtestreepje ( - )")
+
+    # Deduplicate: rapporteer elk type maximaal één keer
+    return list(dict.fromkeys(gevonden))
+
+
 def main():
     try:
         raw = sys.stdin.read()
@@ -194,13 +233,23 @@ def main():
 
     woorden, openers = load_verboden()
     gevonden = check_verboden(tekst, woorden, openers)
+    streepjes = check_streepjes(tekst)
 
-    if gevonden:
-        overtredingen = ", ".join(gevonden)
+    if gevonden or streepjes:
+        berichten = []
+        if gevonden:
+            berichten.append(
+                f"VERBODEN WOORDEN GEVONDEN: {', '.join(gevonden)}\n"
+                f"Herschrijf de betreffende passage(s) zonder deze woorden."
+            )
+        if streepjes:
+            berichten.append(
+                f"VERBODEN STREEPJES GEVONDEN: {', '.join(streepjes)}\n"
+                f"Gebruik komma's, punten of splits de zin. Geen em-dashes of gedachtestreepjes in lopende tekst."
+            )
         print(
-            f"VERBODEN WOORDEN GEVONDEN: {overtredingen}\n"
-            f"Herschrijf de betreffende passage(s) zonder deze woorden. "
-            f"Zie .claude/rules/schrijfstijl.md voor de volledige lijst en alternatieven.",
+            "\n".join(berichten) + "\n"
+            "Zie .claude/rules/schrijfstijl.md voor de volledige schrijfregels.",
             file=sys.stderr,
         )
         sys.exit(2)

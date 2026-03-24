@@ -700,17 +700,28 @@ Dit script staat in `.claude/hooks/` en is geen handmatig te draaien tool. Het w
 
 ### Wat het doet
 
-Het script leest de laatste assistent-reactie uit de conversatiecontext en zoekt naar verboden woorden en openingszinnen uit CLAUDE.md. Als er een match is, stuurt het een foutmelding terug naar Claude (exit code 2), waarna Claude de betreffende passage automatisch herschrijft.
+Het script leest de laatste assistent-reactie uit de conversatiecontext en controleert op drie patronen:
+
+1. **Verboden woorden** (26 woorden uit `.claude/rules/schrijfstijl.md`)
+2. **Verboden openers** (6 openers uit schrijfstijl.md)
+3. **Verboden streepjes** — em-dashes (—) en gedachtestreepjes ( - ) in lopende tekst
+
+Bij een match stuurt het script een foutmelding terug naar Claude (exit code 2), waarna Claude de betreffende passage automatisch herschrijft.
 
 **Verboden woorden:** cruciaal, essentieel, robuust, baanbrekend, naadloos, transformatief, katalysator, speerpunt, faciliteert, demonstreert, onderstreept, weerspiegelt, stroomlijnen, duiken in, scala aan, betekenisvol, diepgaand, genuanceerd, uitgebreid, proactief, integraal, zodoende, passie, verheugd, fosteren, testament aan
 
 **Verboden openers:** "In de huidige samenleving...", "In een wereld waar...", "In het huidige tijdperk...", "Het is belangrijk om te benadrukken dat...", "In het kader van...", "Het is belangrijker dan ooit..."
+
+**Verboden streepjes:** em-dashes (—) en gedachtestreepjes ( - ) in lopende tekst. Gebruik komma's, punten of splits de zin.
 
 ### Uitzonderingen
 
 - Code-blokken (` ``` ` en `` ` `` ) worden overgeslagen
 - Reacties korter dan 100 tekens worden niet gecheckt
 - Alleen tekst-blokken worden geanalyseerd, geen tool-resultaten
+- Tabelrijen (regels die met `|` beginnen) worden niet gecheckt op streepjes
+- Bullet lists (`- item`) worden niet gecheckt op streepjes
+- `[BRON NODIG - ...]` markers worden niet als gedachtestreepje geteld
 
 ### Configuratie
 

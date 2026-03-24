@@ -21,3 +21,17 @@ Je voert de `rapport_herschrijven.md` workflow uit.
 - `history_writer.py` + `md_to_docx.py` zijn ALTIJD de laatste stappen
 - Output gaat naar `.tmp/herschrijven/<titel>.docx`
 - Werkbestanden in `.tmp/` root worden na afloop opgeruimd
+
+## Verificatiechecklist [VERPLICHT]
+
+Bevestig intern dat ALLE stappen zijn uitgevoerd:
+
+- [ ] Alle 5 gidsen gelezen met Read tool (taal, humanize_nl, apa, academische_stijl, schrijfstijl)
+- [ ] grammar_check.py + humanizer_nl.py op origineel uitgevoerd
+- [ ] Tekst herschreven conform analyse
+- [ ] apa_checker.py op herschreven tekst uitgevoerd
+- [ ] tekst-analist subagent aangeroepen (of fallback bij falen)
+- [ ] diff_viewer.py + humanizer_nl.py --compare uitgevoerd
+- [ ] Risicobeoordeling laag, of tekst opnieuw herschreven bij gemiddeld/hoog
+- [ ] history_writer.py + md_to_docx.py uitgevoerd → .tmp/herschrijven/<titel>.docx
+- [ ] Werkbestanden in .tmp/ root opgeruimd

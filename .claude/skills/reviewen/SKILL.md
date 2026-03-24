@@ -24,3 +24,18 @@ Je voert de `rapport_reviewen.md` workflow uit.
 - Output gaat naar `.tmp/reviewen/<titel>.pdf`
 - Presenteer een korte samenvatting in de chat (NIET het volledige rapport)
 - Werkbestanden in `.tmp/` root worden na afloop opgeruimd
+
+## Verificatiechecklist [VERPLICHT]
+
+Bevestig intern dat ALLE stappen zijn uitgevoerd:
+
+- [ ] Alle 5 gidsen gelezen met Read tool (taal, apa, humanize_nl, academische_stijl, schrijfstijl)
+- [ ] Domein 1: grammar_check.py uitgevoerd + taalcheck handmatig
+- [ ] Domein 2: apa_checker.py uitgevoerd + APA-check handmatig
+- [ ] Domein 3: humanizer_nl.py + readability_nl.py + tekst-analist uitgevoerd
+- [ ] Domein 4: structuurcheck handmatig uitgevoerd
+- [ ] Domein 5: quick scan + beoordelingscriteria gecontroleerd (indien geladen)
+- [ ] generate_review_chart.py + generate_report_pdf.py uitgevoerd
+- [ ] history_writer.py uitgevoerd → .tmp/reviewen/<titel>.pdf
+- [ ] Korte samenvatting in de chat gepresenteerd
+- [ ] Werkbestanden in .tmp/ root opgeruimd

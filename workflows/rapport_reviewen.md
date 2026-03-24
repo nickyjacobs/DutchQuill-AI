@@ -61,7 +61,7 @@ Alle vier domeinen zijn **verplicht** bij een volledige review. Bij een deelrevi
 2. `workflows/apa_nl_gids.md` — voor Domein 2 (APA 7e editie)
 3. `workflows/humanize_nl_gids.md` — voor Domein 3 (AI-patroondetectie)
 4. `workflows/academische_stijl_gids.md` — voor Domein 2 + 4 (schrijfstijl, structuur)
-5. `.claude/rules/schrijfstijl.md` — 28 verboden woorden en 6 verboden openers
+5. `.claude/rules/schrijfstijl.md` — 26 verboden woorden en 6 verboden openers
 
 ---
 
@@ -253,7 +253,7 @@ Verifieer alle bevindingen zelf.
 - [ ] Zinslengtevariatie aanwezig (geen vijf opeenvolgende zinnen van gelijke lengte)
 - [ ] Alinea's beginnen niet telkens met hetzelfde woord
 - [ ] Woordenschat gevarieerd (niet hetzelfde zelfstandig naamwoord > 2x per alinea)
-- [ ] Geen em dashes (—) aanwezig - vervang door komma, punt of gedachtestreepje ( - )
+- [ ] Geen em dashes (—) of gedachtestreepjes ( - ) in lopende tekst - gebruik komma, punt of splits de zin
 - [ ] Geen vage bronvermeldingen zonder citatie ("Uit onderzoek blijkt dat...", "Experts stellen dat..." e.d.)
 - [ ] TTR ≥ 0.45 (Type-Token Ratio: unieke woorden ÷ totaal; automatisch gedetecteerd door humanizer_nl.py)
 
