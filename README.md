@@ -12,6 +12,45 @@ Schrijfassistent voor Nederlandse academische rapporten op HBO-niveau. Gebouwd o
 
 ---
 
+## Voor en na
+
+AI-gegenereerde tekst bevat herkenbare patronen: verboden woorden, voorspelbare zinsopbouw en vage claims zonder bronnen. DutchQuill AI detecteert en verwijdert deze patronen.
+
+<table>
+<tr>
+<th>Typische AI-output</th>
+<th>Na DutchQuill AI</th>
+</tr>
+<tr>
+<td>
+
+In de huidige samenleving is het **cruciaal** om te **onderstrepen** dat digitalisering een **baanbrekende** rol speelt. Dit **faciliteert** een **scala aan** mogelijkheden voor het onderwijs. Het is belangrijker dan ooit om hier **proactief** mee om te gaan, want technologie **vormt** een **essentieel** onderdeel van de moderne leeromgeving — en **demonstreert** hoe organisaties kunnen **stroomlijnen**.
+
+</td>
+<td>
+
+Digitalisering verandert hoe hogescholen hun onderwijs inrichten. De Hogeschool Utrecht registreerde in 2024 een toename van 34% in het gebruik van digitale leerplatformen (De Vries, 2024). Volgens Van den Berg en Jansen (2023) leidt de integratie van adaptieve leersystemen tot hogere slagingspercentages bij eerstejaars studenten. Toch blijft de implementatie ongelijk verdeeld over faculteiten (Onderwijsinspectie, 2024).
+
+</td>
+</tr>
+<tr>
+<td>
+
+**AI-score: Hoog (8/10)**<br>
+6 verboden woorden, 1 verboden opener, 1 gedachtestreepje, geen bronvermeldingen, monotoon zinsritme
+
+</td>
+<td>
+
+**AI-score: Laag (1/10)**<br>
+0 verboden woorden, 3 APA-citaties, gevarieerde zinslengte (8, 19, 12 woorden), specifieke cijfers en namen
+
+</td>
+</tr>
+</table>
+
+---
+
 ## Procesoverzicht
 
 ```
