@@ -1050,7 +1050,7 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             continue
 
         # Detecteer alinea die volledig uit één inline code-expressie bestaat: `cmd`
-        # Bijv. `nmap -sn 10.120.1.0/24` op een eigen regel → Code Snippet blok
+        # Bijv. `nmap -sn <target-range>` op een eigen regel → Code Snippet blok
         inline_code_match = re.match(r'^`([^`]+)`\s*$', raw.strip())
         if inline_code_match:
             flush_paragraph()
