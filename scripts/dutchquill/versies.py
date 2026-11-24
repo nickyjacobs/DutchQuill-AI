@@ -77,10 +77,16 @@ def volgende(actie: str | None, titel: str | None, van: str | None = None) -> di
     naam = veilige_titel(titel)
     titelmap = _actiemap(actie) / naam
     nummers = bestaande(titelmap)
-    n = (nummers[-1] + 1) if nummers else 1
-    doel = titelmap / f"v{n}"
-    doel.mkdir(parents=True, exist_ok=False)
-    vorige = str(titelmap / f"v{nummers[-1]}") if nummers else None
+    if effectief().get("versies", True) is False:
+        # Versies uit: elke ronde overschrijft v1.
+        doel, n = titelmap / "v1", 1
+        vorige = str(doel) if doel.is_dir() else None
+        doel.mkdir(parents=True, exist_ok=True)
+    else:
+        n = (nummers[-1] + 1) if nummers else 1
+        doel = titelmap / f"v{n}"
+        doel.mkdir(parents=True, exist_ok=False)
+        vorige = str(titelmap / f"v{nummers[-1]}") if nummers else None
     # Een vervolgronde levert dezelfde formaten als de versie waarop hij voortbouwt.
     bronmap = Path(van).expanduser().resolve() if van else None
     if bronmap and bronmap.is_file():
