@@ -106,12 +106,12 @@ def init(pad: Path, taal: str = "nl", profiel: str = "zakelijk", languagetool: b
     for sleutel in ("notities", "rapporten", "beeld", "bronnen", "mijn_stijl"):
         m = pad / mappen["input"] / mappen[sleutel]
         if not m.exists():
-            gemaakt.append(str(m.relative_to(pad)))
+            gemaakt.append(m.relative_to(pad).as_posix())
         m.mkdir(parents=True, exist_ok=True)
     for sleutel in ("schrijven", "herschrijven", "reviewen", "humaniseren"):
         m = pad / mappen["output"] / mappen[sleutel]
         if not m.exists():
-            gemaakt.append(str(m.relative_to(pad)))
+            gemaakt.append(m.relative_to(pad).as_posix())
         m.mkdir(parents=True, exist_ok=True)
     (pad / mappen["templates"]).mkdir(exist_ok=True)
     (pad / ".dutchquill").mkdir(exist_ok=True)

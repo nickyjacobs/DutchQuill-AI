@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from dutchquill import config
 from dutchquill.config import ConfigFout
@@ -17,7 +19,7 @@ def test_init_maakt_structuur(werkmap):
         assert (werkmap / sub).is_dir()
     e = config.effectief()
     assert e["ingesteld"] and e["werkmap"] == str(werkmap)
-    assert e["mappen"]["beeld"].endswith("1-input/beeld")
+    assert Path(e["mappen"]["beeld"]).parts[-2:] == ("1-input", "beeld")
 
 
 def test_init_overschrijft_niets(werkmap):
