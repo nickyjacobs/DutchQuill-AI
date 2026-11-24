@@ -1,7 +1,7 @@
 name: release
 
 # Een gepushte tag vX.Y.Z wordt de GitHub-release "DutchQuill AI vX.Y.Z", met het blok van die versie uit de
-# CHANGELOG als tekst. Zie docs/releasen.md.
+# CHANGELOG als tekst. Zie docs/project/releasen.md.
 on:
   push:
     tags: ['v[0-9]+.[0-9]+.[0-9]+']
