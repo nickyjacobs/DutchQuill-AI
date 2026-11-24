@@ -1,7 +1,23 @@
-# Taalgids — Nederlandse Hogeschoolrapporten
+---
+titel: Taal en spelling
+module: taalregels
+geldt: als controles.taalregels aan staat (standaard aan, elk genre)
+versie: 2
+gecontroleerd: 2026-11-24
+bronnen:
+  - https://www.scribbr.nl/category/taalregels-schrijftips/
+  - https://www.scribbr.nl/taalregels-schrijftips/t-d-of-dt-tegenwoordige-en-voltooide-tijd/
+  - https://www.scribbr.nl/taalregels-schrijftips/hoofdlettergebruik/
+  - https://www.scribbr.nl/taalregels-schrijftips/kommas/
+  - https://www.scribbr.nl/taalregels-schrijftips/aaneenschrijven-van-woorden-en-samenstellingen/
+  - https://www.scribbr.nl/taalregels-schrijftips/de-lijdende-vorm/
+---
 
-Hardcoded referentiegids op basis van Scribbr NL (scribbr.nl/category/taalregels-schrijftips/).
-Gebruik deze gids bij elke schrijf-, herschrijf- of reviewtaak.
+# Taal en spelling
+
+Geldt voor elk genre. Genre-afhankelijke punten (zoals verkorte woorden) staan erbij aangegeven.
+
+Gebaseerd op Scribbr NL (scribbr.nl/category/taalregels-schrijftips/).
 
 ---
 
@@ -9,7 +25,7 @@ Gebruik deze gids bij elke schrijf-, herschrijf- of reviewtaak.
 
 *Bron: scribbr.nl/taalregels-schrijftips/t-d-of-dt-tegenwoordige-en-voltooide-tijd/*
 
-### Regel 1: Tegenwoordige tijd (hij/zij/het-vorm)
+### Regel 1: tegenwoordige tijd (hij/zij/het-vorm)
 Voeg altijd **-t** toe aan de ik-vorm, tenzij het werkwoord al op -t eindigt.
 
 **Ezelsbrug:** vervang het werkwoord door "lopen". Krijgt "lopen" een -t? Dan ook jouw werkwoord.
@@ -20,7 +36,7 @@ Voeg altijd **-t** toe aan de ik-vorm, tenzij het werkwoord al op -t eindigt.
 | Hij word | Hij wordt |
 | Het vliegtuig land | Het vliegtuig landt |
 
-### Regel 2: Vragen met jij/je
+### Regel 2: vragen met jij/je
 In vragen met jij-vorm voeg je **geen -t** toe:
 
 | Fout | Goed |
@@ -30,7 +46,7 @@ In vragen met jij-vorm voeg je **geen -t** toe:
 
 **Ezelsbrug:** "Loop jij?" heeft geen -t → "Vind jij?" ook niet.
 
-### Regel 3: Voltooid deelwoord ('t ex-kofschip)
+### Regel 3: voltooid deelwoord ('t ex-kofschip)
 Gebruik **-t** als de laatste letter van de stam in "'t ex-kofschip" voorkomt (t, ex = x, k, o, f, s, ch, p). Anders **-d**.
 
 **Bepaal de stam:** haal -en weg van het infinitief.
@@ -45,7 +61,7 @@ Gebruik **-t** als de laatste letter van de stam in "'t ex-kofschip" voorkomt (t
 
 ---
 
-## 2. Veelgemaakte Spelfouten
+## 2. Veelgemaakte spelfouten
 
 *Bron: scribbr.nl/taalregels-schrijftips/algemene-spelfouten/*
 
@@ -68,7 +84,7 @@ Gebruik **-t** als de laatste letter van de stam in "'t ex-kofschip" voorkomt (t
 
 ---
 
-## 3. Samenstellingen (Aaneenschrijven / Koppelteken / Los)
+## 3. Samenstellingen (Aaneenschrijven / koppelteken / los)
 
 *Bron: scribbr.nl/taalregels-schrijftips/aaneenschrijven-van-woorden-en-samenstellingen/*
 
@@ -118,7 +134,7 @@ Gebruik **-t** als de laatste letter van de stam in "'t ex-kofschip" voorkomt (t
 
 *Bron: scribbr.nl/taalregels-schrijftips/verbindingswoorden/*
 
-### Oorzaak – Gevolg
+### Oorzaak – gevolg
 doordat, daardoor, (waar)door, zodat, vanwege, als gevolg van, ten gevolge van
 
 > "Hij behaalde zijn bachelor doordat hij een voldoende kreeg voor zijn herkansing."
@@ -128,17 +144,17 @@ maar, echter, toch, daarentegen, hoewel, terwijl, desondanks, in tegenstelling t
 
 > "De resultaten waren positief. Deze bleken echter niet te kloppen."
 
-### Opsomming / Aanvulling
+### Opsomming / aanvulling
 en, zowel … als …, ook, daarnaast, bovendien, verder, niet alleen … maar ook …
 
 > "Bezoekers moeten zakken en tassen laten controleren."
 
-### Conclusie / Samenvatting
+### Conclusie / samenvatting
 kortom, samengevat, dus, al met al, hieruit volgt dat, concluderend
 
 > "Afval scheiden betekent minder CO₂-uitstoot. Afval scheiden is dus goed voor het milieu."
 
-### Reden / Verklaring
+### Reden / verklaring
 want, omdat, daarom, namelijk, aangezien, om die reden
 
 > "Vraag meer participanten dan nodig. Er vallen namelijk vaak mensen uit."
@@ -150,7 +166,7 @@ als, mits, tenzij, indien, gesteld dat, aangenomen dat, op voorwaarde dat
 
 ---
 
-## 6. Signaalwoorden per Categorie
+## 6. Signaalwoorden per categorie
 
 *Bron: scribbr.nl/taalregels-schrijftips/signaalwoorden/*
 
@@ -206,7 +222,7 @@ als, mits, tenzij, indien, gesteld dat, aangenomen dat, op voorwaarde dat
 
 ---
 
-## 8. Variatie Aanbrengen / Herhaling Vermijden
+## 8. Variatie aanbrengen / herhaling vermijden
 
 *Bron: scribbr.nl/taalregels-schrijftips/variatie-aanbrengen-hoe-schrijf-je-een-tekst-zonder-herhaling/*
 
@@ -337,19 +353,19 @@ Gebruik het koppelteken (-) bij:
 
 *Bron: scribbr.nl/taalregels-schrijftips/apostrof/*
 
-### 1. Meervoud — apostrof bij lange klinkers (a, e, i, o, u, y)
+### 1. Meervoud: apostrof bij lange klinkers (a, e, i, o, u, y)
 - alinea's, auto's, hobby's
 - Geen apostrof bij: tantes, essays, cadeaus, televisies
 
-### 2. Bezit — apostrof bij lange klinkers en sisklanken
+### 2. Bezit: apostrof bij lange klinkers en sisklanken
 - Novi's scriptie, Zoë's haar
 - Bij sisklank: Chris' boek, Alice' idee (geen s)
 - Geen apostrof bij korte e, medeklinker: Sannes scriptie
 
-### 3. Verkleinwoord — apostrof bij medeklinker + y/u (als "oe")
+### 3. Verkleinwoord: apostrof bij medeklinker + y/u (als "oe")
 - baby'tje, lolly'tje
 
-### 4. Verkorte woorden (informeel — niet in scripties)
+### 4. Verkorte woorden (informeel: niet in formele tekst, wel in een post of informele mail)
 - 't, 's, 'n, '97
 
 ### 5. Letters/cijfers
@@ -357,7 +373,7 @@ Gebruik het koppelteken (-) bij:
 
 ---
 
-## 14. Lijdende Vorm (Passief)
+## 14. Lijdende vorm (Passief)
 
 *Bron: scribbr.nl/taalregels-schrijftips/de-lijdende-vorm/*
 
