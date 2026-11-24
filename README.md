@@ -1,16 +1,30 @@
 <p align="center"><img src="assets/banner.jpg" alt="DutchQuill AI: schrijven, herschrijven, reviewen en humaniseren, in jouw stem"></p>
 
-# DutchQuill AI
+<p align="center">
+  <a href="https://github.com/nickyjacobs/DutchQuill-AI/releases/latest"><img src="https://img.shields.io/github/v/release/nickyjacobs/DutchQuill-AI?label=release&color=1f4e5f" alt="Laatste release"></a>
+  <a href="https://github.com/nickyjacobs/DutchQuill-AI/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/nickyjacobs/DutchQuill-AI/ci.yml?branch=main&label=tests&labelColor=2b2b2b" alt="Tests"></a>
+  <img src="https://img.shields.io/badge/Claude_Code-plugin-D97757?logo=claude&logoColor=white" alt="Claude Code-plugin">
+  <img src="https://img.shields.io/badge/taal-NL_%2B_EN-2a9daf" alt="Nederlands en Engels">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licentie-MIT-yellow" alt="Licentie: MIT"></a>
+</p>
 
-![Versie](https://img.shields.io/badge/versie-2.0.0-1f4e5f) ![Claude Code-plugin](https://img.shields.io/badge/Claude%20Code-plugin-2a9daf) ![Nederlands en Engels](https://img.shields.io/badge/taal-NL%20%2B%20EN-1f4e5f) ![Licentie: MIT](https://img.shields.io/badge/licentie-MIT-595f66)
+<p align="center"><b>Schrijven, herschrijven, reviewen en humaniseren in Claude Code.<br>Nederlands eerst, Engels volwaardig, in jouw stem.</b></p>
 
-Een schrijfassistent voor Claude Code, Nederlands eerst en Engels volwaardig. DutchQuill schrijft, herschrijft,
-reviewt en humaniseert je teksten: een hbo-rapport, een procesbeschrijving, een mail, een LinkedIn-post of een
-README. Jij bepaalt waarop het let, hoe het klinkt en in welke vorm het terugkomt.
+<p align="center">
+  <a href="#installeren">Installeren</a> ·
+  <a href="#wat-je-ermee-doet">Wat je ermee doet</a> ·
+  <a href="#dutchquill-studio">Studio</a> ·
+  <a href="#je-werkmap">Werkmap</a> ·
+  <a href="#humaniseren-eerlijk-gezegd">Humaniseren</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
+  <a href="README.en.md">English</a>
+</p>
 
-*English: see [README.en.md](README.en.md).*
+DutchQuill is een schrijfassistent voor Claude Code. Hij schrijft, herschrijft, reviewt en humaniseert je teksten:
+een hbo-rapport, een procesbeschrijving, een mail, een LinkedIn-post of een README. Jij bepaalt waarop hij let, hoe
+het klinkt en in welke vorm het terugkomt.
 
-![DutchQuill Studio: de toonschaal met dezelfde mail op vijf niveaus](docs/img/studio-toon.png)
+<p align="center"><img src="docs/img/studio-toon.png" width="880" alt="DutchQuill Studio: de toonschaal, met een voorbeeldmail die meeverandert"></p>
 
 ## Installeren
 
@@ -44,6 +58,17 @@ als AI?" werkt ook.
 
 **Mails, posts en korte teksten** komen gewoon in de chat. **Documenten** gaan naar je werkmap, per titel en per
 versie, in de formaten die je kiest: Word, pdf, Markdown, tekst of html.
+
+## DutchQuill Studio
+
+`/dutchquill:instellen` opent desgewenst DutchQuill Studio: een pagina in je browser die alleen op je eigen computer
+draait. Je kiest er je werkmap, profiel, toon, controles, uitvoer en templates, zonder één regel YAML. Licht of
+donker, Nederlands of Engels. Niets wordt opgeslagen voordat je het overzicht van je wijzigingen hebt gezien.
+
+<p align="center">
+  <img src="docs/img/studio-werkmap.png" width="49%" alt="DutchQuill Studio: de werkmap als plaatje, van 1-input naar 2-output">
+  <img src="docs/img/studio-uitvoer.png" width="49%" alt="DutchQuill Studio: bestandsformaten als kaarten en wat alleen in de chat komt">
+</p>
 
 ## Je werkmap
 
@@ -90,9 +115,11 @@ profielen:
 genre_profielen: { mail: zakelijk, linkedin: mijn-linkedin }
 ```
 
-Alles staat in [docs/configuratie.md](docs/configuratie.md).
+Voor je mails vul je eenmalig je professionele gegevens in (naam, functie, organisatie, contact, groet), plus
+eventueel een handtekening of mailbanner. Voor de titelpagina van een hbo-rapport zijn er studentgegevens. Alles
+staat in [docs/configuratie.md](docs/configuratie.md).
 
-![DutchQuill Studio: controles aan of uit](docs/img/studio-controles.png)
+<p align="center"><img src="docs/img/studio-controles.png" width="880" alt="DutchQuill Studio: controles los aan of uit, met een voorbeeld per controle"></p>
 
 ## Templates
 
@@ -100,6 +127,10 @@ Drie templates worden meegeleverd: `apa-hbo` (APA 7, zoals een hogeschool het wi
 Je eigen huisstijl voeg je toe door een .docx in `templates/` te zetten. DutchQuill controleert welke stijlen
 erin zitten en vertaalt Nederlandse stijlnamen ("Kop 1") zelf. Andere koppen of een ander lettertype? Zeg het,
 of gebruik de Studio: DutchQuill maakt een aangepaste kopie en laat het origineel staan.
+
+Naast de Word-templates (hoe het eruitziet) is er per soort tekst een sjabloon (wat erin hoort): twaalf in totaal,
+van mail en memo tot onderzoeksrapport en README. Pas een sjabloon aan in de Studio of upload je eigen versie;
+terug naar de standaard kan altijd.
 
 ## Humaniseren, eerlijk gezegd
 
@@ -148,10 +179,13 @@ Versie 1 was een map die je opende in Claude Code. Versie 2 is een plugin. Je ou
 neem je mee door ze in de nieuwe werkmap te zetten (`1-input/rapporten/`) en je gegevens in te vullen via
 `/dutchquill:instellen`. Wat er veranderd is: [CHANGELOG.md](CHANGELOG.md).
 
-## Ontwikkelen
+## Feedback
 
-Zie [docs/ontwikkelen.md](docs/ontwikkelen.md) en [CONTRIBUTING.md](CONTRIBUTING.md).
+DutchQuill is gemaakt door één persoon en wordt beter van wat jij tegenkomt. Een fout of een idee? Open een
+[issue](https://github.com/nickyjacobs/DutchQuill-AI/issues/new/choose) of start een
+[discussie](https://github.com/nickyjacobs/DutchQuill-AI/discussions). Zelf meebouwen: [CONTRIBUTING.md](CONTRIBUTING.md)
+en [docs/ontwikkelen.md](docs/ontwikkelen.md).
 
 ## Licentie
 
-MIT. Zie [LICENSE](LICENSE).
+[MIT](LICENSE) © Nicky Jacobs
