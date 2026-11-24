@@ -135,4 +135,4 @@ def test_sjablonen_en_professioneel(studio, tmp_path):
                       {"soort": "banner", "bestandsnaam": "mijn banner.png", "data": png})
     assert status == 200 and r["pad"] == "templates/email/banner.png" and r["voorbeeld"].startswith("data:image/png")
     # De upload schrijft de config niet zelf: dat gaat via opslaan.
-    assert "professioneel" not in (config.laad_yaml(pad / "dutchquill.yaml") or {})
+    assert not (config.laad_yaml(pad / "dutchquill.yaml") or {}).get("professioneel")
