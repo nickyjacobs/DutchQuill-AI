@@ -10,7 +10,7 @@
 
 De versie staat op drie plekken: `.claude-plugin/plugin.json`, `scripts/dutchquill/__init__.py` en
 `pyproject.toml`. Alle drie moeten gelijk zijn aan de nieuwste versie in de CHANGELOG (of aan [Unreleased] voorbij
-die versie, als er nog geen nieuwe release is). Opbouw van de CHANGELOG: zie docs/releasen.md.
+die versie, als er nog geen nieuwe release is). Opbouw van de CHANGELOG: zie docs/project/releasen.md.
 Exitcodes: 0 in orde, 1 problemen gevonden.
 """
 

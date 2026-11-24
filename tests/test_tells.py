@@ -124,3 +124,18 @@ def test_rapport_in_het_engels_voor_engelse_tekst():
     assert "woorden" not in uit and "Brede aanloop" not in uit
     nl = tells.rapport(tells.analyseer("In de huidige digitale wereld speelt AI een cruciale rol.", "nl", "kort"))
     assert nl.startswith("Analyse: AI-patronen")
+
+
+def test_html_in_readme_telt_niet_als_tekst():
+    from dutchquill import tekst
+    md = '<p align="center"><img src="a.png" alt="x"></p>\n\n<p align="center"><b>Schrijven in Claude Code.</b></p>\n'
+    rs = [r for r in tekst.regels(md) if r.soort != "leeg"]
+    assert [r.tekst for r in rs] == ["Schrijven in Claude Code."]
+
+
+def test_vervolgregel_hoort_bij_opsommingspunt():
+    from dutchquill import tekst
+    md = "- Eerste punt dat over twee regels\n  doorloopt tot hier.\n- Tweede punt.\n\nGewone alinea.\n"
+    rs = [r for r in tekst.regels(md) if r.soort != "leeg"]
+    assert [(r.soort, r.tekst) for r in rs] == [("lijst", "Eerste punt dat over twee regels doorloopt tot hier."),
+                                                 ("lijst", "Tweede punt."), ("proza", "Gewone alinea.")]

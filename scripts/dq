@@ -48,6 +48,13 @@ if [ "$WANT" != "$HAVE" ] || [ ! -x "$(venv_python)" ]; then
     echo "DutchQuill is nog niet klaar voor gebruik; het eerste dq-commando installeert de benodigde pakketten."
     exit 0
   fi
+  # Mislukte de installatie net (geen internet?), probeer het dan pas na tien minuten opnieuw. Zo blijft een
+  # skill die dq een paar keer aanroept niet minutenlang hangen; Claude gaat dan verder zonder de scripts.
+  MISLUKT="$DATA/.installatie-mislukt"
+  if [ -f "$MISLUKT" ] && [ -n "$(find "$MISLUKT" -mmin -10 2>/dev/null)" ]; then
+    echo "DutchQuill: de pakketten konden net niet geïnstalleerd worden (geen internet?). Ga verder zonder dq, of probeer het over tien minuten opnieuw." >&2
+    exit 1
+  fi
   LOCK="$DATA/.installeren"
   for _ in $(seq 1 300); do mkdir "$LOCK" 2>/dev/null && break; sleep 1; done
   trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT
@@ -74,12 +81,13 @@ if [ "$WANT" != "$HAVE" ] || [ ! -x "$(venv_python)" ]; then
     PY="$(venv_python)"
     if command -v uv >/dev/null 2>&1; then
       uv pip install --quiet --python "$PY" -r "$REQ" >&2 || {
-        echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
+        date > "$MISLUKT"; echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
     else
       "$PY" -m pip install --quiet --disable-pip-version-check --timeout 30 --retries 1 -r "$REQ" >&2 || {
-        echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
+        date > "$MISLUKT"; echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
     fi
     echo "$WANT" > "$MARKER"
+    rm -f "$MISLUKT"
     echo "DutchQuill: installatie klaar." >&2
   fi
   trap - EXIT
