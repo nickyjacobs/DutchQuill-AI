@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/reference/configuration.md">🇬🇧 English</a></p>
+
 # Configuratie
 
 Alle instellingen staan in `dutchquill.yaml` in je werkmap. Je past ze aan in DutchQuill Studio, door het tegen

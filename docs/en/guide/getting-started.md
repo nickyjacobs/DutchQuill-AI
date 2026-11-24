@@ -1,3 +1,5 @@
+<p align="right"><a href="../../handleiding/aan-de-slag.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Getting started
 
 From installing to your first document, in about ten minutes.

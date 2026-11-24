@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="README.en.md">🇬🇧 English</a></p>
+
 <p align="center"><img src="assets/banner.jpg" alt="DutchQuill AI: schrijven, herschrijven, reviewen en humaniseren, in jouw stem"></p>
 
 <p align="center">
@@ -16,8 +18,7 @@
   <a href="#dutchquill-studio">Studio</a> ·
   <a href="#humaniseren-eerlijk-gezegd">Humaniseren</a> ·
   <a href="docs/README.md">Documentatie</a> ·
-  <a href="#het-verhaal">Het verhaal</a> ·
-  <a href="README.en.md">English</a>
+  <a href="#het-verhaal">Het verhaal</a>
 </p>
 
 DutchQuill is een schrijfassistent voor Claude Code. Hij schrijft, herschrijft, reviewt en humaniseert je teksten:

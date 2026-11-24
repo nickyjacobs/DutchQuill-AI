@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/workspace.md">🇬🇧 English</a></p>
+
 # Je werkmap
 
 Eén map voor alles, op de plek die jij kiest: het bureaublad, Documenten of een Obsidian-vault. Het pad staat in
