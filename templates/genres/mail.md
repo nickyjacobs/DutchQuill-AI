@@ -20,6 +20,17 @@ modules: taal, humaniseren
 5. Wat je van de lezer verwacht, met datum als dat nodig is.
 6. Afsluiting en groet: "Groet,", "Met vriendelijke groet," (formeel), "Groetjes," (informeel).
 
+## Afsluiting en handtekening
+
+Staan er gegevens onder `professioneel` in de config (`DQ config toon`), gebruik die dan:
+
+- **De groet:** `professioneel.groet` voor zakelijke mails. Pas hem aan op de toon: informeel "Groet," of
+  "Groetjes,", formeel "Met vriendelijke groet,".
+- **Onder de groet:** de naam, en bij een zakelijke mail ook functie, organisatie en telefoon. Een interne of
+  informele mail krijgt alleen de voornaam.
+- **Afbeeldingen:** is er een `handtekening` of `banner` (afbeelding), zet die dan niet in de tekst. Zeg in één
+  regel dat die in het mailprogramma onder de mail komt.
+
 ## Antwoord op een mail
 
 Lees de mail van de ander goed. Neem de aanspreekvorm van de ander over (je of u), en beantwoord de vragen in de

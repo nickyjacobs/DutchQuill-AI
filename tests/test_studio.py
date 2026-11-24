@@ -108,3 +108,31 @@ def test_bronnen_nu_controleren(studio, monkeypatch):
     monkeypatch.setattr(bronnen, "check", lambda: veranderd)
     status, r = vraag(studio, "POST", "/api/bronnen/check", {})
     assert status == 200 and not r["gemarkeerd"] and r["gewijzigd"][0]["gidsen"] == ["nl/apa"]
+
+
+def test_sjablonen_en_professioneel(studio, tmp_path):
+    pad = tmp_path / "DutchQuill"
+    vraag(studio, "POST", "/api/werkmap", {"pad": str(pad), "taal": "nl", "profiel": "zakelijk"})
+    _, r = vraag(studio, "GET", "/api/sjablonen")
+    mail = next(x for x in r["sjablonen"] if x["genre"] == "mail")
+    assert mail["eigen"] is False and "Afsluiting en handtekening" in mail["inhoud"]
+    assert vraag(studio, "POST", "/api/sjablonen/opslaan", {"genre": "../../x", "inhoud": "x"})[0] == 400
+    assert vraag(studio, "POST", "/api/sjablonen/opslaan", {"genre": "mail", "inhoud": "  "})[0] == 400
+    assert vraag(studio, "POST", "/api/sjablonen/opslaan", {"genre": "mail", "inhoud": "# Eigen mail\n"})[0] == 200
+    _, r = vraag(studio, "GET", "/api/sjablonen")
+    mail = next(x for x in r["sjablonen"] if x["genre"] == "mail")
+    assert mail["eigen"] is True and mail["inhoud"].startswith("# Eigen mail")
+    assert vraag(studio, "POST", "/api/sjablonen/herstel", {"genre": "mail"})[0] == 200
+    assert not (pad / "templates" / "genres" / "mail.md").exists()
+    assert len(list((pad / "templates" / "genres" / "oud").glob("mail-*.md"))) == 1
+
+    png = base64.b64encode(b"\x89PNG\r\n\x1a\n" + b"0" * 40).decode()
+    assert vraag(studio, "POST", "/api/professioneel/upload",
+                 {"soort": "stempel", "bestandsnaam": "a.png", "data": png})[0] == 400
+    assert vraag(studio, "POST", "/api/professioneel/upload",
+                 {"soort": "banner", "bestandsnaam": "a.svg", "data": png})[0] == 400
+    status, r = vraag(studio, "POST", "/api/professioneel/upload",
+                      {"soort": "banner", "bestandsnaam": "mijn banner.png", "data": png})
+    assert status == 200 and r["pad"] == "templates/email/banner.png" and r["voorbeeld"].startswith("data:image/png")
+    # De upload schrijft de config niet zelf: dat gaat via opslaan.
+    assert "professioneel" not in (config.laad_yaml(pad / "dutchquill.yaml") or {})

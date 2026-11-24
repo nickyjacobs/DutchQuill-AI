@@ -36,6 +36,9 @@ stem:
 # Studentgegevens voor de titelpagina (optioneel, alleen bij het profiel student)
 student: {}
 
+# Professionele gegevens voor de afsluiting en handtekening van je mails (optioneel)
+professioneel: {}
+
 # Eigen templates. Zet het bestand in de map templates/ en geef het een naam, bijvoorbeeld:
 #   huisstijl:
 #     bestand: templates/huisstijl.docx

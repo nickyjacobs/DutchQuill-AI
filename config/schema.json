@@ -538,6 +538,102 @@
         }
       }
     },
+    "professioneel": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-label": {
+        "nl": "Professionele gegevens (optioneel)",
+        "en": "Professional details (optional)"
+      },
+      "x-uitleg": {
+        "nl": "Voor de afsluiting en handtekening van je mails.",
+        "en": "For the sign-off and signature of your emails."
+      },
+      "properties": {
+        "naam": {
+          "type": "string",
+          "x-label": {
+            "nl": "Naam",
+            "en": "Name"
+          }
+        },
+        "functie": {
+          "type": "string",
+          "x-label": {
+            "nl": "Functie",
+            "en": "Job title"
+          }
+        },
+        "organisatie": {
+          "type": "string",
+          "x-label": {
+            "nl": "Organisatie",
+            "en": "Organisation"
+          }
+        },
+        "afdeling": {
+          "type": "string",
+          "x-label": {
+            "nl": "Afdeling of team",
+            "en": "Department or team"
+          }
+        },
+        "telefoon": {
+          "type": "string",
+          "x-label": {
+            "nl": "Telefoon",
+            "en": "Phone"
+          }
+        },
+        "email": {
+          "type": "string",
+          "x-label": {
+            "nl": "E-mail",
+            "en": "Email"
+          }
+        },
+        "website": {
+          "type": "string",
+          "x-label": {
+            "nl": "Website",
+            "en": "Website"
+          }
+        },
+        "linkedin": {
+          "type": "string",
+          "x-label": {
+            "nl": "LinkedIn",
+            "en": "LinkedIn"
+          }
+        },
+        "groet": {
+          "type": "string",
+          "default": "Met vriendelijke groet,",
+          "x-label": {
+            "nl": "Afsluitende groet",
+            "en": "Closing"
+          },
+          "x-uitleg": {
+            "nl": "Standaard voor zakelijke mails; DutchQuill past hem aan op de toon.",
+            "en": "Default for business emails; adapted to the tone."
+          }
+        },
+        "handtekening": {
+          "type": "string",
+          "x-label": {
+            "nl": "Handtekening (afbeelding)",
+            "en": "Signature (image)"
+          }
+        },
+        "banner": {
+          "type": "string",
+          "x-label": {
+            "nl": "Mailbanner (afbeelding)",
+            "en": "Email banner (image)"
+          }
+        }
+      }
+    },
     "templates": {
       "type": "object",
       "default": {},

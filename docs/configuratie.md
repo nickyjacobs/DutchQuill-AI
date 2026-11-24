@@ -52,6 +52,17 @@ Gegenereerd uit `config/schema.json`.
 | `privacy.languagetool` | boolean | `false` | Online taalcheck (LanguageTool). Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal. |
 | `stem.gebruiken` | boolean | `true` | Schrijf in mijn stem. Gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld voor ritme, woordkeus en zinsopbouw. |
 | `student` | object |  | Studentgegevens (optioneel). Voor de titelpagina van een hbo-rapport. |
+| `professioneel.naam` | string |  | Naam. |
+| `professioneel.functie` | string |  | Functie. |
+| `professioneel.organisatie` | string |  | Organisatie. |
+| `professioneel.afdeling` | string |  | Afdeling of team. |
+| `professioneel.telefoon` | string |  | Telefoon. |
+| `professioneel.email` | string |  | E-mail. |
+| `professioneel.website` | string |  | Website. |
+| `professioneel.linkedin` | string |  | LinkedIn. |
+| `professioneel.groet` | string | `"Met vriendelijke groet,"` | Afsluitende groet. Standaard voor zakelijke mails; DutchQuill past hem aan op de toon. |
+| `professioneel.handtekening` | string |  | Handtekening (afbeelding). |
+| `professioneel.banner` | string |  | Mailbanner (afbeelding). |
 | `templates` | object | `{}` | Eigen templates. |
 | `stijlen` | object | `{}` | Stijlnamen in je template. Alleen nodig als je template andere stijlnamen gebruikt, bijvoorbeeld kop1: Kop 1 in een Nederlandse Word. |
 | `bijwerken.herinnering_dagen` | integer | `30` | Herinnering na (dagen). |

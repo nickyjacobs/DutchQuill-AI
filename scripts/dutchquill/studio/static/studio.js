@@ -29,8 +29,7 @@ async function api(methode, pad, body) {
 const TEKST = {
   nl: {
     studio: "Studio",
-    terugdraaien: "Terugdraaien", bekijkopslaan: "Bekijken en opslaan", opslaan: "Opslaan", annuleren: "Annuleren",
-    sluiten: "Sluiten", volgende: "Volgende", vorige: "Vorige", beginnen: "Beginnen",
+    terugdraaien: "Terugdraaien", bekijkopslaan: "Bekijken en opslaan", opslaan: "Opslaan",     sluiten: "Sluiten", volgende: "Volgende", vorige: "Vorige", beginnen: "Beginnen",
     fout_algemeen: "Er ging iets mis. Probeer het opnieuw.",
     geen_token: "Deze pagina hoort bij een Studio-sessie. Open de Studio opnieuw via /dutchquill:instellen.",
     installatie: "Installatie", instellingen: "Instellingen",
@@ -47,8 +46,7 @@ const TEKST = {
     over_5: "DutchQuill is open source (MIT). Zie je een fout of heb je een idee, open dan een issue op GitHub.",
     kop_verhaal: "Waarom ik DutchQuill maakte",
     kop_socials: "Socials",
-    formules_intro: "Ik leerde ook rekenen aan tekst. De humanizer meet onder meer:",
-    f1_naam: "Flesch-Douma",
+        f1_naam: "Flesch-Douma",
     f1: "de Nederlandse leesbaarheidsformule: 206,84 − 77 × lettergrepen per woord − 0,93 × woorden per zin. Hoe hoger, hoe makkelijker de tekst; een hbo-rapport zit meestal tussen 30 en 50.",
     f2_naam: "MATTR",
     f2: "Moving Average Type-Token Ratio: hoeveel verschillende woorden je gebruikt, gemeten over steeds verschuivende stukken van 100 woorden. Een lage score betekent veel herhaling.",
@@ -60,6 +58,79 @@ const TEKST = {
     controle_ok: "Alles is actueel. De volgende herinnering komt over een maand.",
     controle_gewijzigd: "Deze bronnen zijn veranderd. Typ in Claude /dutchquill:bijwerken om de gidsen bij te werken:",
     controle_fouten: "Niet alle bronnen waren bereikbaar:",
+    m_fout: "Dat lukte niet",
+    m_info: "Goed om te weten",
+    m_succes: "Gelukt",
+    m_letop: "Let op",
+    m_sluiten: "Melding sluiten",
+    m_eigen_titel: "Eigen profiel gemaakt",
+    eigen_kopie: "Je past nu je eigen profiel %s aan. Het meegeleverde profiel %s blijft zoals het was. Vergeet niet op te slaan.",
+    m_opgeslagen_titel: "Instellingen opgeslagen",
+    m_opgeslagen_tekst: "Je wijzigingen staan in dutchquill.yaml en gelden vanaf je volgende opdracht.",
+    m_geen_titel: "Niets om op te slaan",
+    geen_wijzigingen: "Er is niets veranderd sinds de laatste keer opslaan.",
+    m_map_titel: "Werkmap aangemaakt",
+    map_gemaakt: "Je mappen staan klaar. Kies nu je profiel.",
+    m_gekopieerd_titel: "Gekopieerd",
+    gekopieerd: "Plak /dutchquill:bijwerken in Claude om de gidsen te laten nakijken.",
+        m_formaat_tekst: "Kies minstens één bestandsformaat voor je documenten.",
+    m_template_titel: "Template toegevoegd",
+    m_template_mist: "Template toegevoegd, maar er ontbreken kopstijlen. Kijk bij Controleer wat er mist.",
+    m_aanpas_titel: "Template gemaakt",
+    m_aanpas_tekst: "%s is je nieuwe standaardtemplate. Vergeet niet op te slaan.",
+    m_profiel_titel: "Profiel gemaakt",
+    m_profiel_tekst: "%s is nu actief. Vergeet niet op te slaan.",
+    m_stem_titel: "Tekst toegevoegd",
+    m_stem_tekst: "%s staat in mijn-stijl. Klik op Meet mijn stem om je stemprofiel bij te werken.",
+    m_gemeten_titel: "Stem gemeten",
+    m_gemeten_tekst: "Je stemprofiel is bijgewerkt. DutchQuill gebruikt het bij je volgende tekst.",
+    m_vak_titel: "Bestand toegevoegd",
+    m_vak_tekst: "%s voor %s staat klaar. Bij een review wordt je rapport hierop gecontroleerd.",
+    m_upload_titel: "Afbeelding toegevoegd",
+        m_sjabloon_titel: "Sjabloon opgeslagen",
+    m_sjabloon_tekst: "DutchQuill gebruikt nu jouw sjabloon voor %s.",
+    m_herstel_titel: "Standaard teruggezet",
+    m_herstel_tekst: "%s gebruikt weer het meegeleverde sjabloon. Je eigen versie staat bewaard in templates/genres/oud.",
+    m_map_kiezen: "Mapkiezer",
+    upload: "Uploaden",
+    voorbeeld_kop: "Voorbeeld",
+    voorbeeld_mix: "Een benadering: bij het schrijven past Claude je mix volledig toe.",
+    vb_aan: "Aan: het projectteam",
+    berichten: "Berichten",
+    documenten: "Documenten",
+    s_professioneel: "Professioneel",
+    prof_titel: "Professionele gegevens",
+    prof_uitleg: "Voor de afsluiting en handtekening van je mails. Alles is optioneel.",
+    prof_afb: "Handtekening en banner",
+    prof_afb_uitleg: "Een handtekening of mailbanner (met bijvoorbeeld je naam, foto, telefoon en organisatie) komt onder je mail. DutchQuill noemt hem bij het schrijven; plaatsen doe je in je mailprogramma.",
+    handtekening: "handtekening",
+    banner: "banner",
+    upload_handtekening: "Handtekening uploaden",
+    upload_banner: "Banner uploaden",
+    prof_voorbeeld: "Zo sluit een zakelijke mail af",
+    sjablonen_titel: "Sjablonen per soort tekst",
+    sjablonen_uitleg: "Een sjabloon bepaalt de opbouw van een soort tekst: wat er in een mail, notitie of rapport hoort. Pas het meegeleverde sjabloon aan of upload je eigen versie (.md of .txt).",
+    andere_soorten: "Andere soorten tekst",
+    standaard: "Standaard",
+    eigen_sjabloon: "Eigen",
+    aanpassen: "Aanpassen",
+    terug_standaard: "Terug naar standaard",
+    opslaan_sjabloon: "Opslaan als eigen sjabloon",
+    herstel_vraag: "Terug naar het meegeleverde sjabloon? Je eigen versie wordt bewaard in templates/genres/oud.",
+    kop_formules: "Wat de humanizer meet",
+    formules_intro: "Onderweg leerde ik ook rekenen aan tekst. Drie formules die de humanizer gebruikt:",
+    m_upload_tekst: "Je %s staat in templates/email. Sla je instellingen op om hem te gebruiken.",
+    f_docx: "Om verder te bewerken",
+    f_pdf: "Klaar om te delen",
+    f_md: "Voor GitHub en Obsidian",
+    f_txt: "Platte tekst, overal te openen",
+    f_html: "Voor web en mail",
+    berichten_uitleg: "Kort en snel, meestal direct te plakken.",
+    documenten_uitleg: "Langere stukken; meestal wil je hier een bestand.",
+    geen_bestand: "Nog geen afbeelding.",
+    upload_sjabloon: "Uploaden",
+    annuleren: "Annuleren",
+    m_formaat_titel: "Minstens één formaat",
     welkom_titel: "Welkom bij DutchQuill",
     welkom_1: "DutchQuill schrijft, herschrijft, reviewt en humaniseert je teksten: een rapport, een mail, een LinkedIn-post of een README.",
     welkom_2: "Jij bepaalt hoe het klinkt, waarop het let en in welk formaat het terugkomt. Dat stel je hier in; later kan alles ook in een gesprek met Claude.",
@@ -72,11 +143,10 @@ const TEKST = {
     thema_licht_l: "Licht", thema_auto_l: "Automatisch", thema_donker_l: "Donker",
     werkmap_titel: "Waar komt je DutchQuill-map?",
     werkmap_uitleg: "In deze map zet je je materiaal (notities, rapporten, afbeeldingen, bronnen) en daar komen je documenten terecht, per versie.",
-    bureaublad: "Op het bureaublad", documenten: "In Documenten", zelf: "Zelf kiezen",
+    bureaublad: "Op het bureaublad", zelf: "Zelf kiezen",
     kies_map: "Kies een map", of_typ: "Of typ het pad", taal: "Taal van je teksten",
     taal_nl: "Nederlands", taal_en: "Engels", taal_auto: "Automatisch (volgt je materiaal)",
-    map_aanmaken: "Map aanmaken", map_gemaakt: "Je werkmap staat klaar.",
-    zo_ziet: "Zo ziet de map eruit:", huidige_map: "Je werkmap",
+    map_aanmaken: "Map aanmaken",     zo_ziet: "Zo ziet de map eruit:", huidige_map: "Je werkmap",
     map_verplaatsen: "Verplaatsen kan via Claude: zeg \"verplaats mijn DutchQuill-map naar ...\".",
     versies: "Versies bijhouden", versies_uitleg: "Elke nieuwe ronde over dezelfde titel komt in een eigen map: v1, v2, v3.",
     profiel_titel: "Waarvoor gebruik je DutchQuill vooral?",
@@ -89,8 +159,7 @@ const TEKST = {
     genre_uitleg: "Bijvoorbeeld: mails altijd met het profiel zakelijk, LinkedIn-posts met je eigen profiel.",
     volgt_actief: "Volgt het actieve profiel",
     actief_profiel: "Je past het profiel %s aan.",
-    eigen_kopie: "%s is meegeleverd en blijft zoals het is. Je wijzigingen staan in je eigen profiel %s.",
-    controles_titel: "Waar moet DutchQuill op letten?",
+        controles_titel: "Waar moet DutchQuill op letten?",
     controles_uitleg: "Zet aan wat bij jouw teksten past. Een student wil alles, een LinkedIn-post heeft geen APA nodig.",
     vb_apa: "(Jansen, 2024) in de tekst, en een literatuurlijst volgens APA 7",
     vb_academische_stijl: "\"De resultaten zijn gunstig\" in plaats van \"Je zult zien dat het meevalt\"",
@@ -133,14 +202,13 @@ const TEKST = {
     onderhoud_titel: "Onderhoud",
     gidsen_stand: "De gidsen (APA, taal, humaniseren) zijn gecontroleerd op %s.",
     bijwerken_uitleg: "Eén keer per maand herinnert DutchQuill je eraan om ze te laten nakijken. Typ dan in Claude:",
-    kopieer: "Kopieer", gekopieerd: "Gekopieerd.", herinnering: "Herinnering na (dagen)",
+    kopieer: "Kopieer", herinnering: "Herinnering na (dagen)",
     versie: "Versie", klaar_sluiten: "Klaar en Studio sluiten",
     afronden_titel: "Klaar om op te slaan",
     afronden_uitleg: "Dit wordt je startinstelling. Je kunt alles later aanpassen, hier of in een gesprek.",
     verder_instellen: "Opslaan en verder instellen", opslaan_klaar: "Opslaan en klaar",
     wijzigingen: "%s wijziging(en) nog niet opgeslagen.", opgeslagen: "Opgeslagen.",
-    voorbeeld_titel: "Dit verandert er", geen_wijzigingen: "Er is niets veranderd.",
-    fouten_titel: "Zo kan het niet worden opgeslagen",
+    voorbeeld_titel: "Dit verandert er",     fouten_titel: "Zo kan het niet worden opgeslagen",
     onopgeslagen: "Je hebt nog wijzigingen die niet zijn opgeslagen. Toch sluiten?",
     toch_sluiten: "Toch sluiten",
     gesloten_titel: "De Studio is gesloten",
@@ -149,8 +217,7 @@ const TEKST = {
   },
   en: {
     studio: "Studio",
-    terugdraaien: "Undo changes", bekijkopslaan: "Review and save", opslaan: "Save", annuleren: "Cancel",
-    sluiten: "Close", volgende: "Next", vorige: "Back", beginnen: "Get started",
+    terugdraaien: "Undo changes", bekijkopslaan: "Review and save", opslaan: "Save",     sluiten: "Close", volgende: "Next", vorige: "Back", beginnen: "Get started",
     fout_algemeen: "Something went wrong. Try again.",
     geen_token: "This page belongs to a Studio session. Open the Studio again with /dutchquill:instellen.",
     installatie: "Setup", instellingen: "Settings",
@@ -167,8 +234,7 @@ const TEKST = {
     over_5: "DutchQuill is open source (MIT). Found a bug or have an idea? Open an issue on GitHub.",
     kop_verhaal: "Why I built DutchQuill",
     kop_socials: "Socials",
-    formules_intro: "I also learned to measure text. Among other things, the humanizer looks at:",
-    f1_naam: "Flesch-Douma and Flesch Reading Ease",
+        f1_naam: "Flesch-Douma and Flesch Reading Ease",
     f1: "readability formulas for Dutch (206.84 − 77 × syllables per word − 0.93 × words per sentence) and English (206.835 − 84.6 × syllables per word − 1.015 × words per sentence). Higher means easier to read.",
     f2_naam: "MATTR",
     f2: "Moving Average Type-Token Ratio: how many different words you use, measured over a sliding window of 100 words. A low score means a lot of repetition.",
@@ -180,6 +246,79 @@ const TEKST = {
     controle_ok: "Everything is up to date. The next reminder comes in a month.",
     controle_gewijzigd: "These sources have changed. Type /dutchquill:bijwerken in Claude to update the guides:",
     controle_fouten: "Not every source could be reached:",
+    m_fout: "That didn't work",
+    m_info: "Good to know",
+    m_succes: "Done",
+    m_letop: "Heads up",
+    m_sluiten: "Close notification",
+    m_eigen_titel: "Own profile created",
+    eigen_kopie: "You are now editing your own profile %s. The built-in profile %s stays as it was. Remember to save.",
+    m_opgeslagen_titel: "Settings saved",
+    m_opgeslagen_tekst: "Your changes are in dutchquill.yaml and apply from your next request.",
+    m_geen_titel: "Nothing to save",
+    geen_wijzigingen: "Nothing has changed since you last saved.",
+    m_map_titel: "Workspace created",
+    map_gemaakt: "Your folders are ready. Now pick your profile.",
+    m_gekopieerd_titel: "Copied",
+    gekopieerd: "Paste /dutchquill:bijwerken in Claude to have the guides checked.",
+        m_formaat_tekst: "Choose at least one file format for your documents.",
+    m_template_titel: "Template added",
+    m_template_mist: "Template added, but heading styles are missing. Use Check to see what's missing.",
+    m_aanpas_titel: "Template created",
+    m_aanpas_tekst: "%s is your new default template. Remember to save.",
+    m_profiel_titel: "Profile created",
+    m_profiel_tekst: "%s is now active. Remember to save.",
+    m_stem_titel: "Text added",
+    m_stem_tekst: "%s is in my-style. Click Measure my voice to update your voice profile.",
+    m_gemeten_titel: "Voice measured",
+    m_gemeten_tekst: "Your voice profile is updated. DutchQuill uses it for your next text.",
+    m_vak_titel: "File added",
+    m_vak_tekst: "%s for %s is ready. A review will check your report against it.",
+    m_upload_titel: "Image added",
+        m_sjabloon_titel: "Template saved",
+    m_sjabloon_tekst: "DutchQuill now uses your template for %s.",
+    m_herstel_titel: "Default restored",
+    m_herstel_tekst: "%s uses the built-in template again. Your own version is kept in templates/genres/oud.",
+    m_map_kiezen: "Folder picker",
+    upload: "Upload",
+    voorbeeld_kop: "Example",
+    voorbeeld_mix: "An approximation: when writing, Claude applies your mix in full.",
+    vb_aan: "To: the project team",
+    berichten: "Messages",
+    documenten: "Documents",
+    s_professioneel: "Professional",
+    prof_titel: "Professional details",
+    prof_uitleg: "For the sign-off and signature of your emails. Everything is optional.",
+    prof_afb: "Signature and banner",
+    prof_afb_uitleg: "A signature or email banner (for example your name, photo, phone and organisation) goes below your email. DutchQuill mentions it when writing; you place it in your email app.",
+    handtekening: "signature",
+    banner: "banner",
+    upload_handtekening: "Upload signature",
+    upload_banner: "Upload banner",
+    prof_voorbeeld: "How a business email ends",
+    sjablonen_titel: "Templates per kind of text",
+    sjablonen_uitleg: "A template sets the structure of a kind of text: what belongs in an email, a note or a report. Adjust the built-in template or upload your own (.md or .txt).",
+    andere_soorten: "Other kinds of text",
+    standaard: "Default",
+    eigen_sjabloon: "Yours",
+    aanpassen: "Adjust",
+    terug_standaard: "Back to default",
+    opslaan_sjabloon: "Save as my template",
+    herstel_vraag: "Go back to the built-in template? Your own version is kept in templates/genres/oud.",
+    kop_formules: "What the humanizer measures",
+    formules_intro: "Along the way I also learned to measure text. Three formulas the humanizer uses:",
+    m_upload_tekst: "Your %s is in templates/email. Save your settings to use it.",
+    f_docx: "To keep editing",
+    f_pdf: "Ready to share",
+    f_md: "For GitHub and Obsidian",
+    f_txt: "Plain text, opens anywhere",
+    f_html: "For web and email",
+    berichten_uitleg: "Short and quick, usually ready to paste.",
+    documenten_uitleg: "Longer pieces; here you usually want a file.",
+    geen_bestand: "No image yet.",
+    upload_sjabloon: "Upload",
+    annuleren: "Cancel",
+    m_formaat_titel: "At least one format",
     welkom_titel: "Welcome to DutchQuill",
     welkom_1: "DutchQuill writes, rewrites, reviews and humanizes your texts: a report, an email, a LinkedIn post or a README.",
     welkom_2: "You decide how it sounds, what it checks and which format you get back. You set that up here; later you can also just tell Claude.",
@@ -192,11 +331,10 @@ const TEKST = {
     thema_licht_l: "Light", thema_auto_l: "Automatic", thema_donker_l: "Dark",
     werkmap_titel: "Where should your DutchQuill folder go?",
     werkmap_uitleg: "You put your material here (notes, reports, images, sources) and your documents land here, one folder per version.",
-    bureaublad: "On the desktop", documenten: "In Documents", zelf: "Choose myself",
+    bureaublad: "On the desktop", zelf: "Choose myself",
     kies_map: "Choose a folder", of_typ: "Or type the path", taal: "Language of your texts",
     taal_nl: "Dutch", taal_en: "English", taal_auto: "Automatic (follows your material)",
-    map_aanmaken: "Create folder", map_gemaakt: "Your workspace is ready.",
-    zo_ziet: "This is what it looks like:", huidige_map: "Your workspace",
+    map_aanmaken: "Create folder",     zo_ziet: "This is what it looks like:", huidige_map: "Your workspace",
     map_verplaatsen: "To move it, tell Claude: \"move my DutchQuill folder to ...\".",
     versies: "Keep versions", versies_uitleg: "Every new round on the same title gets its own folder: v1, v2, v3.",
     profiel_titel: "What will you mostly use DutchQuill for?",
@@ -209,8 +347,7 @@ const TEKST = {
     genre_uitleg: "For example: emails always with the business profile, LinkedIn posts with your own profile.",
     volgt_actief: "Follows the active profile",
     actief_profiel: "You are editing the profile %s.",
-    eigen_kopie: "%s is built in and stays as it is. Your changes are in your own profile %s.",
-    controles_titel: "What should DutchQuill check?",
+        controles_titel: "What should DutchQuill check?",
     controles_uitleg: "Switch on what fits your texts. A student wants everything; a LinkedIn post needs no APA.",
     vb_apa: "(Jansen, 2024) in the text and an APA 7 reference list",
     vb_academische_stijl: "\"The results are favourable\" instead of \"You'll see it's fine\"",
@@ -253,14 +390,13 @@ const TEKST = {
     onderhoud_titel: "Maintenance",
     gidsen_stand: "The guides (APA, language, humanizing) were checked on %s.",
     bijwerken_uitleg: "Once a month DutchQuill reminds you to have them checked. Then type in Claude:",
-    kopieer: "Copy", gekopieerd: "Copied.", herinnering: "Reminder after (days)",
+    kopieer: "Copy", herinnering: "Reminder after (days)",
     versie: "Version", klaar_sluiten: "Done, close the Studio",
     afronden_titel: "Ready to save",
     afronden_uitleg: "This becomes your starting setup. You can change everything later, here or in a conversation.",
     verder_instellen: "Save and keep going", opslaan_klaar: "Save and finish",
     wijzigingen: "%s unsaved change(s).", opgeslagen: "Saved.",
-    voorbeeld_titel: "What will change", geen_wijzigingen: "Nothing changed.",
-    fouten_titel: "This can't be saved yet",
+    voorbeeld_titel: "What will change",     fouten_titel: "This can't be saved yet",
     onopgeslagen: "You have unsaved changes. Close anyway?",
     toch_sluiten: "Close anyway",
     gesloten_titel: "The Studio is closed",
@@ -270,21 +406,66 @@ const TEKST = {
 };
 
 const VOORBEELD = {
-  nl: [
-    "Het overleg van donderdag 28 november is verplaatst naar vrijdag 29 november om 10.00 uur. Wij verzoeken u te bevestigen of dit tijdstip u schikt.",
-    "We verplaatsen het overleg van donderdag naar vrijdag 29 november, 10.00 uur. Kunt u laten weten of dat past?",
-    "Het overleg schuift van donderdag naar vrijdag 29 november, 10.00 uur. Past dat voor je?",
-    "Het overleg van donderdag wordt vrijdag, om tien uur. Lukt dat bij jou?",
-    "Donderdag wordt vrijdag: zelfde overleg, tien uur, verse koffie. Ben je erbij?",
-  ],
-  en: [
-    "The meeting of Thursday 28 November has been moved to Friday 29 November at 10:00. Please confirm whether this time suits you.",
-    "We are moving Thursday's meeting to Friday 29 November, 10:00. Could you let me know if that works?",
-    "The meeting moves from Thursday to Friday 29 November, 10:00. Does that work for you?",
-    "Thursday's meeting is now on Friday at ten. Can you make it?",
-    "Thursday became Friday: same meeting, ten o'clock, fresh coffee. You in?",
-  ],
+  nl: {
+    aanhef: ["Geacht projectteam,", "Beste projectteam,", "Hallo allemaal,", "Hoi allemaal,", "Hé team,"],
+    kern: ["Het overleg van donderdag 28 november is verplaatst naar vrijdag 29 november om 10.00 uur.",
+      "We verplaatsen het overleg van donderdag naar vrijdag 29 november, 10.00 uur.",
+      "Het overleg schuift van donderdag naar vrijdag 29 november, 10.00 uur.",
+      "Het overleg van donderdag wordt vrijdag, om tien uur.",
+      "Donderdag wordt vrijdag: zelfde overleg, tien uur, verse koffie."],
+    kort: "Het overleg is nu op vrijdag 29 november, 10.00 uur.",
+    vraag: {
+      u: ["Wij verzoeken u te bevestigen of dit tijdstip u schikt.", "Kunt u laten weten of dat past?", "Past dat voor u?", "Lukt dat bij u?", "Bent u erbij?"],
+      je: ["Wil je bevestigen of dit tijdstip je schikt?", "Kun je laten weten of dat past?", "Past dat voor je?", "Lukt dat bij jou?", "Ben je erbij?"],
+      geen: ["Een bevestiging van het nieuwe tijdstip wordt op prijs gesteld.", "Graag een reactie of dit tijdstip past.",
+        "Graag een korte reactie of dat past.", "Een seintje of het lukt, is fijn.", "Wie schuift er aan?"],
+    },
+    warm: { u: "Dank voor uw flexibiliteit.", je: "Dank voor je flexibiliteit.", geen: "Dank voor de flexibiliteit." },
+    groet: ["Met vriendelijke groet,", "Met vriendelijke groet,", "Groet,", "Groetjes,", "Tot vrijdag!"],
+    naam: "Sam",
+  },
+  en: {
+    aanhef: ["Dear project team,", "Dear project team,", "Hello all,", "Hi all,", "Hey team,"],
+    kern: ["The meeting of Thursday 28 November has been moved to Friday 29 November at 10:00.",
+      "We are moving Thursday's meeting to Friday 29 November, 10:00.",
+      "The meeting moves from Thursday to Friday 29 November, 10:00.",
+      "Thursday's meeting is now on Friday at ten.",
+      "Thursday became Friday: same meeting, ten o'clock, fresh coffee."],
+    kort: "The meeting is now on Friday 29 November, 10:00.",
+    vraag: {
+      u: ["Please confirm whether this time suits you.", "Could you let me know if that works?", "Does that work for you?", "Can you make it?", "You in?"],
+      je: ["Please confirm whether this time suits you.", "Could you let me know if that works?", "Does that work for you?", "Can you make it?", "You in?"],
+      geen: ["Confirmation of the new time would be appreciated.", "A reply on whether this time works would be appreciated.",
+        "A quick reply on whether that works is welcome.", "A heads-up if it works would be great.", "Who's in?"],
+    },
+    warm: { u: "Thanks for being flexible.", je: "Thanks for being flexible.", geen: "Thanks for the flexibility." },
+    groet: ["Kind regards,", "Kind regards,", "Best,", "Cheers,", "See you Friday!"],
+    naam: "Sam",
+  },
 };
+// Bouwt de voorbeeldmail uit niveau, aanspreekvorm en (benaderd) de eigen mix.
+function voorbeeldMail(i, aan, mix) {
+  const V = VOORBEELD[S.taal];
+  const vorm = aan === "auto" || !aan ? (i <= 1 ? "u" : "je") : aan;
+  const m = (mix || "").toLowerCase();
+  const heeft = (...w) => w.some((x) => m.includes(x));
+  const niveauIn = () => {
+    const woorden = [["formeel", "formal"], ["zakelijk", "business"], ["neutraal", "neutral"], ["informeel", "informal"],
+      ["luchtig", "light", "grappig", "playful", "humor"]];
+    let gevonden = -1;
+    woorden.forEach((ws, j) => { if (ws.some((w) => new RegExp(`(^|[^a-z])${w}`).test(m))) gevonden = j; });
+    return gevonden;
+  };
+  const kern = heeft("kort", "beknopt", "short", "brief", "concise") ? V.kort : V.kern[i];
+  let groet = V.groet[i];
+  if (heeft("afsluit", "groet", "slot", "closing", "sign-off", "ending")) { const j = niveauIn(); if (j >= 0) groet = V.groet[j]; }
+  const zinnen = [kern, heeft("warm", "persoonlijk", "vriendelijk", "dank", "personal", "friendly", "thank") ? V.warm[vorm] : null,
+    V.vraag[vorm][i]].filter(Boolean);
+  let tekst = zinnen.join(" ");
+  if (heeft("emoji")) tekst += " 🙂";
+  const prof = S.ruw.professioneel || {};
+  return { aanhef: V.aanhef[i], tekst, groet: (i <= 1 && prof.groet) ? prof.groet : groet, naam: prof.naam || V.naam };
+}
 const NIVEAUS = ["formeel", "zakelijk", "neutraal", "informeel", "luchtig"];
 const NIVEAU_NAAM = { nl: ["Formeel", "Zakelijk", "Neutraal", "Informeel", "Luchtig"],
                       en: ["Formal", "Business", "Neutral", "Informal", "Light"] };
@@ -324,13 +505,37 @@ function el(tag, attrs, ...kinderen) {
 let idTeller = 0;
 const nieuwId = () => `v${++idTeller}`;
 
-function melding(tekst) {
-  const m = document.getElementById("melding");
-  m.textContent = tekst;
-  m.hidden = false;
-  clearTimeout(melding.t);
-  melding.t = setTimeout(() => { m.hidden = true; }, 3500);
+const MELDING_ICOON = {
+  succes: "M5 12.5l4.2 4.2L19 7",
+  info: "M12 8h.01M11 12h1v5h1",
+  letop: "M12 8v5M12 16.5h.01",
+  fout: "M8 8l8 8M16 8l-8 8",
+};
+function melding(titel, tekst = "", soort = "info") {
+  const houder = document.getElementById("meldingen");
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("fill", "none"); svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "2.2"); svg.setAttribute("stroke-linecap", "round"); svg.setAttribute("aria-hidden", "true");
+  const pad = document.createElementNS(NS, "path"); pad.setAttribute("d", MELDING_ICOON[soort] || MELDING_ICOON.info); svg.append(pad);
+  const kaart = el("div", { klasse: `melding melding-${soort}`, role: soort === "fout" ? "alert" : "status" },
+    el("span", { klasse: "melding-icoon" }, svg),
+    el("div", { klasse: "melding-tekst" }, el("strong", { tekst: titel }), tekst ? el("p", { tekst }) : null),
+    el("button", { type: "button", klasse: "melding-sluit", "aria-label": T("m_sluiten"), tekst: "×",
+      onclick: () => weg() }));
+  // Leestijd: minstens 7 seconden, langer bij meer tekst. Pauzeert zolang de muis erop staat.
+  let resterend = Math.max(7000, (titel.length + tekst.length) * 75);
+  let timer, gestart;
+  kaart.style.setProperty("--duur", `${resterend}ms`);
+  const weg = () => { clearTimeout(timer); kaart.classList.add("weg"); setTimeout(() => kaart.remove(), 250); };
+  const start = () => { gestart = Date.now(); timer = setTimeout(weg, resterend); };
+  kaart.addEventListener("mouseenter", () => { clearTimeout(timer); resterend -= Date.now() - gestart; });
+  kaart.addEventListener("mouseleave", start);
+  houder.prepend(kaart);
+  while (houder.children.length > 3) houder.lastChild.remove();
+  start();
 }
+const fout = (e) => melding(T("m_fout"), e.message || String(e), "fout");
 
 function dialoog(titel, inhoud, knoppen) {
   const d = document.getElementById("dialoog");
@@ -378,7 +583,7 @@ function bewerkbaar() {
   S.ruw.profielen = S.ruw.profielen || {};
   if (!S.ruw.profielen[naam]) S.ruw.profielen[naam] = { basis: actief };
   S.ruw.profiel = naam;
-  melding(T("eigen_kopie", actief, naam));
+  melding(T("m_eigen_titel"), T("eigen_kopie", naam, actief), "info");
   return S.ruw.profielen[naam];
 }
 function zetProfiel(sectie, sleutel, waarde) {
@@ -409,7 +614,7 @@ async function bekijkEnOpslaan(daarna) {
       [{ tekst: T("sluiten"), actie: sluitDialoog }]);
     return false;
   }
-  if (!v.samenvatting.length) { melding(T("geen_wijzigingen")); if (daarna) daarna(); return true; }
+  if (!v.samenvatting.length) { melding(T("m_geen_titel"), T("geen_wijzigingen"), "info"); if (daarna) daarna(); return true; }
   return new Promise((klaar) => {
     dialoog(T("voorbeeld_titel"), el("ul", {}, v.samenvatting.map((s) => el("li", { tekst: s }))), [
       { tekst: T("annuleren"), actie: () => { sluitDialoog(); klaar(false); } },
@@ -417,10 +622,10 @@ async function bekijkEnOpslaan(daarna) {
         try {
           await api("POST", "/api/config/opslaan", { ruw: S.ruw });
           S.origineel = JSON.stringify(S.ruw);
-          sluitDialoog(); melding(T("opgeslagen")); gewijzigd();
+          sluitDialoog(); melding(T("m_opgeslagen_titel"), T("m_opgeslagen_tekst"), "succes"); gewijzigd();
           if (daarna) daarna();
           klaar(true);
-        } catch (e) { melding(e.message); }
+        } catch (e) { fout(e); }
       } },
     ]);
   });
@@ -462,13 +667,77 @@ function leesBestand(bestand) {
     r.readAsDataURL(bestand);
   });
 }
-function bestandKnop(label, accept, meerdere, bij) {
+const NS_SVG = "http://www.w3.org/2000/svg";
+function lijnIcoon(d, dikte = 1.9) {
+  const svg = document.createElementNS(NS_SVG, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("fill", "none"); svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", String(dikte)); svg.setAttribute("stroke-linecap", "round"); svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+  const pad = document.createElementNS(NS_SVG, "path"); pad.setAttribute("d", d); svg.append(pad);
+  return svg;
+}
+const ICOON_UPLOAD = "M12 15V4M7.5 8.5L12 4l4.5 4.5M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15";
+function bestandKnop(label, accept, meerdere, bij, klasse = "tweede") {
   const id = nieuwId();
   const invoer = el("input", { type: "file", id, accept, multiple: meerdere, hidden: true,
     onchange: async (e) => { for (const f of e.target.files) await bij(f); e.target.value = ""; } });
-  return el("span", {}, invoer, el("button", { type: "button", klasse: "tweede", tekst: label,
-    onclick: () => invoer.click() }));
+  return el("span", {}, invoer, el("button", { type: "button", klasse: `${klasse} upload`, onclick: () => invoer.click() },
+    lijnIcoon(ICOON_UPLOAD), el("span", { tekst: label })));
 }
+const FORMAAT_KLEUR = { docx: ["#185abd", "W"], pdf: ["#d9342b", "PDF"], md: ["#3d4a52", "MD"], txt: ["#6b7c83", "TXT"], html: ["#e44d26", "</>"] };
+function formaatIcoon(f) {
+  const [kleur, letters] = FORMAAT_KLEUR[f];
+  const svg = document.createElementNS(NS_SVG, "svg");
+  svg.setAttribute("viewBox", "0 0 32 32"); svg.setAttribute("aria-hidden", "true");
+  const vel = document.createElementNS(NS_SVG, "path");
+  vel.setAttribute("d", "M8 2.5h11.5L26 9v19a1.5 1.5 0 0 1-1.5 1.5h-16A1.5 1.5 0 0 1 7 28V4a1.5 1.5 0 0 1 1-1.5z");
+  vel.setAttribute("fill", kleur);
+  const hoek = document.createElementNS(NS_SVG, "path");
+  hoek.setAttribute("d", "M19.5 2.5V9H26z"); hoek.setAttribute("fill", "#ffffff"); hoek.setAttribute("fill-opacity", ".35");
+  const t = document.createElementNS(NS_SVG, "text");
+  t.setAttribute("x", "16.5"); t.setAttribute("y", "22.5"); t.setAttribute("text-anchor", "middle"); t.setAttribute("fill", "#fff");
+  t.setAttribute("font-size", letters.length > 2 ? "6.6" : "8.5"); t.setAttribute("font-weight", "700");
+  t.setAttribute("font-family", "Geist, system-ui, sans-serif"); t.textContent = letters;
+  svg.append(vel, hoek, t);
+  return svg;
+}
+function sjabloonRij(sj) {
+  const genres = S.schema.$defs.genre;
+  const vak = el("textarea", { klasse: "sjabloon-tekst", spellcheck: "false", "aria-label": lab(genres["x-labels"][sj.genre]) }, sj.inhoud);
+  const editor = el("div", { klasse: "sjabloon-editor", hidden: true }, vak,
+    el("div", { klasse: "knoppen" },
+      el("button", { type: "button", klasse: "eerste", tekst: T("opslaan_sjabloon"), onclick: () => bewaarSjabloon(sj.genre, vak.value) }),
+      el("button", { type: "button", klasse: "tweede", tekst: T("annuleren"), onclick: () => { vak.value = sj.inhoud; editor.hidden = true; } })));
+  return el("li", { klasse: "sjabloon" },
+    el("div", { klasse: "sjabloon-rij" },
+      el("span", {}, el("strong", { tekst: lab(genres["x-labels"][sj.genre]) }), " ",
+        el("span", { klasse: sj.eigen ? "badge eigen" : "badge", tekst: T(sj.eigen ? "eigen_sjabloon" : "standaard") })),
+      el("span", { klasse: "rij-knoppen" },
+        el("button", { type: "button", klasse: "link", tekst: T("aanpassen"), onclick: () => { editor.hidden = !editor.hidden; if (!editor.hidden) vak.focus(); } }),
+        bestandKnop(T("upload_sjabloon"), ".md,.txt", false, async (bestand) => bewaarSjabloon(sj.genre, await bestand.text()), "link"),
+        sj.eigen ? el("button", { type: "button", klasse: "link", tekst: T("terug_standaard"), onclick: () => {
+          dialoog(T("terug_standaard"), el("p", { tekst: T("herstel_vraag") }), [
+            { tekst: T("annuleren"), actie: sluitDialoog },
+            { tekst: T("terug_standaard"), klasse: "eerste", actie: async () => {
+              sluitDialoog();
+              try {
+                await api("POST", "/api/sjablonen/herstel", { genre: sj.genre });
+                S.sjablonen = (await api("GET", "/api/sjablonen")).sjablonen; toon();
+                melding(T("m_herstel_titel"), T("m_herstel_tekst", lab(genres["x-labels"][sj.genre])), "succes");
+              } catch (e) { fout(e); }
+            } }]);
+        } }) : null)),
+    editor);
+}
+async function bewaarSjabloon(genre, inhoud) {
+  try {
+    await api("POST", "/api/sjablonen/opslaan", { genre, inhoud });
+    S.sjablonen = (await api("GET", "/api/sjablonen")).sjablonen; toon();
+    melding(T("m_sjabloon_titel"), T("m_sjabloon_tekst", lab(S.schema.$defs.genre["x-labels"][genre])), "succes");
+  } catch (e) { fout(e); }
+}
+const GENRE_GROEPEN = { berichten: ["mail", "linkedin", "social", "kort"],
+  documenten: ["rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "sop", "research-notitie", "memo", "readme"] };
 function mapBoom(mappen) {
   const m = { input: "1-input", output: "2-output", notities: "notities", rapporten: "rapporten", beeld: "beeld",
     bronnen: "bronnen", mijn_stijl: "mijn-stijl", schrijven: "schrijven", herschrijven: "herschrijven",
@@ -539,8 +808,8 @@ const SCHERMEN = {
       try {
         const r = await api("POST", "/api/kies-map");
         if (r.pad) { k.pad = `${r.pad}/DutchQuill`; k.optie = "zelf"; toon(); }
-        else if (r.melding) melding(r.melding);
-      } catch (e) { melding(e.message); }
+        else if (r.melding) melding(T("m_map_kiezen"), r.melding, "info");
+      } catch (e) { fout(e); }
     } });
     return [
       ...kop(T("werkmap_titel"), T("werkmap_uitleg")),
@@ -561,9 +830,9 @@ const SCHERMEN = {
             await api("POST", "/api/werkmap", { pad, taal: k.taal, profiel: "zakelijk", languagetool: false });
             S.status = await api("GET", "/api/status");
             await laadConfig(); await laadTemplates();
-            melding(T("map_gemaakt"));
+            melding(T("m_map_titel"), T("map_gemaakt"), "succes");
             ga("profiel");
-          } catch (err) { melding(err.message); e.target.disabled = false; e.target.textContent = T("map_aanmaken"); }
+          } catch (err) { fout(err); e.target.disabled = false; e.target.textContent = T("map_aanmaken"); }
         } })),
     ];
   },
@@ -599,6 +868,7 @@ const SCHERMEN = {
           S.ruw.profielen = S.ruw.profielen || {};
           S.ruw.profielen[n] = { basis: basisVak.value, ...(beschrVak.value ? { beschrijving: beschrVak.value } : {}) };
           S.ruw.profiel = n; gewijzigd(); toon();
+          melding(T("m_profiel_titel"), T("m_profiel_tekst", n), "succes");
         } })));
     const genres = S.schema.$defs.genre;
     const gp = S.ruw.genre_profielen || {};
@@ -637,30 +907,41 @@ const SCHERMEN = {
   toon() {
     const p = effProfiel(actiefNaam());
     let i = Math.max(0, NIVEAUS.indexOf(p.toon.niveau));
-    const brief = el("p", { klasse: "brief", tekst: VOORBEELD[S.taal][i] });
+    let aan = p.toon.aanspreekvorm || "auto";
+    let mix = p.toon.mix || "";
+    const aanhef = el("p", { klasse: "aanhef" });
+    const brief = el("p", { klasse: "brief" });
+    const slot = el("p", { klasse: "slot" });
+    const mixNoot = el("p", { klasse: "label-klein mixnoot", tekst: T("voorbeeld_mix") });
+    const teken = (anim) => {
+      const v = voorbeeldMail(i, aan, mix);
+      aanhef.textContent = v.aanhef; brief.textContent = v.tekst;
+      slot.replaceChildren(v.groet, el("br"), v.naam);
+      mixNoot.hidden = !mix.trim();
+      if (anim) { brief.classList.remove("wissel"); void brief.offsetWidth; brief.classList.add("wissel"); }
+    };
     const stappen = el("div", { klasse: "toonstappen", "aria-hidden": "true" },
       NIVEAU_NAAM[S.taal].map((n, j) => el("span", { klasse: j === i ? "actief" : "", tekst: n })));
     const schuif = el("input", { type: "range", min: 0, max: 4, step: 1, value: i, "aria-label": T("toon_titel"),
       "aria-valuetext": NIVEAU_NAAM[S.taal][i], oninput: (e) => {
-        i = Number(e.target.value);
-        brief.classList.remove("wissel"); void brief.offsetWidth; brief.classList.add("wissel");
-        brief.textContent = VOORBEELD[S.taal][i];
+        i = Number(e.target.value); teken(true);
         e.target.setAttribute("aria-valuetext", NIVEAU_NAAM[S.taal][i]);
         [...stappen.children].forEach((s, j) => { s.className = j === i ? "actief" : ""; });
       }, onchange: (e) => zetProfiel("toon", "niveau", NIVEAUS[Number(e.target.value)]) });
-    const aan = p.toon.aanspreekvorm;
+    teken(false);
     return [
       ...kop(T("toon_titel"), T("toon_uitleg")),
       el("p", { klasse: "label-klein", tekst: T("actief_profiel", actiefNaam()) }),
-      el("div", { klasse: "toon" }, el("div", { klasse: "toonschaal" }, schuif, stappen),
-        el("div", { klasse: "papiertje" },
-          el("p", { klasse: "aan", tekst: S.taal === "nl" ? "Aan: het projectteam" : "To: the project team" }), brief)),
+      el("div", { klasse: "toon" }, el("div", { klasse: "toonschaal" }, schuif, stappen)),
       el("div", { klasse: "veld" }, el("span", { klasse: "label", tekst: T("aanspreekvorm") }),
         el("div", { klasse: "vinkjes", role: "radiogroup" }, ["auto", "je", "u", "geen"].map((w) => el("label", {},
           el("input", { type: "radio", name: "aan", value: w, checked: aan === w,
-            onchange: () => zetProfiel("toon", "aanspreekvorm", w) }), T(`aan_${w}`))))),
-      veld(T("mix"), el("textarea", { onchange: (e) => zetProfiel("toon", "mix", e.target.value) }, p.toon.mix || ""),
-        T("mix_uitleg")),
+            onchange: () => { aan = w; teken(true); zetProfiel("toon", "aanspreekvorm", w); } }), T(`aan_${w}`))))),
+      veld(T("mix"), el("textarea", { oninput: (e) => { mix = e.target.value; teken(false); },
+        onchange: (e) => zetProfiel("toon", "mix", e.target.value) }, p.toon.mix || ""), T("mix_uitleg")),
+      el("h2", { tekst: T("voorbeeld_kop") }),
+      el("div", { klasse: "papiertje" },
+        el("p", { klasse: "aan", tekst: T("vb_aan") }), aanhef, brief, slot), mixNoot,
     ];
   },
 
@@ -670,21 +951,26 @@ const SCHERMEN = {
     const zetLijst = (sleutel, waarde, aan) => {
       const nu = new Set(effProfiel(actiefNaam()).uitvoer[sleutel]);
       if (aan) nu.add(waarde); else nu.delete(waarde);
-      if (sleutel === "formaten" && nu.size === 0) { melding("Kies minstens één formaat."); toon(); return; }
+      if (sleutel === "formaten" && nu.size === 0) { melding(T("m_formaat_titel"), T("m_formaat_tekst"), "letop"); toon(); return; }
       zetProfiel("uitvoer", sleutel, [...nu]);
     };
+    const formaten = el("div", { klasse: "formaten" }, Object.entries(FORMAAT_NAAM).map(([f, n]) =>
+      el("label", { klasse: `formaat formaat-${f}` },
+        el("input", { type: "checkbox", checked: p.uitvoer.formaten.includes(f),
+          onchange: (e) => zetLijst("formaten", f, e.target.checked) }),
+        formaatIcoon(f), el("span", { klasse: "formaat-tekst" }, el("strong", { tekst: n }), el("span", { tekst: T(`f_${f}`) })),
+        el("span", { klasse: "vink", "aria-hidden": "true" }, lijnIcoon("M5 12.5l4.2 4.2L19 7", 2.6)))));
+    const groep = (naam) => el("div", { klasse: "genregroep" },
+      el("p", { klasse: "groepkop" }, el("strong", { tekst: T(naam) }), el("span", { tekst: T(`${naam}_uitleg`) })),
+      el("div", { klasse: "vinkjes raster-vinkjes" }, GENRE_GROEPEN[naam].filter((g) => genres.enum.includes(g)).map((g) =>
+        el("label", {}, el("input", { type: "checkbox", checked: p.uitvoer.chat_voor.includes(g),
+          onchange: (e) => zetLijst("chat_voor", g, e.target.checked) }), lab(genres["x-labels"][g])))));
     return [
       ...kop(T("uitvoer_titel")),
       el("p", { klasse: "label-klein", tekst: T("actief_profiel", actiefNaam()) }),
-      el("div", { klasse: "veld" }, el("span", { klasse: "label", tekst: T("formaten") }),
-        el("div", { klasse: "vinkjes" }, Object.entries(FORMAAT_NAAM).map(([f, n]) => el("label", {},
-          el("input", { type: "checkbox", checked: p.uitvoer.formaten.includes(f),
-            onchange: (e) => zetLijst("formaten", f, e.target.checked) }), n)))),
-      el("div", { klasse: "veld" }, el("span", { klasse: "label", tekst: T("chat_voor") }),
-        el("p", { klasse: "uitleg", tekst: T("chat_voor_uitleg") }),
-        el("div", { klasse: "vinkjes" }, genres.enum.map((g) => el("label", {},
-          el("input", { type: "checkbox", checked: p.uitvoer.chat_voor.includes(g),
-            onchange: (e) => zetLijst("chat_voor", g, e.target.checked) }), lab(genres["x-labels"][g]))))),
+      el("h2", { tekst: T("formaten") }), formaten,
+      el("h2", { tekst: T("chat_voor") }), el("p", { klasse: "uitleg", tekst: T("chat_voor_uitleg") }),
+      groep("berichten"), groep("documenten"),
       veld(T("template"), el("select", { onchange: (e) => zetProfiel("uitvoer", "template", e.target.value) },
         S.templates.map((t) => el("option", { value: t.naam, selected: t.naam === p.uitvoer.template,
           tekst: `${t.naam} (${T(t.soort === "eigen" ? "eigen" : "meegeleverd")})` })))),
@@ -708,7 +994,7 @@ const SCHERMEN = {
         el("span", { klasse: "label-klein", tekst: `${T(t.soort === "eigen" ? "eigen" : "meegeleverd")}${t.naam === effProfiel(actiefNaam()).uitvoer.template ? `, ${T("actief")}` : ""}` })),
       el("span", {},
         el("button", { type: "button", klasse: "link", tekst: T("controleer"), onclick: async () => {
-          try { toonCheck(await api("POST", "/api/templates/check", { naam: t.naam })); } catch (e) { melding(e.message); }
+          try { toonCheck(await api("POST", "/api/templates/check", { naam: t.naam })); } catch (e) { fout(e); }
         } }), " ",
         el("button", { type: "button", klasse: "link", tekst: T("maak_standaard"), onclick: () => {
           zetProfiel("uitvoer", "template", t.naam); toon();
@@ -733,8 +1019,9 @@ const SCHERMEN = {
         try {
           const r = await api("POST", "/api/templates/upload", { bestandsnaam: bestand.name, data: await leesBestand(bestand) });
           await laadConfig(); await laadTemplates(); toon();
-          melding(`${r.naam}: ${r.check.bruikbaar ? T("check_ok") : T("check_mist")}`);
-        } catch (e) { melding(e.message); }
+          if (r.check.bruikbaar) melding(T("m_template_titel"), `${r.naam}: ${T("check_ok")}`, "succes");
+          else melding(T("m_template_titel"), T("m_template_mist"), "letop");
+        } catch (e) { fout(e); }
       })),
       el("h2", { tekst: T("aanpassen_titel") }), el("p", { klasse: "uitleg", tekst: T("aanpassen_uitleg") }),
       el("div", { klasse: "kader" },
@@ -754,8 +1041,65 @@ const SCHERMEN = {
             await api("POST", "/api/templates/aanpas", { van: f.van.value, naar, stijlen, marge: Number(f.marge.value) });
             await laadConfig(); await laadTemplates();
             zetProfiel("uitvoer", "template", naar); toon();
+            melding(T("m_aanpas_titel"), T("m_aanpas_tekst", naar), "succes");
           } catch (e) { aanpasFout.textContent = e.message; }
         } })),
+      el("h2", { tekst: T("sjablonen_titel") }), el("p", { klasse: "uitleg", tekst: T("sjablonen_uitleg") }),
+      ["berichten", "documenten"].map((groepNaam) => [
+        el("p", { klasse: "groepkop" }, el("strong", { tekst: T(groepNaam) })),
+        el("ul", { klasse: "lijst sjablonen" }, GENRE_GROEPEN[groepNaam].map((g) => (S.sjablonen || []).find((x) => x.genre === g))
+          .filter(Boolean).map(sjabloonRij)),
+      ]),
+    ];
+  },
+
+  professioneel() {
+    const pr = () => S.ruw.professioneel || {};
+    const zet = (k, v) => {
+      const nieuw = { ...pr() };
+      if (v) nieuw[k] = v; else delete nieuw[k];
+      if (Object.keys(nieuw).length) S.ruw.professioneel = nieuw; else delete S.ruw.professioneel;
+      gewijzigd();
+    };
+    const props = S.schema.properties.professioneel.properties;
+    const vb = el("div", { klasse: "papiertje handtekening-vb" });
+    const teken = () => {
+      const x = pr();
+      const regels = [x.functie, [x.organisatie, x.afdeling].filter(Boolean).join(", "), x.telefoon, x.email, x.website, x.linkedin]
+        .filter(Boolean);
+      vb.replaceChildren(...[
+        el("p", { klasse: "brief", tekst: S.taal === "nl" ? "…en dan hoor ik graag of vrijdag past." : "…so let me know if Friday works." }),
+        el("p", { klasse: "slot" }, x.groet || lab(props.groet.default ? { nl: props.groet.default, en: "Kind regards," } : null)),
+        el("p", { klasse: "sig-naam", tekst: x.naam || "Sam Jansen" }),
+        regels.length ? el("p", { klasse: "sig-regels" }, regels.flatMap((r, j) => j ? [el("br"), r] : [r])) : null,
+        (S.profVb || {}).handtekening ? el("img", { src: S.profVb.handtekening, alt: T("handtekening"), klasse: "sig-afb" }) : null,
+        (S.profVb || {}).banner ? el("img", { src: S.profVb.banner, alt: T("banner"), klasse: "sig-banner" }) : null].filter(Boolean));
+    };
+    teken();
+    const tekstveld = (k) => veld(lab(props[k]["x-label"]), el("input", { type: k === "email" ? "email" : "text",
+      value: pr()[k] || (k === "groet" ? "" : ""), placeholder: k === "groet" ? props.groet.default : null,
+      oninput: (e) => { zet(k, e.target.value.trim()); teken(); } }), props[k]["x-uitleg"] ? lab(props[k]["x-uitleg"]) : null);
+    const afbKaart = (soort) => el("div", { klasse: "afbkaart" },
+      el("div", { klasse: "afbkaart-voorbeeld" }, (S.profVb || {})[soort]
+        ? el("img", { src: S.profVb[soort], alt: T(soort) }) : el("span", { klasse: "uitleg", tekst: T("geen_bestand") })),
+      el("div", { klasse: "knoppen" },
+        bestandKnop(T(`upload_${soort}`), ".png,.jpg,.jpeg,.gif,.webp", false, async (bestand) => {
+          try {
+            const r = await api("POST", "/api/professioneel/upload", { soort, bestandsnaam: bestand.name, data: await leesBestand(bestand) });
+            S.profVb = { ...(S.profVb || {}), [soort]: r.voorbeeld }; zet(soort, r.pad); toon();
+            melding(T("m_upload_titel"), T("m_upload_tekst", T(soort)), "succes");
+          } catch (e) { fout(e); }
+        }),
+        pr()[soort] ? el("button", { type: "button", klasse: "link", tekst: T("verwijderen"), onclick: () => {
+          zet(soort, ""); if (S.profVb) delete S.profVb[soort]; toon();
+        } }) : null));
+    return [
+      ...kop(T("prof_titel"), T("prof_uitleg")),
+      el("div", { klasse: "raster" }, ["naam", "functie", "organisatie", "afdeling", "telefoon", "email", "website", "linkedin"].map(tekstveld)),
+      tekstveld("groet"),
+      el("h2", { tekst: T("prof_afb") }), el("p", { klasse: "uitleg", tekst: T("prof_afb_uitleg") }),
+      el("div", { klasse: "afbkaarten" }, afbKaart("handtekening"), afbKaart("banner")),
+      el("h2", { tekst: T("prof_voorbeeld") }), vb,
     ];
   },
 
@@ -777,14 +1121,19 @@ const SCHERMEN = {
         : el("p", { klasse: "uitleg", tekst: T("stem_leeg") }),
       el("div", { klasse: "knoppen" },
         bestandKnop(T("stem_toevoegen"), ".md,.txt,.docx,.pdf", true, async (bestand) => {
-          try { await api("POST", "/api/stem/upload", { bestandsnaam: bestand.name, data: await leesBestand(bestand) }); }
-          catch (e) { melding(e.message); }
+          try {
+            await api("POST", "/api/stem/upload", { bestandsnaam: bestand.name, data: await leesBestand(bestand) });
+            melding(T("m_stem_titel"), T("m_stem_tekst", bestand.name), "succes");
+          } catch (e) { fout(e); }
           S.stem = await api("GET", "/api/stem"); toon();
         }),
         el("button", { type: "button", klasse: "eerste", tekst: T("stem_meten"), disabled: !s.bestanden.length,
           onclick: async () => {
-            try { await api("POST", "/api/stem/analyse"); S.stem = await api("GET", "/api/stem"); toon(); }
-            catch (e) { melding(e.message); }
+            try {
+              await api("POST", "/api/stem/analyse"); S.stem = await api("GET", "/api/stem"); toon();
+              melding(T("m_gemeten_titel"), T("m_gemeten_tekst"), "succes");
+            }
+            catch (e) { fout(e); }
           } })),
       cijfers,
     ];
@@ -820,8 +1169,9 @@ const SCHERMEN = {
         try {
           await api("POST", "/api/vakken/upload", { vakcode: code, soort, bestandsnaam: bestand.name,
             data: await leesBestand(bestand) });
-          S.vakken = (await api("GET", "/api/vakken")).vakken; toon(); melding(T("opgeslagen"));
-        } catch (e) { melding(e.message); }
+          S.vakken = (await api("GET", "/api/vakken")).vakken; toon();
+          melding(T("m_vak_titel"), T("m_vak_tekst", bestand.name, code), "succes");
+        } catch (e) { fout(e); }
       });
     return [
       ...kop(T("student_titel"), T("student_uitleg")),
@@ -856,7 +1206,8 @@ const SCHERMEN = {
       el("p", { tekst: T("bijwerken_uitleg") }),
       el("div", { klasse: "knoppen" }, el("code", { klasse: "boom", tekst: opdracht }),
         el("button", { type: "button", klasse: "tweede", tekst: T("kopieer"), onclick: async () => {
-          try { await navigator.clipboard.writeText(opdracht); melding(T("gekopieerd")); } catch (e) { melding(opdracht); }
+          try { await navigator.clipboard.writeText(opdracht); melding(T("m_gekopieerd_titel"), T("gekopieerd"), "succes"); }
+          catch (e) { melding(T("m_info"), opdracht, "info"); }
         } })),
       el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "tweede", tekst: T("nu_controleren"),
         onclick: async (e) => {
@@ -912,18 +1263,19 @@ const SCHERMEN = {
       ["l_linkedin", "https://www.linkedin.com/in/N-O-Jacobs", "linkedin", "linkedin"],
     ];
     return [
-      el("h1", { tekst: T("over_titel") }),
-      el("p", { klasse: "versie", tekst: `${T("versie")} ${S.status.versie}` }),
-      el("h2", { tekst: T("kop_verhaal") }),
-      el("div", { klasse: "verhaal" }, [1, 2, 3, 4].map((n) => el("p", { tekst: T(`over_${n}`) })),
-        el("p", { tekst: T("formules_intro") }),
-        el("dl", { klasse: "formules" }, [1, 2, 3].map((n) => [el("dt", { tekst: T(`f${n}_naam`) }), el("dd", { tekst: T(`f${n}`) })])),
-        el("p", { tekst: T("over_5") }),
-        el("p", { klasse: "ondertekening", tekst: T("over_naam") })),
-      el("h2", { tekst: T("kop_socials") }),
-      el("ul", { klasse: "merklinks" }, links.map(([k, url, ic, merk]) => el("li", {},
-        el("a", { href: url, target: "_blank", rel: "noopener noreferrer", klasse: `merk-${merk}` },
-          icoon(ic), el("span", { tekst: T(k) }), icoon("pijl"))))),
+      el("div", { klasse: "over-kop" }, el("h1", { tekst: T("over_titel") }),
+        el("p", { klasse: "versie", tekst: `${T("versie")} ${S.status.versie}` })),
+      el("div", { klasse: "over-raster" },
+        el("section", { klasse: "verhaal" }, el("h2", { tekst: T("kop_verhaal") }),
+          [1, 2, 3, 4, 5].map((n) => el("p", { tekst: T(`over_${n}`) })),
+          el("p", { klasse: "ondertekening", tekst: T("over_naam") })),
+        el("aside", { klasse: "over-zij" },
+          el("h2", { tekst: T("kop_formules") }), el("p", { klasse: "uitleg", tekst: T("formules_intro") }),
+          el("dl", { klasse: "formules" }, [1, 2, 3].map((n) => [el("dt", { tekst: T(`f${n}_naam`) }), el("dd", { tekst: T(`f${n}`) })])),
+          el("h2", { tekst: T("kop_socials") }),
+          el("ul", { klasse: "merklinks" }, links.map(([k, url, ic, merk]) => el("li", {},
+            el("a", { href: url, target: "_blank", rel: "noopener noreferrer", klasse: `merk-${merk}` },
+              icoon(ic), el("span", { tekst: T(k) }), icoon("pijl"))))))),
     ];
   },
 
@@ -953,7 +1305,7 @@ const GROEPEN = [
   { kop: "g_start", schermen: ["werkmap", "profiel"] },
   { kop: "g_schrijven", schermen: ["toon", "controles", "stem"] },
   { kop: "g_uitvoer", schermen: ["uitvoer", "templates"] },
-  { kop: "g_jij", schermen: ["privacy", "student"] },
+  { kop: "g_jij", schermen: ["privacy", "student", "professioneel"] },
   { kop: "g_systeem", schermen: ["onderhoud", "over"] },
 ];
 function schermen() {
@@ -980,6 +1332,8 @@ function tekenNav() {
 async function ga(scherm) {
   S.scherm = scherm;
   if (scherm === "stem" && !S.stem) { try { S.stem = await api("GET", "/api/stem"); } catch (e) { S.stem = null; } }
+  if (scherm === "templates" && !S.sjablonen) { try { S.sjablonen = (await api("GET", "/api/sjablonen")).sjablonen; } catch (e) { S.sjablonen = []; } }
+  if (scherm === "professioneel" && !S.profVb) { try { S.profVb = (await api("GET", "/api/professioneel")).voorbeeld; } catch (e) { S.profVb = {}; } }
   if (scherm === "student") { try { S.vakken = (await api("GET", "/api/vakken")).vakken; } catch (e) { S.vakken = {}; } }
   toon();
   document.getElementById("inhoud").focus({ preventScroll: true });
