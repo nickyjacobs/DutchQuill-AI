@@ -202,6 +202,7 @@ def effectief(genre: str | None = None, profiel: str | None = None, sets: list[s
         "privacy": alg["privacy"],
         "stem": alg["stem"],
         "student": alg.get("student", {}),
+        "professioneel": alg.get("professioneel", {}),
         "templates": alg.get("templates", {}),
         "stijlen": alg.get("stijlen", {}),
         "genre_profielen": alg.get("genre_profielen", {}),

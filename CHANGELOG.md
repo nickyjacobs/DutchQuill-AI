@@ -15,6 +15,10 @@ DutchQuill wordt een Claude Code-plugin voor iedereen die tekst maakt, niet alle
   controles die los aan of uit kunnen (APA, academische stijl, taal, humaniseren), een toonschaal met vijf niveaus
   en een vrije mix, uitvoerformaten, templates en privacy.
 - DutchQuill Studio: een lokale, visuele wizard voor installatie en instellingen.
+- Professionele gegevens (naam, functie, organisatie, contact, afsluitende groet) voor de afsluiting van je mails,
+  plus een handtekening of mailbanner als afbeelding.
+- Eigen sjablonen per soort tekst: het meegeleverde sjabloon voor bijvoorbeeld een mail of notitie aanpassen in de
+  Studio of je eigen versie uploaden. Terugzetten naar de standaard bewaart je eigen versie.
 - Twaalf genres met eigen sjabloon, waaronder mail, LinkedIn, SOP en README. Mails, posts en korte teksten komen in
   de chat.
 - Invoer uit .docx, .pdf, .pptx, .xlsx, .csv, .md, .txt, .html en links; beelden worden klaargemaakt en met

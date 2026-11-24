@@ -42,7 +42,9 @@ UPLOAD = {
     "template": {".docx"},
     "stem": {".md", ".txt", ".docx", ".pdf"},
     "vak": {".md", ".txt", ".docx", ".pdf"},
+    "afbeelding": {".png", ".jpg", ".jpeg", ".gif", ".webp"},
 }
+MAX_SJABLOON = 200_000
 VERBODEN_MAPPEN = ("/System", "/usr", "/bin", "/sbin", "/etc", "/private/etc", "/Library", "/Applications",
                    "C:\\Windows", "C:\\Program Files")
 
@@ -293,6 +295,76 @@ class Studio:
         return {"gewijzigd": gewijzigd, "ongewijzigd": r["ongewijzigd"], "fouten": r["fouten"],
                 "gemarkeerd": gemarkeerd, "gecontroleerd_op": r["gecontroleerd_op"]}
 
+    def professioneel(self, _: dict) -> dict:
+        werkmap = self.werkmap()
+        prof = cfg.effectief().get("professioneel") or {}
+        voorbeeld = {}
+        for soort in ("handtekening", "banner"):
+            pad = prof.get(soort)
+            if werkmap and pad and (werkmap / pad).is_file() and (werkmap / pad).stat().st_size < 3_000_000:
+                f = werkmap / pad
+                mime = mimetypes.guess_type(f.name)[0] or "image/png"
+                voorbeeld[soort] = f"data:{mime};base64,{base64.b64encode(f.read_bytes()).decode()}"
+        return {"professioneel": prof, "voorbeeld": voorbeeld}
+
+    def professioneel_upload(self, body: dict) -> dict:
+        werkmap = self._vereist_werkmap()
+        soort = body.get("soort")
+        if soort not in ("handtekening", "banner"):
+            raise Fout("Kies handtekening of banner.")
+        map_ = Path(cfg.effectief()["mappen"]["templates"]) / "email"
+        naam = f"{soort}{Path(body['bestandsnaam']).suffix.lower()}"
+        doel = self.bewaar_upload("afbeelding", map_, naam, body["data"])
+        self.wijzigingen.append(f"{soort.capitalize()} voor mails toegevoegd: {doel.name}")
+        mime = mimetypes.guess_type(doel.name)[0] or "image/png"
+        return {"soort": soort, "pad": str(doel.relative_to(werkmap)), "bestand": doel.name,
+                "voorbeeld": f"data:{mime};base64,{body['data']}"}
+
+    def _sjabloon_pad(self, genre: str) -> Path:
+        from dutchquill.gidsen import GENRES
+        if genre not in GENRES:
+            raise Fout("Onbekende soort tekst.")
+        return Path(cfg.effectief()["mappen"]["templates"]) / "genres" / f"{genre}.md"
+
+    def sjablonen(self, _: dict) -> dict:
+        from dutchquill.gidsen import GENRES, pad
+        self._vereist_werkmap()
+        labels = cfg.schema()["$defs"]["genre"]["x-labels"]
+        uit = []
+        for g in GENRES:
+            eigen = self._sjabloon_pad(g)
+            bron = pad(f"genres/{g}")
+            uit.append({"genre": g, "label": labels.get(g, {}), "eigen": eigen.is_file(),
+                        "inhoud": bron.read_text(encoding="utf-8")})
+        return {"sjablonen": uit}
+
+    def _bewaar_oud(self, doel: Path) -> None:
+        if doel.is_file():
+            oud = doel.parent / "oud"
+            oud.mkdir(parents=True, exist_ok=True)
+            doel.rename(oud / f"{doel.stem}-{datetime.now():%Y%m%d-%H%M%S}.md")
+
+    def sjabloon_opslaan(self, body: dict) -> dict:
+        self._vereist_werkmap()
+        inhoud = str(body.get("inhoud", ""))
+        if not inhoud.strip():
+            raise Fout("Het sjabloon is leeg.")
+        if len(inhoud.encode()) > MAX_SJABLOON:
+            raise Fout("Het sjabloon is te groot (maximaal 200 kB).")
+        doel = self._sjabloon_pad(body.get("genre", ""))
+        doel.parent.mkdir(parents=True, exist_ok=True)
+        self._bewaar_oud(doel)
+        doel.write_text(inhoud, encoding="utf-8")
+        self.wijzigingen.append(f"Eigen sjabloon opgeslagen: {body['genre']}")
+        return {"genre": body["genre"], "opgeslagen": True}
+
+    def sjabloon_herstel(self, body: dict) -> dict:
+        self._vereist_werkmap()
+        doel = self._sjabloon_pad(body.get("genre", ""))
+        self._bewaar_oud(doel)
+        self.wijzigingen.append(f"Sjabloon teruggezet naar standaard: {body['genre']}")
+        return {"genre": body["genre"], "hersteld": True}
+
     def klaar(self, _: dict) -> dict:
         (paden.data() / "studio-laatste.json").write_text(json.dumps(
             {"tijd": datetime.now().isoformat(timespec="seconds"), "wijzigingen": self.wijzigingen},
@@ -373,6 +445,11 @@ ROUTES = {
     ("GET", "/api/vakken"): "vakken",
     ("POST", "/api/vakken/upload"): "vak_upload",
     ("POST", "/api/bronnen/check"): "bronnen_check",
+    ("GET", "/api/professioneel"): "professioneel",
+    ("POST", "/api/professioneel/upload"): "professioneel_upload",
+    ("GET", "/api/sjablonen"): "sjablonen",
+    ("POST", "/api/sjablonen/opslaan"): "sjabloon_opslaan",
+    ("POST", "/api/sjablonen/herstel"): "sjabloon_herstel",
     ("POST", "/api/klaar"): "klaar",
 }
 
