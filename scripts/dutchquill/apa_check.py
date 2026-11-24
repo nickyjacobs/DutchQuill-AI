@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tools/apa_checker.py — DutchQuill AI
+dq apa-check: DutchQuill AI
 
 Controleert een tekst op veelvoorkomende APA 7e editie overtredingen.
 Gebaseerd op apa_nl_gids.md (bron: Scribbr NL).
@@ -19,9 +19,9 @@ Gecontroleerde regels:
 Let op: regex-gebaseerde checker — controleer bevindingen altijd zelf.
 
 Gebruik:
-    python3 tools/apa_checker.py --input rapport.txt
-    cat rapport.txt | python3 tools/apa_checker.py
-    python3 tools/apa_checker.py --input rapport.txt --json
+    dq apa-check --input rapport.txt
+    cat rapport.txt | dq apa-check
+    dq apa-check --input rapport.txt --json
 """
 
 import sys

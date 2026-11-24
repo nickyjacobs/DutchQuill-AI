@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-md_to_docx.py — Markdown/plain-text naar APA .docx via word_export.py
+md_docx: Markdown of platte tekst naar een APA-.docx via export_apa (intern, gebruikt door dq export)
 
 Gebruik:
-    python3 tools/md_to_docx.py --input .tmp/herschreven.txt
-    python3 tools/md_to_docx.py --input .tmp/herschreven.txt --output .tmp/herschreven.docx
-    python3 tools/md_to_docx.py --input .tmp/tekst.txt \\
+    python -m dutchquill.md_docx --input herschreven.txt
+    python -m dutchquill.md_docx --input herschreven.txt --output herschreven.docx
+    python -m dutchquill.md_docx --input tekst.txt \\
         --metadata '{"naam":"Jan Jansen","studentnummer":"123456","opleiding":"Software Engineering","instelling":"Hogeschool Amsterdam"}' \\
-        --output .tmp/tekst.docx
+        --output tekst.docx
 
 Front matter: platte tekst vóór de eerste heading wordt automatisch herkend als
 titelpaginadata (titel, auteur, studentnummer, instelling, opleiding, datum).
@@ -465,7 +465,7 @@ def extract_sections(blocks: List[Dict]) -> Tuple[Optional[Dict], List[Dict], Li
 
 def parse_table_lines(table_lines: List[str]) -> Dict:
     """
-    Parse markdown-tabelregels naar een word_export.py tabelblok.
+    Parse markdown-tabelregels naar een export_apa tabelblok.
 
     Verwacht:
         | Kop 1 | Kop 2 |
@@ -645,7 +645,7 @@ def preprocess_figure_blocks(lines: List[str]) -> List[str]:
 
 # Patroon voor de inhoudsopgave-placeholder
 _TOC_PLACEHOLDER = re.compile(r'^\[inhoudsopgave\b', re.IGNORECASE)
-# Koppen die niet naar de body mogen (al aangemaakt door word_export.py)
+# Koppen die niet naar de body mogen (al aangemaakt door export_apa)
 _SKIP_HEADINGS = re.compile(r'^(inhoudsopgave|table of contents)$', re.IGNORECASE)
 
 
@@ -770,10 +770,10 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
     """
     Parset markdown naar:
     - title (str|None): fallback-titel uit eerste H1 (alleen als geen front matter)
-    - blocks (list[dict]): word_export.py blokken voor 'body'
+    - blocks (list[dict]): export_apa blokken voor 'body'
     - references (list[str]): APA-bronnenregels (met inline markdown bewaard)
     - front_matter_meta (dict): metadata uit front matter
-    - appendices (list[dict]): bijlagen-structuur voor word_export.py
+    - appendices (list[dict]): bijlagen-structuur voor export_apa
     """
     lines = text.splitlines()
     # Pre-verwerk figuurblokken: merge **Figuur N** / *caption* regels
@@ -977,7 +977,7 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             })
             continue
 
-        # Detecteer lijstitems → behandel als list_item (bullet-opmaak in word_export)
+        # Detecteer lijstitems → behandel als list_item (bullet-opmaak in export_apa)
         # Ook • (Unicode bullet) herkennen voor round-trip vanuit .docx
         list_match = re.match(r'^[-*\u2022]\s+(.+)', raw)
         if list_match:
@@ -1000,7 +1000,7 @@ def parse_markdown(text: str) -> Tuple[Optional[str], List[Dict], List[str], Dic
             # Strip optioneel numeriek prefix (bijv. "1.", "3.1") uit kopnaam
             heading_text = _HEADING_NUMBER_PREFIX.sub('', heading_text).strip()
 
-            # Sla Inhoudsopgave-koppen over: word_export.py genereert de TOC automatisch
+            # Sla Inhoudsopgave-koppen over: export_apa genereert de TOC automatisch
             if _SKIP_HEADINGS.match(heading_text):
                 continue
 
@@ -1115,7 +1115,7 @@ def build_payload(
     appendices: Optional[List[Dict]] = None,
     user_profile: Optional[dict] = None,
 ):
-    """Bouw het word_export.py JSON-payload.
+    """Bouw het export_apa JSON-payload.
 
     Prioriteit per veld: CLI --metadata > front matter > user_profile.json
     """
@@ -1316,7 +1316,7 @@ def build_payload(
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Converteer markdown/plain-text naar APA .docx via word_export.py'
+        description='Converteer markdown/plain-text naar APA .docx via export_apa'
     )
     parser.add_argument('--input', required=True, help='Pad naar het invoerbestand (.txt of .md)')
     parser.add_argument('--output', help='Pad voor het uitvoer-.docx-bestand (optioneel)')
@@ -1366,7 +1366,7 @@ def main():
         with open(tmp_payload, 'w', encoding='utf-8') as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
 
-        # Bepaal pad naar word_export.py
+        # Bepaal pad naar export_apa
         script_dir = os.path.dirname(os.path.abspath(__file__))
         word_export = os.path.join(script_dir, 'export_apa.py')
 
