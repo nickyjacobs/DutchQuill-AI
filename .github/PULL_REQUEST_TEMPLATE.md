@@ -1,19 +1,26 @@
-## Beschrijving
-Wat doet deze PR? Verwijs naar het bijbehorende issue indien van toepassing: closes #...
+<!-- Titel: "Prefix: zin in de gebiedende wijs", bijvoorbeeld "Add: sjabloon voor offertes". Prefixen: Add, Fix,
+Update, Refactor, Docs. -->
 
-## Type wijziging
-- [ ] Bugfix (niet-brekende wijziging die een probleem oplost)
-- [ ] Nieuwe feature (niet-brekende wijziging die functionaliteit toevoegt)
-- [ ] Brekende wijziging (bestaande functionaliteit verandert)
+## Wat en waarom
+
+Wat verandert er, en welk probleem lost het op? Verwijs naar een issue als dat er is: closes #...
+
+## Soort
+
+- [ ] Fix
+- [ ] Nieuw (commando, genre, sjabloon, AI-patroon, instelling)
 - [ ] Documentatie
+- [ ] Brekend: gebruikers moeten iets aanpassen in hun werkmap of `dutchquill.yaml`
 
-## Verificatiechecklist
-- [ ] Alle gewijzigde tools draaien zonder fouten: `python3 tools/<tool>.py --help`
-- [ ] `requirements.txt` is bijgewerkt indien nieuwe dependencies zijn toegevoegd
-- [ ] Workflows in `workflows/` zijn bijgewerkt als het gedrag verandert
-- [ ] CLAUDE.md-afspraken zijn gevolgd (geen verboden woorden, exportconventies intact)
-- [ ] Nieuwe tools volgen het `argparse + --help` patroon
-- [ ] Nieuwe skills sluiten af met een verificatiechecklist en markeren tools als `[VERPLICHT]`
+## Voor gebruikers
 
-## Aanvullende opmerkingen
-Voeg context toe die reviewers helpt de wijziging te begrijpen.
+Merken gebruikers dit? Zo ja: in één of twee zinnen wat ze zien of moeten doen. Dit komt in de CHANGELOG onder
+"🧭 Voor jou".
+
+## Checklist
+
+- [ ] Gericht op `develop`
+- [ ] `pytest` en `ruff check scripts hooks tests` zijn groen; nieuwe code in `scripts/` heeft een test
+- [ ] Een regel onder `[Unreleased]` in CHANGELOG.md
+- [ ] Nieuwe instellingen staan in `config/schema.json` met labels in NL en EN
+- [ ] Geen persoons-, klant- of werkgeversgegevens, ook niet in voorbeelden of tests

@@ -1,0 +1,40 @@
+name: Foutmelding
+description: Een commando, de Studio of de export doet niet wat het belooft
+labels: [bug]
+body:
+  - type: textarea
+    id: wat
+    attributes:
+      label: Wat gebeurde er
+      description: Wat je deed, wat je verwachtte en wat er gebeurde.
+    validations:
+      required: true
+  - type: dropdown
+    id: waar
+    attributes:
+      label: Waar
+      options:
+        - /dutchquill:schrijven
+        - /dutchquill:herschrijven
+        - /dutchquill:reviewen
+        - /dutchquill:humaniseren
+        - /dutchquill:instellen of DutchQuill Studio
+        - /dutchquill:bijwerken
+        - Export (docx, pdf, html, md, txt)
+        - Iets anders
+    validations:
+      required: true
+  - type: input
+    id: omgeving
+    attributes:
+      label: Versies en systeem
+      description: De uitvoer van `claude --version`, de DutchQuill-versie (`dq doctor`) en je besturingssysteem.
+      placeholder: "Claude Code 2.x, DutchQuill 2.0.0, macOS 15"
+    validations:
+      required: true
+  - type: textarea
+    id: uitvoer
+    attributes:
+      label: Uitvoer of foutmelding
+      description: Haal eerst alles weg wat privé is (namen, paden, inhoud van je teksten).
+      render: text

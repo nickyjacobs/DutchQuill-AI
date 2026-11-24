@@ -34,6 +34,7 @@ uv run --no-project --python 3.12 --with-requirements requirements.txt --with py
 uvx ruff check scripts hooks tests
 claude plugin validate .
 claude plugin eval . --runs 1 --model sonnet --allow-tools Bash --no-publish
+uv run --script scripts/dev/release_check.py
 ```
 
 Lokaal zonder plugin: `scripts/dq <commando>` gebruikt `.dev-data/` in de repo (gitignored). Een proefrun met de
@@ -49,6 +50,4 @@ uv run --no-project --with-requirements requirements.txt python scripts/dev/conf
 
 ## Release
 
-1. Versie ophogen in `.claude-plugin/plugin.json` en `scripts/dutchquill/__init__.py`; CHANGELOG bijwerken.
-2. Checks en evals groen.
-3. `develop` naar `main` via een pull request, daarna een tag `vX.Y.Z`.
+Zie [releasen.md](releasen.md): branches, de opbouw van de CHANGELOG en de stappen tot en met de tag.

@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Vraag stellen
+  - name: Vraag of idee
     url: https://github.com/nickyjacobs/DutchQuill-AI/discussions
-    about: Gebruik Discussions voor vragen, ideeën en algemene feedback.
+    about: Vraag hoe iets werkt, deel een idee of laat zien wat je ermee maakte.
+  - name: Beveiligingsprobleem
+    url: https://github.com/nickyjacobs/DutchQuill-AI/security/advisories/new
+    about: Meld kwetsbaarheden privé, niet in een issue.
