@@ -15,7 +15,7 @@ Wat verandert er, en welk probleem lost het op? Verwijs naar een issue als dat e
 ## Voor gebruikers
 
 Merken gebruikers dit? Zo ja: in één of twee zinnen wat ze zien of moeten doen. Dit komt in de CHANGELOG onder
-"🧭 Voor jou".
+"🧭 For you".
 
 ## Checklist
 

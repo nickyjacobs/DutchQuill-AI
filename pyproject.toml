@@ -1,7 +1,7 @@
 # Alleen voor ontwikkelen en testen. De plugin zelf installeert via scripts/dq en requirements.txt.
 [project]
 name = "dutchquill"
-version = "2.0.0"
+version = "2.0.1"
 requires-python = ">=3.10"
 
 [tool.pytest.ini_options]

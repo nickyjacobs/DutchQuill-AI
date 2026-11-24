@@ -1,8 +1,8 @@
 {
   "name": "dutchquill",
   "displayName": "DutchQuill AI",
-  "version": "2.0.0",
-  "description": "Schrijfassistent, Nederlands eerst en Engels volwaardig: schrijven, herschrijven, reviewen en humaniseren van rapporten, mails, posts, procesdocumenten en README's. Jij kiest wat er gecheckt wordt (APA, academische stijl, taal, humaniseren), de toon, de template en het formaat.",
+  "version": "2.0.1",
+  "description": "Writing assistant, Dutch first and fully capable in English: write, rewrite, review and humanize reports, emails, posts, process documents and READMEs. You choose what gets checked (APA, academic style, language, humanizing), the tone, the template and the format.",
   "author": {
     "name": "Nicky Jacobs",
     "url": "https://github.com/nickyjacobs"
@@ -10,6 +10,10 @@
   "homepage": "https://github.com/nickyjacobs/DutchQuill-AI",
   "repository": "https://github.com/nickyjacobs/DutchQuill-AI",
   "license": "MIT",
+  "documentationUrl": "https://github.com/nickyjacobs/DutchQuill-AI/blob/main/docs/README.md",
+  "privacyPolicyUrl": "https://github.com/nickyjacobs/DutchQuill-AI/blob/main/docs/privacy.md",
+  "supportUrl": "https://github.com/nickyjacobs/DutchQuill-AI/issues",
+  "termsOfServiceUrl": "https://github.com/nickyjacobs/DutchQuill-AI/blob/main/LICENSE",
   "keywords": [
     "schrijven",
     "writing",
@@ -21,7 +25,7 @@
     "docx",
     "tone-of-voice"
   ],
-  "icon": "assets/icon.png",
+  "icon": "./assets/icon.png",
   "network": {
     "hosts": [
       "api.languagetool.org",
