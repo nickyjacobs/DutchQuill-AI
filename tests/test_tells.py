@@ -113,3 +113,14 @@ def test_leesbaarheid_gelijk_in_tells_en_leesbaarheid():
           "Daarna kun je verder werken aan je tekst, zonder dat er iets verloren gaat.\n")
     assert tekst.statistiek(md, "nl")["flesch"] == leesbaarheid.flesch_douma(md)["score"]
     assert leesbaarheid.flesch_douma(md)["zinnen"] == 6
+
+
+def test_rapport_in_het_engels_voor_engelse_tekst():
+    from dutchquill import tells
+    t = ("In today's digital world, artificial intelligence plays a crucial role in education. It is not just a "
+         "tool, but a transformative force. In short, the future looks bright.")
+    uit = tells.rapport(tells.analyseer(t, "en", "kort"))
+    assert uit.startswith("Analysis: AI patterns HIGH") and "Broad opening without content" in uit
+    assert "woorden" not in uit and "Brede aanloop" not in uit
+    nl = tells.rapport(tells.analyseer("In de huidige digitale wereld speelt AI een cruciale rol.", "nl", "kort"))
+    assert nl.startswith("Analyse: AI-patronen")
