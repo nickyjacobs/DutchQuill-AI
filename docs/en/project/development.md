@@ -1,3 +1,5 @@
+<p align="right"><a href="../../project/ontwikkelen.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Developing DutchQuill
 
 This repo is the Claude Code plugin `dutchquill` and at the same time its own marketplace (`marketplace.json` with

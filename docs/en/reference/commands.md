@@ -1,3 +1,5 @@
+<p align="right"><a href="../../naslag/commandos.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Commands
 
 ## In Claude Code

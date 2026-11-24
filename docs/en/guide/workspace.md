@@ -1,3 +1,5 @@
+<p align="right"><a href="../../handleiding/werkmap.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Your workspace
 
 One folder for everything, wherever you like: the desktop, Documents or an Obsidian vault. The path is stored in the
