@@ -19,11 +19,29 @@ PAKKETTEN = ["docx", "lxml", "reportlab", "matplotlib", "PIL", "pypdf", "pptx", 
              "requests", "markdown"]
 
 
+LIBREOFFICE_INSTALL = {
+    "Darwin": "brew install --cask libreoffice (of download via libreoffice.org)",
+    "Windows": "winget install TheDocumentFoundation.LibreOffice (of download via libreoffice.org)",
+    "Linux": "sudo apt install libreoffice (of het pakket van je distributie)",
+}
+
+
+def pdf_route() -> tuple[str, list[str]]:
+    """Dezelfde volgorde als dq export: LibreOffice, dan een browser, dan reportlab. Plus tips."""
+    from dutchquill.export import _browser
+
+    if shutil.which("soffice") or shutil.which("libreoffice"):
+        return "libreoffice (de pdf volgt de Word-template precies)", []
+    tip = ("Installeer LibreOffice (gratis) als je wilt dat de pdf er precies zo uitziet als het Word-bestand: "
+           f"{LIBREOFFICE_INSTALL.get(platform.system(), 'download via libreoffice.org')}.")
+    if _browser():
+        return "browser (de pdf volgt de html-opmaak, niet precies de Word-template)", [tip]
+    return "reportlab (eenvoudige opmaak)", [tip]
+
+
 def controleer() -> dict:
     pakketten = {p: importlib.util.find_spec(p) is not None for p in PAKKETTEN}
-    soffice = shutil.which("soffice") or shutil.which("libreoffice")
-    word_mac = platform.system() == "Darwin" and any(
-        __import__("pathlib").Path(p).exists() for p in ("/Applications/Microsoft Word.app",))
+    pdf_via, tips = pdf_route()
     try:
         e = effectief()
         werkmap, fout = e["werkmap"], None
@@ -35,7 +53,8 @@ def controleer() -> dict:
         "platform": platform.platform(),
         "pakketten_ok": all(pakketten.values()),
         "pakketten": pakketten,
-        "pdf_via": "libreoffice" if soffice else ("word" if word_mac else "reportlab (eenvoudig)"),
+        "pdf_via": pdf_via,
+        "tips": tips,
         "werkmap": werkmap,
         "configfout": fout,
         "data": str(paden.data()),
@@ -57,3 +76,5 @@ def main(argv: list[str] | None = None) -> None:
     print(f"Werkmap: {r['werkmap'] or 'nog niet ingesteld'}")
     if r["configfout"]:
         print(f"Configfout: {r['configfout']}")
+    for t in r["tips"]:
+        print(f"Tip: {t}")
