@@ -10,6 +10,10 @@
   "homepage": "https://github.com/nickyjacobs/DutchQuill-AI",
   "repository": "https://github.com/nickyjacobs/DutchQuill-AI",
   "license": "MIT",
+  "documentationUrl": "https://github.com/nickyjacobs/DutchQuill-AI/blob/main/docs/en/README.md",
+  "privacyPolicyUrl": "https://github.com/nickyjacobs/DutchQuill-AI/blob/main/docs/en/privacy.md",
+  "supportUrl": "https://github.com/nickyjacobs/DutchQuill-AI/issues",
+  "termsOfServiceUrl": "https://github.com/nickyjacobs/DutchQuill-AI/blob/main/LICENSE",
   "keywords": [
     "schrijven",
     "writing",
@@ -21,7 +25,7 @@
     "docx",
     "tone-of-voice"
   ],
-  "icon": "assets/icon.png",
+  "icon": "./assets/icon.png",
   "network": {
     "hosts": [
       "api.languagetool.org",

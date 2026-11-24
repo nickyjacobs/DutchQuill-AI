@@ -97,7 +97,8 @@ The starting point is [docs/en/README.md](docs/en/README.md).
 
 - **Guide:** [getting started](docs/en/guide/getting-started.md), [workspace](docs/en/guide/workspace.md),
   [Studio](docs/en/guide/studio.md), [profiles and tone](docs/en/guide/profiles-and-tone.md),
-  [templates](docs/en/guide/templates.md), [humanizing](docs/en/guide/humanizing.md), [FAQ](docs/en/guide/faq.md)
+  [templates](docs/en/guide/templates.md), [humanizing](docs/en/guide/humanizing.md), [FAQ](docs/en/guide/faq.md),
+  [privacy](docs/en/privacy.md)
 - **Reference:** [configuration](docs/en/reference/configuration.md), [commands](docs/en/reference/commands.md),
   [guides and sources](docs/en/reference/guides-and-sources.md)
 - **Project:** [development](docs/en/project/development.md), [releasing](docs/en/project/releasing.md),

@@ -10,6 +10,16 @@ Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/l
 
 ## [Unreleased]
 
+### ✨ Nieuw
+
+- Privacybeleid in het Nederlands en Engels ([docs/privacy.md](docs/privacy.md)): wat op je computer blijft en welke
+  gegevens wanneer naar welke host gaan.
+- `plugin.json` heeft de velden voor de Claude Directory: documentatie, privacybeleid, support en licentie.
+
+### 🔧 Veranderd
+
+- Het pad naar het icoon in `plugin.json` begint met `./`, zoals de manifestreferentie voorschrijft.
+
 ---
 
 ## [2.0.0] - 2026-11-24

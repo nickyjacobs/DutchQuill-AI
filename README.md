@@ -95,7 +95,7 @@ Het beginpunt is [docs/README.md](docs/README.md).
 - **Handleiding:** [aan de slag](docs/handleiding/aan-de-slag.md), [werkmap](docs/handleiding/werkmap.md),
   [Studio](docs/handleiding/studio.md), [profielen en toon](docs/handleiding/profielen-en-toon.md),
   [templates](docs/handleiding/templates.md), [humaniseren](docs/handleiding/humaniseren.md),
-  [vragen](docs/handleiding/vragen.md)
+  [vragen](docs/handleiding/vragen.md), [privacy](docs/privacy.md)
 - **Naslag:** [configuratie](docs/naslag/configuratie.md), [commando's](docs/naslag/commandos.md),
   [gidsen en bronnen](docs/naslag/gidsen-en-bronnen.md)
 - **Project:** [ontwikkelen](docs/project/ontwikkelen.md), [releasen](docs/project/releasen.md),

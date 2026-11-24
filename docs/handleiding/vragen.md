@@ -12,7 +12,8 @@
 - De eerste keer installeert DutchQuill zijn Python-pakketten van PyPI, in de datamap van de plugin.
 - DutchQuill Studio draait alleen op je eigen computer (127.0.0.1).
 
-De hosts die de plugin mag bereiken, staan in `.claude-plugin/plugin.json` onder `network.hosts`.
+De hosts die de plugin mag bereiken, staan in `.claude-plugin/plugin.json` onder `network.hosts`. Het volledige
+overzicht staat in het [privacybeleid](../privacy.md).
 
 ## Kost het iets?
 

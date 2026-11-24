@@ -13,6 +13,7 @@ Everything that doesn't fit in the [README](../../README.en.md), sorted by who r
 | Use your own house style or template | [guide/templates.md](guide/templates.md) |
 | Know what humanizing does, and what it doesn't | [guide/humanizing.md](guide/humanizing.md) |
 | Get a quick answer: privacy, PDFs, Windows, removing it, coming from v1 | [guide/faq.md](guide/faq.md) |
+| Know exactly which data goes where | [privacy.md](privacy.md) |
 | Look up every setting in `dutchquill.yaml` | [reference/configuration.md](reference/configuration.md) |
 | See every command, subagent and `dq` tool | [reference/commands.md](reference/commands.md) |
 | Know where the rules come from and how they are kept up to date | [reference/guides-and-sources.md](reference/guides-and-sources.md) |

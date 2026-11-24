@@ -13,6 +13,7 @@ Alles wat niet in de [README](../README.md) past, ingedeeld naar wie het leest.
 | Je eigen huisstijl of sjabloon gebruiken | [handleiding/templates.md](handleiding/templates.md) |
 | Weten wat humaniseren doet, en wat niet | [handleiding/humaniseren.md](handleiding/humaniseren.md) |
 | Een snel antwoord: privacy, pdf's, Windows, verwijderen, van v1 naar v2 | [handleiding/vragen.md](handleiding/vragen.md) |
+| Precies weten welke gegevens waarheen gaan | [privacy.md](privacy.md) |
 | Alle instellingen in `dutchquill.yaml` opzoeken | [naslag/configuratie.md](naslag/configuratie.md) |
 | Alle commando's, subagents en `dq`-tools zien | [naslag/commandos.md](naslag/commandos.md) |
 | Weten waar de regels vandaan komen en hoe ze bijgewerkt worden | [naslag/gidsen-en-bronnen.md](naslag/gidsen-en-bronnen.md) |
