@@ -12,6 +12,9 @@ EIGEN = {
     "versie": "versies",
     "historie": "historie",
     "doctor": "doctor",
+    "materiaal": "materiaal",
+    "extraheer": "extraheer",
+    "beeld": "beeld",
 }
 
 # Bestaande tools uit v1 (worden in latere fases omgebouwd); hun main() leest sys.argv
