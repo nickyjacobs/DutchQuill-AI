@@ -36,6 +36,8 @@ const TEKST = {
     s_welkom: "Welkom", s_werkmap: "Werkmap", s_profiel: "Profiel", s_controles: "Controles", s_toon: "Toon",
     s_uitvoer: "Uitvoer", s_templates: "Templates", s_stem: "Mijn stem", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Onderhoud", s_afronden: "Afronden",
+    g_start: "Start", g_schrijven: "Hoe je schrijft", g_uitvoer: "Wat je krijgt", g_jij: "Jij en je gegevens",
+    g_systeem: "Systeem",
     welkom_titel: "Welkom bij DutchQuill",
     welkom_1: "DutchQuill schrijft, herschrijft, reviewt en humaniseert je teksten: een rapport, een mail, een LinkedIn-post of een README.",
     welkom_2: "Jij bepaalt hoe het klinkt, waarop het let en in welk formaat het terugkomt. Dat stel je hier in; later kan alles ook in een gesprek met Claude.",
@@ -133,6 +135,8 @@ const TEKST = {
     s_welkom: "Welcome", s_werkmap: "Workspace", s_profiel: "Profile", s_controles: "Checks", s_toon: "Tone",
     s_uitvoer: "Output", s_templates: "Templates", s_stem: "My voice", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Maintenance", s_afronden: "Finish",
+    g_start: "Start", g_schrijven: "How you write", g_uitvoer: "What you get", g_jij: "You and your data",
+    g_systeem: "System",
     welkom_titel: "Welcome to DutchQuill",
     welkom_1: "DutchQuill writes, rewrites, reviews and humanizes your texts: a report, an email, a LinkedIn post or a README.",
     welkom_2: "You decide how it sounds, what it checks and which format you get back. You set that up here; later you can also just tell Claude.",
@@ -839,21 +843,33 @@ const SCHERMEN = {
 };
 
 // ------------------------------------------------------------------ navigatie
+const GROEPEN = [
+  { kop: "g_start", schermen: ["werkmap", "profiel"] },
+  { kop: "g_schrijven", schermen: ["toon", "controles", "stem"] },
+  { kop: "g_uitvoer", schermen: ["uitvoer", "templates"] },
+  { kop: "g_jij", schermen: ["privacy", "student"] },
+  { kop: "g_systeem", schermen: ["onderhoud"] },
+];
 function schermen() {
   return S.installatie ? ["welkom", "werkmap", "profiel", "privacy", "afronden"]
-    : ["werkmap", "profiel", "controles", "toon", "uitvoer", "templates", "stem", "privacy", "student", "onderhoud"];
+    : GROEPEN.flatMap((g) => g.schermen);
+}
+function navKnop(s, i, lijst) {
+  return el("li", {}, el("button", { type: "button", "aria-current": s === S.scherm ? (S.installatie ? "step" : "page") : null,
+    "data-klaar": S.installatie && lijst.indexOf(S.scherm) > i ? "ja" : null,
+    disabled: S.installatie && !S.status.ingesteld && i > 1 ? true : null, onclick: () => ga(s) },
+    S.installatie ? el("span", { klasse: "nr", tekst: String(i + 1) }) : null, el("span", { tekst: T(`s_${s}`) })));
 }
 function tekenNav() {
-  const lijst = schermen();
   const nav = document.getElementById("nav");
-  const kopTekst = el("p", { klasse: "nav-kop", tekst: S.installatie ? T("installatie") : T("instellingen") });
-  const houder = el(S.installatie ? "ol" : "ul", {}, lijst.map((s, i) => el("li", {},
-    el("button", { type: "button", "aria-current": s === S.scherm ? (S.installatie ? "step" : "page") : null,
-      "data-klaar": S.installatie && lijst.indexOf(S.scherm) > i ? "ja" : null,
-      disabled: S.installatie && !S.status.ingesteld && i > 1 ? true : null,
-      onclick: () => ga(s) },
-      S.installatie ? el("span", { klasse: "nr", tekst: String(i + 1) }) : null, el("span", { tekst: T(`s_${s}`) })))));
-  nav.replaceChildren(kopTekst, houder);
+  if (S.installatie) {
+    const lijst = schermen();
+    nav.replaceChildren(el("p", { klasse: "nav-kop", tekst: T("installatie") }),
+      el("ol", {}, lijst.map((s, i) => navKnop(s, i, lijst))));
+    return;
+  }
+  nav.replaceChildren(...GROEPEN.flatMap((g) => [el("p", { klasse: "nav-kop", tekst: T(g.kop) }),
+    el("ul", {}, g.schermen.map((s) => navKnop(s, 0, [])))]));
 }
 async function ga(scherm) {
   S.scherm = scherm;

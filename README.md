@@ -1,9 +1,4 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-donker.png">
-    <img src="assets/logo-licht.png" alt="DutchQuill AI" width="140">
-  </picture>
-</p>
+<p align="center"><img src="assets/banner.jpg" alt="DutchQuill AI: schrijven, herschrijven, reviewen en humaniseren, in jouw stem"></p>
 
 # DutchQuill AI
 

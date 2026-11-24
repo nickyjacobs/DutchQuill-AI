@@ -71,10 +71,11 @@ code { font-family: var(--mono); font-size: .9em; }
 .rail { background: var(--rail); color: var(--rail-tekst); padding: 1.5rem 1rem 1.2rem; display: flex; flex-direction: column;
   gap: 1.6rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid rgba(255,255,255,.04); }
 .merk { display: flex; gap: .75rem; align-items: center; padding: 0 .4rem; }
-.merk img { width: 38px; height: 38px; border-radius: 9px; box-shadow: 0 0 0 1px rgba(70,198,214,.35), 0 0 18px rgba(43,179,196,.28); }
+.merk img { width: 38px; height: 38px; border-radius: 9px; }
 .merk-naam { font-family: var(--schrift); font-size: 1.3rem; font-weight: 500; letter-spacing: -.01em; margin: 0; color: #fff; line-height: 1.1; }
 .merk-sub { margin: 0; color: #7fd3df; font-size: .8rem; letter-spacing: .01em; }
-.nav-kop { color: #6f8a91; font-size: .78rem; font-weight: 500; margin: 0 .6rem .4rem; }
+.nav-kop { color: #6f8a91; font-size: .76rem; font-weight: 500; margin: 1.1rem .6rem .3rem; }
+.nav-kop:first-child { margin-top: 0; }
 #nav ol, #nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 #nav button { all: unset; box-sizing: border-box; display: flex; gap: .7rem; align-items: center; width: 100%;
   padding: .48rem .6rem; border-radius: 8px; cursor: pointer; color: var(--rail-tekst); font: 500 .92rem/1.3 var(--ui); }
@@ -87,15 +88,14 @@ code { font-family: var(--mono); font-size: .9em; }
 #nav button[aria-current] .nr { border-color: #46c6d6; color: #fff; background: rgba(70,198,214,.15); }
 #nav button[data-klaar="ja"] .nr { background: #46c6d6; border-color: #46c6d6; color: #0d1a1f; }
 
-.rail-voet { margin-top: auto; display: grid; gap: .55rem; padding: 0 .4rem; }
-.segment { display: flex; padding: 3px; border-radius: 9px; background: rgba(255,255,255,.06); gap: 2px; width: 100%; }
-.segment button { flex: 1; }
+.rail-voet { margin-top: auto; display: flex; gap: .5rem; padding: 0 .2rem; align-items: center; justify-content: space-between; }
+.segment { display: inline-flex; padding: 2px; border-radius: 8px; background: rgba(255,255,255,.07); gap: 2px; }
 .segment button { all: unset; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
-  min-width: 2.2rem; height: 1.8rem; padding: 0 .6rem; border-radius: 7px; color: #9fb4b9; font: 500 .8rem var(--ui); }
+  min-width: 1.75rem; height: 1.55rem; padding: 0 .4rem; border-radius: 6px; color: #9fb4b9; font: 600 .72rem var(--ui); }
 .segment button:hover { color: #fff; }
-.segment button[aria-pressed="true"] { background: #1d3a43; color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.06) inset; }
+.segment button[aria-pressed="true"] { background: #e6f4f6; color: #0f2a33; }
 .segment button:focus-visible { outline: 2px solid #46c6d6; }
-.segment svg { width: 15px; height: 15px; }
+.segment svg { width: 13px; height: 13px; }
 
 main { padding: 3.2rem clamp(1.2rem, 5vw, 4.5rem) 8rem; }
 #scherm { max-width: 46rem; }
@@ -106,7 +106,7 @@ main { padding: 3.2rem clamp(1.2rem, 5vw, 4.5rem) 8rem; }
 /* ---------------------------------------------------------------- welkom */
 .welkom { min-height: calc(100vh - 11rem); display: grid; align-content: center; gap: 2.2rem; max-width: 44rem; }
 .welkom-merk { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
-.welkom-merk img { width: 64px; height: 64px; border-radius: 14px; box-shadow: 0 0 0 1px rgba(43,179,196,.35), 0 0 40px rgba(43,179,196,.25); }
+.welkom-merk img { width: 64px; height: 64px; border-radius: 14px; }
 .welkom h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); margin: 0; }
 .welkom .inleiding { font-size: 1.15rem; margin: .8rem 0 0; }
 .acties { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--lijn); border-bottom: 1px solid var(--lijn); }
@@ -235,7 +235,7 @@ dialog::backdrop { background: rgba(8, 20, 25, .5); backdrop-filter: blur(2px); 
 @media (max-width: 760px) {
   .app { grid-template-columns: minmax(0, 1fr); }
   .rail { position: static; height: auto; gap: .9rem; padding: 1rem; }
-  #nav { overflow-x: auto; margin: 0 -1rem; padding: 0 1rem; }
+  #nav { overflow-x: auto; margin: 0 -1rem; padding: 0 1rem; display: flex; gap: 2px; }
   #nav ol, #nav ul { grid-auto-flow: column; grid-auto-columns: max-content; }
   .nav-kop { display: none; }
   .rail-voet { margin-top: 0; display: flex; gap: .6rem; }
