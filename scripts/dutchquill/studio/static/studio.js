@@ -44,8 +44,7 @@ const TEKST = {
     over_3: "Toen wilde ik meer. Sneller mails beantwoorden, makkelijker een LinkedIn-post schrijven, procesdocumentatie voor mijn werk of de README van een repo, allemaal vanuit ruwe notities, tekst en screenshots die ik al had verzameld. DutchQuill maakt daar een mooi eindresultaat van.",
     over_4: "Op het eerste gezicht lijkt het misschien een tool van iemand die alles makkelijk wil. Deels klopt dat ook wel 😉 Maar voor mij was het vooral een leerproject. Ik weet nu meer over APA dan ik ooit had verwacht; soms wist ik dingen over inspringen, het juiste gebruik van bijlagen en andere APA-regels die docenten en medestudenten ook niet wisten. Ik leerde hoe AI tekst maakt, hoe plagiaatcontrole werkt en wat goed academisch schrijven is. Er zit veel tijd in, en het resultaat deel ik graag.",
     over_5: "DutchQuill is open source (MIT). Zie je een fout of heb je een idee, open dan een issue op GitHub.",
-    kop_verhaal: "Waarom ik DutchQuill maakte",
-    kop_socials: "Socials",
+        kop_socials: "Socials",
         f1_naam: "Flesch-Douma",
     f1: "de Nederlandse leesbaarheidsformule: 206,84 − 77 × lettergrepen per woord − 0,93 × woorden per zin. Hoe hoger, hoe makkelijker de tekst; een hbo-rapport zit meestal tussen 30 en 50.",
     f2_naam: "MATTR",
@@ -131,6 +130,29 @@ const TEKST = {
     upload_sjabloon: "Uploaden",
     annuleren: "Annuleren",
     m_formaat_titel: "Minstens één formaat",
+    kop_verhaal: "Het verhaal",
+    mv_werkmap: "je werkmap",
+    mv_in: "Hier zet jij je materiaal neer",
+    mv_uit: "Hier vind je het resultaat",
+    mv_pijl: "DutchQuill leest, schrijft en controleert",
+    mv_notities: "Losse aantekeningen en ideeën",
+    mv_rapporten: "Teksten om te herschrijven of na te kijken",
+    mv_beeld: "Screenshots, foto's en figuren",
+    mv_bronnen: "Pdf's, artikelen en een lijst met links",
+    mv_mijn_stijl: "Eigen teksten, zodat het klinkt als jij",
+    mv_schrijven: "Nieuwe teksten",
+    mv_herschrijven: "Verbeterde versies van je teksten",
+    mv_reviewen: "Feedback, je tekst zelf blijft gelijk",
+    mv_humaniseren: "Teksten die menselijker klinken",
+    mv_versies: "Per titel een eigen map, met v1, v2 en verder voor elke nieuwe ronde.",
+    mv_ook: "Ook in je werkmap",
+    mv_yaml: "Je instellingen: wat je hier in de Studio kiest",
+    mv_templates: "Je eigen Word-templates en sjablonen",
+    mv_regels: "Woorden die je wel of juist niet wilt",
+    gidsen_kop: "Referentiegidsen",
+    of_in_claude: "Gidsen bijwerken: typ dit in Claude.",
+    taal_versies: "Taal en versies",
+    vak_eerst: "Voeg hierboven eerst een vak toe.",
     welkom_titel: "Welkom bij DutchQuill",
     welkom_1: "DutchQuill schrijft, herschrijft, reviewt en humaniseert je teksten: een rapport, een mail, een LinkedIn-post of een README.",
     welkom_2: "Jij bepaalt hoe het klinkt, waarop het let en in welk formaat het terugkomt. Dat stel je hier in; later kan alles ook in een gesprek met Claude.",
@@ -201,7 +223,7 @@ const TEKST = {
     inlevereisen: "Inlevereisen", rubric: "Beoordelingscriteria",
     onderhoud_titel: "Onderhoud",
     gidsen_stand: "De gidsen (APA, taal, humaniseren) zijn gecontroleerd op %s.",
-    bijwerken_uitleg: "Eén keer per maand herinnert DutchQuill je eraan om ze te laten nakijken. Typ dan in Claude:",
+    bijwerken_uitleg: "Eén keer per maand herinnert DutchQuill je eraan om ze na te kijken. Met Nu controleren zie je meteen of er bronnen veranderd zijn; het bijwerken zelf doet Claude.",
     kopieer: "Kopieer", herinnering: "Herinnering na (dagen)",
     versie: "Versie", klaar_sluiten: "Klaar en Studio sluiten",
     afronden_titel: "Klaar om op te slaan",
@@ -232,8 +254,7 @@ const TEKST = {
     over_3: "Then I wanted more. Answering emails faster, writing a LinkedIn post more easily, process documentation for work or the README of a repo, all from rough notes, text and screenshots I had already collected. DutchQuill turns that into a polished result.",
     over_4: "At first glance it may look like a tool made by someone who wants everything to be easy. That's partly true 😉 But for me it was mostly a learning project. I now know more about APA than I ever expected; sometimes I knew things about indentation, using appendices the right way and other APA rules that teachers and classmates didn't. I learned how AI generates text, how plagiarism checks work and what good academic writing is. A lot of time went into it, and I am happy to share the result.",
     over_5: "DutchQuill is open source (MIT). Found a bug or have an idea? Open an issue on GitHub.",
-    kop_verhaal: "Why I built DutchQuill",
-    kop_socials: "Socials",
+        kop_socials: "Socials",
         f1_naam: "Flesch-Douma and Flesch Reading Ease",
     f1: "readability formulas for Dutch (206.84 − 77 × syllables per word − 0.93 × words per sentence) and English (206.835 − 84.6 × syllables per word − 1.015 × words per sentence). Higher means easier to read.",
     f2_naam: "MATTR",
@@ -319,6 +340,29 @@ const TEKST = {
     upload_sjabloon: "Upload",
     annuleren: "Cancel",
     m_formaat_titel: "At least one format",
+    kop_verhaal: "The story",
+    mv_werkmap: "your workspace",
+    mv_in: "You put your material here",
+    mv_uit: "Here you find the result",
+    mv_pijl: "DutchQuill reads, writes and checks",
+    mv_notities: "Loose notes and ideas",
+    mv_rapporten: "Texts to rewrite or review",
+    mv_beeld: "Screenshots, photos and figures",
+    mv_bronnen: "PDFs, articles and a list of links",
+    mv_mijn_stijl: "Your own texts, so it sounds like you",
+    mv_schrijven: "New texts",
+    mv_herschrijven: "Improved versions of your texts",
+    mv_reviewen: "Feedback, your text stays the same",
+    mv_humaniseren: "Texts that sound more human",
+    mv_versies: "One folder per title, with v1, v2 and so on for every new round.",
+    mv_ook: "Also in your workspace",
+    mv_yaml: "Your settings: what you choose here in the Studio",
+    mv_templates: "Your own Word templates and templates per kind of text",
+    mv_regels: "Words you do or don't want",
+    gidsen_kop: "Reference guides",
+    of_in_claude: "To update the guides, type this in Claude.",
+    taal_versies: "Language and versions",
+    vak_eerst: "Add a course above first.",
     welkom_titel: "Welcome to DutchQuill",
     welkom_1: "DutchQuill writes, rewrites, reviews and humanizes your texts: a report, an email, a LinkedIn post or a README.",
     welkom_2: "You decide how it sounds, what it checks and which format you get back. You set that up here; later you can also just tell Claude.",
@@ -389,7 +433,7 @@ const TEKST = {
     inlevereisen: "Requirements", rubric: "Grading criteria",
     onderhoud_titel: "Maintenance",
     gidsen_stand: "The guides (APA, language, humanizing) were checked on %s.",
-    bijwerken_uitleg: "Once a month DutchQuill reminds you to have them checked. Then type in Claude:",
+    bijwerken_uitleg: "Once a month DutchQuill reminds you to check them. Check now shows right away whether sources have changed; Claude does the updating itself.",
     kopieer: "Copy", herinnering: "Reminder after (days)",
     versie: "Version", klaar_sluiten: "Done, close the Studio",
     afronden_titel: "Ready to save",
@@ -594,8 +638,14 @@ function zetProfiel(sectie, sleutel, waarde) {
 }
 
 // ------------------------------------------------------------------ wijzigingen
+function isLeeg(v) {
+  if (v === undefined || v === null || v === "") return true;
+  if (Array.isArray(v)) return v.length === 0;
+  if (typeof v === "object") return Object.values(v).every(isLeeg);
+  return false;
+}
 function telVerschillen(a, b) {
-  if (JSON.stringify(a) === JSON.stringify(b)) return 0;
+  if (JSON.stringify(a) === JSON.stringify(b) || (isLeeg(a) && isLeeg(b))) return 0;
   if (typeof a !== "object" || typeof b !== "object" || !a || !b || Array.isArray(a) || Array.isArray(b)) return 1;
   let n = 0;
   for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) n += telVerschillen(a[k], b[k]);
@@ -738,6 +788,8 @@ async function bewaarSjabloon(genre, inhoud) {
 }
 const GENRE_GROEPEN = { berichten: ["mail", "linkedin", "social", "kort"],
   documenten: ["rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "sop", "research-notitie", "memo", "readme"] };
+const ICOON_MAP = "M3.5 7.5A1.5 1.5 0 0 1 5 6h4.2l1.8 2H19a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5z";
+const ICOON_BESTAND = "M13.5 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8.5zM13.5 3.5v5h5";
 function mapBoom(mappen) {
   const m = { input: "1-input", output: "2-output", notities: "notities", rapporten: "rapporten", beeld: "beeld",
     bronnen: "bronnen", mijn_stijl: "mijn-stijl", schrijven: "schrijven", herschrijven: "herschrijven",
@@ -745,15 +797,25 @@ function mapBoom(mappen) {
   if (!mappen && S.installKeuze.taal === "en") Object.assign(m, { notities: "notes", rapporten: "reports",
     beeld: "images", bronnen: "sources", mijn_stijl: "my-style", schrijven: "write", herschrijven: "rewrite",
     reviewen: "review", humaniseren: "humanize" });
-  return el("div", { klasse: "boom", tekst:
-`DutchQuill/
-  dutchquill.yaml
-  ${m.input}/
-    ${m.notities}/   ${m.rapporten}/   ${m.beeld}/   ${m.bronnen}/   ${m.mijn_stijl}/
-  ${m.output}/
-    ${m.schrijven}/   ${m.herschrijven}/   ${m.reviewen}/   ${m.humaniseren}/
-  ${m.templates}/
-  eigen-regels.md` });
+  const rij = (sleutel, icoon = ICOON_MAP) => el("li", {}, lijnIcoon(icoon, 1.6),
+    el("span", {}, el("strong", { tekst: m[sleutel] || sleutel }), el("span", { tekst: T(`mv_${sleutel}`) })));
+  const kaart = (soort, naam, uitleg, sub) => el("section", { klasse: `mapkaart map-${soort}` },
+    el("div", { klasse: "mapkaart-kop" }, lijnIcoon(ICOON_MAP, 1.8),
+      el("span", {}, el("strong", { tekst: `${naam}/` }), el("span", { tekst: uitleg }))),
+    el("ul", {}, sub.map((k) => rij(k))));
+  return el("div", { klasse: "mapvis" },
+    el("p", { klasse: "mapvis-kop" }, lijnIcoon(ICOON_MAP, 1.8), el("strong", { tekst: "DutchQuill/" }), el("span", { tekst: T("mv_werkmap") })),
+    el("div", { klasse: "mapvis-stroom" },
+      kaart("in", m.input, T("mv_in"), ["notities", "rapporten", "beeld", "bronnen", "mijn_stijl"]),
+      el("div", { klasse: "mapvis-pijl" }, lijnIcoon("M5 12h14M13 6l6 6-6 6", 2), el("span", { tekst: T("mv_pijl") })),
+      el("div", { klasse: "mapvis-uitkolom" },
+        kaart("uit", m.output, T("mv_uit"), ["schrijven", "herschrijven", "reviewen", "humaniseren"]),
+        el("p", { klasse: "mapvis-versies", tekst: T("mv_versies") }))),
+    el("p", { klasse: "groepkop" }, el("strong", { tekst: T("mv_ook") })),
+    el("ul", { klasse: "mapvis-extra" },
+      el("li", {}, lijnIcoon(ICOON_BESTAND, 1.6), el("span", {}, el("strong", { tekst: "dutchquill.yaml" }), el("span", { tekst: T("mv_yaml") }))),
+      el("li", {}, lijnIcoon(ICOON_MAP, 1.6), el("span", {}, el("strong", { tekst: `${m.templates}/` }), el("span", { tekst: T("mv_templates") }))),
+      el("li", {}, lijnIcoon(ICOON_BESTAND, 1.6), el("span", {}, el("strong", { tekst: "eigen-regels.md" }), el("span", { tekst: T("mv_regels") })))));
 }
 function kop(titel, inleiding) {
   return [el("h1", { tekst: titel }), inleiding ? el("p", { klasse: "inleiding", tekst: inleiding }) : null];
@@ -787,9 +849,10 @@ const SCHERMEN = {
     if (S.status.ingesteld) {
       return [
         ...kop(T("huidige_map")),
-        el("p", {}, el("strong", { tekst: S.status.werkmap })),
-        mapBoom((S.ruw || {}).mappen),
+        el("p", { klasse: "werkmap-pad" }, el("strong", { tekst: S.status.werkmap })),
         el("p", { klasse: "uitleg", tekst: T("map_verplaatsen") }),
+        mapBoom((S.ruw || {}).mappen),
+        el("h2", { tekst: T("taal_versies") }),
         veld(T("taal"), el("select", { onchange: (e) => { S.ruw.taal = e.target.value; gewijzigd(); } },
           ["nl", "en", "auto"].map((t) => el("option", { value: t, selected: (S.ruw.taal || "nl") === t, tekst: T(`taal_${t}`) })))),
         el("div", { klasse: "schakelaars" }, schakelaar(T("versies"), T("versies_uitleg"), S.ruw.versies !== false,
@@ -1025,10 +1088,10 @@ const SCHERMEN = {
       })),
       el("h2", { tekst: T("aanpassen_titel") }), el("p", { klasse: "uitleg", tekst: T("aanpassen_uitleg") }),
       el("div", { klasse: "kader" },
-        el("div", { klasse: "raster" }, veld(T("van"), f.van), veld(T("nieuwe_naam"), f.naar, T("naam_regel"))),
-        el("div", { klasse: "raster" }, veld(T("kop_font"), f.kopFont), veld(T("kop_grootte"), f.kopGrootte),
-          veld(T("kop_kleur"), f.kopKleur)),
-        el("div", { klasse: "raster" }, veld(T("tekst_font"), f.tekstFont), veld(T("tekst_grootte"), f.tekstGrootte),
+        el("div", { klasse: "raster raster-4 vast" },
+          el("div", { klasse: "breed" }, veld(T("van"), f.van)), el("div", { klasse: "breed" }, veld(T("nieuwe_naam"), f.naar)),
+          veld(T("kop_font"), f.kopFont), veld(T("kop_grootte"), f.kopGrootte), veld(T("kop_kleur"), f.kopKleur), el("div"),
+          veld(T("tekst_font"), f.tekstFont), veld(T("tekst_grootte"), f.tekstGrootte),
           veld(T("regelafstand"), f.regel), veld(T("marge"), f.marge)), aanpasFout,
         el("button", { type: "button", klasse: "eerste", tekst: T("kopie_maken"), onclick: async () => {
           const naar = f.naar.value.trim();
@@ -1095,8 +1158,8 @@ const SCHERMEN = {
         } }) : null));
     return [
       ...kop(T("prof_titel"), T("prof_uitleg")),
-      el("div", { klasse: "raster" }, ["naam", "functie", "organisatie", "afdeling", "telefoon", "email", "website", "linkedin"].map(tekstveld)),
-      tekstveld("groet"),
+      el("div", { klasse: "raster raster-4" }, ["naam", "functie", "organisatie", "afdeling", "telefoon", "email", "website", "linkedin"].map(tekstveld),
+        el("div", { klasse: "breed" }, tekstveld("groet"))),
       el("h2", { tekst: T("prof_afb") }), el("p", { klasse: "uitleg", tekst: T("prof_afb_uitleg") }),
       el("div", { klasse: "afbkaarten" }, afbKaart("handtekening"), afbKaart("banner")),
       el("h2", { tekst: T("prof_voorbeeld") }), vb,
@@ -1152,17 +1215,23 @@ const SCHERMEN = {
   },
 
   student() {
-    const st = S.ruw.student = S.ruw.student || {};
-    const tekstveld = (k, label) => veld(label, el("input", { type: "text", value: st[k] || "",
-      onchange: (e) => { if (e.target.value) st[k] = e.target.value; else delete st[k]; gewijzigd(); } }));
-    const vakken = st.vakken = st.vakken || [];
+    const st = () => S.ruw.student || {};
+    const zetSt = (k, v) => {
+      const nieuw = { ...st() };
+      if (v === undefined || v === "" || (Array.isArray(v) && !v.length)) delete nieuw[k]; else nieuw[k] = v;
+      if (Object.keys(nieuw).length) S.ruw.student = nieuw; else delete S.ruw.student;
+      gewijzigd();
+    };
+    const tekstveld = (k, label) => veld(label, el("input", { type: "text", value: st()[k] || "",
+      oninput: (e) => zetSt(k, e.target.value.trim()) }));
+    const vakken = st().vakken || [];
     const vakNaam = el("input", { type: "text" });
     const vakCode = el("input", { type: "text", placeholder: "SYS" });
-    const vakkenLijst = el("ul", { klasse: "lijst" }, vakken.map((v, i) => el("li", {},
+    const vakkenLijst = vakken.length ? el("ul", { klasse: "lijst" }, vakken.map((v, i) => el("li", {},
       el("span", { tekst: `${v.naam || ""} (${v.code || ""})` }),
       el("button", { type: "button", klasse: "link", tekst: T("verwijderen"), onclick: () => {
-        vakken.splice(i, 1); gewijzigd(); toon();
-      } }))));
+        zetSt("vakken", vakken.filter((_, j) => j !== i)); toon();
+      } })))) : null;
     const bestaand = S.vakken || {};
     const upload = (code, soort) => bestandKnop(soort === "quick-scan" ? T("inlevereisen") : T("rubric"),
       ".md,.txt,.docx,.pdf", false, async (bestand) => {
@@ -1175,20 +1244,22 @@ const SCHERMEN = {
       });
     return [
       ...kop(T("student_titel"), T("student_uitleg")),
+      el("div", { klasse: "raster raster-4" },
       tekstveld("voornaam", S.taal === "nl" ? "Voornaam" : "First name"),
       tekstveld("tussenvoegsel", S.taal === "nl" ? "Tussenvoegsel" : "Prefix (van, de)"),
       tekstveld("achternaam", S.taal === "nl" ? "Achternaam" : "Last name"),
       tekstveld("studentnummer", S.taal === "nl" ? "Studentnummer" : "Student number"),
       tekstveld("instelling", S.taal === "nl" ? "Hogeschool of universiteit" : "University"),
       tekstveld("faculteit", S.taal === "nl" ? "Faculteit of instituut" : "Faculty"),
-      tekstveld("opleiding", S.taal === "nl" ? "Opleiding" : "Programme"),
+      tekstveld("opleiding", S.taal === "nl" ? "Opleiding" : "Programme")),
       el("h2", { tekst: T("vakken") }), vakkenLijst,
-      el("div", { klasse: "kader" }, veld(T("vak"), vakNaam), veld(T("code"), vakCode),
+      el("div", { klasse: "kader rij-invoer" }, veld(T("vak"), vakNaam), veld(T("code"), vakCode),
         el("button", { type: "button", klasse: "tweede", tekst: T("toevoegen"), onclick: () => {
           if (!vakNaam.value && !vakCode.value) return;
-          vakken.push({ naam: vakNaam.value, code: vakCode.value.toUpperCase() }); gewijzigd(); toon();
+          zetSt("vakken", [...vakken, { naam: vakNaam.value.trim(), code: vakCode.value.trim().toUpperCase() }]); toon();
         } })),
       el("h2", { tekst: T("vak_bestanden") }), el("p", { klasse: "uitleg", tekst: T("vak_uitleg") }),
+      vakken.some((v) => v.code) ? null : el("p", { klasse: "label-klein", tekst: T("vak_eerst") }),
       vakken.filter((v) => v.code).map((v) => el("div", { klasse: "veld" },
         el("span", { klasse: "label", tekst: `${v.naam || v.code} (${v.code})` }),
         el("p", { klasse: "uitleg", tekst: (bestaand[v.code] || []).join(", ") }),
@@ -1202,14 +1273,10 @@ const SCHERMEN = {
     const uitkomst = el("div", { "aria-live": "polite" });
     return [
       ...kop(T("onderhoud_titel")),
+      el("h2", { tekst: T("gidsen_kop") }),
       el("p", { tekst: T("gidsen_stand", S.status.gidsen_gecontroleerd) }),
-      el("p", { tekst: T("bijwerken_uitleg") }),
-      el("div", { klasse: "knoppen" }, el("code", { klasse: "boom", tekst: opdracht }),
-        el("button", { type: "button", klasse: "tweede", tekst: T("kopieer"), onclick: async () => {
-          try { await navigator.clipboard.writeText(opdracht); melding(T("m_gekopieerd_titel"), T("gekopieerd"), "succes"); }
-          catch (e) { melding(T("m_info"), opdracht, "info"); }
-        } })),
-      el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "tweede", tekst: T("nu_controleren"),
+      el("p", { klasse: "uitleg", tekst: T("bijwerken_uitleg") }),
+      el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "eerste", tekst: T("nu_controleren"),
         onclick: async (e) => {
           const knop = e.target; knop.disabled = true;
           uitkomst.replaceChildren(el("p", { klasse: "uitleg", tekst: T("controleren_bezig") }));
@@ -1226,13 +1293,18 @@ const SCHERMEN = {
           knop.disabled = false;
         } })),
       uitkomst,
+      el("p", { klasse: "label-klein los", tekst: T("of_in_claude") }),
+      el("div", { klasse: "knoppen" }, el("code", { klasse: "boom", tekst: opdracht }),
+        el("button", { type: "button", klasse: "tweede", tekst: T("kopieer"), onclick: async () => {
+          try { await navigator.clipboard.writeText(opdracht); melding(T("m_gekopieerd_titel"), T("gekopieerd"), "succes"); }
+          catch (e) { melding(T("m_info"), opdracht, "info"); }
+        } })),
       veld(T("herinnering"), el("input", { type: "number", min: 7, max: 365, value: bw.herinnering_dagen || 30,
         onchange: (e) => { S.ruw.bijwerken = { ...bw, herinnering_dagen: Number(e.target.value) }; gewijzigd(); } })),
       el("h2", { tekst: T("weergave") }),
       el("div", { klasse: "schakelaars" }, schakelaar(T("wolken"), T("wolken_uitleg"), !document.body.classList.contains("wolken-stil"),
         (v) => { document.body.classList.toggle("wolken-stil", !v); try { localStorage.setItem("dq-wolken", v ? "aan" : "uit"); } catch (e) { /* */ } })),
-      el("p", { klasse: "label-klein", tekst: S.status.werkmap || "" }),
-      el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "eerste", tekst: T("klaar_sluiten"), onclick: klaar })),
+      el("div", { klasse: "knoppen knoppen-eind" }, el("button", { type: "button", klasse: "eerste", tekst: T("klaar_sluiten"), onclick: klaar })),
     ];
   },
 
@@ -1416,7 +1488,7 @@ async function start() {
     try { localStorage.setItem("dq-taal", S.taal); } catch (e) { /* */ }
     vertaalVast(); if (S.status) toon();
   }));
-  document.getElementById("terugdraaien").addEventListener("click", () => { S.ruw = JSON.parse(S.origineel); toon(); });
+  document.getElementById("terugdraaien").addEventListener("click", () => { S.ruw = JSON.parse(S.origineel); toon(); gewijzigd(); });
   document.getElementById("bekijk").addEventListener("click", () => bekijkEnOpslaan());
   vertaalVast();
   if (!TOKEN) {
