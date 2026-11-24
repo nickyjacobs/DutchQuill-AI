@@ -35,6 +35,7 @@ from dutchquill import config as cfg
 from dutchquill.schema_check import standaardwaarden
 
 STATIC = Path(__file__).parent / "static"
+mimetypes.add_type("font/woff2", ".woff2")
 MAX_BODY = 15 * 1024 * 1024
 STIL = 15 * 60
 UPLOAD = {
