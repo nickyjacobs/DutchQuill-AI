@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-generate_chart.py — Grafieken genereren voor professionele rapporten
+dq grafiek: grafieken voor rapporten (staaf, tijdlijn, vergelijking, donut, heatmap)
 
 Gebruik:
-    python3 tools/generate_chart.py --type bar --data '<json>' --output .tmp/chart.png
-    python3 tools/generate_chart.py --type timeline --data '<json>' --output .tmp/timeline.png
-    python3 tools/generate_chart.py --type heatmap --data '<json>' --output .tmp/heatmap.png
-    python3 tools/generate_chart.py --type comparison --data '<json>' --output .tmp/comparison.png
-    python3 tools/generate_chart.py --type donut --data '<json>' --output .tmp/donut.png
+    dq grafiek --type bar --data '<json>' --output chart.png
+    dq grafiek --type timeline --data '<json>' --output timeline.png
+    dq grafiek --type heatmap --data '<json>' --output heatmap.png
+    dq grafiek --type comparison --data '<json>' --output comparison.png
+    dq grafiek --type donut --data '<json>' --output donut.png
 
 Grafiektypen:
     bar         — Staafdiagram (kosten/besparingen, vergelijkingen)

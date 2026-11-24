@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-tools/diff_viewer.py — DutchQuill AI
+dq diff: DutchQuill AI
 
 Vergelijkt originele en herschreven tekst op woordniveau.
 Toont toegevoegde (groen) en verwijderde (rood) woorden in de terminal,
 of genereert een HTML-weergave.
 
 Gebruik:
-    python3 tools/diff_viewer.py --original origineel.txt --rewritten herschreven.txt
-    python3 tools/diff_viewer.py --original origineel.txt --rewritten herschreven.txt --html
-    python3 tools/diff_viewer.py --original origineel.txt --rewritten herschreven.txt --html --output diff.html
-    python3 tools/diff_viewer.py --original origineel.txt --rewritten herschreven.txt --summary
+    dq diff --original origineel.txt --rewritten herschreven.txt
+    dq diff --original origineel.txt --rewritten herschreven.txt --html
+    dq diff --original origineel.txt --rewritten herschreven.txt --html --output diff.html
+    dq diff --original origineel.txt --rewritten herschreven.txt --summary
 """
 
 import sys

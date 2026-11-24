@@ -25,8 +25,9 @@ Dit beleid geldt voor de code in deze repository: de plugin (skills, agents, hoo
 ## Wat DutchQuill zelf doet
 
 - DutchQuill Studio luistert alleen op 127.0.0.1, met een eenmalig token, en controleert Host en Origin.
-- Webverzoeken gaan alleen naar de hosts in `.claude-plugin/plugin.json` (`network.hosts`): LanguageTool (alleen
-  als je die aanzet) en de bronnen van `/dutchquill:bijwerken`.
+- Webverzoeken gaan alleen naar de hosts in `.claude-plugin/plugin.json` (`network.hosts`): PyPI (de eenmalige
+  installatie van de Python-pakketten), LanguageTool (alleen als je die aanzet) en de bronnen van
+  `/dutchquill:bijwerken`.
 - Interne adressen (localhost, privé-IP's) in je materiaal worden nooit automatisch opgehaald.
 
 ## Dependencies
