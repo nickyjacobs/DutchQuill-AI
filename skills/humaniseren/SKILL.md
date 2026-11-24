@@ -1,130 +1,73 @@
 ---
-name: humaniseer
-description: Snelle humaniseringscheck op ingeplakte tekst. Geeft risicoscore, top-patronen, anglicismen, Oxford comma bevindingen en alternatieven voor gevonden AI-woorden. Activeer proactief bij vragen als "check deze tekst op AI", "hoe AI-achtig is dit", "humaniseringscheck", "analyseer dit op AI-patronen", "is dit AI?".
-model: haiku
+name: humaniseren
+description: >-
+  Maakt tekst die als AI klinkt menselijker, in de stem van de gebruiker, zonder de inhoud te veranderen. Haalt
+  de AI-patronen van 2026 eruit, in het Nederlands en het Engels: woordkeus per modelgeneratie, clusters,
+  niet-X-maar-Y, formules, gelijk of overgecorrigeerd ritme, LinkedIn-formules. Een feitencontrole bewaakt dat
+  geen feit, getal, citaat of bron verandert. Kan ook alleen analyseren (scan). Gebruik bij
+  /dutchquill:humaniseren, of als de gebruiker vraagt een tekst menselijker of natuurlijker te maken, minder als
+  AI te laten klinken, of op AI-patronen te checken ("klinkt dit als ChatGPT?", "maak dit menselijker",
+  "humanize this", "does this sound like AI").
+argument-hint: "[tekst of pad] [scan | herschrijf]"
 ---
 
-Je voert een volledige humaniseringsanalyse uit op tekst die de gebruiker aanlevert. Sla GEEN stap over.
+# Humaniseren
 
-## Stap 1 — Ontvang de tekst
+Opdracht: $ARGUMENTS
 
-Als de gebruiker nog geen tekst heeft aangeleverd, vraag er dan om:
-> "Plak de tekst die je wilt laten analyseren."
-
-Als de tekst minder dan 100 woorden bevat, geef dan een waarschuwing:
-> "Let op: de tekst is kort (< 100 woorden). Statistische checks zoals MATTR en zinsritme zijn minder betrouwbaar op korte teksten. Niveau 1-patronen en anglicismen worden wel volledig gedetecteerd."
-
-**Invoer via .docx:**
-Als de gebruiker een .docx bestand aanlevert, converteer dit ALTIJD eerst:
-```bash
-python3 tools/docx_to_text.py --input <pad>
-```
-Sla het resultaat op als `.tmp/humaniseer_input.txt` voordat je verdergaat.
-
-## Stap 2 — Schrijf tekst naar tijdelijk bestand + gids laden [VERPLICHT]
-
-Sla de tekst op als `.tmp/humaniseer_input.txt`.
-
-**Lees de referentiegids met de Read tool [VERPLICHT]:**
-- `workflows/humanize_nl_gids.md` — focus op Categorie 1 (Niveau 1-lijst) en Categorie 2 (formulaïsche openers). Dit is je referentie voor de interpretatie van de tekst-analist output.
-
-## Stap 3 — Roep de tekst-analist subagent aan [VERPLICHT]
-
-Gebruik `@tekst-analist` met het pad `.tmp/humaniseer_input.txt` als input. De agent voert `humanizer_nl.py --json` en `readability_nl.py --json` uit en rapporteert:
-- Risicoscore en risiconiveau
-- Top-3 Niveau 1-patronen met alternatieven
-- Oxford comma-bevindingen
-- Anglicisme-bevindingen met alternatieven
-- MATTR en Flesch-Douma score
-
-**Noteer na ontvangst van de tekst-analist output:**
-- Flesch-Douma score
-- TTR (MATTR)
-- Aantal patronen
-- Risiconiveau (laag/gemiddeld/hoog)
-- Top-3 Niveau 1-patronen (patroon + alternatief)
-- Kritieke waarschuwingen (zinslengte, passief, Type 2b frames, tricolon, etc.)
-
-**Fallback:** Als de tekst-analist geen output geeft, voer de tools handmatig uit:
-```bash
-python3 tools/humanizer_nl.py --input .tmp/humaniseer_input.txt --suggest
-python3 tools/readability_nl.py --input .tmp/humaniseer_input.txt
-```
-
-## Stap 4 — Presenteer de resultaten in de chat
-
-Presenteer de output in het rapport-formaat van de tekst-analist. Voeg daarna een korte aanbeveling toe:
-
-- **Laag risico (0–2 pt)**: Tekst ziet er goed uit. Kleine aanpassingen optioneel.
-- **Gemiddeld risico (3–6 pt)**: Herschrijf de vermelde alinea's. Gebruik `/herschrijven` voor gerichte verbetering.
-- **Hoog risico (7+ pt)**: Tekst heeft dringend herziening nodig. Start `/herschrijven` voor een volledige aanpak.
-
-## Stap 4b — Reviewchart genereren [VERPLICHT]
-
-Gebruik de scores uit Stap 3 (tekst-analist of handmatige tools):
-```bash
-python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog>
-```
-
-**Let op:** Gebruik ALTIJD het `score` veld uit de `humanizer_nl.py --json` output als waarde voor `--patronen`. Dit getal bevat alle penalties al (inclusief Flesch-Douma < 30). Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.
-
-Sla de output op in een tijdelijk bestand:
-```bash
-python3 tools/generate_review_chart.py --flesch <score> --ttr <score> --patronen <n> --risico <laag|gemiddeld|hoog> > .tmp/humaniseer_chart.b64
-```
-
-## Stap 5 — History opslaan + PDF genereren [VERPLICHT]
-
-Voer dit altijd uit na Stap 4, ook als de gebruiker er niet om vraagt.
-
-**Stap 5a — Sla op in geschiedenis [VERPLICHT]:**
-```bash
-python3 tools/history_writer.py \
-  --type humaniseer \
-  --titel "<eerste 80 chars van de geanalyseerde tekst>" \
-  --metadata '{"risico":"<laag|gemiddeld|hoog>","score":"<aantal patronen>"}' \
-  --output-file .tmp/humaniseer_input.txt
-```
-
-**Stap 5b — Genereer PDF-analyserapport [VERPLICHT]:**
-
-Bouw de --niveau1 parameter op als `patroon|alternatief||patroon2|alternatief2||...`
-Bouw de --waarschuwingen parameter op als `waarschuwing 1|waarschuwing 2|...`
-Bouw de --aanbevelingen parameter op als `aanbeveling 1|aanbeveling 2|...`
+Elk `dq`-commando draai je via Bash met dit voorvoegsel; hieronder staat het als `DQ`:
 
 ```bash
-python3 tools/generate_report_pdf.py \
-  --risico <laag|gemiddeld|hoog> \
-  --patronen <n> \
-  --flesch <score> \
-  --ttr <score> \
-  --bestandsnaam "<bestandsnaam van het gescande rapport, of 'Ingeplakte tekst'>" \
-  --niveau1 "<patroon1>|<alt1>||<patroon2>|<alt2>||<patroon3>|<alt3>" \
-  --waarschuwingen "<waarschuwing1>|<waarschuwing2>|..." \
-  --aanbevelingen "<aanbeveling1>|<aanbeveling2>|..." \
-  --chart-file .tmp/humaniseer_chart.b64 \
-  --output .tmp/humaniseer/<titel>.pdf
+CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 ```
 
-**Stap 5c — Werkbestanden opruimen:**
-Verwijder tussenbestanden uit `.tmp/` root (bijv. `humaniseer_input.txt`, `humaniseer_chart.b64`). Alleen het eindproduct in `.tmp/humaniseer/` blijft bewaard.
+## Stand
 
-Meld daarna aan de gebruiker: "Opgeslagen in geschiedenis. PDF-rapport beschikbaar als `.tmp/humaniseer/<titel>.pdf`"
+!`CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
 
-## Stap 6 — Verificatiechecklist [VERPLICHT]
+## Stappen
 
-Bevestig intern dat ALLE stappen zijn uitgevoerd:
+1. **Lees de werkwijze** (`${CLAUDE_PLUGIN_ROOT}/gidsen/werkwijze/basis.md`) en de humaniseergids van de taal
+   van de tekst: `DQ gids pad nl/humaniseren` of `DQ gids pad en/humanize`. Lees de gids helemaal; die is het
+   eigenlijke werk.
+2. **Modus.**
+   - **scan**: als de gebruiker vraagt of iets als AI klinkt, of om een check. Je analyseert en verandert niets.
+   - **herschrijf**: de standaard als er om "menselijker maken" wordt gevraagd.
+3. **Tekst en genre.** Geplakt, een pad (`DQ extraheer` voor .docx of .pdf), of uit de werkmap. Bepaal het
+   genre; dat bepaalt de drempels. Sla het origineel op als `origineel.md` (`.dutchquill/tmp/` of de versiemap).
+4. **Stem.**
+   - Lees het stemprofiel als het er is (`DQ gids voor` toont `stemprofiel` en `stem_json`).
+   - Staan er teksten in `mijn-stijl` maar is er nog geen `stem.json`: draai `DQ stem analyse`.
+   - Is er niets van de gebruiker zelf, dan volg je genre en toon. Zeg dat in één regel: met een paar eigen
+     teksten in `mijn-stijl` wordt het resultaat persoonlijker.
+5. **Analyse:** `DQ tells --input <origineel> --genre <genre>`. Lees daarna zelf de categorieën uit de gids na
+   die het script niet ziet:
+   - een gezegde dat diep klinkt;
+   - opgeblazen belang;
+   - de verkeerde lezer;
+   - tekst over de tekst;
+   - of het specifiek genoeg is.
+6. **Scan: rapporteer en stop.** Geef het niveau, de vijf belangrijkste patronen met een voorbeeld uit de tekst
+   en een alternatief, en wat goed is aan de tekst. Bij een document mag dit ook als bestand
+   (`2-output/humaniseren/<titel>/vN/`, via `DQ export --genre memo`).
+7. **Herschrijf.**
+   - Werk volgens sectie 1 van de gids: sterke patronen eerst, en verander niet meer dan nodig.
+   - Respecteer "Wanneer niet ingrijpen".
+   - Maak specifiek met wat in de tekst of het materiaal staat. Verzin niets; zet `[voorbeeld nodig]` waar
+     een concreet detail de tekst beter zou maken.
+8. **Controle**, verplicht:
+   - `DQ tells --compare <origineel> <concept> --genre <genre>`
+   - `DQ feiten --origineel <origineel> --nieuw <concept>`: herstel elk verloren of nieuw feit.
+   - Controleer of je niet overgecorrigeerd hebt (alleen korte zinnen, alles met punten).
+   - Hooguit drie rondes.
+9. **Uitvoer** (werkwijze 6 en 7).
+   - Chat: de nieuwe tekst, plus één regel met de score voor en na.
+   - Document: een nieuwe versie in `2-output/humaniseren/<titel>/`, en in `wat-is-er-veranderd.md` per
+     patroongroep wat er aangepast is.
 
-- [ ] Stap 2: Tekst opgeslagen in .tmp/humaniseer_input.txt
-- [ ] Stap 2: humanize_nl_gids.md gelezen met Read tool
-- [ ] Stap 3: tekst-analist subagent aangeroepen en output ontvangen
-- [ ] Stap 4b: generate_review_chart.py uitgevoerd en opgeslagen in .tmp/humaniseer_chart.b64
-- [ ] Stap 5a: history_writer.py uitgevoerd
-- [ ] Stap 5b: generate_report_pdf.py uitgevoerd → .tmp/humaniseer/<titel>.pdf
-- [ ] Stap 5c: Werkbestanden opgeruimd
+## Klaar als
 
-## Foutafhandeling
-
-- Kan `.tmp/` map niet schrijven: meld de fout en vraag de gebruiker om het bestand handmatig te plaatsen
-- Tekst-analist geeft geen output: voer humanizer_nl.py en readability_nl.py handmatig uit (zie fallback in Stap 3)
-- generate_report_pdf.py geeft een fout: rapporteer de fout maar sla de stap NIET over — los het op
+- [ ] De gids is gelezen, en de stem is gebruikt als die er is.
+- [ ] De feitencontrole is schoon of elk verschil is verklaard.
+- [ ] Het niveau is laag, of het restant is uitgelegd (bijvoorbeeld vaktermen of de eigen stijl van de gebruiker).
+- [ ] Niets verzonnen, niets binnen citaten veranderd.
