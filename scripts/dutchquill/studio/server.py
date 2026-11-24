@@ -279,6 +279,20 @@ class Studio:
                 uit[d.name] = sorted(f.stem for f in d.glob("*.md"))
         return {"vakken": uit}
 
+    def bronnen_check(self, _: dict) -> dict:
+        """Controleer nu of de bronnen van de gidsen veranderd zijn. Niets veranderd: meteen als gecontroleerd
+        markeren (de maandmelding begint opnieuw). Wel veranderd: bijwerken gaat via /dutchquill:bijwerken."""
+        from dutchquill import bronnen
+        r = bronnen.check()
+        gewijzigd = [{"url": g["url"], "gidsen": g["gidsen"], "reden": g["reden"]} for g in r["gewijzigd"]]
+        gemarkeerd = False
+        if not gewijzigd and not r["fouten"]:
+            bronnen.markeer()
+            gemarkeerd = True
+            self.wijzigingen.append("Gidsen gecontroleerd: alles actueel")
+        return {"gewijzigd": gewijzigd, "ongewijzigd": r["ongewijzigd"], "fouten": r["fouten"],
+                "gemarkeerd": gemarkeerd, "gecontroleerd_op": r["gecontroleerd_op"]}
+
     def klaar(self, _: dict) -> dict:
         (paden.data() / "studio-laatste.json").write_text(json.dumps(
             {"tijd": datetime.now().isoformat(timespec="seconds"), "wijzigingen": self.wijzigingen},
@@ -358,6 +372,7 @@ ROUTES = {
     ("POST", "/api/stem/analyse"): "stem_analyse",
     ("GET", "/api/vakken"): "vakken",
     ("POST", "/api/vakken/upload"): "vak_upload",
+    ("POST", "/api/bronnen/check"): "bronnen_check",
     ("POST", "/api/klaar"): "klaar",
 }
 

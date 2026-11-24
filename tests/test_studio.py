@@ -94,3 +94,17 @@ def test_klaar_schrijft_samenvatting(studio, tmp_path):
     assert status == 200
     laatste = json.loads((paden.data() / "studio-laatste.json").read_text())
     assert any("Werkmap ingesteld" in w for w in laatste["wijzigingen"])
+
+
+def test_bronnen_nu_controleren(studio, monkeypatch):
+    from dutchquill import bronnen
+    gemarkeerd = []
+    leeg = {"gewijzigd": [], "ongewijzigd": 3, "fouten": [], "gecontroleerd_op": "2026-11-24"}
+    monkeypatch.setattr(bronnen, "check", lambda: leeg)
+    monkeypatch.setattr(bronnen, "markeer", lambda: gemarkeerd.append(True))
+    status, r = vraag(studio, "POST", "/api/bronnen/check", {})
+    assert status == 200 and r["gemarkeerd"] and gemarkeerd
+    veranderd = {**leeg, "gewijzigd": [{"url": "https://x", "gidsen": ["nl/apa"], "reden": "nieuw"}]}
+    monkeypatch.setattr(bronnen, "check", lambda: veranderd)
+    status, r = vraag(studio, "POST", "/api/bronnen/check", {})
+    assert status == 200 and not r["gemarkeerd"] and r["gewijzigd"][0]["gidsen"] == ["nl/apa"]

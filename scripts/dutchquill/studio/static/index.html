@@ -9,14 +9,26 @@
 </head>
 <body>
   <a class="skip" href="#inhoud">Naar de inhoud</a>
+  <div class="lucht" aria-hidden="true">
+    <div class="wolk w1"></div><div class="wolk w2"></div><div class="wolk w3"></div>
+    <div class="wolk w4"></div><div class="wolk w5"></div>
+  </div>
+  <button type="button" class="menu-open" id="menuopen" aria-controls="rail" aria-expanded="false" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/><path d="M13.5 10l2 2-2 2"/></svg>
+    <span class="sr" data-t="menu_open">Menu openen</span>
+  </button>
   <div class="app">
-    <aside class="rail" aria-label="Onderdelen">
+    <aside class="rail" id="rail" aria-label="Onderdelen">
       <div class="merk">
         <img src="icon.png" alt="" width="44" height="44">
         <div>
           <p class="merk-naam">DutchQuill</p>
           <p class="merk-sub" data-t="studio">Studio</p>
         </div>
+        <button type="button" class="menu-dicht" id="menudicht" aria-controls="rail" aria-expanded="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9.5 4.5v15"/><path d="M15.5 10l-2 2 2 2"/></svg>
+          <span class="sr" data-t="menu_dicht">Menu inklappen</span>
+        </button>
       </div>
       <nav id="nav"></nav>
       <div class="rail-voet">

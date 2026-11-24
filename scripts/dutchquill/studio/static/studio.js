@@ -10,6 +10,7 @@ const TOKEN = (() => {
   } catch (e) { return uitHash; }
 })();
 const START_SCHERM = new URLSearchParams(location.hash.slice(1)).get("s");
+const START_MENU = new URLSearchParams(location.hash.slice(1)).get("m");
 if (location.hash) history.replaceState(null, "", location.pathname);
 
 async function api(methode, pad, body) {
@@ -37,7 +38,16 @@ const TEKST = {
     s_uitvoer: "Uitvoer", s_templates: "Templates", s_stem: "Mijn stem", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Onderhoud", s_afronden: "Afronden",
     g_start: "Start", g_schrijven: "Hoe je schrijft", g_uitvoer: "Wat je krijgt", g_jij: "Jij en je gegevens",
-    g_systeem: "Systeem",
+    g_systeem: "Systeem", s_over: "Over DutchQuill", menu_open: "Menu openen", menu_dicht: "Menu inklappen",
+    over_titel: "Over DutchQuill",
+    over_1: "Ik begon met DutchQuill toen ik mijn eigen hbo-rapporten schreef. AI hielp me sneller schrijven, maar de tekst klonk niet als mij, en APA kostte me meer tijd dan de inhoud. Dus bouwde ik een assistent die de regels kent, de typische AI-patronen eruit haalt en mijn eigen stem laat staan.",
+    over_2: "Inmiddels schrijf ik er ook mails, LinkedIn-posts, procesdocumentatie en README's mee. Daarom is DutchQuill er nu voor iedereen die tekst maakt, met precies de controles die jij wilt.",
+    over_3: "DutchQuill is open source (MIT). Zie je een fout of heb je een idee, open dan een issue op GitHub.",
+    over_naam: "Nicky Jacobs", l_repo: "Broncode", l_github: "GitHub", l_site: "Website", l_linkedin: "LinkedIn",
+    nu_controleren: "Nu controleren", controleren_bezig: "Bezig met controleren, dat duurt ongeveer een halve minuut...",
+    controle_ok: "Alles is actueel. De volgende herinnering komt over een maand.",
+    controle_gewijzigd: "Deze bronnen zijn veranderd. Typ in Claude /dutchquill:bijwerken om de gidsen bij te werken:",
+    controle_fouten: "Niet alle bronnen waren bereikbaar:",
     welkom_titel: "Welkom bij DutchQuill",
     welkom_1: "DutchQuill schrijft, herschrijft, reviewt en humaniseert je teksten: een rapport, een mail, een LinkedIn-post of een README.",
     welkom_2: "Jij bepaalt hoe het klinkt, waarop het let en in welk formaat het terugkomt. Dat stel je hier in; later kan alles ook in een gesprek met Claude.",
@@ -136,7 +146,16 @@ const TEKST = {
     s_uitvoer: "Output", s_templates: "Templates", s_stem: "My voice", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Maintenance", s_afronden: "Finish",
     g_start: "Start", g_schrijven: "How you write", g_uitvoer: "What you get", g_jij: "You and your data",
-    g_systeem: "System",
+    g_systeem: "System", s_over: "About DutchQuill", menu_open: "Open menu", menu_dicht: "Collapse menu",
+    over_titel: "About DutchQuill",
+    over_1: "I started DutchQuill while writing my own university reports. AI helped me write faster, but the text didn't sound like me, and APA took more time than the content. So I built an assistant that knows the rules, takes out the typical AI patterns and keeps my own voice.",
+    over_2: "These days I also use it for emails, LinkedIn posts, process documentation and READMEs. That is why DutchQuill is now for anyone who writes, with exactly the checks you want.",
+    over_3: "DutchQuill is open source (MIT). Found a bug or have an idea? Open an issue on GitHub.",
+    over_naam: "Nicky Jacobs", l_repo: "Source code", l_github: "GitHub", l_site: "Website", l_linkedin: "LinkedIn",
+    nu_controleren: "Check now", controleren_bezig: "Checking, this takes about half a minute...",
+    controle_ok: "Everything is up to date. The next reminder comes in a month.",
+    controle_gewijzigd: "These sources have changed. Type /dutchquill:bijwerken in Claude to update the guides:",
+    controle_fouten: "Not every source could be reached:",
     welkom_titel: "Welcome to DutchQuill",
     welkom_1: "DutchQuill writes, rewrites, reviews and humanizes your texts: a report, an email, a LinkedIn post or a README.",
     welkom_2: "You decide how it sounds, what it checks and which format you get back. You set that up here; later you can also just tell Claude.",
@@ -806,6 +825,7 @@ const SCHERMEN = {
   onderhoud() {
     const bw = S.ruw.bijwerken || {};
     const opdracht = "/dutchquill:bijwerken";
+    const uitkomst = el("div", { "aria-live": "polite" });
     return [
       ...kop(T("onderhoud_titel")),
       el("p", { tekst: T("gidsen_stand", S.status.gidsen_gecontroleerd) }),
@@ -814,10 +834,52 @@ const SCHERMEN = {
         el("button", { type: "button", klasse: "tweede", tekst: T("kopieer"), onclick: async () => {
           try { await navigator.clipboard.writeText(opdracht); melding(T("gekopieerd")); } catch (e) { melding(opdracht); }
         } })),
+      el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "tweede", tekst: T("nu_controleren"),
+        onclick: async (e) => {
+          const knop = e.target; knop.disabled = true;
+          uitkomst.replaceChildren(el("p", { klasse: "uitleg", tekst: T("controleren_bezig") }));
+          try {
+            const r = await api("POST", "/api/bronnen/check");
+            const delen = [];
+            if (r.gewijzigd.length) delen.push(el("p", { tekst: T("controle_gewijzigd") }),
+              el("ul", {}, r.gewijzigd.map((g) => el("li", { tekst: `${g.gidsen.join(", ")}: ${g.reden}` }))));
+            if (r.fouten.length) delen.push(el("p", { tekst: T("controle_fouten") }),
+              el("ul", {}, r.fouten.map((f) => el("li", { klasse: "fout", tekst: f }))));
+            if (r.gemarkeerd) { delen.push(el("p", { tekst: T("controle_ok") })); S.status.gidsen_gecontroleerd = r.gecontroleerd_op; }
+            uitkomst.replaceChildren(el("div", { klasse: "kader controle-uitkomst" }, delen));
+          } catch (err) { uitkomst.replaceChildren(el("p", { klasse: "fout", tekst: err.message })); }
+          knop.disabled = false;
+        } })),
+      uitkomst,
       veld(T("herinnering"), el("input", { type: "number", min: 7, max: 365, value: bw.herinnering_dagen || 30,
         onchange: (e) => { S.ruw.bijwerken = { ...bw, herinnering_dagen: Number(e.target.value) }; gewijzigd(); } })),
-      el("p", { klasse: "label-klein", tekst: `${T("versie")} ${S.status.versie} | ${S.status.werkmap || ""}` }),
+      el("p", { klasse: "label-klein", tekst: S.status.werkmap || "" }),
       el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "eerste", tekst: T("klaar_sluiten"), onclick: klaar })),
+    ];
+  },
+
+  over() {
+    const pijl = () => {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("fill", "none"); svg.setAttribute("stroke", "currentColor");
+      svg.setAttribute("stroke-width", "1.8"); svg.setAttribute("stroke-linecap", "round"); svg.setAttribute("aria-hidden", "true");
+      const pad = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      pad.setAttribute("d", "M8 16L16 8M9 8h7v7"); svg.append(pad); return svg;
+    };
+    const links = [
+      ["l_repo", "https://github.com/nickyjacobs/DutchQuill-AI", "github.com/nickyjacobs/DutchQuill-AI"],
+      ["l_github", "https://github.com/nickyjacobs", "github.com/nickyjacobs"],
+      ["l_site", "https://nickyjacobs.nl", "nickyjacobs.nl"],
+      ["l_linkedin", "https://www.linkedin.com/in/N-O-Jacobs", "linkedin.com/in/N-O-Jacobs"],
+    ];
+    return [
+      el("h1", { tekst: T("over_titel") }),
+      el("p", { klasse: "versie", tekst: `${T("versie")} ${S.status.versie}` }),
+      el("div", { klasse: "verhaal" }, el("p", { tekst: T("over_1") }), el("p", { tekst: T("over_2") }),
+        el("p", { tekst: T("over_3") }), el("p", { klasse: "ondertekening", tekst: T("over_naam") })),
+      el("ul", { klasse: "links" }, links.map(([k, url, toon]) => el("li", {},
+        el("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, el("strong", { tekst: T(k) }),
+          el("span", { tekst: toon }), pijl())))),
     ];
   },
 
@@ -848,7 +910,7 @@ const GROEPEN = [
   { kop: "g_schrijven", schermen: ["toon", "controles", "stem"] },
   { kop: "g_uitvoer", schermen: ["uitvoer", "templates"] },
   { kop: "g_jij", schermen: ["privacy", "student"] },
-  { kop: "g_systeem", schermen: ["onderhoud"] },
+  { kop: "g_systeem", schermen: ["onderhoud", "over"] },
 ];
 function schermen() {
   return S.installatie ? ["welkom", "werkmap", "profiel", "privacy", "afronden"]
@@ -922,7 +984,20 @@ function vertaalVast() {
 }
 
 // ------------------------------------------------------------------ start
+function zetMenu(open) {
+  document.body.classList.toggle("ingeklapt", !open);
+  document.getElementById("menuopen").hidden = open;
+  document.getElementById("menudicht").setAttribute("aria-expanded", String(open));
+  document.getElementById("menuopen").setAttribute("aria-expanded", String(open));
+  try { localStorage.setItem("dq-menu", open ? "open" : "dicht"); } catch (e) { /* */ }
+}
+
 async function start() {
+  let menu = "open";
+  try { menu = localStorage.getItem("dq-menu") || "open"; } catch (e) { /* */ }
+  zetMenu((START_MENU || menu) !== "dicht");
+  document.getElementById("menudicht").addEventListener("click", () => { zetMenu(false); document.getElementById("menuopen").focus(); });
+  document.getElementById("menuopen").addEventListener("click", () => { zetMenu(true); document.getElementById("menudicht").focus(); });
   let thema = "auto";
   try { thema = localStorage.getItem("dq-thema") || "auto"; } catch (e) { /* */ }
   zetThema(thema);
