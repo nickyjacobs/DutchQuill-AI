@@ -28,6 +28,13 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 - The plugin and marketplace descriptions are in English, so the Claude Directory shows them in English.
 - The icon path in `plugin.json` starts with `./`, as the manifest reference prescribes.
 
+### 🔒 Security
+
+- The git history was rewritten on 2026-11-25 to remove the fabricated-metadata code from v1, a private network
+  range and personal contact details. The code of every release is unchanged, but all commit hashes and the tags
+  `v1.0` to `v2.0.0` are new. Cloned the repo before that date? Clone it again. Added DutchQuill as a marketplace
+  before that date and it no longer updates? Remove the marketplace and add it again.
+
 ---
 
 ## [2.0.0] - 2026-11-24
