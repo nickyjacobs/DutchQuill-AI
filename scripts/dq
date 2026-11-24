@@ -56,7 +56,16 @@ if [ "$WANT" != "$HAVE" ] || [ ! -x "$(venv_python)" ]; then
     exit 1
   fi
   LOCK="$DATA/.installeren"
-  for _ in $(seq 1 300); do mkdir "$LOCK" 2>/dev/null && break; sleep 1; done
+  # Een slot van meer dan tien minuten oud is van een afgebroken installatie.
+  if [ -d "$LOCK" ] && [ -n "$(find "$LOCK" -maxdepth 0 -mmin +10 2>/dev/null)" ]; then rmdir "$LOCK" 2>/dev/null || true; fi
+  for _ in $(seq 1 180); do
+    mkdir "$LOCK" 2>/dev/null && break
+    if [ ! -d "$LOCK" ]; then  # geen slot van een ander, dus we mogen hier niet schrijven
+      echo "DutchQuill: kan niet schrijven in $DATA, dus de pakketten kunnen niet geïnstalleerd worden. Ga verder zonder dq." >&2
+      exit 1
+    fi
+    sleep 1
+  done
   trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT
   HAVE="$(cat "$MARKER" 2>/dev/null || true)"
   if [ "$WANT" != "$HAVE" ]; then
@@ -65,10 +74,29 @@ if [ "$WANT" != "$HAVE" ] || [ ! -x "$(venv_python)" ]; then
     else
       echo "DutchQuill: eenmalige installatie van de documentpakketten (± 1 minuut)..." >&2
     fi
-    export UV_HTTP_TIMEOUT=30
+    # Is PyPI niet bereikbaar, stop dan meteen in plaats van minutenlang te wachten. Achter een proxy slaan we deze
+    # test over (een directe verbinding mislukt daar altijd); dan houden de korte time-outs hieronder het kort.
+    if [ -z "${HTTPS_PROXY:-}${https_proxy:-}${ALL_PROXY:-}${all_proxy:-}" ]; then
+      PYTEST_SYS="$(command -v python3 || command -v python || true)"
+      if [ -n "$PYTEST_SYS" ] && ! "$PYTEST_SYS" -c "import socket; socket.create_connection(('${DQ_PYPI_HOST:-pypi.org}', 443), timeout=5).close()" 2>/dev/null; then
+        date > "$MISLUKT"
+        echo "DutchQuill: pypi.org is niet bereikbaar, dus de pakketten kunnen nu niet geïnstalleerd worden. Ga verder zonder dq, of probeer het later opnieuw." >&2
+        exit 1
+      fi
+    fi
+    export UV_HTTP_TIMEOUT=15 UV_HTTP_RETRIES=0
+    # Harde limiet: een installatie die blijft hangen (stil netwerk) breken we af.
+    met_limiet() {
+      local max="$1"; shift
+      "$@" & local pid=$!
+      for _ in $(seq 1 "$max"); do kill -0 "$pid" 2>/dev/null || { wait "$pid"; return $?; }; sleep 1; done
+      kill "$pid" 2>/dev/null; wait "$pid" 2>/dev/null; return 124
+    }
+    if [ "$NIVEAU" = "basis" ]; then LIMIET=90; else LIMIET=300; fi
     if [ ! -x "$(venv_python)" ]; then
       if command -v uv >/dev/null 2>&1; then
-        uv venv --quiet --python ">=3.10" "$VENV" >&2
+        met_limiet 60 uv venv --quiet --python ">=3.10" "$VENV" >&2 || {
+          date > "$MISLUKT"; echo "DutchQuill: Python-omgeving maken mislukt. Ga verder zonder dq." >&2; exit 1; }
       else
         PYTHON_SYS="$(command -v python3 || command -v python || true)"
         if [ -z "$PYTHON_SYS" ]; then
@@ -80,10 +108,10 @@ if [ "$WANT" != "$HAVE" ] || [ ! -x "$(venv_python)" ]; then
     fi
     PY="$(venv_python)"
     if command -v uv >/dev/null 2>&1; then
-      uv pip install --quiet --python "$PY" -r "$REQ" >&2 || {
+      met_limiet "$LIMIET" uv pip install --quiet --python "$PY" -r "$REQ" >&2 || {
         date > "$MISLUKT"; echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
     else
-      "$PY" -m pip install --quiet --disable-pip-version-check --timeout 30 --retries 1 -r "$REQ" >&2 || {
+      met_limiet "$LIMIET" "$PY" -m pip install --quiet --disable-pip-version-check --timeout 15 --retries 0 -r "$REQ" >&2 || {
         date > "$MISLUKT"; echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
     fi
     echo "$WANT" > "$MARKER"
