@@ -6,10 +6,26 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 | Release | Date | In short |
 |---|---|---|
+| [2.0.1](#201---2026-11-25) | 2026-11-25 | Ready for the Claude Directory: privacy policy, English first, a cleaned git history |
 | [2.0.0](#200---2026-11-24) | 2026-11-24 | From a project folder for Dutch higher education reports to a Claude Code plugin for anyone who writes |
 | [1.2](#12---2026-03-24) | 2026-03-24 | Last version as a project folder for Dutch higher education reports |
 
 ## [Unreleased]
+
+---
+
+## [2.0.1] - 2026-11-25
+
+> **In short:** DutchQuill is ready for the Claude Directory: a privacy policy, English-first documentation and a
+> cleaned git history. The plugin itself works exactly as in 2.0.0.
+
+### 🧭 For you
+
+- **Nothing to do** if DutchQuill keeps updating. The commands, settings and workspace are unchanged.
+- **Added the marketplace before 2026-11-25 and it no longer updates?** Remove it with `/plugin`, then add it again:
+  `/plugin marketplace add nickyjacobs/DutchQuill-AI`. The reason is the history rewrite under 🔒 Security.
+- **Reading in Dutch?** Every documentation page has a switch at the top right; the Dutch versions are in
+  `docs/nl/` and `README.nl.md`.
 
 ### ✨ Added
 
@@ -102,6 +118,7 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 > **In short:** last version as a project folder for Dutch higher education reports (APA 7, AI patterns, .docx export).
 
-[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v1.2...v2.0.0
 [1.2]: https://github.com/nickyjacobs/DutchQuill-AI/releases/tag/v1.2
