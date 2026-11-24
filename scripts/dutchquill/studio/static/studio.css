@@ -6,8 +6,9 @@
 
 :root {
   --bg: #f4f7f7;
-  --vlak: #ffffff;
+  --vlak: #f8fbfb;
   --vlak-2: #eaf0f1;
+  --blok: #ffffff;
   --lijn: #dfe7e9;
   --inkt: #0f2a33;
   --inkt-zacht: #52666e;
@@ -31,14 +32,14 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d1a1f; --vlak: #13242b; --vlak-2: #1a2f37; --lijn: #24404a; --inkt: #e7eff0; --inkt-zacht: #9fb4b9;
+    --bg: #0d1a1f; --blok: #09141a; --vlak: #13242b; --vlak-2: #1a2f37; --lijn: #24404a; --inkt: #e7eff0; --inkt-zacht: #9fb4b9;
     --primair: #7fd3df; --primair-tekst: #0d1a1f; --accent: #46c6d6; --accent-zacht: #173a42;
     --let-op: #f0b45c; --let-op-vlak: #33291a; --fout: #ff9b8f; --rail: #09141a; --rail-2: #122830;
     --schaduw: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px -14px rgba(0, 0, 0, .6); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0d1a1f; --vlak: #13242b; --vlak-2: #1a2f37; --lijn: #24404a; --inkt: #e7eff0; --inkt-zacht: #9fb4b9;
+  --bg: #0d1a1f; --blok: #09141a; --vlak: #13242b; --vlak-2: #1a2f37; --lijn: #24404a; --inkt: #e7eff0; --inkt-zacht: #9fb4b9;
   --primair: #7fd3df; --primair-tekst: #0d1a1f; --accent: #46c6d6; --accent-zacht: #173a42;
   --let-op: #f0b45c; --let-op-vlak: #33291a; --fout: #ff9b8f; --rail: #09141a; --rail-2: #122830;
   --schaduw: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px -14px rgba(0, 0, 0, .6); color-scheme: dark;
@@ -97,14 +98,15 @@ code { font-family: var(--mono); font-size: .9em; }
 .segment button:focus-visible { outline: 2px solid #46c6d6; }
 .segment svg { width: 13px; height: 13px; }
 
-main { padding: 3.2rem clamp(1.2rem, 5vw, 4.5rem) 8rem; }
-#scherm { max-width: 46rem; }
+main { padding: 2.2rem clamp(1rem, 4vw, 3rem) 7rem; }
+#scherm { max-width: 52rem; margin: 0 auto; background: var(--blok); border: 1px solid var(--lijn); border-radius: 22px;
+  padding: clamp(1.4rem, 3.5vw, 2.8rem) clamp(1.2rem, 4vw, 3.2rem); box-shadow: var(--schaduw); position: relative; }
 .inleiding { font-size: 1.08rem; color: var(--inkt-zacht); max-width: 56ch; }
 .label-klein { font-size: .84rem; color: var(--inkt-zacht); }
 .label-klein strong { color: var(--inkt); font-weight: 600; }
 
 /* ---------------------------------------------------------------- welkom */
-.welkom { min-height: calc(100vh - 11rem); display: grid; align-content: center; gap: 2.2rem; max-width: 44rem; }
+.welkom { display: grid; align-content: center; gap: 2.2rem; padding: 1.5rem 0; }
 .welkom-merk { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
 .welkom-merk img { width: 64px; height: 64px; border-radius: 14px; }
 .welkom h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); margin: 0; }
@@ -260,38 +262,35 @@ dialog::backdrop { background: rgba(8, 20, 25, .5); backdrop-filter: blur(2px); 
 body.ingeklapt .app { grid-template-columns: minmax(0, 1fr); }
 body.ingeklapt .rail { display: none; }
 body.ingeklapt .opslagbalk, body.ingeklapt .lucht { left: 0; }
-body.ingeklapt main { padding-top: 4rem; }
+body.ingeklapt main { padding-top: 4.2rem; }
 
 /* ---------------------------------------------------------------- lucht: rustig drijvende wolken achter de inhoud */
-:root { --wolk: rgba(172, 204, 212, .42); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --wolk: rgba(132, 186, 199, .11); } }
-:root[data-theme="dark"] { --wolk: rgba(132, 186, 199, .11); }
+:root { --wolk: rgba(160, 196, 205, .55); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --wolk: rgba(120, 176, 190, .17); } }
+:root[data-theme="dark"] { --wolk: rgba(120, 176, 190, .17); }
 .lucht { position: fixed; top: 0; bottom: 0; left: 16.5rem; right: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 main { position: relative; z-index: 1; }
 .rail { z-index: 2; }
 .opslagbalk { z-index: 3; }
-.wolk { position: absolute; left: -30rem; width: 26rem; height: 11rem; filter: blur(11px);
+.wolk { position: absolute; left: -30rem; width: 26rem; height: 11rem;
   animation: drijf 150s linear infinite; will-change: transform; }
 .wolk::before { content: ""; position: absolute; inset: 0; background: var(--wolk);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='55' cy='66' r='26'/%3E%3Ccircle cx='92' cy='48' r='34'/%3E%3Ccircle cx='135' cy='42' r='40'/%3E%3Ccircle cx='176' cy='58' r='30'/%3E%3Ccircle cx='205' cy='72' r='20'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='55' cy='66' r='26'/%3E%3Ccircle cx='92' cy='48' r='34'/%3E%3Ccircle cx='135' cy='42' r='40'/%3E%3Ccircle cx='176' cy='58' r='30'/%3E%3Ccircle cx='205' cy='72' r='20'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; }
-.w1 { top: 7%; animation-duration: 160s; animation-delay: -30s; }
-.w2 { top: 30%; width: 17rem; height: 7rem; animation-duration: 200s; animation-delay: -120s; }
+.w1 { top: 7%; animation-duration: 80s; animation-delay: -30s; }
+.w2 { top: 30%; width: 17rem; height: 7rem; animation-duration: 105s; animation-delay: -120s; }
 .w2::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='48' cy='70' r='22'/%3E%3Ccircle cx='80' cy='56' r='28'/%3E%3Ccircle cx='118' cy='46' r='36'/%3E%3Ccircle cx='160' cy='54' r='30'/%3E%3Ccircle cx='196' cy='70' r='22'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='48' cy='70' r='22'/%3E%3Ccircle cx='80' cy='56' r='28'/%3E%3Ccircle cx='118' cy='46' r='36'/%3E%3Ccircle cx='160' cy='54' r='30'/%3E%3Ccircle cx='196' cy='70' r='22'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E"); }
-.w3 { top: 50%; width: 34rem; height: 14rem; animation-duration: 180s; animation-delay: -75s; }
+.w3 { top: 50%; width: 34rem; height: 14rem; animation-duration: 95s; animation-delay: -75s; }
 .w3::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='60' cy='64' r='30'/%3E%3Ccircle cx='104' cy='44' r='38'/%3E%3Ccircle cx='150' cy='52' r='32'/%3E%3Ccircle cx='188' cy='66' r='24'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='60' cy='64' r='30'/%3E%3Ccircle cx='104' cy='44' r='38'/%3E%3Ccircle cx='150' cy='52' r='32'/%3E%3Ccircle cx='188' cy='66' r='24'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E"); }
-.w4 { top: 70%; width: 20rem; height: 8.5rem; animation-duration: 140s; animation-delay: -10s; }
+.w4 { top: 70%; width: 20rem; height: 8.5rem; animation-duration: 70s; animation-delay: -10s; }
 .w4::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='48' cy='70' r='22'/%3E%3Ccircle cx='80' cy='56' r='28'/%3E%3Ccircle cx='118' cy='46' r='36'/%3E%3Ccircle cx='160' cy='54' r='30'/%3E%3Ccircle cx='196' cy='70' r='22'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100'%3E%3Cg fill='black'%3E%3Ccircle cx='48' cy='70' r='22'/%3E%3Ccircle cx='80' cy='56' r='28'/%3E%3Ccircle cx='118' cy='46' r='36'/%3E%3Ccircle cx='160' cy='54' r='30'/%3E%3Ccircle cx='196' cy='70' r='22'/%3E%3Crect x='30' y='62' width='180' height='30' rx='15'/%3E%3C/g%3E%3C/svg%3E"); }
-.w5 { top: 86%; width: 30rem; height: 12rem; animation-duration: 220s; animation-delay: -165s; }
+.w5 { top: 86%; width: 30rem; height: 12rem; animation-duration: 120s; animation-delay: -165s; }
 @keyframes drijf {
   from { transform: translate3d(0, 0, 0); }
   50% { transform: translate3d(calc(50vw + 15rem), -.8rem, 0); }
   to { transform: translate3d(calc(100vw + 30rem), 0, 0); }
 }
-/* Bij "minder beweging": dezelfde wolken, twee keer zo traag (een achtergrond, geen animatie die afleidt). */
-@media (prefers-reduced-motion: reduce) {
-  .w1 { animation-duration: 320s; } .w2 { animation-duration: 400s; } .w3 { animation-duration: 360s; }
-  .w4 { animation-duration: 280s; } .w5 { animation-duration: 440s; }
-}
+/* Wolken stilzetten kan in Onderhoud (Bewegende wolken). */
+body.wolken-stil .wolk { animation-play-state: paused; }
 @media (max-width: 760px) { .lucht { left: 0; } }
 
 /* ---------------------------------------------------------------- over DutchQuill */
@@ -320,3 +319,10 @@ main { position: relative; z-index: 1; }
 .merk-github { background: #24292f; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
 .merk-linkedin { background: #0a66c2; }
 .merk-website { background: #1f8a4c; }
+
+.formules { margin: .2rem 0 1.1rem; padding: .9rem 1.1rem; border: 1px solid var(--lijn); border-radius: var(--r); background: var(--vlak);
+  display: grid; grid-template-columns: max-content 1fr; gap: .55rem 1rem; }
+.formules dt { font-weight: 600; font-size: .92rem; }
+.formules dd { margin: 0; color: var(--inkt-zacht); font-size: .92rem; line-height: 1.5; }
+@media (max-width: 640px) { .formules { grid-template-columns: 1fr; } .formules dd { margin-bottom: .4rem; } }
+#scherm h2:first-of-type { margin-top: 1.6rem; }

@@ -43,9 +43,19 @@ const TEKST = {
     over_1: "DutchQuill begon op de hogeschool. Mijn rapporten moesten volgens APA en op academisch niveau, en ik wilde precies weten wat dat betekende. Dat werd een flinke rabbit hole. De meeste mensen denken bij APA alleen aan bronvermelding, maar het gaat ook over de marges van je pagina, hoe je titelblad eruitziet, hoe je tabellen, figuren en bijlagen opneemt, het inspringen van elke alinea (ook de eerste) en de hangende inspringing in je literatuurlijst. En dan heb je nog de vraag wat academisch schrijven echt is, en hoe je AI daarbij gebruikt zonder jezelf voorbij te lopen.",
     over_2: "Het begon met een Word-template die alles meteen goed zette. Daarna liet ik mijn rapporten nakijken, en met wat daaruit kwam maakte ik er volwaardige rapporten van.",
     over_3: "Toen wilde ik meer. Sneller mails beantwoorden, makkelijker een LinkedIn-post schrijven, procesdocumentatie voor mijn werk of de README van een repo, allemaal vanuit ruwe notities, tekst en screenshots die ik al had verzameld. DutchQuill maakt daar een mooi eindresultaat van.",
-    over_4: "Op het eerste gezicht lijkt het misschien een tool van iemand die alles makkelijk wil. Deels klopt dat ook wel ;) Maar voor mij was het vooral een leerproject. Ik weet nu meer over APA dan ik ooit had verwacht; soms wist ik dingen over inspringen die docenten en medestudenten ook niet wisten. Ik leerde hoe AI tekst maakt, hoe plagiaatcontrole werkt en wat goed academisch schrijven is. Er zit veel tijd in, en het resultaat deel ik graag.",
+    over_4: "Op het eerste gezicht lijkt het misschien een tool van iemand die alles makkelijk wil. Deels klopt dat ook wel 😉 Maar voor mij was het vooral een leerproject. Ik weet nu meer over APA dan ik ooit had verwacht; soms wist ik dingen over inspringen, het juiste gebruik van bijlagen en andere APA-regels die docenten en medestudenten ook niet wisten. Ik leerde hoe AI tekst maakt, hoe plagiaatcontrole werkt en wat goed academisch schrijven is. Er zit veel tijd in, en het resultaat deel ik graag.",
     over_5: "DutchQuill is open source (MIT). Zie je een fout of heb je een idee, open dan een issue op GitHub.",
+    kop_verhaal: "Waarom ik DutchQuill maakte",
+    kop_socials: "Socials",
+    formules_intro: "Ik leerde ook rekenen aan tekst. De humanizer meet onder meer:",
+    f1_naam: "Flesch-Douma",
+    f1: "de Nederlandse leesbaarheidsformule: 206,84 − 77 × lettergrepen per woord − 0,93 × woorden per zin. Hoe hoger, hoe makkelijker de tekst; een hbo-rapport zit meestal tussen 30 en 50.",
+    f2_naam: "MATTR",
+    f2: "Moving Average Type-Token Ratio: hoeveel verschillende woorden je gebruikt, gemeten over steeds verschuivende stukken van 100 woorden. Een lage score betekent veel herhaling.",
+    f3_naam: "Spreiding van de zinslengte",
+    f3: "mensen wisselen korte en lange zinnen af; AI-tekst heeft vaak zinnen die bijna allemaal even lang zijn.",
     over_naam: "- Nicky Jacobs", l_repo: "GitHub Repo: DutchQuill AI", l_github: "My GitHub Page", l_site: "My Website", l_linkedin: "My LinkedIn",
+    weergave: "Weergave", wolken: "Bewegende wolken", wolken_uitleg: "Wolken die rustig langs de zijkanten drijven.",
     nu_controleren: "Nu controleren", controleren_bezig: "Bezig met controleren, dat duurt ongeveer een halve minuut...",
     controle_ok: "Alles is actueel. De volgende herinnering komt over een maand.",
     controle_gewijzigd: "Deze bronnen zijn veranderd. Typ in Claude /dutchquill:bijwerken om de gidsen bij te werken:",
@@ -153,9 +163,19 @@ const TEKST = {
     over_1: "DutchQuill started at university. My reports had to follow APA and meet an academic standard, and I wanted to know exactly what that meant. It turned into quite a rabbit hole. Most people think APA is only about citations, but it also covers your page margins, what your title page looks like, how you add tables, figures and appendices, indenting every paragraph (the first one too) and the hanging indent in your reference list. Then there is the question of what academic writing really is, and how to use AI for it without fooling yourself.",
     over_2: "It started with a Word template that got all of that right from the start. Next I had my reports reviewed, and used the feedback to turn them into proper, finished reports.",
     over_3: "Then I wanted more. Answering emails faster, writing a LinkedIn post more easily, process documentation for work or the README of a repo, all from rough notes, text and screenshots I had already collected. DutchQuill turns that into a polished result.",
-    over_4: "At first glance it may look like a tool made by someone who wants everything to be easy. That's partly true ;) But for me it was mostly a learning project. I now know more about APA than I ever expected; sometimes I knew things about indentation that teachers and classmates didn't. I learned how AI generates text, how plagiarism checks work and what good academic writing is. A lot of time went into it, and I am happy to share the result.",
+    over_4: "At first glance it may look like a tool made by someone who wants everything to be easy. That's partly true 😉 But for me it was mostly a learning project. I now know more about APA than I ever expected; sometimes I knew things about indentation, using appendices the right way and other APA rules that teachers and classmates didn't. I learned how AI generates text, how plagiarism checks work and what good academic writing is. A lot of time went into it, and I am happy to share the result.",
     over_5: "DutchQuill is open source (MIT). Found a bug or have an idea? Open an issue on GitHub.",
+    kop_verhaal: "Why I built DutchQuill",
+    kop_socials: "Socials",
+    formules_intro: "I also learned to measure text. Among other things, the humanizer looks at:",
+    f1_naam: "Flesch-Douma and Flesch Reading Ease",
+    f1: "readability formulas for Dutch (206.84 − 77 × syllables per word − 0.93 × words per sentence) and English (206.835 − 84.6 × syllables per word − 1.015 × words per sentence). Higher means easier to read.",
+    f2_naam: "MATTR",
+    f2: "Moving Average Type-Token Ratio: how many different words you use, measured over a sliding window of 100 words. A low score means a lot of repetition.",
+    f3_naam: "Sentence length spread",
+    f3: "people mix short and long sentences; AI text often has sentences of almost the same length.",
     over_naam: "- Nicky Jacobs", l_repo: "GitHub Repo: DutchQuill AI", l_github: "My GitHub Page", l_site: "My Website", l_linkedin: "My LinkedIn",
+    weergave: "Display", wolken: "Moving clouds", wolken_uitleg: "Clouds that drift slowly along the sides.",
     nu_controleren: "Check now", controleren_bezig: "Checking, this takes about half a minute...",
     controle_ok: "Everything is up to date. The next reminder comes in a month.",
     controle_gewijzigd: "These sources have changed. Type /dutchquill:bijwerken in Claude to update the guides:",
@@ -295,7 +315,7 @@ function el(tag, attrs, ...kinderen) {
     else if (v === true) n.setAttribute(k, "");
     else n.setAttribute(k, v);
   }
-  for (const k of kinderen.flat()) {
+  for (const k of kinderen.flat(Infinity)) {
     if (k === null || k === undefined || k === false) continue;
     n.append(k instanceof Node ? k : document.createTextNode(String(k)));
   }
@@ -857,6 +877,9 @@ const SCHERMEN = {
       uitkomst,
       veld(T("herinnering"), el("input", { type: "number", min: 7, max: 365, value: bw.herinnering_dagen || 30,
         onchange: (e) => { S.ruw.bijwerken = { ...bw, herinnering_dagen: Number(e.target.value) }; gewijzigd(); } })),
+      el("h2", { tekst: T("weergave") }),
+      el("div", { klasse: "schakelaars" }, schakelaar(T("wolken"), T("wolken_uitleg"), !document.body.classList.contains("wolken-stil"),
+        (v) => { document.body.classList.toggle("wolken-stil", !v); try { localStorage.setItem("dq-wolken", v ? "aan" : "uit"); } catch (e) { /* */ } })),
       el("p", { klasse: "label-klein", tekst: S.status.werkmap || "" }),
       el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "eerste", tekst: T("klaar_sluiten"), onclick: klaar })),
     ];
@@ -891,8 +914,13 @@ const SCHERMEN = {
     return [
       el("h1", { tekst: T("over_titel") }),
       el("p", { klasse: "versie", tekst: `${T("versie")} ${S.status.versie}` }),
-      el("div", { klasse: "verhaal" }, [1, 2, 3, 4, 5].map((n) => el("p", { tekst: T(`over_${n}`) })),
+      el("h2", { tekst: T("kop_verhaal") }),
+      el("div", { klasse: "verhaal" }, [1, 2, 3, 4].map((n) => el("p", { tekst: T(`over_${n}`) })),
+        el("p", { tekst: T("formules_intro") }),
+        el("dl", { klasse: "formules" }, [1, 2, 3].map((n) => [el("dt", { tekst: T(`f${n}_naam`) }), el("dd", { tekst: T(`f${n}`) })])),
+        el("p", { tekst: T("over_5") }),
         el("p", { klasse: "ondertekening", tekst: T("over_naam") })),
+      el("h2", { tekst: T("kop_socials") }),
       el("ul", { klasse: "merklinks" }, links.map(([k, url, ic, merk]) => el("li", {},
         el("a", { href: url, target: "_blank", rel: "noopener noreferrer", klasse: `merk-${merk}` },
           icoon(ic), el("span", { tekst: T(k) }), icoon("pijl"))))),
@@ -1019,6 +1047,7 @@ function zetMenu(open) {
 
 async function start() {
   wolkenOpDeKlok();
+  try { if (localStorage.getItem("dq-wolken") === "uit") document.body.classList.add("wolken-stil"); } catch (e) { /* */ }
   let menu = "open";
   try { menu = localStorage.getItem("dq-menu") || "open"; } catch (e) { /* */ }
   zetMenu((START_MENU || menu) !== "dicht");
