@@ -1,7 +1,7 @@
 {
   "name": "dutchquill",
   "displayName": "DutchQuill AI",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0",
   "description": "Schrijfassistent, Nederlands eerst en Engels volwaardig: schrijven, herschrijven, reviewen en humaniseren van rapporten, mails, posts, procesdocumenten en README's. Jij kiest wat er gecheckt wordt (APA, academische stijl, taal, humaniseren), de toon, de template en het formaat.",
   "author": {
     "name": "Nicky Jacobs",
