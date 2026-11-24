@@ -1,7 +1,7 @@
 # Changelog
 
 Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/lang/nl/), de opbouw volgt
-[Keep a Changelog](https://keepachangelog.com/nl/1.1.0/). Hoe een release gaat: [docs/releasen.md](docs/releasen.md).
+[Keep a Changelog](https://keepachangelog.com/nl/1.1.0/). Hoe een release gaat: [docs/project/releasen.md](docs/project/releasen.md).
 
 | Release | Datum | Kort gezegd |
 |---|---|---|
@@ -53,6 +53,8 @@ Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/l
 - Engelse gidsen (`en/humanize`, `en/style`) en een toongids.
 - AI citeren volgens het APA-formaat van september 2025, met een AI-verantwoording.
 - `dq doctor` controleert de omgeving en zegt hoe de pdf gemaakt wordt.
+- Documentatie in het Nederlands en het Engels: een handleiding, naslag en projectdocs, met één beginpunt
+  (`docs/README.md`).
 - `dq tells` meet AI-patronen in Nederlandse en Engelse tekst, en rapporteert in de taal van de tekst.
 
 ### 🔧 Veranderd

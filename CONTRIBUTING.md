@@ -11,7 +11,7 @@ uv run --no-project --python 3.12 --with-requirements requirements.txt --with py
 ```
 
 Testen in Claude Code zonder te installeren: `claude --plugin-dir .`. Opbouw, afspraken en releasestappen staan
-in [docs/ontwikkelen.md](docs/ontwikkelen.md).
+in [docs/project/ontwikkelen.md](docs/project/ontwikkelen.md).
 
 ## Spelregels
 
@@ -28,5 +28,15 @@ in [docs/ontwikkelen.md](docs/ontwikkelen.md).
 ## Issues en pull requests
 
 Open eerst een issue voor grotere wijzigingen. Een pull request gaat naar `develop`, met een regel onder
-`[Unreleased]` in de CHANGELOG. Hoe een release gaat: [docs/releasen.md](docs/releasen.md). Hoe we met elkaar
+`[Unreleased]` in de CHANGELOG. Hoe een release gaat: [docs/project/releasen.md](docs/project/releasen.md). Hoe we met elkaar
 omgaan: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+Werk je met een AI-assistent aan de repo, dan staan de regels voor die assistent in [AGENTS.md](AGENTS.md).
+
+## In English
+
+Contributions are welcome, in English or Dutch: a new AI pattern, a template per kind of text, an export fix, a
+translation. Open an issue first for larger changes; pull requests go to `develop` and add a line under
+`[Unreleased]` in the CHANGELOG. Setup, layout and checks: [docs/en/project/development.md](docs/en/project/development.md).
+Releases: [docs/en/project/releasing.md](docs/en/project/releasing.md).
+
