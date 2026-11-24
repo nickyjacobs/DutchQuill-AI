@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/studio.md">🇬🇧 English</a></p>
+
 # DutchQuill Studio
 
 De Studio is een pagina in je browser waarin je alles instelt zonder YAML te typen. Je opent hem met

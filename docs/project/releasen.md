@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/project/releasing.md">🇬🇧 English</a></p>
+
 # Releasen
 
 Hoe een nieuwe versie van DutchQuill uitkomt. Gebruikers installeren via de marketplace in deze repo; een tag

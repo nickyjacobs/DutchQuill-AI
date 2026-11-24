@@ -1,3 +1,5 @@
+<p align="right"><a href="../verhaal.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # The story
 
 ![A laptop showing DutchQuill AI, next to a fountain pen on handwritten notes](../../assets/brandfoto.jpg)

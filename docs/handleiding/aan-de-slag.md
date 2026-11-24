@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/getting-started.md">🇬🇧 English</a></p>
+
 # Aan de slag
 
 Van installeren tot je eerste document, in ongeveer tien minuten.

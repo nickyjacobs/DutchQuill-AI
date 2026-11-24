@@ -1,3 +1,5 @@
+<p align="right"><a href="README.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 <p align="center"><img src="assets/banner.jpg" alt="DutchQuill AI: write, rewrite, review and humanize, in your own voice"></p>
 
 <p align="center">
@@ -16,8 +18,7 @@
   <a href="#dutchquill-studio">Studio</a> ·
   <a href="#humanizing-honestly">Humanizing</a> ·
   <a href="docs/en/README.md">Documentation</a> ·
-  <a href="#the-story">The story</a> ·
-  <a href="README.md">Nederlands</a>
+  <a href="#the-story">The story</a>
 </p>
 
 DutchQuill is a writing assistant for Claude Code. It writes, rewrites, reviews and humanizes your texts: an

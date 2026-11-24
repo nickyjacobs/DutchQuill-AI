@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/templates.md">🇬🇧 English</a></p>
+
 # Templates en sjablonen
 
 DutchQuill kent twee soorten: een **template** bepaalt hoe een Word- of pdf-bestand eruitziet, een **sjabloon**

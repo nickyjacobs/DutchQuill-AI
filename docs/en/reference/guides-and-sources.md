@@ -1,3 +1,5 @@
+<p align="right"><a href="../../naslag/gidsen-en-bronnen.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Guides and sources
 
 The rules DutchQuill follows are in guides in the `gidsen/` folder. Claude only reads the guides that belong to a

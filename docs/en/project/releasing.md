@@ -1,3 +1,5 @@
+<p align="right"><a href="../../project/releasen.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Releasing
 
 How a new version of DutchQuill comes out. Users install through the marketplace in this repo; a tag `vX.Y.Z` on

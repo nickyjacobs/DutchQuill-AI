@@ -1,3 +1,5 @@
+<p align="right"><a href="../../naslag/configuratie.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Configuration
 
 All settings are in `dutchquill.yaml` in your workspace. Change them in DutchQuill Studio, by telling Claude
