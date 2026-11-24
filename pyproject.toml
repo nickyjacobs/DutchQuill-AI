@@ -1,0 +1,17 @@
+# Alleen voor ontwikkelen en testen. De plugin zelf installeert via scripts/dq en requirements.txt.
+[project]
+name = "dutchquill"
+version = "2.0.0a1"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts", "hooks"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["scripts/visual_ai.js"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]

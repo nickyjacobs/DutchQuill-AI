@@ -1,0 +1,36 @@
+{
+  "name": "dutchquill",
+  "displayName": "DutchQuill AI",
+  "version": "2.0.0-alpha.1",
+  "description": "Schrijfassistent, Nederlands eerst en Engels volwaardig: schrijven, herschrijven, reviewen en humaniseren van rapporten, mails, posts, procesdocumenten en README's. Jij kiest wat er gecheckt wordt (APA, academische stijl, taal, humaniseren), de toon, de template en het formaat.",
+  "author": {
+    "name": "Nicky Jacobs",
+    "url": "https://github.com/nickyjacobs"
+  },
+  "homepage": "https://github.com/nickyjacobs/DutchQuill-AI",
+  "repository": "https://github.com/nickyjacobs/DutchQuill-AI",
+  "license": "MIT",
+  "keywords": [
+    "schrijven",
+    "writing",
+    "nederlands",
+    "dutch",
+    "apa",
+    "humanizer",
+    "rapport",
+    "docx",
+    "tone-of-voice"
+  ],
+  "icon": "assets/icon.png",
+  "network": {
+    "hosts": [
+      "api.languagetool.org",
+      "api.kie.ai",
+      "kieai.redpandaai.co",
+      "www.scribbr.nl",
+      "en.wikipedia.org",
+      "apastyle.apa.org",
+      "api.github.com"
+    ]
+  }
+}

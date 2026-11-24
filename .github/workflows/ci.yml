@@ -1,28 +1,37 @@
-name: Tool validation
+name: Checks
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
-  validate-tools:
-    runs-on: ubuntu-latest
-
+  checks:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - uses: astral-sh/setup-uv@v6
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Ruff (nieuwe v2-modules, hook en tests)
+        run: >
+          uvx ruff check
+          scripts/dutchquill/__init__.py scripts/dutchquill/__main__.py scripts/dutchquill/cli.py
+          scripts/dutchquill/paden.py scripts/dutchquill/schema_check.py scripts/dutchquill/config.py
+          scripts/dutchquill/werkmap.py scripts/dutchquill/versies.py scripts/dutchquill/historie.py
+          scripts/dutchquill/doctor.py hooks tests
 
-      - name: Validate all tools load correctly
+      - name: Pytest
+        run: uv run --no-project --python 3.12 --with-requirements requirements.txt --with pytest pytest -q
+
+      - name: dq-wrapper (venv-bootstrap en doctor)
+        env:
+          CLAUDE_PLUGIN_DATA: ${{ runner.temp }}/dqdata
         run: |
-          for tool in tools/*.py; do
-            echo "Checking $tool..."
-            python3 "$tool" --help > /dev/null
-          done
+          scripts/dq doctor
+          scripts/dq werkmap init --pad "${{ runner.temp }}/werkmap" --profiel student
+          scripts/dq config valideer
