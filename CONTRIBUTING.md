@@ -27,4 +27,6 @@ in [docs/ontwikkelen.md](docs/ontwikkelen.md).
 
 ## Issues en pull requests
 
-Open eerst een issue voor grotere wijzigingen. Een pull request gaat naar `develop`.
+Open eerst een issue voor grotere wijzigingen. Een pull request gaat naar `develop`, met een regel onder
+`[Unreleased]` in de CHANGELOG. Hoe een release gaat: [docs/releasen.md](docs/releasen.md). Hoe we met elkaar
+omgaan: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
