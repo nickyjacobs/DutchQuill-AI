@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/profiles-and-tone.md">🇬🇧 English</a></p>
+
 # Profielen, controles en toon
 
 ## Profielen

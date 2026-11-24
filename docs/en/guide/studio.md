@@ -1,3 +1,5 @@
+<p align="right"><a href="../../handleiding/studio.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # DutchQuill Studio
 
 The Studio is a page in your browser where you set everything up without typing YAML. Open it with

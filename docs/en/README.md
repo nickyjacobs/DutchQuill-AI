@@ -1,7 +1,8 @@
+<p align="right"><a href="../README.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # DutchQuill documentation
 
-Everything that doesn't fit in the [README](../../README.en.md), sorted by who reads it. *Nederlands:
-[docs/README.md](../README.md).*
+Everything that doesn't fit in the [README](../../README.en.md), sorted by who reads it.
 
 | If you want to... | Read |
 |---|---|

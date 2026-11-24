@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/humanizing.md">🇬🇧 English</a></p>
+
 # Humaniseren
 
 Humaniseren betekent bij DutchQuill: een tekst laten klinken alsof iemand hem schreef die het onderwerp kent. Meestal

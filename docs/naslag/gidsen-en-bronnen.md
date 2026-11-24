@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/reference/guides-and-sources.md">🇬🇧 English</a></p>
+
 # Gidsen en bronnen
 
 De regels die DutchQuill volgt, staan in gidsen in de map `gidsen/`. Claude leest alleen de gidsen die bij een
