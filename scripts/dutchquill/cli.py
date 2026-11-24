@@ -15,12 +15,13 @@ EIGEN = {
     "materiaal": "materiaal",
     "extraheer": "extraheer",
     "beeld": "beeld",
+    "stem": "stem",
+    "feiten": "feiten",
 }
 
 # Bestaande tools uit v1 (worden in latere fases omgebouwd); hun main() leest sys.argv
 TOOLS = {
-    "tells": ("tells", "AI-patronen in Nederlandse tekst (was humanizer_nl.py)"),
-    "tells-en": ("tells_en", "AI-patronen in Engelse tekst (was style_check_en.py)"),
+    "tells": ("tells", "AI-patronen in NL- en EN-tekst, met stem en eigen regels"),
     "leesbaarheid": ("leesbaarheid", "Flesch-Douma en zinslengte (was readability_nl.py)"),
     "apa-check": ("apa_check", "APA-controles (was apa_checker.py)"),
     "apa-bron": ("apa_bron", "APA-bronvermelding uit JSON (was source_formatter.py)"),
@@ -34,7 +35,6 @@ TOOLS = {
     "diagram": ("diagram", "Diagrammen als png (was generate_diagram.py)"),
     "scorekaart": ("scorekaart", "Scoredashboard als png (was generate_review_chart.py)"),
     "rapport-pdf": ("rapport_pdf", "Analyse-/reviewrapport als pdf (was generate_report_pdf.py)"),
-    "stijlcheck": ("stijlcheck", "Verboden woorden en openers (was de Stop-hook)"),
 }
 
 

@@ -1,36 +1,58 @@
-# Academische Stijlgids — Nederlandse Hogeschoolrapporten
+---
+titel: Academische stijl
+module: academische_stijl
+geldt: alleen als controles.academische_stijl aan staat (hbo-rapport, scriptie, onderzoeksrapport)
+versie: 2
+gecontroleerd: 2026-11-24
+bronnen:
+  - https://www.scribbr.nl/category/academische-stijlregels/
+  - https://www.scribbr.nl/scriptie-structuur/structuur-academische-tekst/
+  - https://www.scribbr.nl/essay/paragrafen-en-alineas-scriptie/
+  - https://www.scribbr.nl/academische-stijlregels/hoe-voorkom-je-spreektaal-in-je-scriptie/
+  - https://www.scribbr.nl/academische-stijlregels/schrijfstijl-scriptie-verbeteren/
+  - https://www.scribbr.nl/academische-stijlregels/introduceren-titels-onderzoeksvragen-engelse-termen/
+  - https://www.scribbr.nl/academische-stijlregels/verboden-woorden-in-je-scriptie/
+  - https://www.scribbr.nl/academische-stijlregels/werkwoordstijden-per-scriptieonderdeel/
+  - https://www.scribbr.nl/academische-stijlregels/gebruik-van-de-ik-vorm-scripties/
+  - https://www.scribbr.nl/academische-stijlregels/afkortingen-gebruiken-een-scriptie/
+  - https://www.scribbr.nl/academische-stijlregels/leestekens-na-citaten/
+---
 
-Hardcoded referentiegids op basis van Scribbr NL (scribbr.nl/category/academische-stijlregels/).
-Gebruik deze gids bij elke schrijf-, herschrijf- of reviewtaak.
+# Academische stijl
+
+Regels die alleen gelden voor academische tekst: hbo-rapporten, scripties, onderzoeksrapporten. Ze komen
+bovenop `kern.md`. Daarin staan getallen, fragmenten, naamwoordstijl, zinslengte, Engelse woorden, vaag
+taalgebruik en het woordje "er"; die gelden voor elke tekst en staan hier dus niet meer.
+Gebaseerd op Scribbr NL.
 
 ---
 
-## 1. Structuur van een Academische Tekst
+## 1. Structuur van een academische tekst
 
 *Bron: scribbr.nl/scriptie-structuur/structuur-academische-tekst/*
 
 Een academische tekst bestaat uit drie essentiële onderdelen:
 
-### Begin (Introductie) — 20–30% van de tekst
+### Begin (Introductie): 20–30% van de tekst
 - Formuleer het doel van de tekst
 - Introduceer het onderwerp
 - Kondig aan hoe de tekst is opgebouwd
 - Geef de lezer duidelijkheid over wat hij kan verwachten
 
-### Midden (Uitwerking) — 50–80% van de tekst
+### Midden (Uitwerking): 50–80% van de tekst
 - Presenteer informatie in logische volgorde
 - Behandel subonderwerpen relevant voor het doel
 - Organiseer per thema, chronologisch, belang of vraagstelling
 - Zorg voor goede paragraafindeling
 
-### Eind (Conclusie/Afsluiting) — 5–20% van de tekst
+### Eind (Conclusie/Afsluiting): 5–20% van de tekst
 - Beantwoord de gestelde vragen of onderbouw stellingen
 - Voeg **geen** nieuwe informatie toe
 - Eindigt met een krachtige slotzin
 
 ---
 
-## 2. Paragrafen en Alinea's
+## 2. Paragrafen en alinea's
 
 *Bron: scribbr.nl/essay/paragrafen-en-alineas-scriptie/*
 
@@ -56,42 +78,13 @@ Een academische tekst bestaat uit drie essentiële onderdelen:
 
 ---
 
-## 3. Getallen
-
-*Bron: scribbr.nl/academische-stijlregels/getallen-wel-of-niet-uitschrijven/*
-
-### Uitschrijven in letters
-- Getallen **onder de 20**
-- **Ronde** getallen (twintig, dertig, honderd, duizend)
-- "Miljoen" en "miljard"
-- Rangtelwoorden (eerste, tweede, miljoenste)
-
-### In cijfers weergeven
-- Getallen **boven de 20** (niet-rond)
-- Exacte waarden met eenheden (maten, temperaturen, bedragen)
-- Percentages (zeker als er meerdere in dezelfde alinea staan)
-- Nummering van structuurelementen (Hoofdstuk 2, Figuur 3, Bijlage A)
-
-### Regels
-- Een zin mag **niet beginnen met een cijfer** — herschrijf de zin of schrijf het getal uit
-- Bij duizendtallen: gebruik punten → `17.000.000` of "17 miljoen"
-
-| Fout | Goed |
-|------|------|
-| Alle zevenentwintig respondenten | Alle 27 respondenten |
-| 4 mensen waren te laat | Vier mensen waren te laat |
-| €18000 schade | € 18.000 schade |
-| Hoofdstuk twee | Hoofdstuk 2 |
-
----
-
-## 4. Spreektaal Voorkomen
+## 3. Spreektaal voorkomen
 
 *Bron: scribbr.nl/academische-stijlregels/hoe-voorkom-je-spreektaal-in-je-scriptie/*
 
 ### Vier categorieën spreektaal
 
-**1. Lezer aanspreken** — alleen in het voorwoord toegestaan
+**1. Lezer aanspreken**: alleen in het voorwoord toegestaan
 > Fout: "Je zult zien dat de resultaten meevallen"
 > Goed: "De resultaten zijn gunstig"
 
@@ -114,63 +107,12 @@ Een academische tekst bestaat uit drie essentiële onderdelen:
 
 ---
 
-## 5. Fragmentarisch Schrijven Voorkomen
-
-*Bron: scribbr.nl/academische-stijlregels/fragmenten-in-scripties/*
-
-### Drie soorten fragmenten
-
-**1. Ontbrekend onderwerp**
-> Fout: "De resultaten zijn van belang. En worden hier besproken."
-> Goed: "De resultaten zijn van belang en worden hier besproken."
-
-**2. Ontbrekend werkwoord**
-> Fout: "De SWOT-analyse wordt gebruikt. Ook het 7S-model."
-> Goed: "De SWOT-analyse wordt gebruikt, evenals het 7S-model."
-
-**3. Ontbrekend lidwoord**
-> Fout: "Doel is voor het eind van het jaar de omzet te verdubbelen."
-> Goed: "Het doel is voor het eind van het jaar de omzet te verdubbelen."
-
-### Controleer elke zin op
-- **Onderwerp**: wie voert de handeling uit?
-- **Werkwoord**: is er een persoonsvorm aanwezig?
-- **Lidwoord**: begint de zin volledig?
-
----
-
-## 6. Naamwoordstijl Vermijden
-
-*Bron: scribbr.nl/academische-stijlregels/vermijd-de-naamwoordstijl-je-scriptie/*
-
-Naamwoordstijl = werkwoorden omzetten naar zelfstandige naamwoorden. Dit maakt teksten onnodig lang, onduidelijk en stijf.
-
-### Hoe herken je het?
-- Veel zelfstandige naamwoorden die van werkwoorden afkomen
-- Constructies met "het + werkwoord" ("het samenvatten", "het vergroten")
-- Voorzetselgroepen: "in het kader van", "in verband met"
-
-### Naamwoordstijl → Werkwoordstijl
-
-| Naamwoordstijl | Werkwoordstijl |
-|----------------|----------------|
-| "Het samenvatten van de stof kost tijd" | "Stof samenvatten kost tijd" |
-| "Een verandering in de teamsamenstelling vindt plaats" | "Het team krijgt een andere samenstelling" |
-| "Voor het verkennen van terrein" | "Om terrein te verkennen" |
-| "De beoordeling vindt morgen plaats" | "De recensent beoordeelt morgen" |
-
-**Strategie:** Vervang "voor + het + werkwoord" door "om + te + werkwoord"
-
-**Wanneer mag het wel:** bij wetmatigheden ("Dagelijks tandenpoetsen verkleint de kans op gaatjes") en bij samenvatten van voorgaand werkwoord.
-
----
-
-## 7. Schrijfstijl Verbeteren
+## 4. Schrijfstijl verbeteren
 
 *Bron: scribbr.nl/academische-stijlregels/schrijfstijl-scriptie-verbeteren/*
 
-1. **Kommaregels**: komma tussen werkwoorden bij verschillende zinsdelen — "Nadat zij het onderzoek opgezet hadden, benaderden ze het bedrijf."
-2. **Zinsbeginning**: niet beginnen met "maar" of "en" — gebruik "echter" of "daarom"
+1. **Kommaregels**: komma tussen werkwoorden bij verschillende zinsdelen: "Nadat zij het onderzoek opgezet hadden, benaderden ze het bedrijf."
+2. **Zinsbeginning**: niet beginnen met "maar" of "en": gebruik "echter" of "daarom"
 3. **Naamwoordstijl**: zie sectie 6
 4. **Passief beperken**: actief schrijven als het onderwerp duidelijk is
 5. **Verwijswoorden**: zorg dat "hij", "zij", "het" duidelijk verwijzen
@@ -178,7 +120,7 @@ Naamwoordstijl = werkwoorden omzetten naar zelfstandige naamwoorden. Dit maakt t
 
 ---
 
-## 8. Nieuwe Termen, Titels en Onderzoeksvragen Introduceren
+## 5. Nieuwe termen, titels en onderzoeksvragen introduceren
 
 *Bron: scribbr.nl/academische-stijlregels/introduceren-titels-onderzoeksvragen-engelse-termen/*
 
@@ -188,7 +130,7 @@ Naamwoordstijl = werkwoorden omzetten naar zelfstandige naamwoorden. Dit maakt t
 3. **Aparte regel** (voor onderzoeksvragen): inspringing + witregels, geen verdere markering
 
 > Kies één methode en gebruik die **consequent**.
-> **Nooit** dubbele aanhalingstekens voor titels/termen — die zijn alleen voor citaten.
+> **Nooit** dubbele aanhalingstekens voor titels/termen: die zijn alleen voor citaten.
 
 ### Regels per onderdeel
 
@@ -202,31 +144,7 @@ Naamwoordstijl = werkwoorden omzetten naar zelfstandige naamwoorden. Dit maakt t
 
 ---
 
-## 9. Afwisseling Korte en Lange Zinnen
-
-*Bron: scribbr.nl/academische-stijlregels/afwisseling-en-gebruik-van-korte-en-lange-zinnen/*
-
-### Korte zinnen — gebruik voor
-- Pakkende introductie
-- Hypothesen formuleren
-- Concluderende of samenvattende statements
-- Passages die nadruk behoeven
-
-### Lange zinnen — gebruik voor
-- Hypothesen en stellingen uitwerken
-- Gedetailleerde beschrijvingen en achtergrond
-- Opsommingen van oorzaken, kenmerken, resultaten
-
-### Regels voor lange zinnen
-- Maximaal twee deelzinnen vóór de persoonsvorm
-- Één gedachte per zin
-- Gebruik verbindingswoorden correct
-- Vermijd dubbele ontkenningen
-- Geen fragmentarische zinnen (zonder onderwerp en persoonsvorm)
-
----
-
-## 10. Verboden Woorden
+## 6. Verboden woorden
 
 *Bron: scribbr.nl/academische-stijlregels/verboden-woorden-in-je-scriptie/*
 
@@ -257,87 +175,11 @@ Naamwoordstijl = werkwoorden omzetten naar zelfstandige naamwoorden. Dit maakt t
 | welke (als relatief voornaamwoord) | dat / die |
 
 ### Retorische vragen
-Vermijd ze — herformuleer als stelling: "De vraag is of..." → "Dit onderzoek toont aan dat..."
+Vermijd ze: herformuleer als stelling: "De vraag is of..." → "Dit onderzoek toont aan dat..."
 
 ---
 
-## 11. Engelse Woorden in Nederlandse Scripties
-
-*Bron: scribbr.nl/academische-stijlregels/engelse-woorden-in-nederlandse-scriptie/*
-
-### Wanneer mag je Engels gebruiken?
-Alleen als **geen goed Nederlands equivalent bestaat** — met name voor vaktermen en gespecialiseerde begrippen.
-
-### Vermijd onnodig Engels
-- "business" → "bedrijf"
-- "risk" → "risico"
-- "needs" → "behoeften"
-
-### Hoe introduceren
-Bij eerste gebruik: cursiveer of gebruik enkele aanhalingstekens. Voeg een uitleg toe. Daarna: geen markering meer.
-
-### Samenstellingen met Engelse woorden
-
-| Type | Schrijfwijze | Voorbeeld |
-|------|-------------|-----------|
-| Tweedelig (in Groene Boekje) | Aaneenschrijven | businessplan, casestudy |
-| Driedelig | Aaneenschrijven + koppelteken | contentmanagement-systeem |
-| Woordgroep (bnw + znw) | Los schrijven | joint venture, second opinion |
-| Afkorting + woord | Koppelteken | ERP-systeem, SWOT-analyse |
-
----
-
-## 12. Vaag Taalgebruik Voorkomen
-
-*Bron: scribbr.nl/academische-stijlregels/vaag-taalgebruik-voorkomen/*
-
-### Vier categorieën vaag taalgebruik
-
-**1. Vage hoeveelheid**
-| Vaag | Helder |
-|------|--------|
-| enige antwoorden | vijf antwoorden |
-| talrijke theorieën | de volgende theorieën: […] |
-| aardig wat medewerkers | vier medewerkers |
-
-**2. Vage tijd**
-| Vaag | Helder |
-|------|--------|
-| te zijner tijd | in januari 2021 |
-| op een bepaald moment | in oktober 2018 |
-| voorheen | voor 2006 |
-
-**3. Vage plaats**
-| Vaag | Helder |
-|------|--------|
-| onderaan | in Bijlage B |
-| ergens | aan de noordzijde |
-| in een hoofdstuk | in Hoofdstuk 4 |
-
-**4. Onnauwkeurige woorden** — te vermijden
-nauwelijks, tamelijk, behoorlijk, nogal, vaak, later, sommige, bepaalde, allerlei, ergens, in zekere zin, tot op zekere hoogte, zo'n, om en nabij, een beetje, zowat, ding, het een en ander
-
----
-
-## 13. Het Woordje "Er"
-
-*Bron: scribbr.nl/academische-stijlregels/het-woordje-er/*
-
-### Wanneer NIET gebruiken
-Laat "er" weg als het geen functie vervult:
-> ❌ "In deze scriptie wordt er gekeken naar..."
-> ✅ "In deze scriptie wordt gekeken naar..."
-
-### Wanneer WEL gebruiken
-1. **Plaatsaanduiding**: "Het is niet mogelijk om er met openbaar vervoer te komen."
-2. **Met voorzetsels**: "Het bestuur heeft ermee ingestemd."
-3. **Met telwoorden**: "Tien katten werden opgevangen. Wij hebben er drie gezien."
-
-**Kernregel:** "er" is alleen essentieel bij plaatsaanduiding, voorzetsels of telwoorden. Anders: verwijder het.
-
----
-
-## 14. Werkwoordstijden
+## 7. Werkwoordstijden
 
 *Bron: scribbr.nl/academische-stijlregels/werkwoordstijden-je-scriptie/*
 *Bron: scribbr.nl/academische-stijlregels/werkwoordstijden-per-scriptieonderdeel/*
@@ -348,9 +190,9 @@ Laat "er" weg als het geen functie vervult:
 |---------------|---------|
 | Onvoltooide tegenwoordige tijd (o.t.t.) | Feiten presenteren, argumenteren, beschrijven van je eigen scriptie |
 | Onvoltooid verleden tijd (o.v.t.) | Achtergrondinformatie, voorbije gebeurtenissen, historische context |
-| Voltooid tegenwoordige tijd (v.t.t.) | Terugblik op afgesloten zaken — DAT iets is gebeurd |
+| Voltooid tegenwoordige tijd (v.t.t.) | Terugblik op afgesloten zaken: DAT iets is gebeurd |
 | Voltooid verleden tijd (v.v.t.) | Iets dat afgerond was vóór een ander moment in het verleden |
-| Toekomende tijd | **Vermijden** — gebruik liever o.t.t. |
+| Toekomende tijd | **Vermijden**: gebruik liever o.t.t. |
 
 ### Per scriptiehoofdstuk
 
@@ -371,7 +213,7 @@ Laat "er" weg als het geen functie vervult:
 
 ---
 
-## 15. Persoonlijke Voornaamwoorden (Ik/Jij/Wij)
+## 8. Persoonlijke voornaamwoorden (Ik/Jij/Wij)
 
 *Bron: scribbr.nl/academische-stijlregels/gebruik-van-de-ik-vorm-scripties/*
 *Bron: scribbr.nl/academische-stijlregels/lezer-aanspreken/*
@@ -381,8 +223,8 @@ Laat "er" weg als het geen functie vervult:
 | Vorm | Regel | Alternatief |
 |------|-------|------------|
 | Ik / mij / mijn | Verboden in hoofdtekst | "In deze scriptie wordt onderzocht…" |
-| Jij / je / jullie | Nooit — lezer niet aanspreken | "De resultaten tonen aan dat…" |
-| U | Alleen in voorwoord | — |
+| Jij / je / jullie | Nooit: lezer niet aanspreken | "De resultaten tonen aan dat…" |
+| U | Alleen in voorwoord |: |
 | Wij / we / ons | Verboden tenzij gezamenlijk onderzoek | "Er is gevonden…" |
 
 ### Wanneer WEL toegestaan
@@ -405,12 +247,12 @@ Laat "er" weg als het geen functie vervult:
 
 ---
 
-## 16. Afkortingen
+## 9. Afkortingen
 
 *Bron: scribbr.nl/academische-stijlregels/afkortingen-gebruiken-een-scriptie/*
 
 ### Verboden afkortingen (NOOIT gebruiken in hoofdtekst)
-m.a.w. — m.b.t. — enz. — bijv. — n.a.v. — incl. — ca. — e.d. — i.v.m.
+m.a.w.: m.b.t.: enz.: bijv.: n.a.v.: incl.: ca.: e.d.: i.v.m.
 
 **Test:** spreek je de letters uit of het volledige woord? Als volledige woord → verboden.
 
@@ -435,7 +277,7 @@ Eerste gebruik: volledige term + afkorting tussen haakjes:
 
 ---
 
-## 17. Leestekens na Citaten en Taalfouten in Citaten
+## 10. Leestekens na citaten en taalfouten in citaten
 
 *Bron: scribbr.nl/academische-stijlregels/leestekens-na-citaten/*
 *Bron: scribbr.nl/academische-stijlregels/spelfouten-citaten/*

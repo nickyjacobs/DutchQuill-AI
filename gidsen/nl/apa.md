@@ -1,7 +1,25 @@
-# APA 7e Editie Gids — Nederlandse Hogeschoolrapporten
+---
+titel: APA 7 (Nederlandse toepassing)
+module: apa
+geldt: alleen als controles.apa aan staat
+versie: 2
+gecontroleerd: 2026-11-24
+bronnen:
+  - https://www.scribbr.nl/category/apa-stijl/
+  - https://www.scribbr.nl/apa-stijl/verwijzing-in-de-tekst/
+  - https://www.scribbr.nl/apa-stijl/bronvermeldingen-literatuurlijst/
+  - https://www.scribbr.nl/apa-stijl/tabellen-en-figuren/
+  - https://www.scribbr.nl/apa-stijl/opmaak/
+  - https://www.scribbr.nl/apa-stijl/titelpagina/
+  - https://www.scribbr.nl/apa-stijl/verschillen-nederlands-engels/
+  - https://apastyle.apa.org/blog
+---
 
-Hardcoded referentiegids op basis van Scribbr NL (scribbr.nl/category/apa-stijl/).
-Gebruik deze gids bij elke schrijf-, herschrijf- of reviewtaak.
+# APA 7 (Nederlandse toepassing)
+
+AI-tools citeren staat in `ai-gebruik.md` (APA-formaat van september 2025).
+
+Gebaseerd op Scribbr NL (scribbr.nl/category/apa-stijl/).
 
 ---
 
@@ -62,7 +80,7 @@ De volgende informatie hoort op de titelpagina, alles gecentreerd en in deze vol
 
 ---
 
-## 3. Koppen en Subkoppen
+## 3. Koppen en subkoppen
 
 *Bron: scribbr.nl/apa-stijl/koppen/*
 
@@ -86,7 +104,7 @@ APA 7 kent vijf kopniveaus. In Nederlandse teksten mag je sentence case gebruike
 
 ---
 
-## 4. Algemene Opmaak
+## 4. Algemene opmaak
 
 *Bron: scribbr.nl/apa-stijl/opmaak/*
 
@@ -100,7 +118,7 @@ APA 7 kent vijf kopniveaus. In Nederlandse teksten mag je sentence case gebruike
 
 ---
 
-## 5. Bronvermelding in de Tekst (In-Text Citations)
+## 5. Bronvermelding in de tekst (In-Text citations)
 
 *Bron: scribbr.nl/apa-stijl/verwijzing-in-de-tekst/*
 
@@ -148,7 +166,7 @@ APA 7 kent vijf kopniveaus. In Nederlandse teksten mag je sentence case gebruike
 
 ---
 
-## 6. Directe Citaten
+## 6. Directe citaten
 
 *Bron: scribbr.nl/apa-stijl/citaten/*
 
@@ -161,7 +179,7 @@ Geplaatst in de lopende tekst, tussen dubbele aanhalingstekens. Paginanummer ver
 **Narratief:**
 > Hoogmans en Perkic (2017) stellen dat "plagiaat eerder het gevolg is van verwarring dan van kwade opzet" (p. 117).
 
-### Lange citaten (40 woorden of meer) — Blokcitaat
+### Lange citaten (40 woorden of meer): blokcitaat
 - Geen aanhalingstekens
 - Begin op een nieuwe regel
 - Geheel ingesprongen met tab (1,27 cm)
@@ -235,7 +253,7 @@ Auteur. (Datum). Titel. Bron.
 
 ---
 
-## 8. Formaten per Brontype
+## 8. Formaten per brontype
 
 *Bron: scribbr.nl/bronvermelding/apa/*
 
@@ -333,7 +351,7 @@ Achternaam, V. (jaar). Titel [Schilderij/Foto/Sculptuur]. Naam museum, Stad, Lan
 Titel van het werk. (jaar). Uitgever of bron.
 ```
 
-### Afbeelding / Foto (online)
+### Afbeelding / foto (online)
 
 *Bron: scribbr.nl/bronvermelding/apa/afbeelding/*
 
@@ -351,7 +369,7 @@ Achternaam, V. (jaar). Titel [Schilderij/Sculptuur]. Naam Museum, Stad, Land.
 - Geen datum: gebruik `z.d.`
 - Beschrijvende titel ontbreekt: gebruik `[Foto zonder titel]` of vergelijkbare omschrijving in blokhaken
 
-### Overheidsdocument / Overheidswebpagina
+### Overheidsdocument / overheidswebpagina
 
 *Bron: scribbr.nl/bronvermelding/apa/overheidsdocument/*
 
@@ -564,7 +582,7 @@ Noot. Eventuele toelichting of bronvermelding.
 
 ---
 
-## 12. Afkortingen in de Tekst
+## 12. Afkortingen in de tekst
 
 *Bron: scribbr.nl/apa-stijl/hoe-gebruik-je-afkortingen-volgens-apa-je-scriptie/*
 
@@ -578,7 +596,7 @@ Noot. Eventuele toelichting of bronvermelding.
 
 ---
 
-## 13. Koptekst en Paginanummering
+## 13. Koptekst en paginanummering
 
 *Bron: scribbr.nl/apa-stijl/koptekst-running-head/*
 
@@ -587,7 +605,7 @@ Noot. Eventuele toelichting of bronvermelding.
 - Begint op pagina 1 (titelpagina = pagina 1, maar het nummer is niet zichtbaar op de titelpagina)
 - Doorlopende nummering, inclusief bijlagen
 
-### Running head — NIET vereist voor studentenrapporten
+### Running head: NIET vereist voor studentenrapporten
 In APA 7 is de running head **afgeschaft** voor studentenwerken. Een running head is alleen vereist bij professionele manuscripten voor publicatie in een tijdschrift.
 
 > Tenzij je begeleider of instelling het expliciet vereist, voeg je **geen** running head toe.
@@ -641,7 +659,7 @@ Na de samenvatting (en eventueel voorwoord), vóór de inleiding.
 
 ---
 
-## 15. 7de Editie Wijzigingen (t.o.v. APA 6)
+## 15. 7de editie wijzigingen (t.o.v. APA 6)
 
 *Bron: scribbr.nl/apa-stijl/wijzigingen-7e-druk/*
 
@@ -669,7 +687,7 @@ Na de samenvatting (en eventueel voorwoord), vóór de inleiding.
 
 ---
 
-## 16. Namen en Initialen
+## 16. Namen en initialen
 
 *Bron: scribbr.nl/apa-stijl/voornamen-en-achternamen-apa/*
 
@@ -741,7 +759,7 @@ In de tekst daarna mag je afkorten als je dit bij eerste gebruik introduceert:
 
 ---
 
-## 18. Veelgemaakte Fouten
+## 18. Veelgemaakte fouten
 
 | Fout | Correct |
 |------|---------|

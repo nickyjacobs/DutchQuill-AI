@@ -1,734 +1,216 @@
-# Humanize NL Gids — Nederlandse AI-Patronen Vermijden
-
-Referentiegids voor het detecteren en vermijden van AI-schrijfpatronen in Nederlandse teksten.
-Gebaseerd op drie Humanizer-repos (blader/humanizer, brandonwise/humanizer, openclaw/skills ai-humanizer, alle MIT-licentie),
-Nederlandse bronnen (aikundig.nl, frankwatching.com, Scribbr NL, Mensify.nl, Smals Research) en
-webonderzoek naar Nederlandstalige AI-detectiepatronen. Volledig aangepast voor Nederlands taalgebruik en academische schrijfstijl.
-20 detectiecategorieën — geïmplementeerd in `tools/humanizer_nl.py`.
-
+---
+titel: Humaniseren (Nederlands)
+module: humaniseren
+geldt: als controles.humaniseren aan staat
+versie: 3
+gecontroleerd: 2026-11-24
+data: gidsen/data/tells_nl.yaml
+bronnen:
+  - https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing
+  - https://github.com/blader/humanizer
+  - https://vu.nl/nl/over-de-vu/meer-over/alp-gids-ai-teksten-herkennen
+  - https://www.welingelichtekringen.nl/tech/zo-herken-je-chatgpt-deze-woorden-en-zinnen-verraden-ai
+  - https://onzetaal.nl/uploads/editor/Invloed.pdf
+  - https://arxiv.org/html/2507.00838v2
+  - https://arxiv.org/pdf/2509.10179
 ---
 
-## Waarom humaniseren?
-
-AI-gegenereerde tekst is herkenbaar. Niet omdat AI per definitie slecht schrijft, maar omdat
-het dezelfde woorden, dezelfde zinsstructuren en dezelfde patronen herhaalt. Docenten en
-AI-detectietools pikken dit op.
-
-Menselijk schrijven varieert. Het heeft ritme. Het wisselt korte en lange zinnen af. Het mist
-de strakke uniformiteit die AI automatisch produceert. En het heeft specifieke details — geen
-vage algemeenheden.
-
-Drie signalen worden gebruikt om AI-tekst te detecteren:
-1. **Woordherkenning** — AI-typische woorden en uitdrukkingen
-2. **Patronen** — formulaïsche structuren en AI-communicatievormen
-3. **Statistieken** — zinslengtevariatie, woordenschatvariatie, n-gram repetitie
-
----
-
-## Categorie 1: Nederlandse AI-Woordenlijst
-
-De volgende woorden komen statistisch buitenproportioneel voor in Nederlandse AI-teksten.
-Georganiseerd in drie niveaus (gebaseerd op Humanizer's tier-systeem, vertaald naar NL).
-
-### Niveau 1 — Directe Verraaders
-Vrijwel zeker AI als aanwezig. **Altijd vervangen.**
-
-| AI-woord/uitdrukking | Probleem | Betere alternatieven |
-|----------------------|----------|---------------------|
-| cruciaal | Superlatiefwoord, overgebruikt | belangrijk, bepalend, doorslaggevend, van groot belang |
-| essentieel | Idem | noodzakelijk, onmisbaar, vereist |
-| speelt een cruciale/centrale/sleutelrol | AI-cliché | [beschrijf de specifieke functie] |
-| naadloos | Vage kwalificering | [beschrijf waarom het goed werkt] |
-| synergie / synergiën | Managementjargon | samenwerking, combinatie, wisselwerking |
-| verdiepen in | Anglicisme ("delve into") | onderzoeken, bestuderen, analyseren |
-| het landschap van | Vage omschrijving ("the landscape of") | [wees specifiek: de sector, het veld, de markt] |
-| het speelveld | Idem | [wees specifiek] |
-| holistische aanpak | Vaag managementbegrip | [beschrijf wat er precies wordt meegenomen] |
-| baanbrekend | Overdreven kwalificering | nieuw, vernieuwend, eerste in zijn soort |
-| grondig | Vaag intensiveringswoord | [beschrijf wat er grondig werd gedaan] |
-| toonaangevend | AI-superlatiefwoord | vooraanstaand, groot, invloedrijk |
-| optimaliseren | Managementjargon | verbeteren, efficiënter maken, aanpassen |
-| benutten | Anglicisme ("leverage") | gebruiken, inzetten, toepassen |
-| ontsluiten | Anglicisme ("unlock") | openen, beschikbaar maken, vrijgeven |
-| biedt kansen en uitdagingen | Nietszeggend | [noem de specifieke kansen en problemen] |
-| een breed scala aan | Vage kwantificering | veel, diverse, verschillende — of geef voorbeelden |
-| in toenemende mate | Vage tijdsindicator | steeds meer, [geef data of datum] |
-| aanzienlijk | Vage kwantificering | [geef een getal of percentage] |
-| inzichten | Vaag zelfstandig naamwoord | bevindingen, conclusies, resultaten, kennis |
-| duiken / duik in | Letterlijke vertaling "deep dive" | analyseer, onderzoek, bekijk nader |
-| scala | Overgebruikt voor "reeks/aantal" | veel, diverse, [geef concrete voorbeelden] |
-| betekenisvol | Overdreven woordkeuze | zinvol, nuttig, relevant |
-| diepgaand | Onnatuurlijk AI-anglicisme in NL | uitgebreid, grondig [maar beschrijf ook wát] |
-| transformatief | Anglicisme, te vaag | veranderend, ingrijpend, structureel anders |
-| katalysator | Anglicisme ("catalyst") | aanjager, trigger, directe oorzaak |
-| speerpunt | Beleidsjargon | prioriteit, focus, hoofddoel |
-| robuust | Vage kwalificering | stabiel, betrouwbaar, [beschrijf waarom] |
-| faciliteert | Omslachtig ("facilitates") | maakt mogelijk, helpt, zorgt voor |
-| demonstreert | AI-copulavervanger | laat zien, toont, bewijst |
-| onderstreept | Vage intensivering ("underscores") | bevestigt, toont aan, maakt duidelijk |
-| weerspiegelt | Vaag verbindingswoord ("reflects") | toont, is te zien in, volgt uit |
-| stroomlijnen | Managementjargon ("streamline") | vereenvoudigen, efficiënter maken, samenvoegen |
-| duiken in | Letterlijke vertaling "delve into" — sterk anglicisme | analyseer, onderzoek, bekijk nader |
-| fosteren | Anglicisme ("to foster") — bestaat niet organisch in NL | bevorderen, stimuleren, aanmoedigen |
-| testament aan | Letterlijke vertaling "a testament to" — klinkt on-Nederlands | bewijs van, aanwijzing voor |
-| impact hebben op | Anglicisme ("to have an impact on") | invloed hebben op, effect hebben op, gevolgen hebben voor |
-| uiteraard (op zinsbegin) | Chatbot-opener — impliceert dat lezer het al weet | verwijder of herschrijf de zin zonder dit woord |
-
-### Niveau 2 — Verdacht bij Hoge Dichtheid
-Individueel acceptabel, maar alarmerend als ze clusteren. Beperk gebruik.
-
-| AI-woord/uitdrukking | Probleem | Betere alternatieven |
-|----------------------|----------|---------------------|
-| bovendien | Overgebruikt connectief | ook, daarnaast, verder, en |
-| tevens | Formeel en AI-achtig | ook, eveneens [spaarzaam] |
-| echter | Contrasttransitie die AI overgebruikt | maar, toch, desondanks |
-| desalniettemin | Pompeus | toch, maar, ondanks dit |
-| voorts | Verouderd/AI-achtig | verder, ook, aanvullend |
-| derhalve | Archaïsch | dus, daarom, om die reden |
-| aldus | Verouderd | zo, op die manier — of weglaten |
-| significant | Anglicisme in NL-teksten | betekenisvol, opvallend, noemenswaardig |
-| dynamisch | Modebegrip | [beschrijf de eigenschap specifiek] |
-| innovatief / innovatie | AI-modebegrip | nieuw, vernieuwend, [beschrijf wat nieuw is] |
-| complexiteit | Nietszeggend | [beschrijf wat er complex is] |
-| uitdaging | AI-omschrijving voor "probleem" | probleem, moeilijkheid, knelpunt, obstakel |
-| in het kader van | Omslachtig | voor, binnen, bij |
-| met betrekking tot | Omslachtig | over, voor, bij |
-| ten aanzien van | Omslachtig | over, voor, bij |
-| duidelijk | Vage stelligheid | [geef bewijs in plaats van dit woord] |
-| evident | Idem | [geef bewijs] |
-| genuanceerd | Wordt opvulwoord — zeg wàt genuanceerd is | [beschrijf de nuance concreet] |
-| uitgebreid | Vage kwalificering ("comprehensive") | [beschrijf de reikwijdte specifiek] |
-| proactief | Modebegrip | [beschrijf de concrete actie] |
-| integraal | Containerbegrip | volledig, als geheel, [beschrijf wat erbij hoort] |
-| zodoende | Archaïsch transitiewoord | zo, daardoor, daarmee |
-| passie / passievol | Overgebruikt in AI-teksten | [beschrijf gedrag of motivatie concreet] |
-| verheugd | Te formeel, AI-kenmerk | blij, tevreden, positief over |
-| in veel gevallen | Vage kwantificeerder — ChatGPT-signaal | [geef een concrete context of percentage] |
-| in sommige gevallen | Idem | in bepaalde situaties [omschrijf welke] |
-| in zekere mate | Vage graadaanduiding | [beschrijf precies in welke mate] |
-| biedt / bieden | Hoge dichtheid is ChatGPT-signaal | [kies specifieker: geeft, levert, maakt mogelijk] |
-
-### Niveau 3 — Context-Afhankelijk
-Acceptabel in kleine hoeveelheden. Verdacht als dichtheid boven 3% van de tekst uitkomt.
-
-| AI-woord | Waarschuwing |
-|----------|-------------|
-| belangrijk | Wordt snel een opvulwoord — zeg waarom het belangrijk is |
-| effectief | Zeg waarvoor of waarom |
-| uniek | Leg uit wat er uniek aan is |
-| waardevol | Vage loftuiting — geef concrete waarde |
-| opmerkelijk | Zeg wat er opmerkelijk is |
-| substantieel | Geef een maat |
-| uiteraard | Impliceert dat de lezer het al weet — weglaten of toelichten |
-| vanzelfsprekend | Idem |
-
----
-
-## Categorie 2: Formulaïsche Structuren
-
-AI gebruikt herkenbare opbouwpatronen. Vermijd deze in academische teksten.
-
-### Verboden openingszinnen en -patronen
-
-**Type 1 — Brede aanloop:**
-- "In de huidige samenleving..."
-- "Tegenwoordig is het duidelijk dat..."
-- "In de afgelopen jaren is er veel veranderd op het gebied van..."
-- "Het onderwerp van dit rapport is actueler dan ooit..."
-- "In een wereld waar..."
-- "In het huidige tijdperk..."
-- "Het is belangrijker dan ooit..."
-- "In de hedendaagse maatschappij..."
-- "In een steeds veranderende wereld/samenleving/context..."
-- "In deze tijd van [onderwerp]..."
-
-**Type 2 — Aankondiging van wat je gaat doen:**
-- "In dit rapport wordt onderzocht..."
-- "Dit rapport richt zich op..."
-- "Het doel van dit rapport is..."
-- "In dit hoofdstuk zal ik bespreken..."
-- "Hieronder volgt een overzicht van..."
-- "Allereerst wordt ingegaan op..."
-
-**Type 2b — Contextuele frames:**
-Formuleringen die een zin inleiden als algemeen kader, zonder specifieke inhoud toe te voegen.
-- "Tegen deze achtergrond..."
-- "Vanuit een [bijvoeglijk naamwoord] perspectief..."
-- "In brede zin kan worden gesteld dat..."
-- "In het algemeen kan worden gesteld dat..."
-- "In algemene zin wordt/kan worden..."
-
-**Type 3 — Samenvatting van wat je net hebt gezegd:**
-- "Kortom, het is duidelijk dat..."
-- "Al met al kan gesteld worden dat..."
-- "Zoals eerder vermeld..."
-- "Op basis van het voorgaande kan geconcludeerd worden dat..."
-- "Bovenstaande analyse toont aan dat..."
-- "Aan de hand van het bovenstaande..."
-- "Samenvattend kan worden gesteld dat..."
-- "Vanuit een algemeen perspectief lijkt/is/kan..."
-- "Het mag duidelijk zijn dat..."
-- "Op basis van de geraadpleegde bronnen/de literatuur kan worden gesteld/geconcludeerd..."
-
-**Waarom zijn dit problemen?**
-Ze zeggen niets. Ze kondigen aan in plaats van te doen. Begin direct met de inhoud.
-
-### Verdachte constructies (gebruik bewust, niet automatisch)
-- Driedelige opsommingen als generiek vangnet: "X is van belang voor A, B en C" — vermoedelijk AI als de drie elementen ook voor alles anders zouden gelden
-- "Enerzijds... anderzijds..." — niet verboden, maar AI gebruikt het altijd; gebruik het alleen als je er ook echt een standpunt aan koppelt
-- Elke alinea begint met hetzelfde woord: Bovendien... / Tevens... / Daarnaast... — varieer
-
----
-
-### Em Dash (—)
-
-De em dash (—) is een Engels leesteken dat in Nederlandse teksten niet thuishoort.
-Toch gebruiken AI-modellen het consequent, omdat ze voornamelijk op Engelstalige data zijn getraind.
-
-**Regel:** Gebruik nooit een em dash of gedachtestreepje in lopende tekst.
-- Vervang `—` en ` - ` door een komma, punt of splits de zin
-- Meer dan één em dash in een tekst is een directe AI-indicator
-
-**Voorbeelden:**
-- Slecht: `Werkstress — een groeiend probleem — heeft gevolgen voor studenten.`
-- Goed: `Werkstress, een groeiend probleem, heeft gevolgen voor studenten.`
-- Goed: `Werkstress is een groeiend probleem. Het heeft gevolgen voor studenten.`
-
----
-
-### Vage Bronvermelding
-
-AI claimt feiten zonder bronnen te noemen. Dit is zowel een AI-patroon als een APA-overtreding.
-
-**Verboden formuleringen (zonder citatie):**
-- "Uit onderzoek blijkt dat..."
-- "Experts stellen dat..."
-- "Studies tonen aan dat..."
-- "Het is algemeen bekend dat..."
-- "Wetenschappers zijn het erover eens dat..."
-- "Onderzoek wijst uit dat..."
-- "Eerdere studies laten zien dat..."
-- "In de literatuur wordt gesteld/beschreven/aangegeven dat..."
-- "Studies laten zien dat..."
-- "Onderzoeken tonen aan dat..."
-- "Er is aangetoond/bewezen dat..." (zonder citatie)
-- "Men stelt/weet/zegt dat..."
-- "Het is aangetoond/bewezen dat..."
-- "Eerder onderzoek laat zien/toont aan dat..."
-- "Uit diverse/verschillende/meerdere studies blijkt..."
-
-**Regel:** Elke feitelijke claim heeft een bronvermelding. Geen bron? Geen claim.
-
----
-
-### Generieke Conclusies
-
-AI eindigt alinea's en secties met vage afsluiters. Ze klinken concluderend maar zeggen niets.
-
-**Verboden afsluiters:**
-- "De toekomst ziet er rooskleurig uit."
-- "De mogelijkheden zijn eindeloos."
-- "Naar een hoger niveau tillen."
-- "Er liggen grote kansen."
-- "Dit vraagt om verdere aandacht." (zonder te specificeren welke)
-- "Dit is slechts het begin."
-
-**Regel:** Eindig met een concrete bevinding, cijfer of vraag — niet met een platitude.
-
----
-
-## Categorie 3: Statistische Indicatoren
-
-*Gebaseerd op Humanizer's burstiness, type-token ratio en n-gram analyse — taalkundig universeel, dus direct toepasbaar op Nederlands.*
-
-### Zinslengtevariatie (Burstiness)
-
-AI schrijft uniform. Mensen schrijven met variatie.
-
-**AI-patroon (slecht):**
-> Het klimaat verandert door menselijke activiteiten. De uitstoot van CO2 neemt toe. Dit heeft gevolgen voor de temperatuur. De zeespiegel stijgt als gevolg hiervan.
-
-Alle zinnen: 8–12 woorden. Monotoon ritme.
-
-**Menselijk patroon (goed):**
-> Het klimaat verandert. Dat is geen nieuws meer — de wetenschap is er al decennia duidelijk over. Maar wat wél nieuw is, is de snelheid: CO2-uitstoot is de afgelopen twintig jaar verdubbeld, en de Arctische ijskappen smelten sneller dan zelfs de meest pessimistische modellen voorspelden.
-
-Zinslengte: 3 woorden / 17 woorden / 29 woorden — hoge variatie.
-
-**Richtlijn:**
-- Kort (< 10 woorden): bewust inzetten voor nadruk of pauze
-- Middellang (10–20 woorden): meest voorkomend
-- Lang (20–35 woorden): voor complexe gedachten met subclaims
-- **Na een lange zin: korte zin. Na een korte zin: middellange of lange.** Nooit vijf zinnen op rij van gelijke lengte.
-
-### Woordenschatvariatie (Type-Token Ratio — TTR)
-
-TTR = unieke woorden ÷ totaal woorden. Menselijk schrijven: 0.50–0.70. AI-schrijven: 0.30–0.50.
-De tool waarschuwt bij TTR < 0.45.
-
-AI herhaalt dezelfde woorden. Mensen gebruiken synoniemen en omschrijvingen.
-
-**Slecht:**
-> De organisatie heeft een duurzaam beleid. De organisatie implementeert dit beleid actief. Het beleid van de organisatie is gericht op...
-
-**Goed:**
-> Het bedrijf heeft duurzaamheid hoog op de agenda. Dit beleid omvat concrete maatregelen voor energiereductie. Het concern heeft daarvoor...
-
-**Richtlijn:** Gebruik niet meer dan twee keer hetzelfde zelfstandig naamwoord in één alinea als er synoniemen beschikbaar zijn.
-
-### N-gram Repetitie
-
-AI-tekst bevat herhalende woordcombinaties.
-
-**Controleer:**
-- Begint elke alinea met hetzelfde woord? (Bovendien / Tevens / Daarnaast)
-- Gebruik je steeds dezelfde bijvoeglijk naamwoord + zelfstandig naamwoord combinaties?
-- Herhalen zinsopeningen zich over de tekst? ("Het is belangrijk dat... / Het is duidelijk dat...")
-
-**Actie:** Varieer bewust de alineaopeningen en de woordcombinaties.
-
-### Flesch-Douma Score als AI-signaal
-
-**Nieuw geïmplementeerd (Fase 2).** ChatGPT schrijft standaard op wetenschappelijk niveau (Flesch-Douma < 30), zonder sturing. Voor HBO-rapporten is dit een sterk detectiesignaal.
-
-- **Norm HBO:** score 30–50 (schaal 0–100, hoger = toegankelijker)
-- **< 30:** te formeel/complex — sterk AI-signaal, weegt zwaar mee in risicoscore (+2 pt)
-- **> 65:** te eenvoudig — niet passend voor academisch register
-
-De tool berekent de score intern — geen aparte `readability_nl.py` aanroep nodig in humanizer.
-
-**Globale CV-check (zinslengtevariatie over hele tekst):**
-- `CV < 0.30` (coefficient of variation) over ≥10 zinnen = extra AI-signaal (+1 pt)
-- Menselijk schrijven heeft typisch CV > 0.40
-- Gecombineerd met lokale ritme-runs: max +2 pt voor zinsritme
-
-### Flesch-Douma Plafond bij Technisch Jargon
-
-De Flesch-Douma formule is: `206,835 - 0,93 × ASL - 77 × ASW`
-
-Bij technische domeinen (cybersecurity, medisch, juridisch) is ASW structureel hoog (2.0+) door lange vaktermen. Dit beperkt de maximaal haalbare Flesch-score:
-
-| ASW (lettergrepen/woord) | Domein | Flesch 30 vereist ASL | Flesch 35 vereist ASL |
-|--------------------------|--------|----------------------|----------------------|
-| 2.04 | Pentest / cybersecurity | ~21 | ~16 (te kort) |
-| 1.80 | Technisch HBO | ~19 | ~13 (te kort) |
-| 1.60 | Standaard HBO | ~24 | ~19 |
-
-**Richtlijn:** Bij ASW ≥ 2.0, accepteer Flesch-Douma scores tot 25 zonder verdere zinssplitsing te forceren. Focus dan op zinshelderheid in plaats van de score. `readability_nl.py` geeft bij `gemiddelde_lettergrepen_per_woord ≥ 2.2` al de melding "Lage score is vermoedelijk domeinspecifiek."
-
----
-
-## Categorie 4: Communicatievormen
-
-**Geïmplementeerd als Categorie 19** in `tools/humanizer_nl.py` (Categorie 20 = alinea-lengtevariatie). AI communiceert soms als "helpful assistant" in plaats van als auteur. Dit is bijzonder zichtbaar in academische teksten.
-
-### Vermijd altijd in academische tekst
-- Directe aanspreken van de lezer: "U kunt zien dat...", "Zoals u wellicht weet...", "U begrijpt..."
-- Vragen als retorisch hulpmiddel: "Maar wat betekent dit eigenlijk?" — schrijf het antwoord direct
-- Meta-commentaar op de tekst: "Dit is een interessante bevinding", "Het is opvallend om te zien dat..."
-- Chatbot-uitingen: "Ik hoop dat dit helpt", "Laat me weten als...", "Voel je vrij om..."
-- AI-verantwoording: "Als taalmodel kan ik...", "Op basis van mijn training..."
-
----
-
-## Categorie 5: Vullingszinnen
-
-Zinnen die ruimte innemen maar niets zeggen. **Altijd verwijderen.**
-
-- "Dit is een relevant onderwerp."
-- "Er is veel geschreven over dit thema."
-- "Het spreekt voor zich dat..."
-- "Uiteraard is dit slechts één van de mogelijke perspectieven."
-- "Vanzelfsprekend zijn er ook andere invalshoeken mogelijk."
-- "Dit rapport tracht een bijdrage te leveren aan..."
-- "Een goede definitie is hier op zijn plaats."
-- "Alvorens verder te gaan, is het nuttig om..."
-- "Het is interessant om op te merken dat..."
-- "Het is belangrijk om te benadrukken dat..."
-- "Er dient rekening mee gehouden te worden dat..."
-- "Zoals eerder vermeld..."
-- "Zoals al aangegeven..."
-- "Naar verwachting zal/blijft..."
-- "In de toekomst naar verwachting..."
-- "...zal in de toekomst ... blijven." (vage toekomstplatitude)
-
----
-
-## Categorie 6: Actief vs. Passief
-
-### Passief is AI-achtig als het wordt gebruikt om vaagheid te creëren
-
-**Vaag passief (slecht):**
-> Er wordt geconcludeerd dat... / Het werd vastgesteld dat... / Er kan worden gesteld dat... / Het is aangetoond dat...
-
-**Actief en specifiek (goed):**
-> De onderzoeker concludeert dat... / Uit het experiment blijkt dat... / De resultaten tonen aan dat... / CBS (2023) stelt dat...
-
-### Passief is toegestaan wanneer:
-- De handelende persoon onbekend of irrelevant is: "De data werden verzameld via enquêtes"
-- Het wetenschappelijk gebruik in het vakgebied passief vereist (bijv. chemie, geneeskunde)
-- Je bewust de nadruk op de handeling legt, niet op de actor
-
-**Richtlijn:** Als je passief gebruikt, vraag jezelf dan: weet ik wie of wat handelt? Als ja, schrijf dan actief.
-
----
-
-## Risicoscore Drempelwaarden
-
-De `tools/humanizer_nl.py` berekent een risicoscore op basis van gedetecteerde patronen. Elk patroon levert 1 punt op (Flesch-Douma < 30 = +2 pt). **Het `score` veld in de `--json` output bevat alle penalties al, inclusief de Flesch-Douma bonus. Gebruik dit getal direct als `--patronen` waarde. Tel NOOIT handmatig een Flesch-Douma penalty bij de score op.**
-
-| Score | Risiconiveau | Betekenis |
-|-------|-------------|-----------|
-| 0–2 | Laag | Weinig of geen AI-patronen — tekst kan worden ingediend |
-| 3–6 | Gemiddeld | Meerdere AI-signalen — herschrijf gemarkeerde alinea's |
-| 7+ | Hoog | Sterke AI-indicatie — structureel herschrijven aanbevolen |
-
-**Let op:** De drempels zijn aangepast van de oorspronkelijke 6+ (Hoog) naar 7+ om ruimte te houden voor de extra detectiecategorieën (Type 2b, vage bronvermeldingen, alinea-variatie) zonder goede teksten te onterecht als "Hoog" te markeren.
-
-### Puntentelling per categorie
-
-De onderstaande tabel toont exact hoeveel punten elke categorie bijdraagt aan de risicoscore (`calculate_score()` in humanizer_nl.py):
-
-| Categorie | Punten | Conditie |
-|-----------|--------|----------|
-| Niveau 1-woorden | min(n, cap) | Cap = 3 + (woordenaantal - 1000) / 500 |
-| Niveau 2-dichtheid | n | Elk woord boven dichtheidsdrempel |
-| Niveau 3-dichtheid | 1 | Als er bevindingen zijn |
-| Formulaïsche openers | n | Per gevonden opener |
-| Opvulzinnen | min(n, 2) | Max 2 punten |
-| Zinsritme (lokaal) | 1 | Als 5+ opeenvolgende zinnen vergelijkbare lengte |
-| Zinsritme (globaal CV) | 1 | Als CV < 0.30 over hele tekst |
-| Herhalende para_starters | 1 | Als gevonden |
-| Zinsstarter-variatie | 1 | Als 3+ opeenvolgende zinnen met zelfde woord |
-| Em-dashes | min(n, 2) | Max 2 punten |
-| Vage bronvermelding | min(n, 2) | Max 2 punten |
-| Passief-dichtheid | 2 als ≥60%, 1 als ≥40% | Gradient scoring |
-| Connector-dichtheid | 2 als ≥50%, 1 als ≥30% | Gradient scoring |
-| Bijvoeglijk stapelen | 1 | Als 3+ opeenvolgende adjectieven |
-| Tricolon | 1 | Als ≥5x of buzz-tricolon (2+ N1/N2 woorden) |
-| MATTR | 1 | Als < 0.60 |
-| Oxford comma | 1 | Als ≥2 gevonden |
-| Anglicismen | min(n_uniek, 2) | Max 2 punten |
-| Flesch-Douma < 30 | 2 | Sterk AI-signaal |
-| Communicatievormen | min(n, 2) | Max 2 punten |
-| Alinea-variatie | 1 | Als CV < 0.25 |
-
-**Theoretisch maximum:** ~30+ punten. In de praktijk scoren zelfs AI-teksten zelden boven 15.
-
----
-
-## Snelcheck: Is Deze Zin AI?
-
-Stel jezelf bij elke verdachte zin de volgende vijf vragen:
-
-1. **Staat er een Niveau 1-woord in?** → Vervang het altijd
-2. **Zegt de zin iets specifieks?** Als het ook over een compleet ander onderwerp zou kunnen gaan, is het te vaag → Concretiseer
-3. **Is het een aanloopzin?** Kondigt het aan wat er gaat komen in dezelfde paragraaf? → Verwijder, begin direct
-4. **Is dit de derde (of meer) zin op rij van ongeveer gelijke lengte?** → Varieer de zinslengte
-5. **Begint de derde alinea op rij met hetzelfde woord?** (Bovendien / Tevens / Daarnaast) → Varieer de alineaopening
-
----
-
-## Praktijkvoorbeeld: Voor en Na
-
-### Originele tekst (AI-gegenereerd)
-> In de huidige samenleving speelt duurzaamheid een cruciale rol. Het is duidelijk dat organisaties in toenemende mate aandacht besteden aan dit onderwerp. Bovendien biedt duurzaamheid kansen en uitdagingen voor bedrijven. Er dient rekening mee gehouden te worden dat de implementatie van duurzaam beleid aanzienlijke investeringen vereist.
-
-**Geïdentificeerde problemen:**
-- "In de huidige samenleving" — verboden openingszin (Type 1)
-- "speelt een cruciale rol" — Niveau 1 AI-cliché
-- "Het is duidelijk dat" — vullingszin
-- "in toenemende mate" — vage tijdsindicator
-- "Bovendien" — overgebruikt connectief aan het begin van een zin
-- "biedt kansen en uitdagingen" — nietszeggend managementcliché (Niveau 1)
-- "Er dient rekening mee gehouden te worden" — passieve vullingszin
-- "aanzienlijke investeringen" — vage kwantificering (Niveau 1)
-- Alle zinnen: 11–14 woorden — geen variatie
-
-### Herschreven versie
-> Duurzaamheid staat hoog op de agenda van Nederlandse bedrijven. Dat is geen toeval: de EU-taxonomie verplicht bedrijven vanaf 2025 om klimaatrisico's in hun jaarverslag op te nemen. Maar de kosten zijn reëel. Uit onderzoek van PwC (2023) blijkt dat een gemiddeld mkb-bedrijf tussen de €50.000 en €200.000 investeert bij de eerste stap naar een CO2-neutraal bedrijfsmodel.
-
-**Verbeteringen:**
-- Direct inhoudelijk begin (geen aanloop)
-- Concrete reden (EU-taxonomie, 2025) vervangt vage tijdsindicator
-- Actieve constructies
-- Specifiek cijferbereik vervangt "aanzienlijk"
-- Zinslengte: 9 / 22 / 6 / 26 woorden — hoge burstiness
-
----
-
-## Nederlandse AI-Frases: Snelreferentie
-
-Gebruik dit als woordenlijst voor automatische detectie (beschikbare `tools/humanizer_nl.py`).
-
-### Frases om te vermijden (regex-detecteerbaar)
-
-```
-in de huidige samenleving
-in de hedendaagse maatschappij
-in een steeds veranderende (wereld|samenleving|context)
-in het huidige tijdperk
-tegenwoordig is het duidelijk dat
-in de afgelopen jaren
-speelt een (cruciale|centrale|sleutel|belangrijke|essentiële) rol
-biedt kansen en uitdagingen
-het is (duidelijk|evident|belangrijk|essentieel|cruciaal) (om|dat)
-er dient rekening mee gehouden te worden
-het spreekt voor zich
-zoals eerder vermeld
-op basis van het voorgaande
-al met al kan (gesteld|geconcludeerd) worden
-bovenstaande (analyse|bevindingen) (tonen|laten) aan
-in toenemende mate
-een breed scala aan
-in het kader van
-met betrekking tot
-ten aanzien van
-alvorens verder te gaan
-het is interessant om op te merken
-tegen deze achtergrond
-vanuit een \w+ perspectief
-samenvattend kan worden gesteld dat
-het mag duidelijk zijn dat
-eerdere studies laten zien dat
-in de literatuur wordt (gesteld|beschreven|aangegeven)
-naar verwachting zal
-in de toekomst naar verwachting
-```
-
-### Losse woorden om te tellen (Niveau 1 — altijd vervangen)
-
-```
-cruciaal, essentieel, baanbrekend, toonaangevend, naadloos, optimaliseren,
-benutten, ontsluiten, synergie, verdiepen, holistische, grondig, aanzienlijk,
-inzichten, uitdaging, dynamisch, innovatief, landschap,
-duiken, duiken in, scala, betekenisvol, diepgaand, transformatief, katalysator,
-speerpunt, robuust, faciliteert, demonstreert, onderstreept, weerspiegelt, stroomlijnen,
-fosteren, testament aan, impact hebben op
-```
-
-### Anglicismen (Categorie 7 — altijd vervangen)
-
-```
-duiken in, het landschap van, fosteren, stakeholders, impact hebben op,
-testament aan, het speelveld, synergie creëren, leverage, benchmarken
-```
-
-### Oxford Comma patroon (Categorie 8 — altijd verwijderen)
-
-```
-Patroon: [woord], [woord], en [woord]
-Detectie regex: \b\w{2,}\s*,\s*\w{2,}\s*,\s+en\s+\w{2,}\b
-Correctie: verwijder de komma voor 'en'
-```
-
-### Losse woorden om te tellen (Niveau 2 — max 1x per 500 woorden)
-
-```
-bovendien, tevens, echter, desalniettemin, voorts, derhalve, aldus,
-significant, duidelijk, evident, uiteraard, vanzelfsprekend, complexiteit,
-genuanceerd, uitgebreid, proactief, integraal, zodoende, passie, verheugd,
-in veel gevallen, in sommige gevallen, in zekere mate, biedt, bieden
-```
-
----
-
-## Aanvullende Detectiecategorieën (Tool: 10–16, 20)
-
-`tools/humanizer_nl.py` controleert naast de bovenstaande secties ook op de volgende technische categorieën. De nummers verwijzen naar de interne toolnummering.
-
-### Categorie 10 — Zinsstarter-diversiteit
-Binnen een alinea mogen niet meer dan drie opeenvolgende zinnen met hetzelfde woord beginnen. "Daarnaast" als veelvuldig gebruikte opener wordt apart gesignaleerd.
-
-### Categorie 11 — Passief-dichtheid
-AI genereert overmatig passieve constructies. De tool waarschuwt bij meer dan 40% passieve zinnen. Herschrijf passief naar actief waar de handelende persoon bekend is.
-
-### Categorie 12 — Connector-dichtheid
-AI begint zinnen overmatig met connectors (bovendien, tevens, daarnaast, echter, etc.). De tool waarschuwt als meer dan 30% van de zinnen met een connector begint. Varieer zinsopeningen.
-
-### Categorie 13 — Bijvoeglijk-naamwoordstapeling
-AI stapelt meerdere bijvoeglijke naamwoorden: "een innovatief, baanbrekend en transformatief project". Kies het belangrijkste bijvoeglijk naamwoord of beschrijf eigenschappen in aparte zinnen.
-
-### Categorie 14 — Tricolon-detectie
-Driedelige opsommingen ("A, B en C") zijn een AI-patroon bij herhaling (4+ keer in een tekst). Wissel af met twee- of vierdelige opsommingen.
-
-### Categorie 15 — MATTR (Moving Average Type-Token Ratio)
-Verbeterde versie van TTR die onafhankelijk is van tekstlengte. Venster van 50 woorden. Menselijk schrijven: 0.65–0.80. AI-schrijven: 0.50–0.65. Waarschuwing bij MATTR < 0.60.
-
-### Categorie 16 — Proportionele Niveau 1-scoring
-Schaalt de Niveau 1-woordscore met de documentlengte zodat kortere teksten niet automatisch laag scoren. Voorkomt dat een tekst van 100 woorden met één Niveau 1-woord hetzelfde telt als een tekst van 1.000 woorden.
-
-### Categorie 20 — Alinea-lengtevariatie
-
-ChatGPT genereert alinea's van gelijkmatige lengte. Menselijk schrijven varieert sterk per alinea.
-
-De tool berekent de Coefficient of Variation (CV) over alle alinea's van ≥ 30 tekens, bij minimaal 4 alinea's.
-
-- **CV < 0.25** over ≥ 4 alinea's → uniformiteitsignaal (+1 punt in risicoscore)
-- **CV > 0.40** → gezonde variatie, geen signaal
-
-**Interpretatie:** Als alle alinea's gemiddeld 60–80 woorden lang zijn met weinig onderlinge spreiding, wijst dat op AI-schrijven. Mensen variëren: een korte alinea van 2 zinnen na een uitgebreide van 10 zinnen is normaal.
-
-**Actie bij signaal:** Voeg bewust een korte alinea toe (1–2 zinnen) voor nadruk, of splits een te lange alinea op in een substantieel deel en een samenvattende slotzin.
-
----
-
-## Categorie 7: Directe Engelse Vertalingen (Anglicismen) — Tool Categorie 18
-
-AI-modellen zijn voornamelijk op Engelse data getraind. Ze vertalen Engelse constructies letterlijk naar het Nederlands. De tekst is grammaticaal correct maar klinkt on-Nederlands.
-
-### Veelvoorkomende AI-anglicismen in Nederlandse teksten
-
-| Anglicisme | Engelse bron | Correct Nederlands |
+# Humaniseren (Nederlands)
+
+Humaniseren betekent: een tekst laten klinken alsof iemand hem schreef die het onderwerp kent en iets te zeggen
+heeft. Dat is meestal ook de schrijver zelf. Het resultaat is een betere tekst: preciezer, persoonlijker,
+prettiger om te lezen. De inhoud verandert niet. Feiten, cijfers, namen, citaten en bronnen blijven precies
+zoals ze waren.
+
+De woordenlijsten staan in `gidsen/data/tells_nl.yaml`; `dq tells` gebruikt ze. Deze gids legt uit wat erachter
+zit en wat de scripts niet kunnen zien.
+
+## 1. Werkwijze
+
+1. **Stem eerst.** Is er een stemprofiel (`stemprofiel.md` of `.dutchquill/stem.json` in de werkmap), lees dat
+   dan voordat je één woord verandert. Wat de schrijver zelf doet, gaat voor elke regel in deze gids: gebruikt
+   iemand graag gedachtestreepjes, korte zinnen of "kortom", dan blijft dat. Zonder stemprofiel volg je het genre
+   en de toon (`toon.md`).
+2. **Markeer.** Draai `dq tells` met het juiste genre. Lees daarna zelf: de scripts tellen woorden en patronen,
+   maar zien niet of een zin iets zegt.
+3. **Herschrijf** per patroon (sectie 3). Begin bij de sterkste patronen. Verander niet meer dan nodig: een
+   goede zin met één zwak woord laat je staan.
+4. **Controleer.**
+   - Draai `dq tells --compare` (de score moet omlaag) en `dq feiten --origineel ... --nieuw ...`.
+   - Er mag niets verloren gaan en niets bijkomen.
+   - Kijk ook of je niet bent doorgeslagen naar het andere uiterste: alleen korte zinnen, geen enkele
+     verbinding meer, overal punten.
+5. **Eindversie.** Lees hem een keer als de lezer. Klinkt het als een mens die dit onderwerp kent?
+
+## 2. Wanneer niet ingrijpen
+
+- **Tekst van vóór december 2022**: die kan geen AI-tekst zijn. Verbeter de stijl als dat gevraagd is, maar
+  noem niets een AI-patroon.
+- **Informele tekst met één tell**: één "bovendien" in een mail is geen probleem.
+- **Vaktermen en vaste combinaties**: "robuuste schatting" (statistiek), "essentiële aminozuren" (biologie),
+  "integrale aanpak" als het de officiële naam van een beleid is.
+- **Eigenaardigheden van de schrijver**: een ongewone woordkeus, een uitweiding, gemengde gevoelens, een
+  zijpad. Dat zijn juist tekenen van een mens. Laat ze staan.
+- **Citaten**: verander nooit iets binnen aanhalingstekens.
+- **Woorden in `eigen-regels.md` onder "Juist wel"**.
+
+## 3. De patronen
+
+### A. Woordkeus
+
+**Sterke tells** zijn woorden die in gewone Nederlandse tekst bijna nooit voorkomen en in AI-tekst juist veel:
+cruciaal, naadloos, synergie, holistische aanpak, baanbrekend, toonaangevend, transformatief, katalysator,
+"duiken in", "het landschap van", "een breed scala aan", "speelt een cruciale rol", "rijk tapijt". Een keer is
+genoeg om te kijken.
+
+**Zwakke tells** zijn gewone woorden die AI te vaak gebruikt: essentieel, robuust, aanzienlijk, inzichten,
+benutten, optimaliseren, proactief, in het kader van, met betrekking tot, kortom. Eén zo'n woord zegt niets.
+Drie verschillende in dezelfde alinea vormen een **cluster**, en dat klinkt wel als AI.
+
+**Woorden wisselen per modelgeneratie.** Lijsten verouderen; daarom worden ze maandelijks bijgewerkt.
+
+| Tijdperk | Engels (Wikipedia) | Nederlandse tegenhanger |
 |---|---|---|
-| duiken in / laten we duiken | "delve into / let's dive in" | analyseer, onderzoek, bekijk nader |
-| het landschap van | "the landscape of" | de sector, het veld, de markt — of wees specifiek |
-| fosteren | "to foster" | bevorderen, stimuleren, aanmoedigen |
-| stakeholders | "stakeholders" | betrokkenen, belanghebbenden — of omschrijf de groep |
-| impact hebben op | "to have an impact on" | invloed hebben op, effect hebben op |
-| testament aan | "a testament to" | bewijs van, aanwijzing voor |
-| het speelveld | "the playing field" | de sector, de markt — of wees specifiek |
-| synergie creëren | "to create synergy" | samenwerken, combineren |
-| leverage | "leverage" | hefboom, voordeel, gebruik |
-| benchmarken | "to benchmark" | vergelijken met, afmeten aan |
+| GPT-4 (2023-2024) | delve, tapestry, underscore, pivotal | duiken in, rijk tapijt, onderstrepen, cruciaal |
+| GPT-4o (2024-2025) | align with, enhance, showcasing, serves as | in lijn met, versterken, laten zien, fungeert als |
+| GPT-5 (2025) | emphasizing, highlighting | benadrukken, belichten |
+| vanaf medio 2026 | leverage, multifaceted, quietly, dependable | inzetten op, veelzijdig, stilletjes, betrouwbaar |
 
-**Waarom dit werkt als detectiesignaal:** Nederlanders schrijven geen "fosteren" of "testament aan" — dit zijn directe vertalingen die een native speaker niet zou gebruiken. Hoe meer van deze constructies in één tekst, hoe hoger de kans op AI-origine.
+**"Is" vermijden** is ook een tell: "fungeert als", "dient als", "beschikt over", "pronkt met" waar gewoon
+"is" of "heeft" kan.
 
-**Actie:** Vervang altijd door het Nederlandse equivalent. Bij twijfel: zou een HBO-student dit woord gebruiken als ze het zelf typen (niet als ze AI parafraseren)? Zo niet, vervang het.
+**Vage verbanden** (sinds 2026 een van de duidelijkste tells): "in verband met", "gerelateerd aan",
+"geassocieerd met". Welk verband precies? Oorzaak, gevolg, onderdeel, tegenstelling? Zeg het.
 
----
+**Verborgen anglicismen**: Nederlandse woorden met Engelse zinsbouw. "Impact hebben op" (invloed hebben op),
+"het maakt sense" (het klopt), "op een dagelijkse basis" (dagelijks), "aan het eind van de dag" (uiteindelijk),
+"neemt plaats" (vindt plaats).
 
-## Categorie 8: Oxford Comma in Nederlands — Tool Categorie 17
+### B. Formules
 
-### Wat is de Oxford comma?
-
-In het Engels is de Oxford comma de komma vóór "and" in een driedelige opsomming: "cats, dogs, and birds". AI-modellen, getraind op Engelse data, gebruiken dit patroon consequent.
-
-In het Nederlands bestaat deze conventie niet. De komma vóór "en" in een opsomming is on-gebruikelijk en klinkt direct on-Nederlands.
-
-**Fout (AI-patroon):**
-> De aanpak is gericht op efficiëntie, kwaliteit, en duurzaamheid.
-
-**Correct (Nederlands):**
-> De aanpak is gericht op efficiëntie, kwaliteit en duurzaamheid.
-
-### Detectie
-
-De `tools/humanizer_nl.py` detecteert automatisch het patroon "X, Y, en Z" (komma direct vóór "en" in een driedelige opsomming). Elke occurrence is een directe AI-indicator.
-
-**Uitzondering:** In complexe opsommingen waarbij de elementen zelf komma's bevatten, is een komma vóór "en" soms nodig voor leesbaarheid. Maar in simpele driedelige opsommingen is het altijd fout.
-
----
-
-## Categorie 9: Sectietype en Acceptabele Patronen
-
-Niet alle patronen zijn in elke sectie even problematisch. Sommige detectiesignalen zijn legitiem in specifieke rapportonderdelen.
-
-| Sectie | Passief OK? | Tricolon? | Connectors? | Opmerking |
-|---|---|---|---|---|
-| Methode | Ja — standaardpraktijk | Neutraal | Beperkt | "De data werden verzameld via enquêtes" is correct academisch Nederlands |
-| Resultaten | Gedeeltelijk | Neutraal | Beperkt | Beschrijf wat data tonen, niet wie handelt |
-| Inleiding | Nee | Neutraal | Beperkt | Schrijf actief, presenteer eigen perspectief |
-| Literatuuroverzicht | Gedeeltelijk | Neutraal | Matig | Passief bij het beschrijven van andermans werk is toegestaan |
-| Discussie | Nee | Laag | Beperkt | Analyseer actief, auteursstem staat centraal |
-| Conclusie | Nee | Laag | Minimaal | Geen platitudes, eindig met concrete bevinding of aanbeveling |
-| Abstract | Nee | Laag | Minimaal | Actief, compact, specifiek |
-
-**Praktische toepassing:** Wanneer `humanizer_nl.py` passief-dichtheid signaleert, controleer dan eerst in welke sectie de tekst staat. In een methodesectie is dit normaal; in een inleiding is het een probleem.
-
-### Sectietype-specifieke passiefregels
-
-Gebruik deze regels bij het beoordelen van passief gebruik per sectietype:
-
-**Inleiding**
-- Passief: alleen als de handelende actor echt onbekend is.
-- Actief schrijven is de norm: presenteer het onderwerp, de context en de eigen positie.
-- Richtlijn: ≤ 20% passieve zinnen acceptabel.
-
-**Conclusie**
-- Passief: niet, tenzij de zin beschrijvend is over een extern feit.
-- Schrijf actief: "Dit onderzoek toont aan dat..." niet "Er werd aangetoond dat..."
-- Richtlijn: ≤ 15% passieve zinnen.
-
-**Methode / Procedure**
-- Passief is structureel acceptabel — het benadrukt objectiviteit en reproduceerbaarheid.
-- "De data werden verzameld via enquêtes" is correct academisch Nederlands.
-- Richtlijn: tot 60% passieve zinnen is normaal voor deze sectie.
-
-**Resultaten**
-- Actief voor interpretaties: "De data tonen een stijging van..."
-- Passief voor vastgestelde feiten die onafhankelijk van de auteur zijn: "Er werd een positief verband gevonden."
-- Richtlijn: 30–50% passief is gebruikelijk.
-
-**Discussie**
-- Actief als norm: de auteursstem staat centraal.
-- Passief alleen bij beschrijving van andermans bevindingen: "Eerder werd aangetoond dat..." is toegestaan.
-- Richtlijn: ≤ 30% passief.
-
-**Reflectie**
-- Eerste persoon enkelvoud ("ik") is niet alleen toegestaan maar gewenst.
-- Passief in reflectieteksten klinkt afstandelijk en ondermijnt de persoonlijke toon.
-- Richtlijn: maximaal 10% passief; voorkeur voor actief met "ik".
-
-**Technische documentatie** (bijv. CTF-challenges, installatiehandleidingen, systeembeschrijvingen)
-- Passief is structureel in dit sectietype — instructies en procedures zijn beschrijvend van aard.
-- Flag NIET als probleem wanneer de sectie technische stappen beschrijft: "De scan werd uitgevoerd met Nmap."
-- Richtlijn: passief-dichtheid van 50–70% is normaal en acceptabel.
-
-**Literatuuroverzicht**
-- Passief bij het beschrijven van andermans werk is toegestaan.
-- Actief bij het geven van eigen interpretatie of vergelijking.
-- Richtlijn: 30–50% passief.
-
-**Vaktermen:** Bepaalde wetenschappelijke termen bevatten woorden uit de Niveau 1-lijst maar zijn vakinhoudelijk correct. Zie Categorie 10 voor de whitelist.
-
----
-
-## Categorie 10: Whitelist en Uitzonderingen
-
-De `tools/humanizer_nl.py` gebruikt een whitelist om valse positieven te voorkomen. Bepaalde vaktermen bevatten Niveau 1-woorden maar zijn vakinhoudelijk legitiem.
-
-### Huidige whitelist-items (worden niet als AI-patroon gemeld)
-
-| Term | Reden voor uitzondering |
-|---|---|
-| `scala-programmeertaal` | Programmeertaal, geen vage kwantificering |
-| `essentiële aminozuren` | Biochemische vakterm |
-| `robuuste optimalisatie` | Wiskundig/statistisch vakterm |
-| `robuuste schatting` | Statistisch vakterm |
-| `essentieel hypertensie` | Medische diagnose |
-| `dynamisch programmeren` | Informatica-algoritme |
-| `kritieke pad` | Projectmanagement-vakterm |
-
-### Eigen uitzonderingen toevoegen
-
-Als een Niveau 1-woord in jouw domein een vaste technische betekenis heeft, kun je dat melden. De whitelist in het script is uitbreidbaar. Overleg met de beheerder of voeg de term toe aan het script onder `WHITELIST_NIVEAU1`.
-
-### Wat de whitelist NIET dekt
-
-De whitelist geldt alleen voor exacte vaktermcombinaties. Als je schrijft "de robuuste aanpak van het bedrijf", wordt "robuust" wel geflagged — want hier is het geen vakterm maar een vage kwalificering.
-
----
-
-## Categorie 11: Leesbaarheid vs. Humanisering
-
-### De tradeoff
-
-Agressief humaniseren kan de leesbaarheid verminderen. Kortere zinnen verhogen de burstiness (AI-score verbetert) maar kunnen de tekst gefragmenteerd laten klinken. Dit is de tradeoff die bewust gemanaged moet worden.
-
-**Doel:** burstiness (variatie in zinslengte), niet puur kortheid.
-
-| Aanpak | Effect op AI-score | Effect op leesbaarheid |
+| Soort | Voorbeelden | Wat te doen |
 |---|---|---|
-| Alle zinnen korter maken | Verbetert (meer variatie) | Verslechtert (te gefragmenteerd) |
-| Bewust korte + lange zinnen afwisselen | Verbetert | Gelijk of beter |
-| Niveau 1-woorden vervangen door alternatieven | Verbetert | Neutraal tot beter |
-| Passieven actief maken | Verbetert | Gelijk of beter |
-| Anglicismen verwijderen | Verbetert | Beter (authentieker) |
+| Brede aanloop | "In de huidige digitale wereld...", "In een tijd waarin...", "Het is geen geheim dat..." | Begin met de zaak zelf |
+| Tekst over de tekst | "In dit rapport wordt...", "Hieronder volgt een overzicht", "Laten we eens kijken naar" | Zeg het gewoon. In een academische inleiding mag één leeswijzer |
+| Afsluiter zonder inhoud | "Kortom, het is duidelijk dat...", "De toekomst ziet er rooskleurig uit", "Ondanks deze uitdagingen..." | Eindig met de laatste echte bewering, of met een concrete volgende stap |
+| Vulzin | "Het is belangrijk om op te merken dat...", "Het spreekt voor zich dat..." | Schrappen; de zin erna kan meestal alleen staan |
+| Vage bron | "Uit onderzoek blijkt...", "Experts stellen...", "Men zegt..." | Noem de bron (en bij APA: met jaartal), of schrap de bewering |
+| Chatbotrest | "Ik hoop dat dit helpt", "Laat het me weten", "Als taalmodel...", "Hier is een herschreven versie" | Altijd weg (behalve "laat het me weten" in een echte mail) |
+| Disclaimer over bronnen (2026) | "Op basis van de beschikbare informatie...", "Hoewel specifieke gegevens beperkt zijn..." | Weg; ontbreekt er iets, zeg dan concreet wat |
+| Bewerkingsverslag (2026) | "Alle informatie is behouden", "De betekenis is intact gebleven" | Weg: dat hoort niet in de tekst |
 
-### Richtlijn
+### C. Constructies
 
-- Streef naar een Flesch-Douma score van 30–50 voor HBO-rapporten (schaal 0–100, hoger = makkelijker)
-- Controleer na humanisering altijd ook de Flesch-Douma score via `tools/readability_nl.py`
-- Als de Flesch-Douma score daalt terwijl de humanizer-score verbetert, zijn de zinnen te kort of te gefragmenteerd geworden
-- Gebruik `--compare` mode in `humanizer_nl.py` om voor/na te vergelijken: `python3 tools/humanizer_nl.py --compare origineel.txt herschreven.txt`
+- **Niet X, maar Y** ("Het is niet alleen een tool, maar een manier van werken"). Sterkste structurele tell
+  sinds 2024. Zeg wat het wél is. Eén keer in een lange tekst kan; drie keer is een patroon.
+- **Retorische aanloop** ("Het resultaat? Een snellere app."). Schrijf de zin gewoon uit.
+- **Drieslag**: alles in drieën ("snel, veilig en betrouwbaar"). Varieer met twee, vier of één, en
+  alleen als het er ook echt zoveel zijn.
+- **Opgeblazen belang**: "markeert een keerpunt", "van onschatbare waarde", "heeft het debat blijvend gevormd".
+  Wat gebeurde er concreet?
+- **Oppervlakkige bijzin aan het eind**: "..., waarmee het belang van samenwerking wordt onderstreept". Die
+  bijzin voegt een oordeel toe zonder inhoud. Schrappen, of er een eigen zin met bewijs van maken.
+- **Een gezegde dat diep klinkt**: "Uiteindelijk draait alles om mensen." Klinkt wijs, zegt niets.
+- **Herhaalde begins**: drie zinnen in een alinea met hetzelfde eerste woord, of alinea's die allemaal met
+  "Daarnaast" beginnen.
+- **Verbindingswoorden als zinsopener**: bovendien, daarnaast, echter, tevens. Meer dan een kwart van de zinnen
+  is te veel. Vaak kan het verband zonder signaalwoord, of in het midden van de zin ("Dat bleek echter...").
+- **De kop herhaald**: kop "Resultaten van de enquête", eerste zin "De resultaten van de enquête laten zien...".
+
+### D. Ritme
+
+- **Te gelijk**: alle zinnen 15 tot 20 woorden, alle alinea's vier zinnen. Mensen wisselen af.
+- **Overgecorrigeerd** (de nieuwe tell sinds 2026): nieuwere modellen en humanizer-tools hakken alles in korte
+  zinnen en vervangen elk streepje door een punt. Resultaat: "Dit werkt. Het is snel. Het team is blij." Dat
+  klinkt net zo kunstmatig. Verbind zinnen weer waar de gedachte doorloopt.
+- **Weinig woordvariatie**: hetzelfde zelfstandig naamwoord vijf keer in een alinea. Gebruik een verwijswoord
+  of formuleer anders. Ga niet krampachtig synoniemen wisselen ("de auto ... het voertuig ... de wagen"); ook
+  dat is een tell.
+
+### E. Opmaak
+
+- **Gedachtestreepje** als leesteken: tot 2025 een sterke tell, nu zwak. Vervang het als de schrijver het zelf
+  niet gebruikt.
+- **Vet als versiering** midden in een zin.
+- **Emoji** voor koppen of opsommingen, vooral in zakelijke tekst.
+- **Koppen in Engelse title case** ("De Rol Van AI In Het Onderwijs"). Nederlands: alleen de eerste letter.
+- **Opsommingen in plaats van een redenering**: als de punten op elkaar voortbouwen, schrijf dan een alinea.
+- **LinkedIn**: elke zin een eigen alinea ("broetry"), emoji-opsommingen, meer dan drie hashtags, en de
+  formule "haak, dit is wat ik leerde, drie punten, vraag aan het eind".
+
+### F. De verkeerde lezer
+
+- Uitleggen wat de lezer al weet ("E-mail is een belangrijk communicatiemiddel").
+- Schrijven over het document in plaats van over het onderwerp.
+- Een conclusie die alles nog een keer opsomt.
+
+## 4. Wat tekst menselijk maakt
+
+Patronen weghalen is de helft. Dit voegt toe:
+
+- **Specifiek**: namen, getallen, data, plaatsen. Maar alleen uit het materiaal of van de gebruiker. **Verzin
+  nooit een voorbeeld, anekdote of cijfer.** Ontbreekt er iets concreets, vraag het dan of zet `[voorbeeld nodig]`.
+- **Een standpunt**: een mens kiest. "Optie B is beter, omdat..." in plaats van "Beide opties hebben voor- en
+  nadelen." Twijfel alleen waar echt twijfel is.
+- **Gewone werkwoorden**: is, heeft, doet, maakt, zegt. "Er is" en "er zijn" mogen.
+- **Verleden tijd en een verloop** waar het genre het toelaat: wat er gebeurde, in welke volgorde. AI-tekst
+  is vaak tijdloos en algemeen.
+- **Wat onregelmatigheid**: een zin die wat langer doorloopt, een korte reactie, een bijzin tussen haakjes.
+  Een perfect gladde tekst valt juist op.
+
+## 5. Per genre
+
+| Genre | Let vooral op | Mag gewoon |
+|---|---|---|
+| Hbo-rapport | vage bronnen, formules, opgeblazen belang, aankondigingen | passief in de methode, signaalwoorden met mate, een leeswijzer in de inleiding |
+| Zakelijk rapport, SOP | aanloop, vulzinnen, vage verbanden, opsommingen zonder redenering | genummerde stappen, vaktermen, kortere zinnen in procedures |
+| Mail | chatbotresten, aanloop, te formeel voor de lezer | "laat het me weten", een korte groet, een vraag |
+| LinkedIn en social | formules, broetry, emoji-opsommingen, hashtags, retorische aanloop | ik-vorm, een mening, een korte zin voor nadruk, één emoji |
+| README | marketingtaal ("naadloos", "krachtig"), tekst over de tekst | korte zinnen, codeblokken, opsommingen voor features |
+
+## 6. Score
+
+`dq tells` geeft punten per 1000 woorden en een niveau:
+
+| Genre | Laag | Gemiddeld | Hoog |
+|---|---|---|---|
+| Rapport, SOP, README, memo (streng) | onder 4 | 4 tot 9 | 9 of meer |
+| Mail, LinkedIn, social, kort (los) | onder 6 | 6 tot 12 | 12 of meer |
+
+Doel na humaniseren: laag. Een gemiddelde score met alleen zwakke tells is vaak prima. Belangrijker dan het
+getal: zijn de sterke tells weg, is er geen cluster meer, en klopt de feitencontrole?
+
+## 7. Leesbaarheid en humaniseren
+
+Een makkelijke tekst is niet automatisch menselijk, en een moeilijke tekst niet automatisch AI. Flesch-Douma
+(`dq leesbaarheid`) is een hulpmiddel. Een hbo-rapport zit meestal tussen 30 en 50, een mail of post hoger.
+Verlaag de leesbaarheid nooit om "academischer" te klinken.
+
+## 8. Voor en na
+
+**Voor (AI):**
+
+> In de huidige digitale wereld speelt kunstmatige intelligentie een cruciale rol in het onderwijs. Het is
+> niet alleen een hulpmiddel, maar een transformatieve kracht. Bovendien biedt AI een breed scala aan
+> mogelijkheden voor gepersonaliseerd leren. Kortom, de toekomst ziet er rooskleurig uit.
+
+**Na (zelfde inhoud, met een concreet gegeven uit het materiaal van de gebruiker):**
+
+> Sinds januari mogen leerlingen op onze school AI gebruiken, als ze opschrijven waarvoor. De meesten
+> gebruiken het om bronnen te ordenen of om uitleg te krijgen bij een begrip dat ze niet snappen. Dat werkt
+> vooral goed voor leerlingen die in de les niet durven te vragen.
+
+Wat er gebeurde: de aanloop is weg, net als de niet-X-maar-Y en de afsluiter. De sterke tells (cruciaal,
+transformatief, breed scala) zijn vervangen door wat er concreet gebeurt. Het gegeven over januari kwam uit de
+notities van de gebruiker; zonder dat gegeven had de versie "[sinds wanneer?]" gevraagd.
+
+## 9. Over AI-detectoren
+
+- **Turnitin** herkent sinds 6 oktober 2026 ook Nederlandse tekst.
+- **Detectoren meten** woordkeus, voorspelbaarheid en ritme, dus grotendeels dezelfde patronen als hierboven.
+- **Onafhankelijk onderzoek** laat zien dat ze vaak fout zitten, juist ook bij mensen die in hun tweede taal
+  schrijven.
+- **DutchQuill richt zich op de tekst**, niet op een detectorscore. Een tekst die specifiek is en in de stem
+  van de schrijver staat, is gewoon een goede tekst.
+
+Is AI gebruikt bij een studieopdracht, kijk dan in `ai-gebruik.md` hoe je dat verantwoordt.
