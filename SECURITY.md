@@ -1,40 +1,45 @@
-# Beveiligingsbeleid
+<p align="right"><b>🇬🇧 English</b> · <a href="SECURITY.nl.md">🇳🇱 Dutch</a></p>
 
-## Kwetsbaarheden melden
+# Security policy
 
-Heb je een beveiligingsprobleem gevonden in DutchQuill AI? Meld het dan via een **privébericht** in plaats van een publiek issue.
+## Reporting a vulnerability
 
-### Hoe melden
+Found a security problem in DutchQuill AI? Report it **privately** instead of in a public issue.
 
-Stuur een e-mail naar de beheerder of gebruik [GitHub Security Advisories](https://github.com/nickyjacobs/DutchQuill-AI/security/advisories/new) om een privémelding te doen. Beschrijf:
+### How to report
 
-- Wat het probleem is
-- Hoe je het kunt reproduceren
-- Welke bestanden of tools betrokken zijn
+Use [GitHub Security Advisories](https://github.com/nickyjacobs/DutchQuill-AI/security/advisories/new) to send a
+private report, or email the maintainer. Describe:
 
-### Wat je kunt verwachten
+- What the problem is
+- How to reproduce it
+- Which files or tools are involved
 
-- Bevestiging van ontvangst binnen 7 dagen
-- Een inschatting van de impact en een oplossingsvoorstel
-- Een update zodra de fix beschikbaar is
+### What you can expect
+
+- Confirmation of receipt within 7 days
+- An assessment of the impact and a proposed fix
+- An update as soon as the fix is available
 
 ### Scope
 
-Dit beleid geldt voor de code in deze repository: de plugin (skills, agents, hook), de Python-scripts en DutchQuill Studio. Het geldt niet voor Anthropic's API of Claude Code zelf.
+This policy covers the code in this repository: the plugin (skills, agents, hook), the Python scripts and DutchQuill
+Studio. It does not cover Anthropic's API or Claude Code itself.
 
-## Wat DutchQuill zelf doet
+## What DutchQuill itself does
 
-- DutchQuill Studio luistert alleen op 127.0.0.1, met een eenmalig token, en controleert Host en Origin.
-- Webverzoeken gaan alleen naar de hosts in `.claude-plugin/plugin.json` (`network.hosts`): PyPI (de eenmalige
-  installatie van de Python-pakketten), LanguageTool (alleen als je die aanzet) en de bronnen van
-  `/dutchquill:bijwerken`.
-- Interne adressen (localhost, privé-IP's) in je materiaal worden nooit automatisch opgehaald.
+- DutchQuill Studio only listens on 127.0.0.1, with a one-time token, and checks Host and Origin.
+- Web requests only go to the hosts in `.claude-plugin/plugin.json` (`network.hosts`): PyPI (the one-time
+  installation of the Python packages), LanguageTool (only if you switch it on) and the sources of
+  `/dutchquill:bijwerken`. The [privacy policy](docs/privacy.md) lists what goes where.
+- Internal addresses (localhost, private IPs) in your material are never fetched automatically.
 
 ## Dependencies
 
-De Python-pakketten staan in `requirements.txt` en worden in een eigen venv in de datamap van de plugin
-geïnstalleerd. Dependabot scant ze op bekende kwetsbaarheden.
+The Python packages are listed in `requirements.txt` and installed in a separate venv in the plugin's data folder.
+Dependabot scans them for known vulnerabilities.
 
-## Verantwoorde openbaarmaking
+## Responsible disclosure
 
-Maak een kwetsbaarheid niet publiek voordat er een fix beschikbaar is. Na de fix wordt de kwetsbaarheid vermeld in de release notes van de eerstvolgende versie.
+Don't make a vulnerability public before a fix is available. After the fix, the vulnerability is mentioned in the
+release notes of the next version.

@@ -10,7 +10,7 @@
 
 De versie staat op drie plekken: `.claude-plugin/plugin.json`, `scripts/dutchquill/__init__.py` en
 `pyproject.toml`. Alle drie moeten gelijk zijn aan de nieuwste versie in de CHANGELOG (of aan [Unreleased] voorbij
-die versie, als er nog geen nieuwe release is). Opbouw van de CHANGELOG: zie docs/project/releasen.md.
+die versie, als er nog geen nieuwe release is). Opbouw van de CHANGELOG: zie docs/nl/project/releasen.md.
 Exitcodes: 0 in orde, 1 problemen gevonden.
 """
 
@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTIES = ["🧭 Voor jou", "✨ Nieuw", "🔧 Veranderd", "🐛 Opgelost", "🗑️ Verwijderd", "🔒 Beveiliging"]
+SECTIES = ["🧭 For you", "✨ Added", "🔧 Changed", "🐛 Fixed", "🗑️ Removed", "🔒 Security"]
 KOP = re.compile(r"^## \[(?P<naam>[^\]]+)\](?: - (?P<datum>\d{4}-\d{2}-\d{2}))?\s*$")
 VERSIE = re.compile(r"^\d+\.\d+(?:\.\d+)?$")
 
@@ -67,8 +67,8 @@ def controleer(tag: str | None = None) -> list[str]:
         waar = f"CHANGELOG regel {b['nr']} ([{b['naam']}])"
         if not VERSIE.match(b["naam"]) or not b["datum"]:
             fouten.append(f"{waar}: kop moet zijn '## [x.y.z] - JJJJ-MM-DD'.")
-        if not any(r.startswith("> **Kort gezegd:** ") for r in b["regels"]):
-            fouten.append(f"{waar}: een regel '> **Kort gezegd:** ...' ontbreekt.")
+        if not any(r.startswith("> **In short:** ") for r in b["regels"]):
+            fouten.append(f"{waar}: een regel '> **In short:** ...' ontbreekt.")
         koppen = [r[4:].strip() for r in b["regels"] if r.startswith("### ")]
         onbekend = [k for k in koppen if k not in SECTIES]
         if onbekend:
@@ -101,7 +101,7 @@ def notes(tag: str) -> str:
                    and bl.index(b) > bl.index(blok)), None)
     tekst = "\n".join(regels).strip() + "\n"
     if vorige:
-        tekst += (f"\n**Alle wijzigingen:** https://github.com/nickyjacobs/DutchQuill-AI/compare/"
+        tekst += (f"\n**All changes:** https://github.com/nickyjacobs/DutchQuill-AI/compare/"
                   f"v{vorige}...v{versie}\n")
     return tekst
 

@@ -1,8 +1,10 @@
-# Bijdragen aan DutchQuill AI
+<p align="right"><b>🇬🇧 English</b> · <a href="CONTRIBUTING.nl.md">🇳🇱 Dutch</a></p>
 
-Bijdragen zijn welkom: een nieuw AI-patroon, een genre-sjabloon, een fix in de export, een vertaling.
+# Contributing to DutchQuill AI
 
-## Opzetten
+Contributions are welcome, in English or Dutch: a new AI pattern, a genre template, an export fix, a translation.
+
+## Setting up
 
 ```bash
 git clone https://github.com/nickyjacobs/DutchQuill-AI.git
@@ -10,33 +12,24 @@ cd DutchQuill-AI
 uv run --no-project --python 3.12 --with-requirements requirements.txt --with pytest pytest -q
 ```
 
-Testen in Claude Code zonder te installeren: `claude --plugin-dir .`. Opbouw, afspraken en releasestappen staan
-in [docs/project/ontwikkelen.md](docs/project/ontwikkelen.md).
+To test in Claude Code without installing: `claude --plugin-dir .`. Layout, conventions and release steps are in
+[docs/project/development.md](docs/project/development.md).
 
-## Spelregels
+## Ground rules
 
-- **Tests:** elke wijziging in `scripts/` krijgt een test. `pytest` en `ruff check scripts hooks tests` moeten
-  groen zijn.
-- **Instellingen** beginnen in `config/schema.json`, met labels en uitleg in NL en EN.
-- **AI-patronen** gaan in `gidsen/data/tells_*.yaml` (sterk of zwak, met alternatieven) plus de gids, met een
-  bron. Losse woorden die in gewoon Nederlands veel voorkomen, worden zwak.
-- **Gidsen** bevatten eigen formuleringen met een bronverwijzing, geen gekopieerde tekst.
-- **Geen** klant-, werkgevers- of persoonsgegevens, en niets dat bedoeld is om detectie of controles te
-  misleiden (zoals verzonnen metadata).
-- **Commits:** `Add:`, `Fix:`, `Update:`, `Refactor:` of `Docs:` gevolgd door een korte zin in de gebiedende wijs.
+- **Tests:** every change in `scripts/` gets a test. `pytest` and `ruff check scripts hooks tests` must be green.
+- **Settings** start in `config/schema.json`, with labels and explanations in Dutch and English.
+- **AI patterns** go in `gidsen/data/tells_*.yaml` (strong or weak, with alternatives) plus the guide, with a
+  source. Single words that are common in ordinary Dutch become weak.
+- **Guides** contain their own wording with a source reference, not copied text.
+- **No** customer, employer or personal data, and nothing meant to mislead detection or checks (such as fabricated
+  metadata).
+- **Commits:** `Add:`, `Fix:`, `Update:`, `Refactor:` or `Docs:` followed by a short sentence in the imperative.
 
-## Issues en pull requests
+## Issues and pull requests
 
-Open eerst een issue voor grotere wijzigingen. Een pull request gaat naar `develop`, met een regel onder
-`[Unreleased]` in de CHANGELOG. Hoe een release gaat: [docs/project/releasen.md](docs/project/releasen.md). Hoe we met elkaar
-omgaan: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Open an issue first for larger changes. A pull request goes to `develop`, with a line under `[Unreleased]` in the
+CHANGELOG. How a release works: [docs/project/releasing.md](docs/project/releasing.md). How we treat each other:
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-Werk je met een AI-assistent aan de repo, dan staan de regels voor die assistent in [AGENTS.md](AGENTS.md).
-
-## In English
-
-Contributions are welcome, in English or Dutch: a new AI pattern, a template per kind of text, an export fix, a
-translation. Open an issue first for larger changes; pull requests go to `develop` and add a line under
-`[Unreleased]` in the CHANGELOG. Setup, layout and checks: [docs/en/project/development.md](docs/en/project/development.md).
-Releases: [docs/en/project/releasing.md](docs/en/project/releasing.md).
-
+Working on the repo with an AI assistant? The rules for that assistant are in [AGENTS.md](AGENTS.md).

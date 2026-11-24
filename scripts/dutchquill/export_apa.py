@@ -1207,7 +1207,7 @@ def build_document(data: dict, output_path: str, template: str | None = None) ->
     appendices = data.get("appendices", [])
     build_appendices(doc, appendices, font_config)
 
-    # Opslaan + metadata-opschoning (app.xml)
+    # Opslaan
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
     doc.save(output_path)
     return os.path.abspath(output_path)
