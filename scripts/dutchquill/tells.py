@@ -29,6 +29,8 @@ from dutchquill import paden
 from dutchquill import tekst as tk
 
 LOS = {"mail", "linkedin", "social", "kort"}
+# Soorten tekst waarin korte zinnen en herhaalde vaste termen normaal zijn (labels, stappen, verwijzingen).
+BEKNOPT = {"readme", "sop"}
 CITAAT = re.compile(r'"[^"\n]{2,300}"|“[^”\n]{2,300}”|„[^”“\n]{2,300}[”“]|‘[^’\n]{2,200}’')
 DREMPELS = {"streng": (4, 9), "los": (6, 12)}  # (laag <, gemiddeld <) punten per 1000 woorden
 
@@ -257,7 +259,7 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
                         "context": f"zinslengte {stat['gem_zinslengte']} ± {stat['stdev_zinslengte']} woorden",
                         "uitleg": "Zinnen zijn bijna allemaal even lang. Wissel kort en lang af."})
         eigen_kort = stem.get("korte_zinnen_pct", 0)
-        if genre not in LOS and stat["korte_zinnen_pct"] > max(45, eigen_kort + 15):
+        if genre not in LOS | BEKNOPT and stat["korte_zinnen_pct"] > max(45, eigen_kort + 15):
             bev.append({"cat": "ritme_overgecorrigeerd", "sterkte": "sterk", "punten": 1.5, "regel": None,
                         "match": None, "context": f"{stat['korte_zinnen_pct']}% van de zinnen is korter dan 8 woorden",
                         "uitleg": "Overcorrectie: te veel korte, afgekapte zinnen (de nieuwe tell sinds 2026)."})
@@ -269,7 +271,7 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
                         "context": f"alinea's van {min(al_lengtes)}-{max(al_lengtes)} woorden",
                         "uitleg": "Alle alinea's zijn ongeveer even lang."})
     # Bij procedures en README's is herhaling van vaste termen juist goed.
-    if genre not in ("sop", "readme") and stat["mattr"] is not None and stat["woorden"] >= 300 and stat["mattr"] < 0.68:
+    if genre not in BEKNOPT and stat["mattr"] is not None and stat["woorden"] >= 300 and stat["mattr"] < 0.68:
         bev.append({"cat": "woordenschat", "sterkte": "zwak", "punten": 1, "regel": None, "match": None,
                     "context": f"MATTR {stat['mattr']}", "uitleg": "Weinig variatie in woordkeus: veel herhaling."})
 
