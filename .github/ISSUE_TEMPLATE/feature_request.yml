@@ -1,0 +1,22 @@
+name: Idee of wens
+description: Iets wat DutchQuill zou moeten kunnen
+labels: [enhancement]
+body:
+  - type: textarea
+    id: probleem
+    attributes:
+      label: Wat wil je doen
+      description: Beschrijf de situatie, niet meteen de oplossing. Bijvoorbeeld "ik schrijf veel offertes en..."
+    validations:
+      required: true
+  - type: textarea
+    id: idee
+    attributes:
+      label: Hoe zou het kunnen
+      description: Een commando, een instelling, een nieuw genre of sjabloon, een AI-patroon met bron.
+  - type: checkboxes
+    id: bijdragen
+    attributes:
+      label: Meedoen
+      options:
+        - label: Ik wil hier zelf aan werken (zie CONTRIBUTING.md)

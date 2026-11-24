@@ -1,0 +1,24 @@
+# Alleen voor ontwikkelen en testen. De plugin zelf installeert via scripts/dq en requirements.txt.
+[project]
+name = "dutchquill"
+version = "2.0.0"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts", "hooks"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+# v1-tools die nog omgebouwd worden (fase 3 en 5); haal ze hier weg zodra ze geport zijn.
+extend-exclude = [
+  "scripts/dutchquill/apa_check.py", "scripts/dutchquill/apa_bron.py", "scripts/dutchquill/taalcheck.py",
+  "scripts/dutchquill/leesbaarheid.py",
+  "scripts/dutchquill/diff.py", "scripts/dutchquill/docx_tekst.py", "scripts/dutchquill/md_docx.py",
+  "scripts/dutchquill/export_apa.py", "scripts/dutchquill/grafiek.py",
+  "scripts/dutchquill/diagram.py",
+  ]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]

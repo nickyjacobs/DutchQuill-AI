@@ -1,0 +1,21 @@
+# Bronnen die /dutchquill:bijwerken controleert, naast de URL's in de frontmatter van elke gids (bronnen:).
+# Scribbr-pagina's worden via de sitemap vergeleken (één verzoek per sitemap, geen pagina's crawlen).
+
+sitemaps:
+  - https://www.scribbr.nl/sitemap_index.xml
+
+wikipedia:
+  - pagina: "Wikipedia:Signs_of_AI_writing"
+    gidsen: [nl/humaniseren, en/humanize, data/tells_nl, data/tells_en]
+
+github:
+  - repo: blader/humanizer
+    bekend: v4.0.0
+    gidsen: [nl/humaniseren, en/humanize, data/tells_nl, data/tells_en]
+
+# Sites die geautomatiseerde verzoeken weigeren: Claude zoekt hier zelf naar nieuwe berichten.
+handmatig:
+  - naam: APA Style blog
+    url: https://apastyle.apa.org/blog
+    zoekvraag: "APA Style blog new post generative AI citation OR reference format"
+    gidsen: [nl/apa, nl/ai-gebruik]

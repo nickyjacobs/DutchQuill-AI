@@ -1,0 +1,29 @@
+name: release
+
+# Een gepushte tag vX.Y.Z wordt de GitHub-release "DutchQuill AI vX.Y.Z", met het blok van die versie uit de
+# CHANGELOG als tekst. Zie docs/project/releasen.md.
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v10.4.0
+      - name: De tag moet op main staan
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - name: De tag moet bij de CHANGELOG en de versienummers passen
+        run: uv run --script scripts/dev/release_check.py --tag "$GITHUB_REF_NAME"
+      - name: Releasetekst uit de CHANGELOG
+        run: uv run --script scripts/dev/release_check.py --notes "$GITHUB_REF_NAME" > "$RUNNER_TEMP/notes.md"
+      - name: Release publiceren
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --title "DutchQuill AI $GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
