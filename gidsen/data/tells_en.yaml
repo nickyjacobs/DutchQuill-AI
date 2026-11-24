@@ -1,0 +1,166 @@
+# AI patterns in English text: the data behind `dq tells --taal en`.
+# Explanation and examples: gidsen/en/humanize.md. /dutchquill:bijwerken may extend these lists.
+# Main sources: Wikipedia "Signs of AI writing" (WikiProject AI Cleanup, checked 2026-11), blader/humanizer v4.0.0.
+
+taal: en
+bijgewerkt: 2026-11-24
+
+woorden:
+  sterk:
+    - {term: delve, alt: [look at, examine], tijdperk: gpt-4}
+    - {term: delves, alt: [looks at], tijdperk: gpt-4}
+    - {term: delving, alt: [looking], tijdperk: gpt-4}
+    - {term: tapestry, alt: ["[say what is there]"], tijdperk: gpt-4}
+    - {term: testament to, alt: [proof of, shows], tijdperk: gpt-4}
+    - {term: stands as, alt: [is], tijdperk: gpt-4o}
+    - {term: serves as a, alt: [is a], tijdperk: gpt-4o}
+    - {term: boasts, alt: [has], tijdperk: gpt-4o}
+    - {term: nestled, alt: [located, in]}
+    - {term: vibrant, alt: [lively, "[be specific]"]}
+    - {term: rich cultural heritage, alt: ["[name the heritage]"]}
+    - {term: evolving landscape, alt: ["[name the field]"], tijdperk: gpt-4}
+    - {term: ever-evolving, alt: [changing]}
+    - {term: in the realm of, alt: [in]}
+    - {term: seamless, alt: [smooth]}
+    - {term: seamlessly, alt: [smoothly]}
+    - {term: groundbreaking, alt: [new, first]}
+    - {term: game-changer, alt: ["[say what changes]"]}
+    - {term: pivotal, alt: [key, decisive], tijdperk: gpt-4}
+    - {term: plays a pivotal role, alt: ["[describe the role]"]}
+    - {term: plays a crucial role, alt: ["[describe the role]"]}
+    - {term: a myriad of, alt: [many]}
+    - {term: plethora, alt: [many]}
+    - {term: meticulous, alt: [careful]}
+    - {term: meticulously, alt: [carefully]}
+    - {term: underscores, alt: [shows], tijdperk: gpt-4}
+    - {term: intricate, alt: [complex, detailed], tijdperk: gpt-4}
+    - {term: multifaceted, alt: ["[name the facets]"], tijdperk: 2026}
+    - {term: maintains an active social media presence, alt: ["(cut)"], tijdperk: 2026}
+    - {term: take it to the next level, alt: [improve]}
+  zwak:
+    - {term: crucial, alt: [important, key]}
+    - {term: vital, alt: [important]}
+    - {term: essential, alt: [needed]}
+    - {term: robust, alt: [solid, reliable]}
+    - {term: holistic, alt: [complete]}
+    - {term: comprehensive, alt: [full, complete]}
+    - {term: leverage, alt: [use], tijdperk: 2026}
+    - {term: leverages, alt: [uses], tijdperk: 2026}
+    - {term: leveraging, alt: [using], tijdperk: 2026}
+    - {term: harness, alt: [use]}
+    - {term: foster, alt: [encourage, build]}
+    - {term: fostering, alt: [encouraging], tijdperk: gpt-4o}
+    - {term: bolster, alt: [strengthen]}
+    - {term: showcase, alt: [show]}
+    - {term: showcasing, alt: [showing], tijdperk: gpt-4o}
+    - {term: highlighting, alt: [showing], tijdperk: gpt-5}
+    - {term: emphasizing, alt: [stressing], tijdperk: gpt-5}
+    - {term: align with, alt: [match, fit], tijdperk: gpt-4o}
+    - {term: enhance, alt: [improve], tijdperk: gpt-4o}
+    - {term: streamline, alt: [simplify]}
+    - {term: empower, alt: [let, enable]}
+    - {term: unlock, alt: [open, enable]}
+    - {term: elevate, alt: [raise, improve]}
+    - {term: embark, alt: [start]}
+    - {term: navigate, alt: [handle, deal with]}
+    - {term: landscape, alt: ["[name the field]"]}
+    - {term: realm, alt: [field, area]}
+    - {term: synergy, alt: [cooperation]}
+    - {term: paramount, alt: [most important]}
+    - {term: noteworthy, alt: [notable, "(cut)"]}
+    - {term: notably, alt: ["(cut)"]}
+    - {term: quietly, alt: ["(cut)"], tijdperk: 2026}
+    - {term: dependable, alt: [reliable], tijdperk: 2026}
+    - {term: in connection with, alt: ["[say what connection]"], tijdperk: 2026}
+    - {term: associated with, alt: ["[say what connection]"], tijdperk: 2026}
+    - {term: commitment to, alt: ["[say what they do]"]}
+    - {term: valuable insights, alt: [findings]}
+    - {term: insights, alt: [findings]}
+  stammen: []
+
+anglicismen: []
+
+frases:
+  aanloop:
+    - "in today'?s (?:fast-paced |digital |ever-changing )?(?:world|landscape|age)"
+    - 'in an era (?:of|where)'
+    - 'in the ever-evolving'
+    - "it'?s no secret that"
+    - 'more than ever'
+  aankondiging:
+    - 'this (?:article|post|report|document) (?:will|explores|examines|aims)'
+    - "let'?s (?:dive|take a (?:closer )?look|explore)"
+    - 'in this (?:article|post|guide), (?:we|i) will'
+    - 'below (?:is|are) (?:an overview|the)'
+  afsluiter:
+    - 'in conclusion'
+    - 'in summary'
+    - 'to sum up'
+    - 'ultimately,'
+    - 'at the end of the day'
+    - 'the future (?:looks|is) (?:bright|promising)'
+    - 'only time will tell'
+    - 'despite these challenges'
+    - 'the possibilities are endless'
+  vulling:
+    - "it(?:'s| is) (?:important|worth|interesting) to note"
+    - 'it should be noted'
+    - 'needless to say'
+    - 'plays a (?:key|significant|vital|crucial) role'
+    - 'a wide (?:range|array|variety) of'
+    - 'has (?:shaped|influenced) (?:the )?(?:discussion|discourse|debate)'
+  vage_bron:
+    - '(?:experts|researchers|scientists|critics) (?:say|argue|agree|believe)'
+    - '(?:studies|research) (?:shows?|suggests?|indicates?)(?! that \w+ \()'
+    - 'it is (?:widely|generally) (?:known|accepted|believed)'
+    - 'some (?:argue|say|believe)'
+  chatbot:
+    - 'i hope this helps'
+    - 'let me know'
+    - 'feel free to'
+    - 'great question'
+    - '^certainly[!,]'
+    - '^of course[!,]'
+    - 'as an ai'
+    - 'as of my (?:last )?(?:knowledge )?(?:update|cutoff)'
+    - "i don'?t have access to"
+    - 'based on (?:the )?available (?:information|sources|data)'
+    - 'while specific details are (?:limited|scarce)'
+    - '(?:all|the) (?:information|content|meaning) (?:is|has been|was) preserved'
+    - "here(?:'s| is) (?:a|the) (?:revised|rewritten|improved) version"
+    - 'would you like me to'
+  linkedin:
+    - "here'?s what i learned"
+    - "here'?s the thing"
+    - 'let that sink in'
+    - 'read that again'
+    - '(?:spoiler|plot twist):'
+    - 'humbled and (?:honored|grateful)'
+    - "(?:i'?m )?(?:thrilled|excited) to (?:announce|share)"
+    - 'agree\?$'
+    - "and that'?s okay"
+
+structuur:
+  negatief_parallel:
+    - '\bnot (?:just|only|merely|simply)\b[^.!?\n]{1,90}?\bbut\b'
+    - "\\bit'?s not\\b[^.!?\\n]{1,60}[,;:]\\s*it'?s\\b"
+    - "\\bisn'?t (?:about|just)\\b[^.!?\\n]{1,60}\\bit'?s\\b"
+    - '\bnot because\b[^.!?\n]{1,60}\bbut because\b'
+  retorische_aanloop: '(?:^|[.!]\s+)((?:\w+\s){0,3}\w+\?)\s+[A-Z]'
+
+connectoren: [furthermore, moreover, additionally, however, consequently, therefore, thus, notably, importantly,
+              ultimately, overall, indeed, nevertheless]
+
+passief:
+  - '\b(?:is|are|was|were|be|been|being)\s+(?:\w+ly\s+)?\w+(?:ed|en)\b'
+
+whitelist:
+  - robust statistics
+  - robust regression
+  - essential oils
+  - vital signs
+
+genre_uitzonderingen:
+  linkedin: [excited, thrilled]
+  social: [excited]
+  mail: [let me know]

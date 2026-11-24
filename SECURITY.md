@@ -20,19 +20,20 @@ Stuur een e-mail naar de beheerder of gebruik [GitHub Security Advisories](https
 
 ### Scope
 
-Dit beleid geldt voor de code in deze repository: Python-tools, workflows, Claude Code configuratie en exportscripts. Het geldt niet voor Anthropic's API of Claude Code zelf.
+Dit beleid geldt voor de code in deze repository: de plugin (skills, agents, hook), de Python-scripts en DutchQuill Studio. Het geldt niet voor Anthropic's API of Claude Code zelf.
+
+## Wat DutchQuill zelf doet
+
+- DutchQuill Studio luistert alleen op 127.0.0.1, met een eenmalig token, en controleert Host en Origin.
+- Webverzoeken gaan alleen naar de hosts in `.claude-plugin/plugin.json` (`network.hosts`): PyPI (de eenmalige
+  installatie van de Python-pakketten), LanguageTool (alleen als je die aanzet) en de bronnen van
+  `/dutchquill:bijwerken`.
+- Interne adressen (localhost, privé-IP's) in je materiaal worden nooit automatisch opgehaald.
 
 ## Dependencies
 
-DutchQuill AI gebruikt de volgende externe packages (zie `requirements.txt`):
-
-- python-docx
-- requests
-- matplotlib
-- numpy
-- reportlab
-
-Dependabot scant deze dependencies automatisch op bekende kwetsbaarheden.
+De Python-pakketten staan in `requirements.txt` en worden in een eigen venv in de datamap van de plugin
+geïnstalleerd. Dependabot scant ze op bekende kwetsbaarheden.
 
 ## Verantwoorde openbaarmaking
 

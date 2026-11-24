@@ -1,0 +1,35 @@
+name: links
+
+on:
+  push:
+    paths: ['**.md']
+  pull_request:
+    paths: ['**.md']
+  schedule:
+    # Wekelijks, voor links die na verloop van tijd breken.
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          # Alleen de documentatie: gidsen en sjablonen bevatten voorbeeldlinks. De compare- en taglinks in de
+          # CHANGELOG bestaan pas na een tag. Sommige sites weigeren bots (403); dat telt niet als kapot. Badges (shields.io) zijn
+          # plaatjes, geen links om te volgen, en die dienst geeft soms een time-out.
+          args: >-
+            --no-progress
+            --max-concurrency 8
+            --accept 200,206,403,429
+            --exclude 'github\.com/nickyjacobs/DutchQuill-AI/(compare|releases/tag)/'
+            --exclude 'linkedin\.com'
+            --exclude 'img\.shields\.io'
+            './*.md' './docs/**/*.md'
+          fail: true
+          token: ${{ secrets.GITHUB_TOKEN }}
