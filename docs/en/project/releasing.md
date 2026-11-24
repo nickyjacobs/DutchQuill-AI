@@ -72,6 +72,6 @@ verifies all of this.
 
    The `release` workflow checks that the tag is on `main` and matches the CHANGELOG, and creates the GitHub release
    with the CHANGELOG block as its text.
-5. **Back to `develop`:** open a pull request from `main` to `develop` (titled `Merge main into develop after
-   vX.Y.Z`) and merge it with a merge commit. Pushing to `develop` directly isn't possible: the ruleset only allows
-   pull requests.
+5. **Back to `develop`:** after a regular release there is nothing to do: the only difference is the merge commit,
+   and GitHub doesn't open a pull request for that. If a hotfix went straight to `main`, open a pull request from
+   `main` to `develop` and merge it with a merge commit.
