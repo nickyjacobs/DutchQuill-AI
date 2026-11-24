@@ -57,7 +57,7 @@ def inventaris() -> list[dict]:
         for f in sorted(basis.rglob("*")):
             if not f.is_file() or f.name.startswith((".", "~$")):
                 continue
-            rel = str(f.relative_to(werkmap))
+            rel = f.relative_to(werkmap).as_posix()
             mtime = f.stat().st_mtime
             uit.append({
                 "map": sleutel,

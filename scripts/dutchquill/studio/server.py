@@ -210,7 +210,7 @@ class Studio:
         e = cfg.effectief()
         doel = self.bewaar_upload("template", Path(e["mappen"]["templates"]), body["bestandsnaam"], body["data"])
         naam = re.sub(r"[^a-z0-9\-]", "-", doel.stem.lower()).strip("-") or "eigen"
-        cfg.zet(f"templates.{naam}", {"bestand": str(doel.relative_to(werkmap)), "soort": "docx",
+        cfg.zet(f"templates.{naam}", {"bestand": doel.relative_to(werkmap).as_posix(), "soort": "docx",
                                       "beschrijving": body.get("beschrijving") or f"Geüpload: {doel.name}"})
         self.wijzigingen.append(f"Template toegevoegd: {naam}")
         return {"naam": naam, "check": templates_docx.check(naam)}
@@ -268,7 +268,7 @@ class Studio:
             tekst = doel.read_text(encoding="utf-8", errors="replace")
         (map_ / f"{soort}.md").write_text(tekst, encoding="utf-8")
         self.wijzigingen.append(f"{soort} voor {code} toegevoegd")
-        return {"vak": code, "bestand": str((map_ / f"{soort}.md").relative_to(werkmap))}
+        return {"vak": code, "bestand": (map_ / f"{soort}.md").relative_to(werkmap).as_posix()}
 
     def vakken(self, _: dict) -> dict:
         werkmap = self.werkmap()
@@ -317,7 +317,7 @@ class Studio:
         doel = self.bewaar_upload("afbeelding", map_, naam, body["data"])
         self.wijzigingen.append(f"{soort.capitalize()} voor mails toegevoegd: {doel.name}")
         mime = mimetypes.guess_type(doel.name)[0] or "image/png"
-        return {"soort": soort, "pad": str(doel.relative_to(werkmap)), "bestand": doel.name,
+        return {"soort": soort, "pad": doel.relative_to(werkmap).as_posix(), "bestand": doel.name,
                 "voorbeeld": f"data:{mime};base64,{body['data']}"}
 
     def _sjabloon_pad(self, genre: str) -> Path:

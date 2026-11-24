@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from dutchquill import versies
 from dutchquill.config import ConfigFout
@@ -27,7 +29,8 @@ def test_nieuwe_ronde_op_eerdere_output(werkmap):
     bron = f"{v1['map']}/bron.md"
     # herschrijven op een eerdere output: v2 in dezelfde titelmap, niet herschrijven/.../v1
     v2 = versies.volgende("herschrijven", "iets anders", van=bron)
-    assert v2["actie"] == "schrijven" and v2["versie"] == 2 and v2["map"].endswith("schrijven/Studio instellen/v2")
+    assert v2["actie"] == "schrijven" and v2["versie"] == 2
+    assert Path(v2["map"]).parts[-3:] == ("schrijven", "Studio instellen", "v2")
     # een pad buiten 2-output: gewoon de opgegeven actie
     los = versies.volgende("herschrijven", "Los", van=str(werkmap / "1-input" / "rapporten" / "x.md"))
     assert los["actie"] == "herschrijven" and los["versie"] == 1
@@ -37,7 +40,6 @@ def test_nieuwe_ronde_op_eerdere_output(werkmap):
 
 def test_vervolgronde_neemt_formaten_over(werkmap):
     v1 = versies.volgende("schrijven", "Rapport")
-    from pathlib import Path
     for ext in ("docx", "pdf"):
         (Path(v1["map"]) / f"Rapport.{ext}").write_text("x")
     (Path(v1["map"]) / "bron.md").write_text("x")

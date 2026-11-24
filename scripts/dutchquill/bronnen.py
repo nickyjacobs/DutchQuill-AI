@@ -59,7 +59,7 @@ def gidsen_en_urls() -> dict[str, dict]:
     for p in sorted(basis.rglob("*")):
         if p.suffix not in (".md", ".yaml") or p.name == "bronnen.yaml" or "werkwijze" in p.parts:
             continue
-        naam = str(p.relative_to(basis).with_suffix(""))
+        naam = p.relative_to(basis).with_suffix("").as_posix()
         if p.suffix == ".md":
             p = gids_pad(naam)
         else:
