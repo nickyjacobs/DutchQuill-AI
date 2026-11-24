@@ -1,0 +1,17 @@
+{
+  "description": "DutchQuill AI: eenmalige melding als de plugin nog niet is ingesteld, en één keer per maand een herinnering om de referentiegidsen te controleren.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/sessie_start.py\" || true",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

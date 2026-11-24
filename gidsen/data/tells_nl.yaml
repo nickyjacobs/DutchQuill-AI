@@ -1,0 +1,231 @@
+# AI-patronen in Nederlandse tekst: de data achter `dq tells --taal nl`.
+# Uitleg en voorbeelden: gidsen/nl/humaniseren.md. /dutchquill:bijwerken mag deze lijsten aanvullen.
+#
+# sterk: één keer is al reden om te kijken (bijna nooit natuurlijk in dit register)
+# zwak:  alleen verdacht in een cluster (3+ verschillende zwakke tells dicht bij elkaar) of bij hoge dichtheid
+# tijdperk: welke modelgeneratie het patroon groot maakte (gpt-4, gpt-4o, gpt-5, 2026); informatief
+
+taal: nl
+bijgewerkt: 2026-11-24
+
+woorden:
+  sterk:
+    - {term: cruciaal, alt: [bepalend, doorslaggevend, "[zeg waarom het ertoe doet]"], tijdperk: gpt-4}
+    - {term: cruciale, alt: [bepalende, doorslaggevende], tijdperk: gpt-4}
+    - {term: naadloos, alt: [soepel, "zonder overstap", "[beschrijf wat er goed aan werkt]"], tijdperk: gpt-4}
+    - {term: naadloze, alt: [soepele], tijdperk: gpt-4}
+    - {term: synergie, alt: [samenwerking, wisselwerking]}
+    - {term: holistische aanpak, alt: ["[noem wat er allemaal wordt meegenomen]"]}
+    - {term: holistisch, alt: [compleet, "[noem de onderdelen]"]}
+    - {term: baanbrekend, alt: [nieuw, "eerste in zijn soort"]}
+    - {term: baanbrekende, alt: [nieuwe]}
+    - {term: toonaangevend, alt: [vooraanstaand, invloedrijk]}
+    - {term: toonaangevende, alt: [vooraanstaande, invloedrijke]}
+    - {term: transformatief, alt: [ingrijpend, "[zeg wat er verandert]"]}
+    - {term: transformatieve, alt: [ingrijpende]}
+    - {term: katalysator, alt: [aanjager, aanleiding]}
+    - {term: speerpunt, alt: [prioriteit, hoofddoel]}
+    - {term: duiken in, alt: [onderzoeken, bekijken]}
+    - {term: laten we duiken, alt: ["we kijken naar"]}
+    - {term: het landschap van, alt: [de markt, het vakgebied, "[wees specifiek]"], tijdperk: gpt-4}
+    - {term: het digitale landschap, alt: ["[noem het concrete domein]"], tijdperk: gpt-4}
+    - {term: een breed scala aan, alt: [veel, "[geef voorbeelden]"]}
+    - {term: scala aan, alt: [veel, allerlei]}
+    - {term: rijk tapijt, alt: ["[zeg wat er concreet is]"], tijdperk: gpt-4}
+    - {term: symfonie van, alt: ["[zeg wat er concreet is]"], tijdperk: gpt-4}
+    - {term: testament aan, alt: [bewijs van]}
+    - {term: fosteren, alt: [bevorderen, stimuleren]}
+    - {term: speelt een cruciale rol, alt: ["[beschrijf de functie]"]}
+    - {term: speelt een sleutelrol, alt: ["[beschrijf de functie]"]}
+    - {term: speelt een centrale rol, alt: ["[beschrijf de functie]"]}
+    - {term: onderstreept het belang, alt: [bevestigt, "laat zien dat"], tijdperk: gpt-5}
+    - {term: markeert een keerpunt, alt: ["[zeg wat er daarna anders was]"], tijdperk: gpt-4o}
+    - {term: van onschatbare waarde, alt: [heel nuttig, "[zeg waarvoor]"]}
+    - {term: niet te onderschatten, alt: ["[geef het effect]"]}
+    - {term: pronkt met, alt: [heeft]}
+    - {term: impactvol, alt: [ingrijpend, "[geef het effect]"]}
+    - {term: impactvolle, alt: [ingrijpende]}
+    - {term: naar een hoger niveau tillen, alt: [verbeteren, "[zeg wat er beter wordt]"]}
+  zwak:
+    - {term: essentieel, alt: [noodzakelijk, nodig]}
+    - {term: essentiële, alt: [noodzakelijke]}
+    - {term: robuust, alt: [stevig, betrouwbaar]}
+    - {term: robuuste, alt: [stevige, betrouwbare]}
+    - {term: grondig, alt: [nauwkeurig, "stap voor stap"]}
+    - {term: optimaliseren, alt: [verbeteren]}
+    - {term: benutten, alt: [gebruiken, inzetten]}
+    - {term: ontsluiten, alt: [beschikbaar maken]}
+    - {term: aanzienlijk, alt: ["[geef een getal]"]}
+    - {term: aanzienlijke, alt: ["[geef een getal]"]}
+    - {term: in toenemende mate, alt: [steeds meer]}
+    - {term: inzichten, alt: [bevindingen, resultaten]}
+    - {term: betekenisvol, alt: [zinvol, nuttig]}
+    - {term: betekenisvolle, alt: [zinvolle]}
+    - {term: diepgaand, alt: [uitgebreid]}
+    - {term: diepgaande, alt: [uitgebreide]}
+    - {term: veelzijdig, alt: ["[noem de kanten]"], tijdperk: 2026}
+    - {term: veelomvattend, alt: [breed], tijdperk: 2026}
+    - {term: toekomstbestendig, alt: ["[zeg tot wanneer en waarom]"], tijdperk: 2026}
+    - {term: stilletjes, alt: [ongemerkt], tijdperk: 2026}
+    - {term: dynamisch, alt: [veranderlijk]}
+    - {term: dynamische, alt: [veranderlijke]}
+    - {term: innovatief, alt: [nieuw]}
+    - {term: innovatieve, alt: [nieuwe]}
+    - {term: proactief, alt: [vooruitlopend, "op tijd"]}
+    - {term: integraal, alt: [volledig, als geheel]}
+    - {term: significant, alt: ["[geef een getal]"]}
+    - {term: evident, alt: [duidelijk]}
+    - {term: uiteraard, alt: ["(weglaten)"]}
+    - {term: vanzelfsprekend, alt: ["(weglaten)"]}
+    - {term: genuanceerd, alt: ["[geef de nuance]"]}
+    - {term: complexiteit, alt: ["[noem wat het ingewikkeld maakt]"]}
+    - {term: in het kader van, alt: [voor, bij]}
+    - {term: met betrekking tot, alt: [over]}
+    - {term: ten aanzien van, alt: [over, voor]}
+    - {term: in veel gevallen, alt: ["[hoe vaak?]"]}
+    - {term: in zekere mate, alt: ["[hoeveel?]"]}
+    - {term: weerspiegelt, alt: [toont], tijdperk: gpt-4o}
+    - {term: benadrukt, alt: [zegt, wijst op], tijdperk: gpt-5}
+    - {term: fungeert als, alt: [is], tijdperk: gpt-4o}
+    - {term: dient als, alt: [is], tijdperk: gpt-4o}
+    - {term: beschikt over, alt: [heeft], tijdperk: gpt-4o}
+    - {term: in verband met, alt: ["[zeg welk verband]"], tijdperk: 2026}
+    - {term: gerelateerd aan, alt: ["[zeg welk verband]"], tijdperk: 2026}
+    - {term: geassocieerd met, alt: ["[zeg welk verband]"], tijdperk: 2026}
+    - {term: in relatie tot, alt: [bij, tegenover]}
+    - {term: mijlpaal, alt: ["[zeg wat er bereikt is]"]}
+    - {term: kortom, alt: ["(weglaten, of de conclusie gewoon geven)"]}
+  stammen:
+    - {regex: '\bfacilite(?:ert|ren|rende?|ring|erde[n]?)\b', term: faciliteren, alt: ["maakt mogelijk", helpt], sterkte: sterk}
+    - {regex: '\bdemonstre(?:ert|ren|erde[n]?)\b', term: demonstreren, alt: ["laat zien", toont], sterkte: sterk}
+    - {regex: '\bonderstre(?:ept|epte[n]?|pen)\b', term: onderstrepen, alt: [bevestigt], sterkte: zwak}
+    - {regex: '\bstroomlijn(?:en|t|de[n]?|d|ing)\b', term: stroomlijnen, alt: [vereenvoudigen], sterkte: sterk}
+    - {regex: '\bnavigeren\s+(?:door|in)\b', term: navigeren door, alt: ["omgaan met", "je weg vinden in"], sterkte: sterk}
+
+anglicismen:
+  - {term: impact hebben op, alt: [invloed hebben op, gevolgen hebben voor]}
+  - {term: stakeholders, alt: [belanghebbenden, betrokkenen]}
+  - {term: synergie creëren, alt: [samenwerken]}
+  - {term: het speelveld, alt: [de markt, de sector]}
+  - {term: maakt sense, alt: [klopt, "is logisch"]}
+  - {term: aan het eind van de dag, alt: [uiteindelijk]}
+  - {term: in de eerste plaats, alt: [eerst, vooral]}
+  - {term: op een dagelijkse basis, alt: [dagelijks]}
+  - {term: neemt plaats, alt: [vindt plaats]}
+  - {term: een verschil maken, alt: [iets uitmaken, helpen]}
+  - {term: het is aan jou, alt: [jij beslist]}
+  - {term: binnen de context van, alt: [bij, in]}
+
+frases:
+  # Brede aanloop zonder inhoud
+  aanloop:
+    - 'in de huidige (?:digitale )?(?:samenleving|wereld|maatschappij|tijd)'
+    - 'in de hedendaagse (?:maatschappij|samenleving)'
+    - 'in een (?:steeds veranderende |snel veranderende )?wereld (?:waar|waarin)'
+    - 'in een tijd waarin'
+    - 'in het huidige tijdperk'
+    - 'het is belangrijker dan ooit'
+    - 'tegenwoordig is het duidelijk dat'
+    - 'het is geen geheim dat'
+    - 'tegen deze achtergrond'
+    - 'vanuit een (?:breed|algemeen) perspectief'
+  # Tekst over de tekst in plaats van over het onderwerp
+  aankondiging:
+    - 'in dit (?:rapport|document|artikel|stuk) (?:wordt|worden|zal|gaan we)'
+    - 'het doel van dit (?:rapport|document|artikel) is'
+    - 'hieronder volgt een overzicht'
+    - 'allereerst wordt ingegaan op'
+    - 'in wat volgt'
+    - 'in het navolgende'
+    - 'laten we eens kijken naar'
+  # Samenvattende afsluiters die niets toevoegen
+  afsluiter:
+    - 'kortom[, ]+(?:het is duidelijk|we kunnen stellen)'
+    - 'al met al kan (?:gesteld|geconcludeerd) worden'
+    - 'samenvattend kan (?:worden gesteld|gesteld worden)'
+    - 'het mag duidelijk zijn dat'
+    - 'op basis van het voorgaande kan'
+    - 'de toekomst ziet er (?:rooskleurig|veelbelovend) uit'
+    - 'de mogelijkheden zijn eindeloos'
+    - 'dit is (?:pas|slechts) het begin'
+    - 'alleen de tijd zal het leren'
+    - 'ondanks deze uitdagingen'
+  vulling:
+    - 'het is (?:belangrijk|interessant|goed) om (?:op te merken|te benadrukken|te vermelden) dat'
+    - 'het spreekt voor zich dat'
+    - 'hierbij dient opgemerkt te worden'
+    - 'er dient rekening mee gehouden te worden'
+    - 'het verdient aanbeveling om'
+    - 'in dit verband is het relevant'
+    - 'zoals (?:eerder|al) (?:vermeld|aangegeven|genoemd)'
+    - 'dit draagt bij aan'
+    - 'speelt een (?:belangrijke|grote|essentiële) rol'
+    - 'naar verwachting (?:zal|blijft) .{0,30}relevant'
+  vage_bron:
+    - 'uit onderzoek blijkt(?! uit)'
+    - '(?:experts|deskundigen|wetenschappers|onderzoekers) (?:stellen|zeggen|zijn het erover eens)'
+    - '(?:studies|onderzoeken) (?:tonen aan|laten zien)'
+    - 'het is algemeen bekend'
+    - 'uit de literatuur blijkt'
+    - 'men (?:stelt|zegt|weet) dat'
+    - 'er is (?:aangetoond|bewezen) dat'
+  chatbot:
+    - 'ik hoop dat (?:dit|je|u) (?:helpt|hiermee)'
+    - 'laat (?:het )?(?:me|mij) (?:gerust )?weten'
+    - 'wil je dat ik'
+    - 'goede vraag'
+    - '\bals (?:een )?(?:ai-assistent|ai-taalmodel|taalmodel)\b'
+    - '\bals ai(?:-model)?,? (?:kan|heb|ben) ik\b'
+    - 'op basis van mijn training'
+    - 'tot mijn kennisgrens'
+    - 'ik heb geen toegang tot'
+    - 'op basis van (?:de )?beschikbare (?:informatie|bronnen|gegevens)'
+    - 'hoewel specifieke (?:details|gegevens) (?:beperkt|schaars) zijn'
+    - '(?:alle|de) (?:informatie|inhoud|betekenis) is behouden'
+    - 'hieronder vind je'
+    - 'hier is (?:een|de) (?:herschreven|verbeterde|aangepaste) versie'
+    - 'voel je vrij om'
+  # Alleen bij genre linkedin/social
+  linkedin:
+    - 'dit is wat ik (?:heb )?geleerd'
+    - 'hier is waarom'
+    - 'lees dat nog een keer'
+    - 'laat dat even (?:bezinken|binnenkomen)'
+    - '(?:spoiler|plot twist):'
+    - 'trots en dankbaar'
+    - '(?:ik ben )?(?:verheugd|trots) om (?:aan te kondigen|te delen)'
+    - 'en weet je wat\?'
+    - 'eens\?$'
+
+structuur:
+  # "niet X, maar Y" en verwanten (sterk sinds GPT-4o)
+  negatief_parallel:
+    - '\bniet (?:alleen|enkel|slechts|zozeer)\b[^.!?\n]{1,90}?\bmaar\b'
+    - '\bhet gaat niet om\b[^.!?\n]{1,70}\bhet gaat om\b'
+    - '\b(?:dit|het) is geen\b[^.!?\n]{1,60}[,.]\s*(?:het|dit) is\b'
+    - '\bgeen\s+\w+(?:\s+\w+)?,\s*maar\b'
+  # Korte vraag als aanloop: "Het resultaat? ..."
+  retorische_aanloop: '(?:^|[.!]\s+)((?:\w+\s){0,3}\w+\?)\s+[A-Z]'
+
+connectoren: [bovendien, tevens, daarnaast, echter, desalniettemin, voorts, derhalve, aldus, daarentegen,
+              niettemin, evenwel, zodoende, hierdoor, hierbij, daarenboven, kortom, samenvattend, ten slotte, allereerst]
+
+passief:
+  - '\b(?:wordt|worden|werd|werden)\s+(?:\w+\s){0,4}?(?:ge\w+[dt]|\w+eerd)\b'
+  - '\b(?:kan|kunnen|moet|moeten|dient|dienen|zal|zullen)\s+(?:\w+\s){0,4}?(?:worden)\b'
+  - '\ber\s+(?:wordt|worden|werd|werden)\b'
+
+whitelist:
+  - essentiële aminozuren
+  - robuuste optimalisatie
+  - robuuste schatting
+  - robuuste statistiek
+  - scala-programmeertaal
+  - dient als bewijs
+  - in verband met de privacy
+
+# Woorden die in deze genres gewoon mogen (geen tell)
+genre_uitzonderingen:
+  linkedin: [verheugd, trots]
+  social: [verheugd, trots]
+  mail: [uiteraard, laat me weten, laat het me weten]

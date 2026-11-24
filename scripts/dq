@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# dq: de ene ingang naar alle DutchQuill-scripts.
+#
+# Gebruik vanuit een skill (omgevingsvariabelen van de plugin bestaan niet in Bash, dus inline meegeven):
+#   CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon
+#
+# Bij het eerste gebruik maakt dq een eigen Python-omgeving in de datamap van de plugin (met uv als dat er is,
+# anders met python3 -m venv en pip). Lichte commando's installeren alleen de basis; de rest volgt als het nodig is.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DATA="${CLAUDE_PLUGIN_DATA:-${DUTCHQUILL_DATA:-$ROOT/.dev-data}}"
+VENV="$DATA/venv"
+mkdir -p "$DATA"
+
+# Lichte commando's hebben alleen requirements-basis.txt nodig (ruamel.yaml, seconden). De rest (python-docx,
+# reportlab, matplotlib, ...) komt pas als een commando het nodig heeft, of als er een .docx/.pdf/.pptx/.xlsx
+# als argument meegaat.
+NIVEAU="volledig"
+case "${1:-}" in
+  config|werkmap|versie|historie|gids|tells|feiten|--help|-h|help|"") NIVEAU="basis" ;;
+esac
+for arg in "$@"; do
+  case "$arg" in *.docx|*.pdf|*.pptx|*.xlsx) NIVEAU="volledig" ;; esac
+done
+if [ "$NIVEAU" = "basis" ]; then REQ="$ROOT/requirements-basis.txt"; else REQ="$ROOT/requirements.txt"; fi
+MARKER="$VENV/.req-$NIVEAU"
+
+venv_python() {
+  if [ -x "$VENV/bin/python" ]; then echo "$VENV/bin/python"; else echo "$VENV/Scripts/python.exe"; fi
+}
+
+hash_req() {
+  if command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | cut -d' ' -f1
+  else sha256sum "$1" | cut -d' ' -f1; fi
+}
+
+WANT="$(hash_req "$REQ")"
+HAVE="$(cat "$MARKER" 2>/dev/null || true)"
+# Is de volledige set al geïnstalleerd, dan is de basis er ook.
+if [ "$NIVEAU" = "basis" ] && [ "$WANT" != "$HAVE" ] && [ -f "$VENV/.req-volledig" ]; then
+  HAVE="$WANT"
+fi
+
+if [ "$WANT" != "$HAVE" ] || [ ! -x "$(venv_python)" ]; then
+  # Vanuit de context van een skill (!`...`) nooit installeren: dat zou het laden van de skill blokkeren.
+  if [ -n "${DQ_NIET_INSTALLEREN:-}" ]; then
+    echo "DutchQuill is nog niet klaar voor gebruik; het eerste dq-commando installeert de benodigde pakketten."
+    exit 0
+  fi
+  LOCK="$DATA/.installeren"
+  for _ in $(seq 1 300); do mkdir "$LOCK" 2>/dev/null && break; sleep 1; done
+  trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT
+  HAVE="$(cat "$MARKER" 2>/dev/null || true)"
+  if [ "$WANT" != "$HAVE" ]; then
+    if [ "$NIVEAU" = "basis" ]; then
+      echo "DutchQuill: eenmalige installatie (een paar seconden)..." >&2
+    else
+      echo "DutchQuill: eenmalige installatie van de documentpakketten (± 1 minuut)..." >&2
+    fi
+    export UV_HTTP_TIMEOUT=30
+    if [ ! -x "$(venv_python)" ]; then
+      if command -v uv >/dev/null 2>&1; then
+        uv venv --quiet --python ">=3.10" "$VENV" >&2
+      else
+        PYTHON_SYS="$(command -v python3 || command -v python || true)"
+        if [ -z "$PYTHON_SYS" ]; then
+          echo "DutchQuill: geen Python gevonden. Installeer Python 3.10+ (python.org) of uv (docs.astral.sh/uv)." >&2
+          exit 1
+        fi
+        "$PYTHON_SYS" -m venv "$VENV" >&2
+      fi
+    fi
+    PY="$(venv_python)"
+    if command -v uv >/dev/null 2>&1; then
+      uv pip install --quiet --python "$PY" -r "$REQ" >&2 || {
+        echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
+    else
+      "$PY" -m pip install --quiet --disable-pip-version-check --timeout 30 --retries 1 -r "$REQ" >&2 || {
+        echo "DutchQuill: installeren mislukt (geen internet?). Probeer het later opnieuw." >&2; exit 1; }
+    fi
+    echo "$WANT" > "$MARKER"
+    echo "DutchQuill: installatie klaar." >&2
+  fi
+  trap - EXIT
+  rmdir "$LOCK" 2>/dev/null || true
+fi
+PY="$(venv_python)"
+
+export DUTCHQUILL_ROOT="$ROOT"
+export DUTCHQUILL_DATA="$DATA"
+export PYTHONPATH="$ROOT/scripts${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONIOENCODING="utf-8"
+exec "$PY" -m dutchquill "$@"
