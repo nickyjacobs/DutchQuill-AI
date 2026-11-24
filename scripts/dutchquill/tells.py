@@ -217,7 +217,8 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
         for r, m in treffers(rx):
             if len(tk.woorden(m.group(1))) <= 4:
                 n += 1
-                voeg("retorische_aanloop", 0.5 if n <= 4 else 0, r, m, "Korte vraag als aanloop ('Het resultaat? ...').")
+                voeg("retorische_aanloop", 0.5 if n <= 4 else 0, r, m,
+                     "Korte vraag als aanloop ('Het resultaat? ...').")
 
     drie = re.compile(r"\b\w+(?:\s\w+)?,\s\w+(?:\s\w+)?,?\s(?:en|of|and|or)\s\w+", re.IGNORECASE)
     n_drie = sum(len(drie.findall(r.tekst)) for r in zoekregels if r.soort == "proza")
@@ -385,7 +386,8 @@ def rapport(r: dict, titel: str = "Analyse") -> str:
     if len(tellend) > 25:
         regels.append(f"- ... en nog {len(tellend) - 25} bevindingen (zie --json)")
     if zwak:
-        regels.append(f"Zwakke tells (alleen erg in een cluster): {', '.join(sorted({b['match'].lower() for b in zwak}))}")
+        woorden = ", ".join(sorted({b["match"].lower() for b in zwak}))
+        regels.append(f"Zwakke tells (alleen erg in een cluster): {woorden}")
     if r["stem_afwijkingen"]:
         regels.append("Afwijkend van jouw stem: " + "; ".join(r["stem_afwijkingen"]))
     if not tellend:

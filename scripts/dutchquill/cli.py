@@ -18,6 +18,8 @@ EIGEN = {
     "stem": "stem",
     "feiten": "feiten",
     "gids": "gidsen",
+    "export": "export",
+    "template": "templates_docx",
 }
 
 # Bestaande tools uit v1 (worden in latere fases omgebouwd); hun main() leest sys.argv
@@ -29,13 +31,8 @@ TOOLS = {
     "taalcheck": ("taalcheck", "LanguageTool, alleen als privacy.languagetool aan staat (was grammar_check.py)"),
     "diff": ("diff", "Woordverschil origineel/nieuw (was diff_viewer.py)"),
     "docx-tekst": ("docx_tekst", ".docx naar Markdown en afbeeldingen (was docx_to_text.py)"),
-    "md-docx": ("md_docx", "Markdown naar APA-.docx (was md_to_docx.py)"),
-    "export-apa": ("export_apa", "APA-.docx uit payload-JSON (was word_export.py)"),
-    "export-zakelijk": ("export_zakelijk", "Zakelijk .docx (was professional_export.py)"),
     "grafiek": ("grafiek", "Grafieken als png (was generate_chart.py)"),
     "diagram": ("diagram", "Diagrammen als png (was generate_diagram.py)"),
-    "scorekaart": ("scorekaart", "Scoredashboard als png (was generate_review_chart.py)"),
-    "rapport-pdf": ("rapport_pdf", "Analyse-/reviewrapport als pdf (was generate_report_pdf.py)"),
 }
 
 
