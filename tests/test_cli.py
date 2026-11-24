@@ -18,7 +18,7 @@ def test_elke_tool_laadt(cmd, monkeypatch):
     assert e.value.code == 0
 
 
-@pytest.mark.parametrize("cmd", ["config", "werkmap", "versie", "historie", "doctor"])
+@pytest.mark.parametrize("cmd", list(cli.EIGEN))
 def test_eigen_commando_help(cmd, monkeypatch):
     monkeypatch.setattr(sys, "argv", ["dq", cmd, "--help"])
     with pytest.raises(SystemExit) as e:
