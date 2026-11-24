@@ -52,6 +52,9 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
      `[cijfer nodig]` of `[voorbeeld nodig]`.
    - Ook kleur en sfeer zijn feiten: avonden en weekenden, een tijdstip, wat iemand voelde of dacht, hoe iets ging.
      Staat het niet in de vraag of het materiaal, dan schrijf je het niet. Een korte post mag kort blijven.
+   - Ook een persoonlijke les, mening of ervaring is een feit. Leid die niet af uit wat de gebruiker gaf; zet
+     `[voorbeeld nodig]` of laat het weg. Moet je een zin als aanname melden, dan hoort hij niet in de tekst.
+     (Een conclusie die uit het materiaal volgt, zoals in een rapport, valt hier niet onder.)
    - Beelden uit het materiaal zet je op de plek waar de tekst erover gaat, met een bijschrift en een
      verwijzing in de tekst (markdown.md).
    - Bevat het materiaal cijfers die een grafiek waard zijn, maak er dan een:

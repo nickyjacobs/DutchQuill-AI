@@ -12,6 +12,11 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ## [Unreleased]
 
+### 🐛 Fixed
+
+- LinkedIn posts no longer draw a lesson or opinion you didn't give. The post leaves the step out or marks it with
+  `[voorbeeld nodig]` and a short question, so you fill it in yourself.
+
 ---
 
 ## [2.0.1] - 2026-11-25
