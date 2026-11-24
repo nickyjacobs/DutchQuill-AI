@@ -73,5 +73,6 @@ controleert dit allemaal.
 
    De workflow `release` controleert dat de tag op `main` staat en bij de CHANGELOG past, en maakt de
    GitHub-release met het blok uit de CHANGELOG als tekst.
-5. **Terug naar `develop`:** `git checkout develop && git merge main && git push`, zodat de merge-commit ook op
-   `develop` staat.
+5. **Terug naar `develop`:** open een pull request van `main` naar `develop` (titel `Merge main into develop after
+   vX.Y.Z`) en merge die met een merge-commit. Rechtstreeks pushen naar `develop` kan niet: de ruleset staat alleen
+   pull requests toe.
