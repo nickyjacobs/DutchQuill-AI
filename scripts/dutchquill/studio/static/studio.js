@@ -11,6 +11,7 @@ const TOKEN = (() => {
 })();
 const START_SCHERM = new URLSearchParams(location.hash.slice(1)).get("s");
 const START_MENU = new URLSearchParams(location.hash.slice(1)).get("m");
+const START_TAAL = new URLSearchParams(location.hash.slice(1)).get("l");
 if (location.hash) history.replaceState(null, "", location.pathname);
 
 async function api(methode, pad, body) {
@@ -517,7 +518,10 @@ const FORMAAT_NAAM = { docx: "Word (.docx)", pdf: "PDF", md: "Markdown (.md)", t
 
 // ------------------------------------------------------------------ toestand
 const S = {
-  taal: (() => { try { return localStorage.getItem("dq-taal") || "nl"; } catch (e) { return "nl"; } })(),
+  taal: (() => {
+    if (START_TAAL === "nl" || START_TAAL === "en") return START_TAAL;
+    try { return localStorage.getItem("dq-taal") || "nl"; } catch (e) { return "nl"; }
+  })(),
   scherm: null, installatie: false, status: null, schema: null, ingebouwd: {}, standaard: {},
   ruw: {}, origineel: "{}", templates: [], stem: null, vakken: {}, installKeuze: { optie: "documenten", pad: "", taal: "nl" },
 };
