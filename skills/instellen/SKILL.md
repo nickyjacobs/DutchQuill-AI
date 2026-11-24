@@ -104,7 +104,17 @@ Regels:
 - **Eigen template toevoegen:**
   1. Kopieer het bestand (nooit verplaatsen) naar de map `templates/` in de werkmap.
   2. Registreer het: `DQ config zet templates.<naam> "{bestand: templates/<bestand>, soort: docx, beschrijving: <tekst>}"`.
-  3. Vraag of het de standaard moet worden (`uitvoer.template`).
+  3. `DQ template check <naam>`: toont welke stijlen er zijn. Stelt het een mapping voor (bijvoorbeeld kop1 naar
+     "Kop 1" in een Nederlandse Word), zet die dan met de commando's uit `advies`.
+  4. Vraag of het de standaard moet worden (`uitvoer.template`).
+- **Opmaak aanpassen** ("koppen in Arial 14 blauw", "ruimere regelafstand", "smallere marges"):
+  `DQ template aanpas --van <huidige template> --naar <nieuwe-naam> --stijl kop1.font=Arial --stijl kop1.grootte=14
+  --stijl kop1.kleur=1F4E79 [--marge 2] --beschrijving "<tekst>"`. Dat maakt een kopie in `templates/` en
+  registreert die; het origineel blijft. Daarna `DQ config zet uitvoer.template <nieuwe-naam>`.
+  Sleutels: titel, ondertitel, kop1 tot kop4, normaal, bijschrift, citaat, code. Eigenschappen: font, grootte,
+  kleur, vet, cursief, uitlijning, regelafstand, voor, na. Meer dan dit (kop- en voettekst, logo) doet de
+  gebruiker in Word in de gekopieerde template.
+- **Templates bekijken:** `DQ template lijst`.
 - **Werkmap verplaatsen:** maak de nieuwe map met `DQ werkmap init --pad ...`. Inhoud verhuizen doe je pas na een
   expliciete ja van de gebruiker, en dan kopiëren en niet verwijderen.
 - **Onduidelijk verzoek:** stel één gerichte vraag. Is het bij twee opties duidelijk welke past, kies die dan en

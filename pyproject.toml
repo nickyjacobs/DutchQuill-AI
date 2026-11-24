@@ -14,12 +14,11 @@ target-version = "py310"
 # v1-tools die nog omgebouwd worden (fase 3 en 5); haal ze hier weg zodra ze geport zijn.
 extend-exclude = [
   "scripts/dutchquill/apa_check.py", "scripts/dutchquill/apa_bron.py", "scripts/dutchquill/taalcheck.py",
-  "scripts/dutchquill/tells.py", "scripts/dutchquill/tells_en.py", "scripts/dutchquill/leesbaarheid.py",
+  "scripts/dutchquill/leesbaarheid.py",
   "scripts/dutchquill/diff.py", "scripts/dutchquill/docx_tekst.py", "scripts/dutchquill/md_docx.py",
-  "scripts/dutchquill/export_apa.py", "scripts/dutchquill/export_zakelijk.py", "scripts/dutchquill/grafiek.py",
-  "scripts/dutchquill/diagram.py", "scripts/dutchquill/scorekaart.py", "scripts/dutchquill/rapport_pdf.py",
-  "scripts/dutchquill/stijlcheck.py",
-]
+  "scripts/dutchquill/export_apa.py", "scripts/dutchquill/grafiek.py",
+  "scripts/dutchquill/diagram.py",
+  ]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
