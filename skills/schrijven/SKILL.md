@@ -37,7 +37,10 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 2. **Genre, config en uitvoer** (werkwijze 1). Is de opdracht te dun om te schrijven, stel dan in één keer de
    vragen die je echt nodig hebt (doel, lezer, kernboodschap, lengte). Bij een mail of post is de
    opdracht meestal genoeg: schrijf, en zeg wat je aannam.
-3. **Gidsen lezen** (werkwijze 2): alles uit `DQ gids voor --genre <genre>`, plus het genre-sjabloon.
+3. **Gidsen lezen** (werkwijze 2): alles uit `DQ gids voor --genre <genre>`, plus het genre-sjabloon. Werkt `dq`
+   niet, lees dan rechtstreeks `${CLAUDE_PLUGIN_ROOT}/templates/genres/<genre>.md` (het sjabloon),
+   `${CLAUDE_PLUGIN_ROOT}/gidsen/toon.md` en `${CLAUDE_PLUGIN_ROOT}/gidsen/nl/kern.md` (Engels:
+   `gidsen/en/style.md`). Schrijf nooit zonder het genre-sjabloon gelezen te hebben.
 4. **Materiaal** (werkwijze 3), als de opdracht erom vraagt of naar de werkmap verwijst.
 5. **Opzet (alleen bij documenten).** Laat een korte opzet zien: koppen met per kop één regel over de inhoud, de
    figuren met hun plek, en wat er nog ontbreekt. Wacht op akkoord of aanpassingen. Bij chat-uitvoer sla je
@@ -47,6 +50,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - Volgens het genre-sjabloon en `kern.md`.
    - Gebruik alleen feiten uit het materiaal of van de gebruiker. Wat ontbreekt, markeer je als `[bron nodig]`,
      `[cijfer nodig]` of `[voorbeeld nodig]`.
+   - Ook kleur en sfeer zijn feiten: avonden en weekenden, een tijdstip, wat iemand voelde of dacht, hoe iets ging.
+     Staat het niet in de vraag of het materiaal, dan schrijf je het niet. Een korte post mag kort blijven.
    - Beelden uit het materiaal zet je op de plek waar de tekst erover gaat, met een bijschrift en een
      verwijzing in de tekst (markdown.md).
    - Bevat het materiaal cijfers die een grafiek waard zijn, maak er dan een:
