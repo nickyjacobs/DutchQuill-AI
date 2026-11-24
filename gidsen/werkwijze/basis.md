@@ -24,6 +24,10 @@ Elk `dq`-commando draai je via Bash met het voorvoegsel uit de skill:
    afwijkt ("zonder APA", "luchtiger", "in het Engels", "als pdf"), geef dat dan mee met
    `--set controles.apa=false`, `--set toon.niveau=luchtig`, `--set taal=en` of `--set uitvoer.formaten=[pdf]`.
    Bij elk volgend commando geef je dezelfde `--set`-waarden mee.
+   **Werkt `dq` niet** (de melding zegt het, of het commando blijft hangen), ga dan verder zonder: lees de gidsen
+   rechtstreeks uit de pluginmap. Altijd `templates/genres/<genre>.md` en `gidsen/toon.md`; voor Nederlands
+   `gidsen/nl/kern.md`, voor Engels `gidsen/en/style.md`; bij humaniseren `gidsen/nl/humaniseren.md` of
+   `gidsen/en/humanize.md`. Zeg aan het eind in één regel dat de scripts niet draaiden.
 3. **Chat of bestand.** Staat het genre in `uitvoer.chat_voor`, dan komt het resultaat alleen in de chat: geen
    bestanden, geen versie. Zegt de gebruiker "sla op" of "maak er een bestand van", dan wel. Al het andere gaat
    naar de werkmap. Een README in een repository is een voorstel in de chat; het bestand wordt pas overschreven
