@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DutchQuill Studio</title>
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <a class="skip" href="#inhoud">Naar de inhoud</a>
+  <div class="app">
+    <aside class="rail" aria-label="Onderdelen">
+      <div class="merk">
+        <img src="icon.png" alt="" width="44" height="44">
+        <div>
+          <p class="merk-naam">DutchQuill</p>
+          <p class="merk-sub" data-t="studio">Studio</p>
+        </div>
+      </div>
+      <nav id="nav"></nav>
+      <div class="rail-voet">
+        <button type="button" class="link" id="taalknop">English</button>
+        <button type="button" class="link" id="themaknop" data-t="thema">Donker</button>
+      </div>
+    </aside>
+    <main id="inhoud" tabindex="-1">
+      <div id="scherm" aria-live="polite"></div>
+    </main>
+  </div>
+  <div class="opslagbalk" id="opslagbalk" hidden>
+    <p id="opslagtekst"></p>
+    <div class="knoppen">
+      <button type="button" class="tweede" id="terugdraaien" data-t="terugdraaien">Terugdraaien</button>
+      <button type="button" class="eerste" id="bekijk" data-t="bekijkopslaan">Bekijken en opslaan</button>
+    </div>
+  </div>
+  <dialog id="dialoog" aria-labelledby="dialoogtitel">
+    <form method="dialog" class="dialoog">
+      <h2 id="dialoogtitel"></h2>
+      <div id="dialooginhoud"></div>
+      <div class="knoppen" id="dialoogknoppen"></div>
+    </form>
+  </dialog>
+  <div class="melding" id="melding" role="status" hidden></div>
+  <script src="studio.js"></script>
+</body>
+</html>
