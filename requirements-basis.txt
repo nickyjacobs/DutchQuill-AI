@@ -1,0 +1,3 @@
+# DutchQuill AI: wat de lichte commando's nodig hebben (config, gidsen, tells, feiten, versies).
+# De rest staat in requirements.txt en wordt pas geïnstalleerd als een commando het nodig heeft.
+ruamel.yaml>=0.18,<0.20

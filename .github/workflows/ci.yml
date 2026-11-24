@@ -1,28 +1,41 @@
-name: Tool validation
+name: ci
 
 on:
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  validate-tools:
-    runs-on: ubuntu-latest
-
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.4.0
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Ruff
+        run: uvx ruff check scripts hooks tests
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Pytest
+        run: uv run --no-project --python 3.12 --with-requirements requirements.txt --with pytest pytest -q
 
-      - name: Validate all tools load correctly
+      - name: Release-check (versies en CHANGELOG)
+        run: uv run --script scripts/dev/release_check.py
+
+      - name: dq-wrapper (venv, doctor, werkmap)
+        if: runner.os != 'Windows'
+        env:
+          CLAUDE_PLUGIN_DATA: ${{ runner.temp }}/dqdata
         run: |
-          for tool in tools/*.py; do
-            echo "Checking $tool..."
-            python3 "$tool" --help > /dev/null
-          done
+          scripts/dq doctor
+          scripts/dq werkmap init --pad "${{ runner.temp }}/werkmap" --profiel student
+          scripts/dq config valideer

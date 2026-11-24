@@ -1,129 +1,102 @@
 # Configuratie
 
-## Gebruikersprofiel
+Alle instellingen staan in `dutchquill.yaml` in je werkmap. Je past ze aan in DutchQuill Studio, door het tegen
+Claude te zeggen (`/dutchquill:instellen`), of in het bestand zelf. `dq config valideer` controleert het bestand;
+DutchQuill weigert op te slaan wat niet klopt, en bewaart je commentaar en een `.bak`.
 
-In `config/user_profile.json` staan je persoonlijke gegevens. Die worden automatisch ingevuld bij het aanmaken van APA-titelpagina's en document-metadata. Het profiel is niet verplicht, maar scheelt je tijd.
+## Voorrang
 
-### Instellen
+Van laag naar hoog: de standaardwaarden, `dutchquill.yaml`, het actieve profiel (met zijn `basis`-keten), een
+`.dutchquill.yaml` in je project, en wat je in je vraag zegt ("zonder APA", "luchtiger").
 
-```bash
-cp config/user_profile.example.json config/user_profile.json
+Een meegeleverd profiel (student, zakelijk, social, techniek) blijft altijd zoals het is. Pas je een controle, de
+toon of de uitvoer aan terwijl zo'n profiel actief is, dan maakt DutchQuill een eigen kopie `<naam>-eigen` en zet
+die actief.
+
+## Per project
+
+Een `.dutchquill.yaml` in een projectmap (bijvoorbeeld een repository waarvoor je README's schrijft) mag deze
+sleutels bevatten: `werkmap`, `profiel`, `taal`, `controles`, `toon`, `uitvoer`. Voorbeeld:
+
+```yaml
+taal: en
+profiel: techniek
+toon: { niveau: neutraal }
 ```
 
-Open `config/user_profile.json` en vul je gegevens in.
+## Alle sleutels
 
-### Velden
+Gegenereerd uit `config/schema.json`.
 
-| Veld | Type | Voorbeeld | Gebruik |
-|------|------|-----------|---------|
-| `voornaam` | string | `"Jan"` | Titelpagina, auteursnaam |
-| `tussenvoegsel` | string | `"van"` | Titelpagina (optioneel) |
-| `achternaam` | string | `"Dijk"` | Titelpagina, auteursnaam |
-| `studentnummer` | string | `"900123456"` | Titelpagina |
-| `instelling` | string | `"Hogeschool Amsterdam"` | Titelpagina |
-| `faculteit` | string | `"Faculteit Techniek"` | Titelpagina |
-| `opleiding` | string | `"Software Engineering"` | Titelpagina |
-| `docenten` | array | Zie onder | Titelpagina (begeleider) |
-| `vakken` | array | Zie onder | Titelpagina (vaknaam + code) |
+<!-- tabel:begin -->
+| Sleutel | Waarden | Standaard | Betekenis |
+|---|---|---|---|
+| `versie` | integer | `1` | Configversie. |
+| `taal` | `nl` \| `en` \| `auto` | `"nl"` | Taal. auto volgt de taal van je materiaal of je vraag. |
+| `profiel` | string | `"zakelijk"` | Actief profiel. Meegeleverd: student, zakelijk, social, techniek. Of een eigen profiel hieronder. |
+| `profielen` | object | `{}` | Eigen profielen. |
+| `genre_profielen` | object | `{}` | Automatisch profiel per genre. Bijvoorbeeld mail: zakelijk. Wint van het actieve profiel als het genre klopt. |
+| `mappen.input` | string | `"1-input"` |  |
+| `mappen.output` | string | `"2-output"` |  |
+| `mappen.notities` | string | `"notities"` |  |
+| `mappen.rapporten` | string | `"rapporten"` |  |
+| `mappen.beeld` | string | `"beeld"` |  |
+| `mappen.bronnen` | string | `"bronnen"` |  |
+| `mappen.mijn_stijl` | string | `"mijn-stijl"` |  |
+| `mappen.schrijven` | string | `"schrijven"` |  |
+| `mappen.herschrijven` | string | `"herschrijven"` |  |
+| `mappen.reviewen` | string | `"reviewen"` |  |
+| `mappen.humaniseren` | string | `"humaniseren"` |  |
+| `mappen.templates` | string | `"templates"` |  |
+| `versies` | boolean | `true` | Versies bijhouden. Elke nieuwe ronde over dezelfde titel komt in een nieuwe map (v2, v3 enzovoort). |
+| `privacy.languagetool` | boolean | `false` | Online taalcheck (LanguageTool). Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal. |
+| `stem.gebruiken` | boolean | `true` | Schrijf in mijn stem. Gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld voor ritme, woordkeus en zinsopbouw. |
+| `student` | object |  | Studentgegevens (optioneel). Voor de titelpagina van een hbo-rapport. |
+| `professioneel.naam` | string |  | Naam. |
+| `professioneel.functie` | string |  | Functie. |
+| `professioneel.organisatie` | string |  | Organisatie. |
+| `professioneel.afdeling` | string |  | Afdeling of team. |
+| `professioneel.telefoon` | string |  | Telefoon. |
+| `professioneel.email` | string |  | E-mail. |
+| `professioneel.website` | string |  | Website. |
+| `professioneel.linkedin` | string |  | LinkedIn. |
+| `professioneel.groet` | string | `"Met vriendelijke groet,"` | Afsluitende groet. Standaard voor zakelijke mails; DutchQuill past hem aan op de toon. |
+| `professioneel.handtekening` | string |  | Handtekening (afbeelding). |
+| `professioneel.banner` | string |  | Mailbanner (afbeelding). |
+| `templates` | object | `{}` | Eigen templates. |
+| `stijlen` | object | `{}` | Stijlnamen in je template. Alleen nodig als je template andere stijlnamen gebruikt, bijvoorbeeld kop1: Kop 1 in een Nederlandse Word. |
+| `bijwerken.herinnering_dagen` | integer | `30` | Herinnering na (dagen). |
 
-### Docenten
+**In een profiel** (`profielen.<naam>.…`):
 
-```json
-"docenten": [
-  {
-    "naam": "Dr. P. de Vries",
-    "rol": "begeleider",
-    "vak": "Afstuderen"
-  },
-  {
-    "naam": "Dhr. A. Jansen",
-    "rol": "tweede lezer",
-    "vak": "Onderzoeksmethoden"
-  }
-]
+| Sleutel | Waarden | Standaard | Betekenis |
+|---|---|---|---|
+| `controles.apa` | boolean | `false` | APA 7. Bronvermelding, literatuurlijst, titelpagina, figuren en tabellen volgens APA 7 (Scribbr NL). |
+| `controles.academische_stijl` | boolean | `false` | Academische stijl. Formeel en onderbouwd: geen spreektaal, geen ik/je, werkwoordstijden per hoofdstuk. |
+| `controles.taalregels` | boolean | `true` | Taal en spelling. Spelling, d/t, hoofdletters, komma's, samenstellingen, leesbaarheid. |
+| `controles.humaniseren` | boolean | `true` | Humaniseren. AI-patronen eruit en klinken als jij: ritme, concrete details, je eigen stem. |
+| `toon.niveau` | `formeel` \| `zakelijk` \| `neutraal` \| `informeel` \| `luchtig` | `"neutraal"` | Hoe klinkt het?. Van formeel (u, lange zinnen, geen humor) tot luchtig (je, korte zinnen, humor mag). |
+| `toon.aanspreekvorm` | `auto` \| `je` \| `u` \| `geen` | `"auto"` | Aanspreekvorm. auto kiest per genre en lezer; geen betekent: de lezer niet aanspreken (academisch). |
+| `toon.mix` | string | `""` | Eigen mix (vrij). Bijvoorbeeld: zakelijk, maar met een luchtige afsluiting. |
+| `uitvoer.formaten` | lijst van `docx` \| `pdf` \| `md` \| `txt` \| `html` | `["docx"]` | Bestandsformaten. |
+| `uitvoer.chat_voor` | lijst van `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Alleen in de chat (geen bestand). Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op. |
+| `uitvoer.template` | string | `"zakelijk"` | Template. Naam van een meegeleverde of eigen template. |
+| `basis` | profielnaam |  | Bouwt voort op. Naam van een ander profiel. Alles wat je hier niet zet, komt daarvandaan. |
+| `taal` | `nl` \| `en` \| `auto` |  | Overschrijft de algemene taal voor dit profiel. |
+<!-- tabel:eind -->
+
+`student` bevat `voornaam`, `tussenvoegsel`, `achternaam`, `studentnummer`, `instelling`, `faculteit`,
+`opleiding`, `docenten` (lijst met `naam`, `rol`, `vak`) en `vakken` (lijst met `naam`, `code`). Inlevereisen en
+beoordelingscriteria per vak staan in `templates/vakken/<CODE>/quick-scan.md` en `beoordelingscriteria.md`.
+
+## Stijlnamen van een eigen template
+
+Gebruikt je template andere stijlnamen dan Word standaard heeft, vertaal ze dan met `stijlen`. Sleutels:
+`titel`, `ondertitel`, `kop1` tot `kop4`, `normaal`, `lijst_bullet`, `lijst_nummer`, `bijschrift`, `citaat`,
+`code`, `tabel`. `dq template check <naam>` stelt de vertaling voor.
+
+```yaml
+stijlen:
+  kop1: "Kop 1"
+  normaal: "Standaard"
 ```
-
-### Vakken
-
-```json
-"vakken": [
-  {
-    "naam": "Onderzoeksmethoden",
-    "code": "OZM301"
-  },
-  {
-    "naam": "Afstuderen",
-    "code": "AFS401"
-  }
-]
-```
-
-### Hoe het werkt
-
-De skills `/schrijven`, `/herschrijven` en `/reviewen` kijken bij het opstarten of `config/user_profile.json` bestaat:
-
-- **Bestand gevonden:** je gegevens worden als standaardwaarden ingevuld. Claude vraagt om bevestiging: "Klopt deze info voor dit rapport?"
-- **Bestand niet gevonden:** Claude vraagt de gegevens direct aan jou. De skills werken prima zonder profiel.
-- **Specifieke context:** als je een vak of docent noemt in je instructie, wordt die informatie gebruikt in plaats van wat in het profiel staat.
-
----
-
-## Quick Scans en Beoordelingscriteria
-
-Naast het gebruikersprofiel kun je per vak twee soorten eisen opslaan:
-
-| Map | Wat | Doel |
-|-----|-----|------|
-| `config/quick_scans/` | Inlevereisen (quick scan) | Checken of je opdracht mag worden ingeleverd |
-| `config/beoordelingscriteria/` | Beoordelingsrubric | Checken waarop je rapport wordt beoordeeld |
-
-### Instellen
-
-1. Kopieer het voorbeeldbestand en hernoem naar je vakcode:
-```bash
-cp config/quick_scans/VOORBEELD.md config/quick_scans/SYS.md
-cp config/beoordelingscriteria/VOORBEELD.md config/beoordelingscriteria/SYS.md
-```
-
-2. Vul de bestanden in op basis van de documenten van je hogeschool
-3. Zorg dat de bestandsnaam overeenkomt met de `code` in `user_profile.json` → `vakken[].code`
-
-### Formaat
-
-Elk bestand heeft twee secties:
-- **`## Rapportage`** — items die relevant zijn voor rapportages (worden gebruikt door DutchQuill AI)
-- **`## Praktijk`** — items voor praktijkopdrachten (worden genegeerd)
-
-Dit laat je het volledige document van je hogeschool plakken en eenmalig organiseren in de juiste secties.
-
-### Hoe het werkt
-
-Bij `/reviewen` kijkt de workflow in Stap 0:
-1. Leest de vakcode uit `user_profile.json`
-2. Zoekt matching bestanden in `config/quick_scans/` en `config/beoordelingscriteria/`
-3. Laadt alleen de `## Rapportage` items
-4. Voert **Domein 5: Inlevereisen & Beoordelingscriteria** uit als extra reviewstap
-
-Als geen bestanden gevonden: standaard review met 4 domeinen (huidige gedrag). De criteria zijn volledig optioneel.
-
-### Nieuw vak toevoegen
-
-1. Voeg het vak toe aan `user_profile.json` → `vakken[]`
-2. Maak `config/quick_scans/<VAKCODE>.md` aan
-3. Maak `config/beoordelingscriteria/<VAKCODE>.md` aan
-4. Vul de `## Rapportage` secties in
-
----
-
-### Privacy
-
-`config/user_profile.json` staat in `.gitignore` en wordt nooit meegecommit. Alleen het voorbeeldbestand (`config/user_profile.example.json`) zit in de repository.
-
-## Claude Code Settings
-
-De project-instellingen staan in `.claude/settings.json`:
-
-- **Permissions:** alle tools zijn vooraf goedgekeurd voor automatische uitvoering
-- **Hooks:** de stop-hook `check_verboden_woorden.py` draait na elke Claude-response
-
-Persoonlijke aanpassingen maak je in `.claude/settings.local.json` (ook gitignored).
