@@ -30,6 +30,19 @@ Hieronder staat dat als `DQ <commando>`.
 Staat hierboven een installatiemelding of een fout? Draai dan eerst `DQ doctor` (de eerste keer installeert dq
 zijn Python-pakketten, ± 1 minuut) en daarna `DQ config toon --kort`.
 
+## Visueel of in de chat?
+
+Vraagt de gebruiker om "visueel", "de Studio" of "een scherm", of is het de eerste keer en de vraag ligt
+open: bied DutchQuill Studio aan (een lokale pagina in de browser, er gaat niets naar internet). In de terminal
+werken kan ook. Kiest de gebruiker de Studio:
+
+1. Start hem op de achtergrond (Bash met `run_in_background`): `DQ studio`. De browser opent vanzelf. De eerste
+   regel van de uitvoer bevat de URL; noem alleen dat de Studio open staat, niet het token.
+2. Zeg dat de gebruiker op "Klaar" klikt als het klaar is. De Studio stopt ook na 15 minuten zonder
+   activiteit.
+3. Als het achtergrondproces klaar is: lees `${CLAUDE_PLUGIN_DATA}/studio-laatste.json`, draai
+   `DQ config toon --kort`, en vat in hooguit vijf regels samen wat er veranderd is.
+
 ## A. Eerste keer: werkmap staat op "nog niet ingesteld"
 
 Stel deze vier vragen in één AskUserQuestion. Zet je aanbeveling bovenaan; leg kort uit, geen jargon.
