@@ -27,7 +27,7 @@ async function api(methode, pad, body) {
 // ------------------------------------------------------------------ teksten
 const TEKST = {
   nl: {
-    studio: "Studio", thema: "Donker", thema_licht: "Licht", taalknop: "English",
+    studio: "Studio",
     terugdraaien: "Terugdraaien", bekijkopslaan: "Bekijken en opslaan", opslaan: "Opslaan", annuleren: "Annuleren",
     sluiten: "Sluiten", volgende: "Volgende", vorige: "Vorige", beginnen: "Beginnen",
     fout_algemeen: "Er ging iets mis. Probeer het opnieuw.",
@@ -40,6 +40,12 @@ const TEKST = {
     welkom_1: "DutchQuill schrijft, herschrijft, reviewt en humaniseert je teksten: een rapport, een mail, een LinkedIn-post of een README.",
     welkom_2: "Jij bepaalt hoe het klinkt, waarop het let en in welk formaat het terugkomt. Dat stel je hier in; later kan alles ook in een gesprek met Claude.",
     welkom_3: "Het instellen duurt een paar minuten. Er gaat niets naar internet.",
+    w_schrijven: "Schrijven", w_schrijven_u: "Rapporten, mails, posts en README's vanuit je eigen materiaal.",
+    w_herschrijven: "Herschrijven", w_herschrijven_u: "Korter, helderder, anders van toon of vertaald.",
+    w_reviewen: "Reviewen", w_reviewen_u: "Feedback op taal, opbouw, APA en de rubric van je vak.",
+    w_humaniseren: "Humaniseren", w_humaniseren_u: "AI-patronen eruit, en klinken zoals jij.",
+    w_duur: "Klaar in een paar minuten", w_lokaal: "Alles blijft op je computer",
+    thema_licht_l: "Licht", thema_auto_l: "Automatisch", thema_donker_l: "Donker",
     werkmap_titel: "Waar komt je DutchQuill-map?",
     werkmap_uitleg: "In deze map zet je je materiaal (notities, rapporten, afbeeldingen, bronnen) en daar komen je documenten terecht, per versie.",
     bureaublad: "Op het bureaublad", documenten: "In Documenten", zelf: "Zelf kiezen",
@@ -118,7 +124,7 @@ const TEKST = {
     bezig: "Bezig...",
   },
   en: {
-    studio: "Studio", thema: "Dark", thema_licht: "Light", taalknop: "Nederlands",
+    studio: "Studio",
     terugdraaien: "Undo changes", bekijkopslaan: "Review and save", opslaan: "Save", annuleren: "Cancel",
     sluiten: "Close", volgende: "Next", vorige: "Back", beginnen: "Get started",
     fout_algemeen: "Something went wrong. Try again.",
@@ -131,6 +137,12 @@ const TEKST = {
     welkom_1: "DutchQuill writes, rewrites, reviews and humanizes your texts: a report, an email, a LinkedIn post or a README.",
     welkom_2: "You decide how it sounds, what it checks and which format you get back. You set that up here; later you can also just tell Claude.",
     welkom_3: "Setup takes a few minutes. Nothing goes to the internet.",
+    w_schrijven: "Write", w_schrijven_u: "Reports, emails, posts and READMEs from your own material.",
+    w_herschrijven: "Rewrite", w_herschrijven_u: "Shorter, clearer, another tone, or translated.",
+    w_reviewen: "Review", w_reviewen_u: "Feedback on language, structure, APA and your course rubric.",
+    w_humaniseren: "Humanize", w_humaniseren_u: "AI patterns out, and sounding like you.",
+    w_duur: "Done in a few minutes", w_lokaal: "Everything stays on your computer",
+    thema_licht_l: "Light", thema_auto_l: "Automatic", thema_donker_l: "Dark",
     werkmap_titel: "Where should your DutchQuill folder go?",
     werkmap_uitleg: "You put your material here (notes, reports, images, sources) and your documents land here, one folder per version.",
     bureaublad: "On the desktop", documenten: "In Documents", zelf: "Choose myself",
@@ -442,13 +454,17 @@ function stapknoppen() {
 // ------------------------------------------------------------------ schermen
 const SCHERMEN = {
   welkom() {
-    return [
-      ...kop(T("welkom_titel")),
-      el("p", { klasse: "inleiding", tekst: T("welkom_1") }),
-      el("p", { tekst: T("welkom_2") }), el("p", { tekst: T("welkom_3") }),
-      el("div", { klasse: "knoppen" }, el("button", { type: "button", klasse: "eerste", tekst: T("beginnen"),
-        onclick: () => ga("werkmap") })),
-    ];
+    const acties = ["schrijven", "herschrijven", "reviewen", "humaniseren"];
+    return el("section", { klasse: "welkom" },
+      el("div", {},
+        el("div", { klasse: "welkom-merk" }, el("img", { src: "icon.png", alt: "" })),
+        el("h1", { tekst: T("welkom_titel") }),
+        el("p", { klasse: "inleiding", tekst: `${T("welkom_1")} ${T("welkom_2")}` })),
+      el("div", { klasse: "acties" }, acties.map((a) => el("div", {},
+        el("strong", { tekst: T(`w_${a}`) }), el("span", { tekst: T(`w_${a}_u`) })))),
+      el("div", { klasse: "welkom-voet" },
+        el("button", { type: "button", klasse: "eerste groot", tekst: T("beginnen"), onclick: () => ga("werkmap") }),
+        el("p", { tekst: `${T("w_duur")}. ${T("w_lokaal")}.` })));
   },
 
   werkmap() {
@@ -460,8 +476,8 @@ const SCHERMEN = {
         el("p", { klasse: "uitleg", tekst: T("map_verplaatsen") }),
         veld(T("taal"), el("select", { onchange: (e) => { S.ruw.taal = e.target.value; gewijzigd(); } },
           ["nl", "en", "auto"].map((t) => el("option", { value: t, selected: (S.ruw.taal || "nl") === t, tekst: T(`taal_${t}`) })))),
-        schakelaar(T("versies"), T("versies_uitleg"), S.ruw.versies !== false,
-          (v) => { S.ruw.versies = v; gewijzigd(); }),
+        el("div", { klasse: "schakelaars" }, schakelaar(T("versies"), T("versies_uitleg"), S.ruw.versies !== false,
+          (v) => { S.ruw.versies = v; gewijzigd(); })),
         S.installatie ? stapknoppen() : null,
       ];
     }
@@ -566,8 +582,8 @@ const SCHERMEN = {
     return [
       ...kop(T("controles_titel"), T("controles_uitleg")),
       el("p", { klasse: "label-klein", tekst: T("actief_profiel", actiefNaam()) }),
-      Object.entries(props).map(([k, d]) => schakelaar(lab(d["x-label"]), lab(d["x-uitleg"]), p.controles[k],
-        (v) => { zetProfiel("controles", k, v); }, T(`vb_${k}`))),
+      el("div", { klasse: "schakelaars" }, Object.entries(props).map(([k, d]) => schakelaar(lab(d["x-label"]),
+        lab(d["x-uitleg"]), p.controles[k], (v) => { zetProfiel("controles", k, v); }, T(`vb_${k}`)))),
     ];
   },
 
@@ -707,8 +723,8 @@ const SCHERMEN = {
     ].map(([a, b]) => el("tr", {}, el("td", { tekst: a }), el("td", { tekst: b })))) : null;
     return [
       ...kop(T("stem_titel"), T("stem_uitleg")),
-      schakelaar(T("stem_gebruiken"), null, (S.ruw.stem || {}).gebruiken !== false,
-        (v) => { S.ruw.stem = { ...(S.ruw.stem || {}), gebruiken: v }; gewijzigd(); }),
+      el("div", { klasse: "schakelaars" }, schakelaar(T("stem_gebruiken"), null, (S.ruw.stem || {}).gebruiken !== false,
+        (v) => { S.ruw.stem = { ...(S.ruw.stem || {}), gebruiken: v }; gewijzigd(); })),
       el("h2", { tekst: T("stem_bestanden") }),
       s.bestanden.length ? el("ul", { klasse: "lijst" }, s.bestanden.map((b) => el("li", { tekst: b })))
         : el("p", { klasse: "uitleg", tekst: T("stem_leeg") }),
@@ -733,8 +749,8 @@ const SCHERMEN = {
     const props = S.schema.properties.privacy.properties;
     return [
       ...kop(T("privacy_titel"), T("privacy_uitleg")),
-      schakelaar(lab(props.languagetool["x-label"]), lab(props.languagetool["x-uitleg"]), pr.languagetool,
-        (v) => zet("languagetool", v), T("lt_extra")),
+      el("div", { klasse: "schakelaars" }, schakelaar(lab(props.languagetool["x-label"]),
+        lab(props.languagetool["x-uitleg"]), pr.languagetool, (v) => zet("languagetool", v), T("lt_extra"))),
       S.installatie ? stapknoppen() : null,
     ];
   },
@@ -868,36 +884,38 @@ async function sluit() {
   document.getElementById("opslagbalk").hidden = true;
   document.getElementById("nav").replaceChildren();
   document.getElementById("scherm").replaceChildren(...kop(T("gesloten_titel"), T("gesloten_uitleg")));
+  // Een tabblad dat de browser zelf opende, met één pagina in de geschiedenis, mag het script sluiten.
+  setTimeout(() => { window.close(); }, 600);
 }
 
 // ------------------------------------------------------------------ thema en taal
 function zetThema(t) {
-  document.documentElement.dataset.theme = t;
-  document.getElementById("themaknop").textContent = t === "dark" ? T("thema_licht") : T("thema");
+  if (t === "auto") delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = t;
   try { localStorage.setItem("dq-thema", t); } catch (e) { /* geen opslag */ }
+  document.querySelectorAll("#themakeuze button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.thema === t)));
 }
 function vertaalVast() {
   document.documentElement.lang = S.taal;
   document.querySelectorAll("[data-t]").forEach((n) => { n.textContent = T(n.dataset.t); });
-  document.getElementById("taalknop").textContent = T("taalknop");
-  const donker = document.documentElement.dataset.theme === "dark"
-    || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
-  document.getElementById("themaknop").textContent = donker ? T("thema_licht") : T("thema");
+  document.querySelectorAll("#taalkeuze button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.taal === S.taal)));
+  const namen = { light: T("thema_licht_l"), auto: T("thema_auto_l"), dark: T("thema_donker_l") };
+  document.querySelectorAll("#themakeuze button").forEach((b) => {
+    b.setAttribute("aria-label", namen[b.dataset.thema]); b.title = namen[b.dataset.thema];
+  });
 }
 
 // ------------------------------------------------------------------ start
 async function start() {
-  try { const t = localStorage.getItem("dq-thema"); if (t) document.documentElement.dataset.theme = t; } catch (e) { /* */ }
-  document.getElementById("themaknop").addEventListener("click", () => {
-    const nu = document.documentElement.dataset.theme
-      || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    zetThema(nu === "dark" ? "light" : "dark");
-  });
-  document.getElementById("taalknop").addEventListener("click", () => {
-    S.taal = S.taal === "nl" ? "en" : "nl";
+  let thema = "auto";
+  try { thema = localStorage.getItem("dq-thema") || "auto"; } catch (e) { /* */ }
+  zetThema(thema);
+  document.querySelectorAll("#themakeuze button").forEach((b) => b.addEventListener("click", () => zetThema(b.dataset.thema)));
+  document.querySelectorAll("#taalkeuze button").forEach((b) => b.addEventListener("click", () => {
+    S.taal = b.dataset.taal;
     try { localStorage.setItem("dq-taal", S.taal); } catch (e) { /* */ }
-    vertaalVast(); toon();
-  });
+    vertaalVast(); if (S.status) toon();
+  }));
   document.getElementById("terugdraaien").addEventListener("click", () => { S.ruw = JSON.parse(S.origineel); toon(); });
   document.getElementById("bekijk").addEventListener("click", () => bekijkEnOpslaan());
   vertaalVast();
