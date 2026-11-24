@@ -9,9 +9,9 @@ gebruikers doet, staat in de skills.
 ```text
 .claude-plugin/   plugin.json (versie, icoon, netwerkhosts) en marketplace.json (source: ./)
 skills/           schrijven, herschrijven, reviewen, humaniseren, instellen, bijwerken  → /dutchquill:<naam>
-agents/           subagents (tekst-analist, later bronnen-lezer en stem-analist)
+agents/           subagents: tekst-analist, bronnen-lezer, stem-analist
 hooks/            alleen SessionStart (sessie_start.py, stdlib): "nog niet ingesteld" en de maandmelding
-scripts/dq        wrapper: maakt bij eerste gebruik een venv in ${CLAUDE_PLUGIN_DATA}, roept dutchquill.cli aan
+scripts/dq        wrapper: venv in ${CLAUDE_PLUGIN_DATA}; lichte commando's alleen requirements-basis.txt
 scripts/dutchquill/  Python-pakket; eigen commando's (config, werkmap, versie, historie, doctor) en tools
 config/           schema.json (bron van waarheid voor config, Studio en skill), profielen.yaml, voorbeeldconfig
 gidsen/           referentiegidsen met bronnen; stand.json = datum van de laatste controle
@@ -33,7 +33,7 @@ tests/            pytest
 
 ```bash
 uv run --no-project --python 3.12 --with-requirements requirements.txt --with pytest pytest -q
-uvx ruff check scripts/dutchquill hooks tests      # de v1-tools worden in fase 3 en 5 lint-schoon gemaakt
+uvx ruff check scripts hooks tests
 claude plugin validate .
 claude -p --plugin-dir . "/dutchquill:instellen ..."   # proefrun; data komt in ~/.claude/plugins/data/dutchquill-inline
 ```
@@ -42,4 +42,4 @@ Lokaal draaien zonder plugin: `scripts/dq <commando>` gebruikt dan `.dev-data/` 
 
 ## Status v2
 
-Roadmap en fases: `docs/roadmap-v2.md`. Branch: `feature/plugin-v2`.
+Roadmap: `docs/roadmap-v2.md`. Ontwikkelen: `docs/ontwikkelen.md`. Branch: `feature/plugin-v2`.

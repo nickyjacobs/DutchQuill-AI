@@ -9,6 +9,11 @@ description: >-
   om een tekst te schrijven, op te stellen of te maken ("schrijf een mail aan", "maak een rapport van mijn
   notities", "write a LinkedIn post about", "draft a README").
 argument-hint: "[wat je wilt laten schrijven]"
+when_to_use: >-
+  Gebruik deze skill ook als de gebruiker DutchQuill niet noemt: bij elk verzoek om een tekst voor iemand anders te
+  schrijven of op te stellen, hoe kort ook (een mail of antwoord op een mail, een bericht aan een collega, een
+  LinkedIn- of social post, een bio, een rapport, een README). Ook in het Engels ("write", "draft", "compose").
+  Niet voor code, commit messages of uitleg in de chat zelf.
 ---
 
 # Schrijven
@@ -23,7 +28,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 ## Stand
 
-!`CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
+!`DQ_NIET_INSTALLEREN=1 CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
 
 ## Stappen
 

@@ -30,10 +30,17 @@ social posts, procesdocumentatie, research en README's. Nederlands eerst, Engels
 |---|---|---|
 | 0 | Repo voorbereiden, branch `feature/plugin-v2` | klaar |
 | 1 | Pluginskelet: manifest, `dq`-wrapper met venv, config met schema en profielen, werkmap, versies, historie, SessionStart-hook, `/dutchquill:instellen` | klaar |
-| 2 | Input-pipeline: inventaris, extractie (docx, pdf, md, html, pptx, xlsx), beelden, subagent `bronnen-lezer` | |
-| 3 | Gidsen: splitsen in modules, humaniseren NL en EN herschreven, `dq tells`, `dq feiten`, toonschaal, AI-bronvermelding volgens APA 2025 | |
-| 4 | Kernskills herschrijven: genre, toon, modules, chat of bestand, genre-sjablonen | |
-| 5 | Export: template-gestuurde exporter, `apa-hbo.docx`, pdf, md, txt en html, eerlijke metadata | |
-| 6 | `/dutchquill:bijwerken` en de maandmelding | |
-| 7 | DutchQuill Studio en de subagent `stem-analist` | |
-| 8 | Tests, evals, README, release v2.0.0 | |
+| 2 | Input-pipeline: inventaris, extractie (docx, pdf, md, html, pptx, xlsx), beelden, subagent `bronnen-lezer` | klaar |
+| 3 | Gidsen: splitsen in modules, humaniseren NL en EN herschreven, `dq tells`, `dq feiten`, toonschaal, AI-bronvermelding volgens APA 2025 | klaar |
+| 4 | Kernskills herschrijven: genre, toon, modules, chat of bestand, genre-sjablonen | klaar |
+| 5 | Export: template-gestuurde exporter, `apa-hbo.docx`, pdf, md, txt en html, eerlijke metadata | klaar |
+| 6 | `/dutchquill:bijwerken` en de maandmelding | klaar |
+| 7 | DutchQuill Studio en de subagent `stem-analist` | klaar |
+| 8 | Tests, evals, README, release v2.0.0 | bezig |
+
+## Na 2.0
+
+- **2.1:** illustraties laten maken (kie.ai of een ander beeldmodel) als optionele module, met de API-key in de
+  sleutelhanger via `/plugin configure`.
+- Een tab "Mijn teksten" in de Studio met de versies per titel.
+- Meer evals per genre, en de descriptions bijschaven met skill-creator.

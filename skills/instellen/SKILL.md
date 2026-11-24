@@ -25,7 +25,7 @@ Hieronder staat dat als `DQ <commando>`.
 
 ## Huidige stand
 
-!`CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -12 || true`
+!`DQ_NIET_INSTALLEREN=1 CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -12 || true`
 
 Staat hierboven een installatiemelding of een fout? Draai dan eerst `DQ doctor` (de eerste keer installeert dq
 zijn Python-pakketten, ± 1 minuut) en daarna `DQ config toon --kort`.

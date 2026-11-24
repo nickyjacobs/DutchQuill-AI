@@ -8,6 +8,9 @@ description: >-
   /dutchquill:reviewen, of als de gebruiker vraagt een tekst na te kijken, te beoordelen of feedback te geven
   ("kijk mijn rapport na", "review this draft", "is deze mail goed zo", "geef feedback op hoofdstuk 3").
 argument-hint: "[tekst of pad] [waar je vooral op wilt letten]"
+when_to_use: >-
+  Gebruik deze skill ook als de gebruiker DutchQuill niet noemt: bij elke vraag om feedback op of een check van
+  een eigen tekst (rapport, hoofdstuk, mail, post), zonder dat de tekst herschreven hoeft te worden.
 ---
 
 # Reviewen
@@ -24,7 +27,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 ## Stand
 
-!`CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
+!`DQ_NIET_INSTALLEREN=1 CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
 
 ## Stappen
 
