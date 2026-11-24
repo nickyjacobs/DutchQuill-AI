@@ -66,7 +66,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - Hooguit drie rondes.
 9. **Uitvoer** (werkwijze 6 en 7).
    - Chat: de nieuwe tekst, plus één regel met de score voor en na.
-   - Document: een nieuwe versie in `2-output/humaniseren/<titel>/`, en in `wat-is-er-veranderd.md` per
+   - Document: een nieuwe versie in `2-output/humaniseren/<titel>/` (komt de tekst uit `2-output/`, dan met
+     `DQ versie volgende --van "<pad>"` als vN+1 in dezelfde titelmap), en in `wat-is-er-veranderd.md` per
      patroongroep wat er aangepast is.
 
 ## Klaar als

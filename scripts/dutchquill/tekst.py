@@ -142,9 +142,19 @@ def lettergrepen(woord: str, taal: str) -> int:
     return max(1, len(re.findall(r"[aeiouy]{1,2}", w)))
 
 
-def flesch(tekst: str, taal: str) -> float | None:
-    ws = woorden(tekst)
-    zs = zinnen(tekst)
+def leeszinnen(rs: list[Regel]) -> list[str]:
+    """Zinnen voor de leesbaarheid: lopende tekst plus elk opsommingspunt; koppen, code en tabellen tellen niet."""
+    uit = [z for a in alineas(rs) for _, z in a.zinnen]
+    for r in rs:
+        if r.soort == "lijst":
+            uit += zinnen(r.tekst)
+    return uit
+
+
+def flesch(tekst: str, taal: str, zs: list[str] | None = None) -> float | None:
+    """Flesch-Douma (nl) of Flesch Reading Ease (en). Geef `zs` mee om de zinsindeling vast te leggen."""
+    zs = zinnen(tekst) if zs is None else zs
+    ws = [w for z in zs for w in woorden(z)] if zs else woorden(tekst)
     if len(ws) < 30 or not zs:
         return None
     lpw = sum(lettergrepen(w, taal) for w in ws) / len(ws)
@@ -196,7 +206,7 @@ def statistiek(tekst: str, taal: str | None = None) -> dict:
         "haakjes_per_1000": per1000(proza.count("(")),
         "emoji_per_1000": per1000(len(EMOJI.findall(tekst))),
         "mattr": mattr(ws),
-        "flesch": flesch(proza, taal),
+        "flesch": flesch(proza, taal, leeszinnen(rs)),
         "top_zinsbegin": [w for w, _ in __import__("collections").Counter(eerste).most_common(8)],
         "je_u": {"je": sum(w.lower() in ("je", "jij", "jouw", "jou") for w in ws),
                  "u": sum(w.lower() in ("u", "uw") for w in ws)},

@@ -103,3 +103,13 @@ def test_citaten_en_blokcitaten_tellen_niet():
 def test_klinkt_als_ai_is_geen_chatbotrest():
     assert tells.analyseer("Een vage tekst klinkt als AI, en hij zegt ook minder.", taal="nl")["punten"] == 0
     assert tells.analyseer("Als taalmodel kan ik dat niet beoordelen.", taal="nl")["punten"] > 0
+
+
+def test_leesbaarheid_gelijk_in_tells_en_leesbaarheid():
+    from dutchquill import leesbaarheid, tekst
+    md = ("---\ntitel: x\n---\n\n# Kop\n\nDit is een gewone zin met wat woorden erin. Nog een zin volgt hier.\n\n"
+          "1. Open het programma en kies een map\n2. Klik op de knop om verder te gaan\n"
+          "3. Sla je werk op voordat je het venster sluit\n\n"
+          "Daarna kun je verder werken aan je tekst, zonder dat er iets verloren gaat.\n")
+    assert tekst.statistiek(md, "nl")["flesch"] == leesbaarheid.flesch_douma(md)["score"]
+    assert leesbaarheid.flesch_douma(md)["zinnen"] == 6

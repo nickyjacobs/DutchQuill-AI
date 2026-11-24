@@ -1,6 +1,7 @@
 """Versies per titel: 2-output/<actie>/<titel>/v1, v2, ...
 
   dq versie volgende --actie schrijven --titel "Mijn rapport"   # maakt de map aan, geeft JSON terug
+  dq versie volgende --van "2-output/schrijven/Mijn rapport/v1/bron.md"   # nieuwe ronde in dezelfde titelmap
   dq versie laatste  --actie schrijven --titel "Mijn rapport"
   dq versie lijst    [--actie schrijven]
 """
@@ -42,7 +43,29 @@ def bestaande(titelmap: Path) -> list[int]:
     return sorted(int(m.group(1)) for d in titelmap.iterdir() if d.is_dir() and (m := _VERSIE.match(d.name)))
 
 
-def volgende(actie: str, titel: str) -> dict:
+def uit_pad(pad: str | Path) -> tuple[str, str] | None:
+    """Hoort een pad bij een eerdere output (2-output/<actie>/<titel>/vN/...)? Dan (actie, titel)."""
+    p = Path(pad).expanduser().resolve()
+    for actie in ACTIES:
+        basis = _actiemap(actie).resolve()
+        try:
+            delen = p.relative_to(basis).parts
+        except ValueError:
+            continue
+        if len(delen) >= 2 and _VERSIE.match(delen[1]):
+            return actie, delen[0]
+    return None
+
+
+def volgende(actie: str | None, titel: str | None, van: str | None = None) -> dict:
+    """Maak de volgende versiemap. Met `van` (een eerdere output) komt de nieuwe ronde in diezelfde titelmap,
+    ook als de actie nu herschrijven of humaniseren is: zo staat de hele geschiedenis van één tekst bij elkaar."""
+    if van:
+        gevonden = uit_pad(van)
+        if gevonden:
+            actie, titel = gevonden
+    if not actie or not titel:
+        raise ConfigFout("Geef --actie en --titel, of --van met een pad in 2-output/.")
     naam = veilige_titel(titel)
     titelmap = _actiemap(actie) / naam
     nummers = bestaande(titelmap)
@@ -50,7 +73,7 @@ def volgende(actie: str, titel: str) -> dict:
     doel = titelmap / f"v{n}"
     doel.mkdir(parents=True, exist_ok=False)
     vorige = str(titelmap / f"v{nummers[-1]}") if nummers else None
-    return {"map": str(doel), "versie": n, "titel": naam, "bestandsnaam": naam, "vorige": vorige}
+    return {"map": str(doel), "actie": actie, "versie": n, "titel": naam, "bestandsnaam": naam, "vorige": vorige}
 
 
 def laatste(actie: str, titel: str) -> dict | None:
@@ -80,15 +103,18 @@ def lijst(actie: str | None = None) -> list[dict]:
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="dq versie", description="Versies van outputs")
     sub = p.add_subparsers(dest="cmd", required=True)
-    for naam in ("volgende", "laatste"):
-        s = sub.add_parser(naam)
-        s.add_argument("--actie", required=True, choices=ACTIES)
-        s.add_argument("--titel", required=True)
+    s = sub.add_parser("volgende")
+    s.add_argument("--actie", choices=ACTIES)
+    s.add_argument("--titel")
+    s.add_argument("--van", help="pad van een eerdere output: de nieuwe ronde komt in dezelfde titelmap")
+    s = sub.add_parser("laatste")
+    s.add_argument("--actie", required=True, choices=ACTIES)
+    s.add_argument("--titel", required=True)
     sub.add_parser("lijst").add_argument("--actie", choices=ACTIES)
     a = p.parse_args(argv)
     try:
         if a.cmd == "volgende":
-            uit = volgende(a.actie, a.titel)
+            uit = volgende(a.actie, a.titel, a.van)
         elif a.cmd == "laatste":
             uit = laatste(a.actie, a.titel)
         else:

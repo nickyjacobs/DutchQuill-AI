@@ -268,7 +268,8 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
             bev.append({"cat": "alinea_gelijk", "sterkte": "sterk", "punten": 1, "regel": None, "match": None,
                         "context": f"alinea's van {min(al_lengtes)}-{max(al_lengtes)} woorden",
                         "uitleg": "Alle alinea's zijn ongeveer even lang."})
-    if stat["mattr"] is not None and stat["woorden"] >= 300 and stat["mattr"] < 0.68:
+    # Bij procedures en README's is herhaling van vaste termen juist goed.
+    if genre not in ("sop", "readme") and stat["mattr"] is not None and stat["woorden"] >= 300 and stat["mattr"] < 0.68:
         bev.append({"cat": "woordenschat", "sterkte": "zwak", "punten": 1, "regel": None, "match": None,
                     "context": f"MATTR {stat['mattr']}", "uitleg": "Weinig variatie in woordkeus: veel herhaling."})
 

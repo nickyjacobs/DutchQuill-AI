@@ -67,7 +67,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
      verloren getal of bron zet je terug. Een naam die alleen anders gespeld is, mag.
    - `DQ tells --compare <origineel> <concept> --genre <genre>`: de score moet omlaag of gelijk blijven.
    - Bij documenten: `DQ diff --original <origineel> --rewritten <concept> --summary`.
-8. **Opslaan en exporteren** (werkwijze 6). De nieuwe versie gaat in `2-output/herschrijven/<titel>/vN/`.
+8. **Opslaan en exporteren** (werkwijze 6). Komt de tekst uit `2-output/`, dan gaat de nieuwe versie met
+   `DQ versie volgende --van "<pad>"` als vN+1 in dezelfde titelmap. Anders in `2-output/herschrijven/<titel>/vN/`.
    In `wat-is-er-veranderd.md` komen de modus, de belangrijkste wijzigingen, de tells-score voor en na, en de
    uitkomst van de feitencontrole. Bij chat-uitvoer: de nieuwe tekst plus één regel over wat je veranderde.
 
