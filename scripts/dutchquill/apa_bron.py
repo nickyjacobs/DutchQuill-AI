@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-tools/source_formatter.py — DutchQuill AI
+dq apa-bron: DutchQuill AI
 
 Zet ruwe brondata om naar een correct opgemaakte APA 7e editie referentieregel (Nederlands).
 Gebaseerd op apa_nl_gids.md (bron: Scribbr NL).
 
 Gebruik:
-    python3 tools/source_formatter.py --input bron.json
-    python3 tools/source_formatter.py --input bronnen.json   (lijst van bronnen)
-    python3 tools/source_formatter.py --help-schema          (toon JSON-voorbeelden)
+    dq apa-bron --input bron.json
+    dq apa-bron --input bronnen.json   (lijst van bronnen)
+    dq apa-bron --help-schema          (toon JSON-voorbeelden)
 
 Ondersteunde brontypen:
     boek, boek_hoofdstuk, tijdschriftartikel, webpagina, webpagina_geen_datum,

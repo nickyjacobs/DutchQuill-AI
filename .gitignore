@@ -8,6 +8,7 @@ token.json
 .dev-data/
 .tmp/
 rapporten/
+# Persoonlijke bestanden uit v1, voor wie vanuit een oude projectmap werkt
 config/user_profile.json
 config/quick_scans/
 config/beoordelingscriteria/

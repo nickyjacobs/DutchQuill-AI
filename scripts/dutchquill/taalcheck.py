@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tools/grammar_check.py — DutchQuill AI
+dq taalcheck: DutchQuill AI
 
 Controleert Nederlandse tekst op grammatica- en stijlfouten via de LanguageTool API.
 Gebruikt de gratis publieke API — geen API-sleutel vereist.
@@ -11,10 +11,10 @@ Limieten publieke API:
   Grote teksten worden automatisch opgesplitst in stukken van max 5.000 tekens.
 
 Gebruik:
-    python3 tools/grammar_check.py --input rapport.txt
-    cat rapport.txt | python3 tools/grammar_check.py
-    python3 tools/grammar_check.py --input rapport.txt --json
-    python3 tools/grammar_check.py --input rapport.txt --categorie grammatica
+    dq taalcheck --input rapport.txt
+    cat rapport.txt | dq taalcheck
+    dq taalcheck --input rapport.txt --json
+    dq taalcheck --input rapport.txt --categorie grammatica
 
 Dependencies:
     pip install requests   (of: pip install -r requirements.txt)
@@ -49,7 +49,7 @@ except ImportError:
 API_URL = "https://api.languagetool.org/v2/check"
 MAX_CHARS = 5000        # Veilige grens per request
 REQUEST_DELAY = 3.5     # Seconden tussen requests (publieke limiet: 20/min)
-CACHE_FILE = Path(".tmp/grammar_cache.json")
+CACHE_FILE = Path("grammar_cache.json")
 CACHE_TTL_HOURS = 24
 
 # LanguageTool-categoriecodes → Nederlandse labels
@@ -97,7 +97,7 @@ def _load_cache() -> Dict:
 
 
 def _save_cache(cache: Dict) -> None:
-    """Schrijf de cache naar schijf. Maakt .tmp/ aan indien nodig."""
+    """Schrijf de cache naar schijf. Maakt  aan indien nodig."""
     CACHE_FILE.parent.mkdir(exist_ok=True)
     CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
 

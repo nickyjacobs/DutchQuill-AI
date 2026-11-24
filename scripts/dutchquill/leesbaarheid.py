@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tools/readability_nl.py — DutchQuill AI
+dq leesbaarheid: DutchQuill AI
 
 Berekent de leesbaarheidsindex van Nederlandse tekst met de Flesch-Douma formule.
 Geeft een score en interpretatie specifiek voor HBO-academische tekst.
@@ -16,10 +16,10 @@ Interpretatie voor HBO-tekst:
     80+    Eenvoudig     — ✗ niet geschikt voor academisch
 
 Gebruik:
-    python3 tools/readability_nl.py --input rapport.txt
-    python3 tools/readability_nl.py --compare origineel.txt herschreven.txt
-    cat rapport.txt | python3 tools/readability_nl.py
-    python3 tools/readability_nl.py --input rapport.txt --json
+    dq leesbaarheid --input rapport.txt
+    dq leesbaarheid --compare origineel.txt herschreven.txt
+    cat rapport.txt | dq leesbaarheid
+    dq leesbaarheid --input rapport.txt --json
 """
 
 import sys
