@@ -1,7 +1,7 @@
 # Changelog
 
 Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/lang/nl/), de opbouw volgt
-[Keep a Changelog](https://keepachangelog.com/nl/1.1.0/). Hoe een release gaat: [docs/project/releasen.md](docs/project/releasen.md).
+[Keep a Changelog](https://keepachangelog.com/nl/1.1.0/). Hoe een release gaat: [docs/project/releasen.md](docs/nl/project/releasen.md).
 
 | Release | Datum | Kort gezegd |
 |---|---|---|
@@ -12,12 +12,14 @@ Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/l
 
 ### ✨ Nieuw
 
-- Privacybeleid in het Nederlands en Engels ([docs/privacy.md](docs/privacy.md)): wat op je computer blijft en welke
+- Privacybeleid in het Nederlands en Engels ([docs/privacy.md](docs/nl/privacy.md)): wat op je computer blijft en welke
   gegevens wanneer naar welke host gaan.
 - `plugin.json` heeft de velden voor de Claude Directory: documentatie, privacybeleid, support en licentie.
 
 ### 🔧 Veranderd
 
+- Engels is de standaardtaal van de documentatie: `README.md` en `docs/` zijn Engels, de Nederlandse versies staan
+  in `README.nl.md` en `docs/nl/`. Rechtsboven op elke pagina wissel je tussen English en Dutch.
 - Het pad naar het icoon in `plugin.json` begint met `./`, zoals de manifestreferentie voorschrijft.
 
 ---

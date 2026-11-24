@@ -1,35 +1,35 @@
-<p align="right"><b>🇳🇱 Nederlands</b> · <a href="en/README.md">🇬🇧 English</a></p>
+<p align="right"><b>🇬🇧 English</b> · <a href="nl/README.md">🇳🇱 Dutch</a></p>
 
-# Documentatie van DutchQuill
+# DutchQuill documentation
 
-Alles wat niet in de [README](../README.md) past, ingedeeld naar wie het leest.
+Everything that doesn't fit in the [README](../README.md), sorted by who reads it.
 
-| Als je wilt... | Lees |
+| If you want to... | Read |
 |---|---|
-| Installeren, instellen en je eerste tekst laten schrijven | [handleiding/aan-de-slag.md](handleiding/aan-de-slag.md) |
-| Weten welke map waarvoor is, en hoe versies werken | [handleiding/werkmap.md](handleiding/werkmap.md) |
-| De Studio leren kennen, scherm voor scherm | [handleiding/studio.md](handleiding/studio.md) |
-| Een profiel kiezen of maken, controles en toon instellen | [handleiding/profielen-en-toon.md](handleiding/profielen-en-toon.md) |
-| Je eigen huisstijl of sjabloon gebruiken | [handleiding/templates.md](handleiding/templates.md) |
-| Weten wat humaniseren doet, en wat niet | [handleiding/humaniseren.md](handleiding/humaniseren.md) |
-| Een snel antwoord: privacy, pdf's, Windows, verwijderen, van v1 naar v2 | [handleiding/vragen.md](handleiding/vragen.md) |
-| Precies weten welke gegevens waarheen gaan | [privacy.md](privacy.md) |
-| Alle instellingen in `dutchquill.yaml` opzoeken | [naslag/configuratie.md](naslag/configuratie.md) |
-| Alle commando's, subagents en `dq`-tools zien | [naslag/commandos.md](naslag/commandos.md) |
-| Weten waar de regels vandaan komen en hoe ze bijgewerkt worden | [naslag/gidsen-en-bronnen.md](naslag/gidsen-en-bronnen.md) |
-| Meebouwen aan DutchQuill | [project/ontwikkelen.md](project/ontwikkelen.md) |
-| Zien hoe een release gemaakt wordt | [project/releasen.md](project/releasen.md) |
-| Weten waarom DutchQuill bestaat | [verhaal.md](verhaal.md) |
+| Install, set up and have your first text written | [guide/getting-started.md](guide/getting-started.md) |
+| Know which folder is for what, and how versions work | [guide/workspace.md](guide/workspace.md) |
+| Get to know the Studio, screen by screen | [guide/studio.md](guide/studio.md) |
+| Pick or create a profile, set checks and tone | [guide/profiles-and-tone.md](guide/profiles-and-tone.md) |
+| Use your own house style or template | [guide/templates.md](guide/templates.md) |
+| Know what humanizing does, and what it doesn't | [guide/humanizing.md](guide/humanizing.md) |
+| Get a quick answer: privacy, PDFs, Windows, removing it, coming from v1 | [guide/faq.md](guide/faq.md) |
+| Know exactly which data goes where | [privacy.md](privacy.md) |
+| Look up every setting in `dutchquill.yaml` | [reference/configuration.md](reference/configuration.md) |
+| See every command, subagent and `dq` tool | [reference/commands.md](reference/commands.md) |
+| Know where the rules come from and how they are kept up to date | [reference/guides-and-sources.md](reference/guides-and-sources.md) |
+| Build on DutchQuill | [project/development.md](project/development.md) |
+| See how a release is made | [project/releasing.md](project/releasing.md) |
+| Know why DutchQuill exists | [story.md](story.md) |
 
-## De mappen
+## The folders
 
-| Map | Voor | Wat erin staat |
+| Folder | For | What is in it |
 |---|---|---|
-| [`handleiding/`](handleiding/) | Iedereen die DutchQuill gebruikt | Aan de slag, de werkmap, de Studio, profielen en toon, templates, humaniseren, vragen |
-| [`naslag/`](naslag/) | Wie iets precies wil opzoeken | Alle instellingen, alle commando's, de gidsen en hun bronnen |
-| [`project/`](project/) | Wie aan DutchQuill werkt | De opbouw van de repo, afspraken, checks en de releasestappen |
-| [`en/`](en/) | Engelstalige lezers | Dezelfde documentatie in het Engels |
+| [`guide/`](guide/) | Everyone who uses DutchQuill | Getting started, the workspace, the Studio, profiles and tone, templates, humanizing, FAQ |
+| [`reference/`](reference/) | Anyone who wants to look something up precisely | Every setting, every command, the guides and their sources |
+| [`project/`](project/) | Anyone who works on DutchQuill | The repo layout, conventions, checks and the release steps |
+| [`nl/`](nl/) | Dutch readers | The same documentation in Dutch |
 
-Elders in de repo: [CHANGELOG.md](../CHANGELOG.md) (elke release), [ROADMAP.md](../ROADMAP.md) (wat eraan komt),
-[CONTRIBUTING.md](../CONTRIBUTING.md) (bijdragen), [SECURITY.md](../SECURITY.md) (een probleem melden),
-[AGENTS.md](../AGENTS.md) (voor AI-assistenten die aan de repo werken).
+Elsewhere in the repo: [CHANGELOG.md](../CHANGELOG.md) (every release, in Dutch), [ROADMAP.md](../ROADMAP.md)
+(what is coming), [CONTRIBUTING.md](../CONTRIBUTING.md) (contributing), [SECURITY.md](../SECURITY.md) (reporting a
+problem), [AGENTS.md](../AGENTS.md) (for AI assistants working on the repo).

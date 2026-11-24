@@ -1,42 +1,42 @@
-<p align="right"><b>🇳🇱 Nederlands</b> · <a href="en/privacy.md">🇬🇧 English</a></p>
+<p align="right"><b>🇬🇧 English</b> · <a href="nl/privacy.md">🇳🇱 Dutch</a></p>
 
 # Privacy
 
-DutchQuill AI is een plugin voor Claude Code en draait op je eigen computer. De maker van DutchQuill verzamelt
-niets: er is geen account, geen telemetrie, geen analytics en geen server van DutchQuill.
+DutchQuill AI is a plugin for Claude Code and runs on your own computer. The maker of DutchQuill collects nothing:
+there is no account, no telemetry, no analytics and no DutchQuill server.
 
-## Wat op je computer blijft
+## What stays on your computer
 
-- Je teksten, bronnen en uitvoer staan in je werkmap. Die map is van jou.
-- Je instellingen staan in `dutchquill.yaml` in je werkmap.
-- De Python-omgeving en de cache staan in de datamap van de plugin, onder `~/.claude/plugins/data/`.
-- DutchQuill Studio draait op 127.0.0.1, met een eenmalige sleutel. Andere apparaten kunnen er niet bij.
+- Your texts, sources and output are in your workspace. That folder is yours.
+- Your settings are in `dutchquill.yaml` in your workspace.
+- The Python environment and the cache are in the plugin's data folder, under `~/.claude/plugins/data/`.
+- DutchQuill Studio runs on 127.0.0.1, with a one-time key. Other devices can't reach it.
 
-## Wat naar Claude gaat
+## What goes to Claude
 
-Wat je in een gesprek met Claude deelt of laat lezen, gaat naar Anthropic, net als bij elk ander gesprek in Claude
-Code. Daarvoor geldt het [privacybeleid van Anthropic](https://www.anthropic.com/legal/privacy), niet dit document.
-DutchQuill stuurt je tekst nergens anders heen.
+What you share with Claude in a conversation, or let it read, goes to Anthropic, as with any other conversation in
+Claude Code. [Anthropic's privacy policy](https://www.anthropic.com/legal/privacy) covers that, not this document.
+DutchQuill doesn't send your text anywhere else.
 
-## Wat naar internet gaat, en wanneer
+## What goes to the internet, and when
 
-| Host | Wanneer | Wat er heen gaat |
+| Host | When | What is sent |
 |---|---|---|
-| `api.languagetool.org` | Alleen als je de online taalcheck aanzet. Die staat standaard uit. | De tekst die je laat controleren en de taalcode. Daarvoor geldt het [privacybeleid van LanguageTool](https://languagetool.org/legal/privacy). |
-| `pypi.org`, `files.pythonhosted.org` | De eerste keer dat een commando Python nodig heeft, en na een update | Een gewone download van de Python-pakketten. Geen tekst van jou. |
-| `www.scribbr.nl`, `en.wikipedia.org`, `api.github.com` | Alleen als je `/dutchquill:bijwerken` geeft | Een aanvraag voor openbare pagina's, met de user-agent `DutchQuill-bronnencheck`. Geen tekst van jou. |
+| `api.languagetool.org` | Only if you switch on the online language check. It is off by default. | The text you have checked and the language code. [LanguageTool's privacy policy](https://languagetool.org/legal/privacy) applies. |
+| `pypi.org`, `files.pythonhosted.org` | The first time a command needs Python, and after an update | A regular download of the Python packages. None of your text. |
+| `www.scribbr.nl`, `en.wikipedia.org`, `api.github.com` | Only when you run `/dutchquill:bijwerken` | A request for public pages, with the user agent `DutchQuill-bronnencheck`. None of your text. |
 
-De hosts die de plugin mag bereiken, staan in `.claude-plugin/plugin.json` onder `network.hosts`. Interne adressen
-(localhost, privé-IP's) in je materiaal haalt DutchQuill nooit automatisch op.
+The hosts the plugin may reach are listed in `.claude-plugin/plugin.json` under `network.hosts`. DutchQuill never
+fetches internal addresses (localhost, private IPs) found in your material on its own.
 
-## Verwijderen
+## Removing it
 
-Typ `/plugin` in Claude Code, kies DutchQuill en verwijder hem. Je werkmap blijft staan. De datamap onder
-`~/.claude/plugins/data/` kun je daarna weghalen; dan is alles van DutchQuill van je computer.
+Type `/plugin` in Claude Code, choose DutchQuill and remove it. Your workspace stays. You can delete the data folder
+under `~/.claude/plugins/data/` afterwards; then nothing of DutchQuill is left on your computer.
 
 ## Contact
 
-- Een vraag of een fout: [GitHub Issues](https://github.com/nickyjacobs/DutchQuill-AI/issues).
-- Een beveiligingsprobleem: meld het privé, zoals [SECURITY.md](../SECURITY.md) beschrijft.
+- A question or a bug: [GitHub Issues](https://github.com/nickyjacobs/DutchQuill-AI/issues).
+- A security problem: report it privately, as [SECURITY.md](../SECURITY.md) describes.
 
-Verandert dit beleid, dan staat dat in de [CHANGELOG](../CHANGELOG.md). Laatst bijgewerkt: 2026-11-25.
+Changes to this policy are listed in the [CHANGELOG](../CHANGELOG.md). Last updated: 2026-11-25.

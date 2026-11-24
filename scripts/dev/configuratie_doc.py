@@ -1,4 +1,4 @@
-"""Werk de sleuteltabellen in docs/naslag/configuratie.md (NL) en docs/en/reference/configuration.md (EN) bij
+"""Werk de sleuteltabellen in docs/nl/naslag/configuratie.md (NL) en docs/reference/configuration.md (EN) bij
 vanuit config/schema.json (alleen voor onderhoud).
 
   uv run --no-project --with-requirements requirements.txt python scripts/dev/configuratie_doc.py
@@ -12,8 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((ROOT / "config" / "schema.json").read_text(encoding="utf-8"))
-DOCS = {"nl": ROOT / "docs" / "naslag" / "configuratie.md",
-        "en": ROOT / "docs" / "en" / "reference" / "configuration.md"}
+DOCS = {"nl": ROOT / "docs" / "nl" / "naslag" / "configuratie.md",
+        "en": ROOT / "docs" / "reference" / "configuration.md"}
 TAAL = "nl"
 BEGIN, EIND = "<!-- tabel:begin -->", "<!-- tabel:eind -->"
 

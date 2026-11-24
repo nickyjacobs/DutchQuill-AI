@@ -1,19 +1,19 @@
-<p align="right"><b>🇳🇱 Nederlands</b> · <a href="ROADMAP.en.md">🇬🇧 English</a></p>
+<p align="right"><b>🇬🇧 English</b> · <a href="ROADMAP.nl.md">🇳🇱 Dutch</a></p>
 
 # Roadmap
 
-Wat er na 2.0 komt. Ideeën en wensen zijn welkom in de
+What comes after 2.0. Ideas and wishes are welcome in the
 [Discussions](https://github.com/nickyjacobs/DutchQuill-AI/discussions).
 
 ## 2.1
 
-- **Illustraties** laten maken met een beeldmodel, als optionele module. De API-key komt in de sleutelhanger via
-  `/plugin configure`, niet in een bestand.
-- **"Mijn teksten" in de Studio:** de versies per titel op een rij, met de knop "open in Finder/Verkenner".
-- **Meer evals** per soort tekst, vooral LinkedIn-posts en rapporten, en de beschrijvingen van de skills bijschaven
-  zodat ze nog betrouwbaarder starten.
+- **Illustrations** made by an image model, as an optional module. The API key goes in the keychain via
+  `/plugin configure`, not in a file.
+- **"My texts" in the Studio:** the versions per title in one list, with an "open in Finder/Explorer" button.
+- **More evals** per kind of text, especially LinkedIn posts and reports, and sharper skill descriptions so they start
+  even more reliably.
 
-## Klaar
+## Done
 
-- **2.0.0** (2026-11-24): van hbo-projectmap naar plugin voor iedereen die tekst maakt. Zie de
-  [CHANGELOG](CHANGELOG.md).
+- **2.0.0** (2026-11-24): from a folder for academic reports to a plugin for everyone who writes. See the
+  [CHANGELOG](CHANGELOG.md) (Dutch).
