@@ -86,6 +86,8 @@ feitenverlies, geen APA-fouten. Een script dat faalt sla je niet over: meld de f
    gebruik dan `DQ versie volgende --van "<pad van die versie>"`. De nieuwe ronde komt dan als vN+1 in dezelfde
    titelmap, ook bij herschrijven of humaniseren, zodat de hele geschiedenis van één tekst bij elkaar staat. Een
    review blijft altijd in `reviewen/`.
+   Geeft `versie volgende` een niet-lege `vorige_formaten` terug, exporteer dan met `--formaten <die formaten>`:
+   een vervolgronde levert dezelfde bestanden als de vorige versie, tenzij de gebruiker nu iets anders vraagt.
 2. Sla de Markdown-bron op als `<map>/bron.md`.
 3. `DQ export --bron <map>/bron.md --naam "<titel>" --genre <genre>` (met dezelfde `--set`-waarden). Dat maakt
    de formaten uit de config, met de template van het profiel.

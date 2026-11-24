@@ -33,3 +33,14 @@ def test_nieuwe_ronde_op_eerdere_output(werkmap):
     assert los["actie"] == "herschrijven" and los["versie"] == 1
     with pytest.raises(ConfigFout):
         versies.volgende(None, None, van=str(werkmap / "elders.md"))
+
+
+def test_vervolgronde_neemt_formaten_over(werkmap):
+    v1 = versies.volgende("schrijven", "Rapport")
+    from pathlib import Path
+    for ext in ("docx", "pdf"):
+        (Path(v1["map"]) / f"Rapport.{ext}").write_text("x")
+    (Path(v1["map"]) / "bron.md").write_text("x")
+    v2 = versies.volgende(None, None, van=v1["map"] + "/bron.md")
+    assert v2["versie"] == 2 and v2["vorige_formaten"] == ["docx", "pdf"]
+    assert versies.volgende("schrijven", "Nieuw")["vorige_formaten"] == []

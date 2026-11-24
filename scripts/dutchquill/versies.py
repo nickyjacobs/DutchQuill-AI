@@ -57,6 +57,14 @@ def uit_pad(pad: str | Path) -> tuple[str, str] | None:
     return None
 
 
+FORMATEN = ("docx", "pdf", "html", "md", "txt")
+
+
+def formaten_in(map_: Path, naam: str) -> list[str]:
+    """Welke uitvoerformaten staan er in een versiemap (alleen <titel>.<ext>, niet bron.md en dergelijke)."""
+    return [f for f in FORMATEN if (map_ / f"{naam}.{f}").is_file()]
+
+
 def volgende(actie: str | None, titel: str | None, van: str | None = None) -> dict:
     """Maak de volgende versiemap. Met `van` (een eerdere output) komt de nieuwe ronde in diezelfde titelmap,
     ook als de actie nu herschrijven of humaniseren is: zo staat de hele geschiedenis van één tekst bij elkaar."""
@@ -73,7 +81,15 @@ def volgende(actie: str | None, titel: str | None, van: str | None = None) -> di
     doel = titelmap / f"v{n}"
     doel.mkdir(parents=True, exist_ok=False)
     vorige = str(titelmap / f"v{nummers[-1]}") if nummers else None
-    return {"map": str(doel), "actie": actie, "versie": n, "titel": naam, "bestandsnaam": naam, "vorige": vorige}
+    # Een vervolgronde levert dezelfde formaten als de versie waarop hij voortbouwt.
+    bronmap = Path(van).expanduser().resolve() if van else None
+    if bronmap and bronmap.is_file():
+        bronmap = bronmap.parent
+    if not (bronmap and bronmap.is_dir() and _VERSIE.match(bronmap.name)):
+        bronmap = Path(vorige) if vorige else None
+    vorige_formaten = formaten_in(bronmap, naam) if bronmap else []
+    return {"map": str(doel), "actie": actie, "versie": n, "titel": naam, "bestandsnaam": naam, "vorige": vorige,
+            "vorige_formaten": vorige_formaten}
 
 
 def laatste(actie: str, titel: str) -> dict | None:
