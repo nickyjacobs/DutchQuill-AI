@@ -1,7 +1,7 @@
 {
   "name": "dutchquill",
   "displayName": "DutchQuill AI",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Writing assistant, Dutch first and fully capable in English: write, rewrite, review and humanize reports, emails, posts, process documents and READMEs. You choose what gets checked (APA, academic style, language, humanizing), the tone, the template and the format.",
   "author": {
     "name": "Nicky Jacobs",

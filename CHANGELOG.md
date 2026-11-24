@@ -6,16 +6,24 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 | Release | Date | In short |
 |---|---|---|
+| [2.0.2](#202---2026-11-25) | 2026-11-25 | LinkedIn posts no longer invent a lesson you didn't give |
 | [2.0.1](#201---2026-11-25) | 2026-11-25 | Ready for the Claude Directory: privacy policy, English first, a cleaned git history |
 | [2.0.0](#200---2026-11-24) | 2026-11-24 | From a project folder for Dutch higher education reports to a Claude Code plugin for anyone who writes |
 | [1.2](#12---2026-03-24) | 2026-03-24 | Last version as a project folder for Dutch higher education reports |
 
 ## [Unreleased]
 
+---
+
+## [2.0.2] - 2026-11-25
+
+> **In short:** LinkedIn posts stick to what you told DutchQuill: no lesson or opinion you didn't give.
+
 ### 🐛 Fixed
 
 - LinkedIn posts no longer draw a lesson or opinion you didn't give. The post leaves the step out or marks it with
   `[voorbeeld nodig]` and a short question, so you fill it in yourself.
+- A LinkedIn post with only a few facts reads as one or two flowing paragraphs instead of a row of one-liners.
 
 ---
 
@@ -123,7 +131,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 > **In short:** last version as a project folder for Dutch higher education reports (APA 7, AI patterns, .docx export).
 
-[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v1.2...v2.0.0
 [1.2]: https://github.com/nickyjacobs/DutchQuill-AI/releases/tag/v1.2
