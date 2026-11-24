@@ -85,6 +85,46 @@ def voor(genre: str | None = None, profiel: str | None = None, sets: list[str] |
     return {"genre": genre, "taal": e["taal"], "profiel": e["profiel"], "gidsen": gidsen, **extra}
 
 
+def _huidig(naam: str) -> Path:
+    if naam.startswith("data/"):
+        eigen = paden.data() / "gidsen" / f"{naam}.yaml"
+        return eigen if eigen.is_file() else paden.root() / "gidsen" / f"{naam}.yaml"
+    return pad(naam)
+
+
+def diff(naam: str, van: Path) -> str:
+    import difflib
+    oud = _huidig(naam).read_text(encoding="utf-8").splitlines(keepends=True)
+    nieuw = van.read_text(encoding="utf-8").splitlines(keepends=True)
+    return "".join(difflib.unified_diff(oud, nieuw, fromfile=f"{naam} (nu)", tofile=f"{naam} (voorstel)", n=2))
+
+
+def schrijf(naam: str, van: Path, repo: bool = False) -> dict:
+    """Zet een goedgekeurde nieuwe versie neer en stempel de controledatum van vandaag erin."""
+    from datetime import date
+    if naam.startswith("genres/") or naam.startswith("werkwijze/"):
+        raise ConfigFout("Sjablonen en de werkwijze worden niet via bijwerken aangepast.")
+    ext = ".yaml" if naam.startswith("data/") else ".md"
+    tekst = van.read_text(encoding="utf-8")
+    vandaag = date.today().isoformat()
+    sleutel = "bijgewerkt" if ext == ".yaml" else "gecontroleerd"
+    if re.search(rf"(?m)^{sleutel}:", tekst):
+        tekst = re.sub(rf"(?m)^{sleutel}:.*$", f"{sleutel}: {vandaag}", tekst, count=1)
+    else:
+        raise ConfigFout(f"Het voorstel mist de regel '{sleutel}:' in de kop; die is nodig om de nieuwste te kiezen.")
+    if repo:
+        if not (paden.root() / ".git").exists():
+            raise ConfigFout("--repo kan alleen in de broncode van de plugin (onderhoud), niet in een installatie.")
+        doel = paden.root() / "gidsen" / f"{naam}{ext}"
+    else:
+        doel = paden.data() / "gidsen" / f"{naam}{ext}"
+    doel.parent.mkdir(parents=True, exist_ok=True)
+    if doel.is_file():
+        doel.with_suffix(doel.suffix + ".bak").write_text(doel.read_text(encoding="utf-8"), encoding="utf-8")
+    doel.write_text(tekst, encoding="utf-8")
+    return {"gids": naam, "geschreven": str(doel), sleutel: vandaag}
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="dq gids", description="Gidsen en sjablonen vinden")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -93,10 +133,21 @@ def main(argv: list[str] | None = None) -> None:
     v.add_argument("--profiel")
     v.add_argument("--set", action="append", default=[])
     sub.add_parser("pad").add_argument("naam")
+    d = sub.add_parser("diff", help="Voorstel vergelijken met de huidige gids")
+    d.add_argument("naam")
+    d.add_argument("--van", required=True)
+    w = sub.add_parser("schrijf", help="Goedgekeurd voorstel wegschrijven (met datum van vandaag)")
+    w.add_argument("naam")
+    w.add_argument("--van", required=True)
+    w.add_argument("--repo", action="store_true", help="Onderhoud: schrijf in de pluginbron zelf")
     a = p.parse_args(argv)
     try:
         if a.cmd == "voor":
             print(json.dumps(voor(a.genre, a.profiel, a.set), ensure_ascii=False, indent=2))
+        elif a.cmd == "diff":
+            print(diff(a.naam, Path(a.van)) or "Geen verschil.")
+        elif a.cmd == "schrijf":
+            print(json.dumps(schrijf(a.naam, Path(a.van), a.repo), ensure_ascii=False, indent=2))
         else:
             print(pad(a.naam))
     except ConfigFout as e:

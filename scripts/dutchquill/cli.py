@@ -20,6 +20,7 @@ EIGEN = {
     "gids": "gidsen",
     "export": "export",
     "template": "templates_docx",
+    "bronnen": "bronnen",
 }
 
 # Bestaande tools uit v1 (worden in latere fases omgebouwd); hun main() leest sys.argv
