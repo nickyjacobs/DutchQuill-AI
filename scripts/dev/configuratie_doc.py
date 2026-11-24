@@ -1,4 +1,5 @@
-"""Werk de sleuteltabel in docs/configuratie.md bij vanuit config/schema.json (alleen voor onderhoud).
+"""Werk de sleuteltabellen in docs/naslag/configuratie.md (NL) en docs/en/reference/configuration.md (EN) bij
+vanuit config/schema.json (alleen voor onderhoud).
 
   uv run --no-project --with-requirements requirements.txt python scripts/dev/configuratie_doc.py
 """
@@ -11,7 +12,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((ROOT / "config" / "schema.json").read_text(encoding="utf-8"))
-DOC = ROOT / "docs" / "configuratie.md"
+DOCS = {"nl": ROOT / "docs" / "naslag" / "configuratie.md",
+        "en": ROOT / "docs" / "en" / "reference" / "configuration.md"}
+TAAL = "nl"
 BEGIN, EIND = "<!-- tabel:begin -->", "<!-- tabel:eind -->"
 
 
@@ -29,12 +32,14 @@ def waarden(d: dict) -> str:
         return " \\| ".join(f"`{x}`" for x in d["enum"])
     if d.get("type") == "array":
         item = _def(d.get("items", {}))
-        return "lijst van " + " \\| ".join(f"`{x}`" for x in item.get("enum", [])) if "enum" in item else "lijst"
+        if "enum" not in item:
+            return "lijst" if TAAL == "nl" else "list"
+        return ("lijst van " if TAAL == "nl" else "list of ") + " \\| ".join(f"`{x}`" for x in item["enum"])
     return d.get("type", "")
 
 
 def betekenis(d: dict) -> str:
-    delen = [(d.get("x-label") or {}).get("nl", ""), (d.get("x-uitleg") or {}).get("nl", "")]
+    delen = [(d.get("x-label") or {}).get(TAAL, ""), (d.get("x-uitleg") or {}).get(TAAL, "")]
     return ". ".join(x.rstrip(".") for x in delen if x) + ("." if any(delen) else "")
 
 
@@ -44,24 +49,36 @@ def rij(sleutel: str, d: dict) -> str:
 
 
 def tabel() -> str:
-    kop = "| Sleutel | Waarden | Standaard | Betekenis |\n|---|---|---|---|"
+    kop = ("| Sleutel | Waarden | Standaard | Betekenis |" if TAAL == "nl"
+           else "| Key | Values | Default | Meaning |") + "\n|---|---|---|---|"
     regels = [kop]
     for k, d in SCHEMA["properties"].items():
         if d.get("type") == "object" and "properties" in d and k != "student":
             regels += [rij(f"{k}.{k2}", d2) for k2, d2 in d["properties"].items()]
         else:
             regels.append(rij(k, d))
-    regels += ["", "**In een profiel** (`profielen.<naam>.…`):", "", kop]
+    in_profiel = ("**In een profiel** (`profielen.<naam>.…`):" if TAAL == "nl"
+                  else "**In a profile** (`profielen.<name>.…`):")
+    regels += ["", in_profiel, "", kop]
     p = SCHEMA["$defs"]["profiel"]["properties"]
     for sectie in ("controles", "toon", "uitvoer"):
         regels += [rij(f"{sectie}.{k}", d) for k, d in p[sectie]["properties"].items()]
-    regels.append("| `basis` | profielnaam |  | " + betekenis(p["basis"]) + " |")
-    regels.append("| `taal` | `nl` \\| `en` \\| `auto` |  | Overschrijft de algemene taal voor dit profiel. |")
+    naam = "profielnaam" if TAAL == "nl" else "profile name"
+    regels.append(f"| `basis` | {naam} |  | " + betekenis(p["basis"]) + " |")
+    regels.append("| `taal` | `nl` \\| `en` \\| `auto` |  | "
+                  + ("Overschrijft de algemene taal voor dit profiel. |" if TAAL == "nl"
+                     else "Overrides the general language for this profile. |"))
     return "\n".join(regels)
 
 
+def main() -> None:
+    global TAAL
+    for TAAL, doc in DOCS.items():  # noqa: B007 - TAAL is de taal voor de hulpfuncties hierboven
+        tekst = doc.read_text(encoding="utf-8")
+        tekst = re.sub(re.escape(BEGIN) + r".*?" + re.escape(EIND), f"{BEGIN}\n{tabel()}\n{EIND}", tekst, flags=re.S)
+        doc.write_text(tekst, encoding="utf-8")
+        print(f"{doc} bijgewerkt")
+
+
 if __name__ == "__main__":
-    tekst = DOC.read_text(encoding="utf-8")
-    tekst = re.sub(re.escape(BEGIN) + r".*?" + re.escape(EIND), f"{BEGIN}\n{tabel()}\n{EIND}", tekst, flags=re.S)
-    DOC.write_text(tekst, encoding="utf-8")
-    print(f"{DOC} bijgewerkt")
+    main()

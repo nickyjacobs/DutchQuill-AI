@@ -12,6 +12,7 @@ config/user_profile.json
 config/quick_scans/
 config/beoordelingscriteria/
 .claude/settings.local.json
+.claude/CLAUDE.md
 
 # Klantdata en losse documenten horen nooit in deze repo
 config/klanten/

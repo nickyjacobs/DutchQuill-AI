@@ -46,3 +46,11 @@ def test_vervolgronde_neemt_formaten_over(werkmap):
     v2 = versies.volgende(None, None, van=v1["map"] + "/bron.md")
     assert v2["versie"] == 2 and v2["vorige_formaten"] == ["docx", "pdf"]
     assert versies.volgende("schrijven", "Nieuw")["vorige_formaten"] == []
+
+
+def test_versies_uit_overschrijft_v1(werkmap):
+    from dutchquill import config
+    config.zet("versies", False)
+    a = versies.volgende("schrijven", "Memo")
+    b = versies.volgende("schrijven", "Memo")
+    assert a["versie"] == b["versie"] == 1 and a["map"] == b["map"]

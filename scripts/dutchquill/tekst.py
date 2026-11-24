@@ -69,6 +69,11 @@ def regels(tekst: str) -> list[Regel]:
                 in_comment = False
             uit.append(Regel(i, "", "leeg"))
             continue
+        if re.search(r"</?[a-zA-Z][^>]*>", s):  # HTML (bijvoorbeeld in een README): alleen de tekst telt
+            r = re.sub(r"<[^>]*>", " ", r)
+            s = re.sub(r"\s+", " ", r).strip()
+            if len(WOORD.findall(s)) < 4 or "·" in s:  # badges, navigatie, losse labels
+                s = ""
         overslaan = s.startswith(("|", "[pagina ", "![")) or re.fullmatch(r"[-*_=]{3,}", s)
         if not s or overslaan:
             uit.append(Regel(i, "", "leeg"))
@@ -80,6 +85,11 @@ def regels(tekst: str) -> list[Regel]:
             uit.append(Regel(i, re.sub(r"^\s*>+\s?", "", schoon).strip(), "citaat"))
         elif re.match(r"\s{0,3}#{1,6}\s", schoon):
             uit.append(Regel(i, re.sub(r"^\s*#+\s*", "", schoon).strip(), "kop"))
+        elif (uit and uit[-1].soort == "lijst" and re.match(r"(?:\s{2,}|\t)\S", schoon)
+              and not re.match(r"\s*(?:[-*+•]|\d+[.)])\s+", schoon)):
+            # vervolgregel van een opsommingspunt: hoort bij dat punt
+            uit[-1].tekst = f"{uit[-1].tekst} {schoon.strip()}"
+            uit.append(Regel(i, "", "leeg"))
         elif re.match(r"\s*(?:[-*+•]|\d+[.)])\s+", schoon):
             uit.append(Regel(i, re.sub(r"^\s*(?:[-*+•]|\d+[.)])\s+", "", schoon).strip(), "lijst"))
         else:
