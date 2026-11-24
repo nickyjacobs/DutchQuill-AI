@@ -9,6 +9,9 @@ description: >-
   formeler te maken of te vertalen ("herschrijf dit", "maak dit zakelijker", "rewrite this", "make this
   shorter", "vertaal naar het Engels").
 argument-hint: "[tekst, pad of titel] [wat er anders moet]"
+when_to_use: >-
+  Gebruik deze skill ook als de gebruiker DutchQuill niet noemt: bij elke vraag een bestaande tekst te verbeteren,
+  in te korten, anders te laten klinken of te vertalen tussen Nederlands en Engels.
 ---
 
 # Herschrijven
@@ -23,7 +26,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 ## Stand
 
-!`CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
+!`DQ_NIET_INSTALLEREN=1 CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
 
 ## Stappen
 

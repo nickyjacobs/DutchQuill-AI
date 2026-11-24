@@ -28,8 +28,6 @@ versies: true
 privacy:
   # Online spelling- en grammaticacheck via LanguageTool: je tekst gaat dan naar api.languagetool.org
   languagetool: __LANGUAGETOOL__
-  # Illustraties laten maken via kie.ai (eigen API-key nodig)
-  visuals_ai: false
 
 stem:
   # Schrijf in mijn stem: gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld

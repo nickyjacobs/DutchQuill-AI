@@ -25,8 +25,6 @@
   "network": {
     "hosts": [
       "api.languagetool.org",
-      "api.kie.ai",
-      "kieai.redpandaai.co",
       "www.scribbr.nl",
       "en.wikipedia.org",
       "apastyle.apa.org",

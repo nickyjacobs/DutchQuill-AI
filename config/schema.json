@@ -8,105 +8,280 @@
   "$defs": {
     "genre": {
       "type": "string",
-      "enum": ["rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "sop", "research-notitie", "mail", "linkedin", "social", "readme", "memo", "kort"],
+      "enum": [
+        "rapport",
+        "onderzoeksrapport",
+        "adviesrapport",
+        "zakelijk-rapport",
+        "sop",
+        "research-notitie",
+        "mail",
+        "linkedin",
+        "social",
+        "readme",
+        "memo",
+        "kort"
+      ],
       "x-labels": {
-        "rapport": {"nl": "Rapport (hbo)", "en": "Report (higher education)"},
-        "onderzoeksrapport": {"nl": "Onderzoeksrapport", "en": "Research report"},
-        "adviesrapport": {"nl": "Adviesrapport", "en": "Advisory report"},
-        "zakelijk-rapport": {"nl": "Zakelijk rapport", "en": "Business report"},
-        "sop": {"nl": "Procesdocument / SOP", "en": "Process document / SOP"},
-        "research-notitie": {"nl": "Research-notitie", "en": "Research note"},
-        "mail": {"nl": "E-mail", "en": "Email"},
-        "linkedin": {"nl": "LinkedIn-post", "en": "LinkedIn post"},
-        "social": {"nl": "Andere social post", "en": "Other social post"},
-        "readme": {"nl": "README (GitHub)", "en": "README (GitHub)"},
-        "memo": {"nl": "Memo / notitie", "en": "Memo"},
-        "kort": {"nl": "Korte tekst", "en": "Short text"}
+        "rapport": {
+          "nl": "Rapport (hbo)",
+          "en": "Report (higher education)"
+        },
+        "onderzoeksrapport": {
+          "nl": "Onderzoeksrapport",
+          "en": "Research report"
+        },
+        "adviesrapport": {
+          "nl": "Adviesrapport",
+          "en": "Advisory report"
+        },
+        "zakelijk-rapport": {
+          "nl": "Zakelijk rapport",
+          "en": "Business report"
+        },
+        "sop": {
+          "nl": "Procesdocument / SOP",
+          "en": "Process document / SOP"
+        },
+        "research-notitie": {
+          "nl": "Research-notitie",
+          "en": "Research note"
+        },
+        "mail": {
+          "nl": "E-mail",
+          "en": "Email"
+        },
+        "linkedin": {
+          "nl": "LinkedIn-post",
+          "en": "LinkedIn post"
+        },
+        "social": {
+          "nl": "Andere social post",
+          "en": "Other social post"
+        },
+        "readme": {
+          "nl": "README (GitHub)",
+          "en": "README (GitHub)"
+        },
+        "memo": {
+          "nl": "Memo / notitie",
+          "en": "Memo"
+        },
+        "kort": {
+          "nl": "Korte tekst",
+          "en": "Short text"
+        }
       }
     },
     "formaat": {
       "type": "string",
-      "enum": ["docx", "pdf", "md", "txt", "html"]
+      "enum": [
+        "docx",
+        "pdf",
+        "md",
+        "txt",
+        "html"
+      ]
     },
     "profiel": {
       "type": "object",
       "additionalProperties": false,
-      "x-label": {"nl": "Profiel", "en": "Profile"},
+      "x-label": {
+        "nl": "Profiel",
+        "en": "Profile"
+      },
       "properties": {
         "basis": {
           "type": "string",
-          "x-label": {"nl": "Bouwt voort op", "en": "Based on"},
-          "x-uitleg": {"nl": "Naam van een ander profiel. Alles wat je hier niet zet, komt daarvandaan.", "en": "Name of another profile. Anything you do not set here comes from that one."}
+          "x-label": {
+            "nl": "Bouwt voort op",
+            "en": "Based on"
+          },
+          "x-uitleg": {
+            "nl": "Naam van een ander profiel. Alles wat je hier niet zet, komt daarvandaan.",
+            "en": "Name of another profile. Anything you do not set here comes from that one."
+          }
         },
-        "beschrijving": {"type": "string", "x-label": {"nl": "Beschrijving", "en": "Description"}},
-        "taal": {"$ref": "#/properties/taal"},
+        "beschrijving": {
+          "type": "string",
+          "x-label": {
+            "nl": "Beschrijving",
+            "en": "Description"
+          }
+        },
+        "taal": {
+          "$ref": "#/properties/taal"
+        },
         "controles": {
           "type": "object",
           "additionalProperties": false,
-          "x-label": {"nl": "Controles", "en": "Checks"},
+          "x-label": {
+            "nl": "Controles",
+            "en": "Checks"
+          },
           "properties": {
             "apa": {
-              "type": "boolean", "default": false,
-              "x-label": {"nl": "APA 7", "en": "APA 7"},
-              "x-uitleg": {"nl": "Bronvermelding, literatuurlijst, titelpagina, figuren en tabellen volgens APA 7 (Scribbr NL).", "en": "Citations, reference list, title page, figures and tables per APA 7."}
+              "type": "boolean",
+              "default": false,
+              "x-label": {
+                "nl": "APA 7",
+                "en": "APA 7"
+              },
+              "x-uitleg": {
+                "nl": "Bronvermelding, literatuurlijst, titelpagina, figuren en tabellen volgens APA 7 (Scribbr NL).",
+                "en": "Citations, reference list, title page, figures and tables per APA 7."
+              }
             },
             "academische_stijl": {
-              "type": "boolean", "default": false,
-              "x-label": {"nl": "Academische stijl", "en": "Academic style"},
-              "x-uitleg": {"nl": "Formeel en onderbouwd: geen spreektaal, geen ik/je, werkwoordstijden per hoofdstuk.", "en": "Formal and evidence-based: no colloquialisms, consistent tenses per section."}
+              "type": "boolean",
+              "default": false,
+              "x-label": {
+                "nl": "Academische stijl",
+                "en": "Academic style"
+              },
+              "x-uitleg": {
+                "nl": "Formeel en onderbouwd: geen spreektaal, geen ik/je, werkwoordstijden per hoofdstuk.",
+                "en": "Formal and evidence-based: no colloquialisms, consistent tenses per section."
+              }
             },
             "taalregels": {
-              "type": "boolean", "default": true,
-              "x-label": {"nl": "Taal en spelling", "en": "Language and spelling"},
-              "x-uitleg": {"nl": "Spelling, d/t, hoofdletters, komma's, samenstellingen, leesbaarheid.", "en": "Spelling, grammar, punctuation, readability."}
+              "type": "boolean",
+              "default": true,
+              "x-label": {
+                "nl": "Taal en spelling",
+                "en": "Language and spelling"
+              },
+              "x-uitleg": {
+                "nl": "Spelling, d/t, hoofdletters, komma's, samenstellingen, leesbaarheid.",
+                "en": "Spelling, grammar, punctuation, readability."
+              }
             },
             "humaniseren": {
-              "type": "boolean", "default": true,
-              "x-label": {"nl": "Humaniseren", "en": "Humanize"},
-              "x-uitleg": {"nl": "AI-patronen eruit en klinken als jij: ritme, concrete details, je eigen stem.", "en": "Remove AI patterns and sound like you: rhythm, concrete detail, your own voice."}
+              "type": "boolean",
+              "default": true,
+              "x-label": {
+                "nl": "Humaniseren",
+                "en": "Humanize"
+              },
+              "x-uitleg": {
+                "nl": "AI-patronen eruit en klinken als jij: ritme, concrete details, je eigen stem.",
+                "en": "Remove AI patterns and sound like you: rhythm, concrete detail, your own voice."
+              }
             }
           }
         },
         "toon": {
           "type": "object",
           "additionalProperties": false,
-          "x-label": {"nl": "Toon", "en": "Tone"},
+          "x-label": {
+            "nl": "Toon",
+            "en": "Tone"
+          },
           "properties": {
             "niveau": {
-              "type": "string", "enum": ["formeel", "zakelijk", "neutraal", "informeel", "luchtig"], "default": "neutraal",
-              "x-label": {"nl": "Hoe klinkt het?", "en": "How should it sound?"},
-              "x-uitleg": {"nl": "Van formeel (u, lange zinnen, geen humor) tot luchtig (je, korte zinnen, humor mag).", "en": "From formal to light-hearted."}
+              "type": "string",
+              "enum": [
+                "formeel",
+                "zakelijk",
+                "neutraal",
+                "informeel",
+                "luchtig"
+              ],
+              "default": "neutraal",
+              "x-label": {
+                "nl": "Hoe klinkt het?",
+                "en": "How should it sound?"
+              },
+              "x-uitleg": {
+                "nl": "Van formeel (u, lange zinnen, geen humor) tot luchtig (je, korte zinnen, humor mag).",
+                "en": "From formal to light-hearted."
+              }
             },
             "aanspreekvorm": {
-              "type": "string", "enum": ["auto", "je", "u", "geen"], "default": "auto",
-              "x-label": {"nl": "Aanspreekvorm", "en": "Form of address"},
-              "x-uitleg": {"nl": "auto kiest per genre en lezer; geen betekent: de lezer niet aanspreken (academisch).", "en": "auto picks per genre and reader; geen means: do not address the reader (academic)."}
+              "type": "string",
+              "enum": [
+                "auto",
+                "je",
+                "u",
+                "geen"
+              ],
+              "default": "auto",
+              "x-label": {
+                "nl": "Aanspreekvorm",
+                "en": "Form of address"
+              },
+              "x-uitleg": {
+                "nl": "auto kiest per genre en lezer; geen betekent: de lezer niet aanspreken (academisch).",
+                "en": "auto picks per genre and reader; geen means: do not address the reader (academic)."
+              }
             },
             "mix": {
-              "type": "string", "default": "",
-              "x-label": {"nl": "Eigen mix (vrij)", "en": "Custom mix (free text)"},
-              "x-uitleg": {"nl": "Bijvoorbeeld: zakelijk, maar met een luchtige afsluiting.", "en": "For example: businesslike, with a light closing line."}
+              "type": "string",
+              "default": "",
+              "x-label": {
+                "nl": "Eigen mix (vrij)",
+                "en": "Custom mix (free text)"
+              },
+              "x-uitleg": {
+                "nl": "Bijvoorbeeld: zakelijk, maar met een luchtige afsluiting.",
+                "en": "For example: businesslike, with a light closing line."
+              }
             }
           }
         },
         "uitvoer": {
           "type": "object",
           "additionalProperties": false,
-          "x-label": {"nl": "Uitvoer", "en": "Output"},
+          "x-label": {
+            "nl": "Uitvoer",
+            "en": "Output"
+          },
           "properties": {
             "formaten": {
-              "type": "array", "items": {"$ref": "#/$defs/formaat"}, "minItems": 1, "default": ["docx"],
-              "x-label": {"nl": "Bestandsformaten", "en": "File formats"}
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/formaat"
+              },
+              "minItems": 1,
+              "default": [
+                "docx"
+              ],
+              "x-label": {
+                "nl": "Bestandsformaten",
+                "en": "File formats"
+              }
             },
             "chat_voor": {
-              "type": "array", "items": {"$ref": "#/$defs/genre"}, "default": ["mail", "linkedin", "social", "kort"],
-              "x-label": {"nl": "Alleen in de chat (geen bestand)", "en": "Chat only (no file)"},
-              "x-uitleg": {"nl": "Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op.", "en": "These kinds of text only appear in the chat unless you say: save it."}
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/genre"
+              },
+              "default": [
+                "mail",
+                "linkedin",
+                "social",
+                "kort"
+              ],
+              "x-label": {
+                "nl": "Alleen in de chat (geen bestand)",
+                "en": "Chat only (no file)"
+              },
+              "x-uitleg": {
+                "nl": "Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op.",
+                "en": "These kinds of text only appear in the chat unless you say: save it."
+              }
             },
             "template": {
-              "type": "string", "default": "zakelijk",
-              "x-label": {"nl": "Template", "en": "Template"},
-              "x-uitleg": {"nl": "Naam van een meegeleverde of eigen template.", "en": "Name of a built-in or custom template."}
+              "type": "string",
+              "default": "zakelijk",
+              "x-label": {
+                "nl": "Template",
+                "en": "Template"
+              },
+              "x-uitleg": {
+                "nl": "Naam van een meegeleverde of eigen template.",
+                "en": "Name of a built-in or custom template."
+              }
             }
           }
         }
@@ -114,136 +289,322 @@
     }
   },
   "properties": {
-    "versie": {"type": "integer", "minimum": 1, "default": 1, "x-label": {"nl": "Configversie", "en": "Config version"}},
+    "versie": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "x-label": {
+        "nl": "Configversie",
+        "en": "Config version"
+      }
+    },
     "taal": {
-      "type": "string", "enum": ["nl", "en", "auto"], "default": "nl",
-      "x-label": {"nl": "Taal", "en": "Language"},
-      "x-uitleg": {"nl": "auto volgt de taal van je materiaal of je vraag.", "en": "auto follows the language of your material or request."}
+      "type": "string",
+      "enum": [
+        "nl",
+        "en",
+        "auto"
+      ],
+      "default": "nl",
+      "x-label": {
+        "nl": "Taal",
+        "en": "Language"
+      },
+      "x-uitleg": {
+        "nl": "auto volgt de taal van je materiaal of je vraag.",
+        "en": "auto follows the language of your material or request."
+      }
     },
     "profiel": {
-      "type": "string", "default": "zakelijk",
-      "x-label": {"nl": "Actief profiel", "en": "Active profile"},
-      "x-uitleg": {"nl": "Meegeleverd: student, zakelijk, social, techniek. Of een eigen profiel hieronder.", "en": "Built in: student, zakelijk, social, techniek. Or one of your own below."}
+      "type": "string",
+      "default": "zakelijk",
+      "x-label": {
+        "nl": "Actief profiel",
+        "en": "Active profile"
+      },
+      "x-uitleg": {
+        "nl": "Meegeleverd: student, zakelijk, social, techniek. Of een eigen profiel hieronder.",
+        "en": "Built in: student, zakelijk, social, techniek. Or one of your own below."
+      }
     },
     "profielen": {
-      "type": "object", "default": {}, "additionalProperties": {"$ref": "#/$defs/profiel"},
-      "x-label": {"nl": "Eigen profielen", "en": "Custom profiles"}
+      "type": "object",
+      "default": {},
+      "additionalProperties": {
+        "$ref": "#/$defs/profiel"
+      },
+      "x-label": {
+        "nl": "Eigen profielen",
+        "en": "Custom profiles"
+      }
     },
     "genre_profielen": {
-      "type": "object", "default": {},
-      "x-label": {"nl": "Automatisch profiel per genre", "en": "Automatic profile per genre"},
-      "x-uitleg": {"nl": "Bijvoorbeeld mail: zakelijk. Wint van het actieve profiel als het genre klopt.", "en": "For example mail: zakelijk. Overrides the active profile for that genre."},
-      "propertyNames": {"$ref": "#/$defs/genre"},
-      "additionalProperties": {"type": "string"}
+      "type": "object",
+      "default": {},
+      "x-label": {
+        "nl": "Automatisch profiel per genre",
+        "en": "Automatic profile per genre"
+      },
+      "x-uitleg": {
+        "nl": "Bijvoorbeeld mail: zakelijk. Wint van het actieve profiel als het genre klopt.",
+        "en": "For example mail: zakelijk. Overrides the active profile for that genre."
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/genre"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "mappen": {
       "type": "object",
       "additionalProperties": false,
-      "x-label": {"nl": "Mapnamen", "en": "Folder names"},
+      "x-label": {
+        "nl": "Mapnamen",
+        "en": "Folder names"
+      },
       "properties": {
-        "input": {"type": "string", "default": "1-input"},
-        "output": {"type": "string", "default": "2-output"},
-        "notities": {"type": "string", "default": "notities"},
-        "rapporten": {"type": "string", "default": "rapporten"},
-        "beeld": {"type": "string", "default": "beeld"},
-        "bronnen": {"type": "string", "default": "bronnen"},
-        "mijn_stijl": {"type": "string", "default": "mijn-stijl"},
-        "schrijven": {"type": "string", "default": "schrijven"},
-        "herschrijven": {"type": "string", "default": "herschrijven"},
-        "reviewen": {"type": "string", "default": "reviewen"},
-        "humaniseren": {"type": "string", "default": "humaniseren"},
-        "templates": {"type": "string", "default": "templates"}
+        "input": {
+          "type": "string",
+          "default": "1-input"
+        },
+        "output": {
+          "type": "string",
+          "default": "2-output"
+        },
+        "notities": {
+          "type": "string",
+          "default": "notities"
+        },
+        "rapporten": {
+          "type": "string",
+          "default": "rapporten"
+        },
+        "beeld": {
+          "type": "string",
+          "default": "beeld"
+        },
+        "bronnen": {
+          "type": "string",
+          "default": "bronnen"
+        },
+        "mijn_stijl": {
+          "type": "string",
+          "default": "mijn-stijl"
+        },
+        "schrijven": {
+          "type": "string",
+          "default": "schrijven"
+        },
+        "herschrijven": {
+          "type": "string",
+          "default": "herschrijven"
+        },
+        "reviewen": {
+          "type": "string",
+          "default": "reviewen"
+        },
+        "humaniseren": {
+          "type": "string",
+          "default": "humaniseren"
+        },
+        "templates": {
+          "type": "string",
+          "default": "templates"
+        }
       }
     },
     "versies": {
-      "type": "boolean", "default": true,
-      "x-label": {"nl": "Versies bijhouden", "en": "Keep versions"},
-      "x-uitleg": {"nl": "Elke nieuwe ronde over dezelfde titel komt in een nieuwe map v2, v3, ...", "en": "Every new round on the same title goes into a new folder v2, v3, ..."}
+      "type": "boolean",
+      "default": true,
+      "x-label": {
+        "nl": "Versies bijhouden",
+        "en": "Keep versions"
+      },
+      "x-uitleg": {
+        "nl": "Elke nieuwe ronde over dezelfde titel komt in een nieuwe map (v2, v3 enzovoort).",
+        "en": "Every new round on the same title goes into a new folder (v2, v3 and so on)."
+      }
     },
     "privacy": {
       "type": "object",
       "additionalProperties": false,
-      "x-label": {"nl": "Privacy", "en": "Privacy"},
+      "x-label": {
+        "nl": "Privacy",
+        "en": "Privacy"
+      },
       "properties": {
         "languagetool": {
-          "type": "boolean", "default": false,
-          "x-label": {"nl": "Online taalcheck (LanguageTool)", "en": "Online grammar check (LanguageTool)"},
-          "x-uitleg": {"nl": "Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal.", "en": "Sends the text to api.languagetool.org for an extra check. Off = everything stays local."}
-        },
-        "visuals_ai": {
-          "type": "boolean", "default": false,
-          "x-label": {"nl": "AI-visuals (kie.ai)", "en": "AI visuals (kie.ai)"},
-          "x-uitleg": {"nl": "Laat illustraties maken via kie.ai. Vraagt een eigen API-key en stuurt de beschrijving van het beeld naar buiten.", "en": "Generates illustrations via kie.ai. Needs your own API key."}
+          "type": "boolean",
+          "default": false,
+          "x-label": {
+            "nl": "Online taalcheck (LanguageTool)",
+            "en": "Online grammar check (LanguageTool)"
+          },
+          "x-uitleg": {
+            "nl": "Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal.",
+            "en": "Sends the text to api.languagetool.org for an extra check. Off = everything stays local."
+          }
         }
       }
     },
     "stem": {
       "type": "object",
       "additionalProperties": false,
-      "x-label": {"nl": "Mijn stem", "en": "My voice"},
+      "x-label": {
+        "nl": "Mijn stem",
+        "en": "My voice"
+      },
       "properties": {
         "gebruiken": {
-          "type": "boolean", "default": true,
-          "x-label": {"nl": "Schrijf in mijn stem", "en": "Write in my voice"},
-          "x-uitleg": {"nl": "Gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld voor ritme, woordkeus en zinsopbouw.", "en": "Uses your own texts in the my-style folder as the model for rhythm and word choice."}
+          "type": "boolean",
+          "default": true,
+          "x-label": {
+            "nl": "Schrijf in mijn stem",
+            "en": "Write in my voice"
+          },
+          "x-uitleg": {
+            "nl": "Gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld voor ritme, woordkeus en zinsopbouw.",
+            "en": "Uses your own texts in the my-style folder as the model for rhythm and word choice."
+          }
         }
       }
     },
     "student": {
       "type": "object",
       "additionalProperties": false,
-      "x-label": {"nl": "Studentgegevens (optioneel)", "en": "Student details (optional)"},
-      "x-uitleg": {"nl": "Voor de titelpagina van een hbo-rapport.", "en": "For the title page of an academic report."},
+      "x-label": {
+        "nl": "Studentgegevens (optioneel)",
+        "en": "Student details (optional)"
+      },
+      "x-uitleg": {
+        "nl": "Voor de titelpagina van een hbo-rapport.",
+        "en": "For the title page of an academic report."
+      },
       "properties": {
-        "voornaam": {"type": "string"},
-        "tussenvoegsel": {"type": "string"},
-        "achternaam": {"type": "string"},
-        "studentnummer": {"type": "string"},
-        "instelling": {"type": "string"},
-        "faculteit": {"type": "string"},
-        "opleiding": {"type": "string"},
+        "voornaam": {
+          "type": "string"
+        },
+        "tussenvoegsel": {
+          "type": "string"
+        },
+        "achternaam": {
+          "type": "string"
+        },
+        "studentnummer": {
+          "type": "string"
+        },
+        "instelling": {
+          "type": "string"
+        },
+        "faculteit": {
+          "type": "string"
+        },
+        "opleiding": {
+          "type": "string"
+        },
         "docenten": {
           "type": "array",
           "items": {
-            "type": "object", "additionalProperties": false,
-            "properties": {"naam": {"type": "string"}, "rol": {"type": "string"}, "vak": {"type": "string"}}
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "naam": {
+                "type": "string"
+              },
+              "rol": {
+                "type": "string"
+              },
+              "vak": {
+                "type": "string"
+              }
+            }
           }
         },
         "vakken": {
           "type": "array",
           "items": {
-            "type": "object", "additionalProperties": false,
-            "properties": {"naam": {"type": "string"}, "code": {"type": "string"}}
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "naam": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            }
           }
         }
       }
     },
     "templates": {
-      "type": "object", "default": {},
-      "x-label": {"nl": "Eigen templates", "en": "Custom templates"},
+      "type": "object",
+      "default": {},
+      "x-label": {
+        "nl": "Eigen templates",
+        "en": "Custom templates"
+      },
       "additionalProperties": {
-        "type": "object", "additionalProperties": false, "required": ["bestand"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bestand"
+        ],
         "properties": {
-          "bestand": {"type": "string", "x-uitleg": {"nl": "Pad, relatief aan de werkmap of absoluut.", "en": "Path, relative to the workspace or absolute."}},
-          "soort": {"type": "string", "enum": ["docx", "genre"], "default": "docx"},
-          "beschrijving": {"type": "string"}
+          "bestand": {
+            "type": "string",
+            "x-uitleg": {
+              "nl": "Pad, relatief aan de werkmap of absoluut.",
+              "en": "Path, relative to the workspace or absolute."
+            }
+          },
+          "soort": {
+            "type": "string",
+            "enum": [
+              "docx",
+              "genre"
+            ],
+            "default": "docx"
+          },
+          "beschrijving": {
+            "type": "string"
+          }
         }
       }
     },
     "stijlen": {
-      "type": "object", "default": {},
-      "x-label": {"nl": "Stijlnamen in je template", "en": "Style names in your template"},
-      "x-uitleg": {"nl": "Alleen nodig als je template andere stijlnamen gebruikt, bijvoorbeeld kop1: Kop 1 in een Nederlandse Word.", "en": "Only needed if your template uses other style names."},
-      "additionalProperties": {"type": "string"}
+      "type": "object",
+      "default": {},
+      "x-label": {
+        "nl": "Stijlnamen in je template",
+        "en": "Style names in your template"
+      },
+      "x-uitleg": {
+        "nl": "Alleen nodig als je template andere stijlnamen gebruikt, bijvoorbeeld kop1: Kop 1 in een Nederlandse Word.",
+        "en": "Only needed if your template uses other style names."
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "bijwerken": {
       "type": "object",
       "additionalProperties": false,
-      "x-label": {"nl": "Gidsen bijwerken", "en": "Updating the guides"},
+      "x-label": {
+        "nl": "Gidsen bijwerken",
+        "en": "Updating the guides"
+      },
       "properties": {
         "herinnering_dagen": {
-          "type": "integer", "minimum": 7, "maximum": 365, "default": 30,
-          "x-label": {"nl": "Herinnering na (dagen)", "en": "Reminder after (days)"}
+          "type": "integer",
+          "minimum": 7,
+          "maximum": 365,
+          "default": 30,
+          "x-label": {
+            "nl": "Herinnering na (dagen)",
+            "en": "Reminder after (days)"
+          }
         }
       }
     }

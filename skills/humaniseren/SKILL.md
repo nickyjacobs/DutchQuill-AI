@@ -9,6 +9,10 @@ description: >-
   AI te laten klinken, of op AI-patronen te checken ("klinkt dit als ChatGPT?", "maak dit menselijker",
   "humanize this", "does this sound like AI").
 argument-hint: "[tekst of pad] [scan | herschrijf]"
+when_to_use: >-
+  Gebruik deze skill ook als de gebruiker DutchQuill niet noemt: bij elke vraag of een tekst als AI of ChatGPT
+  klinkt, of hij door AI geschreven lijkt, of de vraag een tekst natuurlijker, menselijker of minder robotachtig
+  te maken. Ook in het Engels ("does this sound like AI", "humanize").
 ---
 
 # Humaniseren
@@ -23,7 +27,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 ## Stand
 
-!`CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
+!`DQ_NIET_INSTALLEREN=1 CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon --kort 2>&1 | tail -10 || true`
 
 ## Stappen
 
