@@ -27,6 +27,8 @@ modules: taal, humaniseren
 ## Let op
 
 - Alinea's van één tot drie zinnen; niet elke zin een eigen alinea.
+- Weinig feiten? Zet ze samen in één of twee alinea's die lopen, in plaats van elk feit op een eigen regel. Een
+  korte post is prima; een rij losse eenregelige alinea's leest als een opsomming.
 - Geen emoji-opsommingen, geen "Dit is wat ik leerde:", geen "Lees dat nog een keer."
 - Tag mensen alleen als de gebruiker dat vraagt.
 - Gebruik alleen ervaringen en details die de gebruiker aanleverde. Verzin geen anekdote, les of conclusie.
