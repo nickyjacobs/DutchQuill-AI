@@ -4,8 +4,8 @@ Dit bestand is voor AI-assistenten (Claude Code, Codex, Cursor en andere) die aa
 van de plugin krijgen het niet: een plugin laadt geen CLAUDE.md of AGENTS.md. Wat de plugin bij gebruikers doet,
 staat in `skills/`.
 
-**Lees eerst [docs/project/ontwikkelen.md](docs/nl/project/ontwikkelen.md):** de opbouw, de afspraken en de checks.
-Releases: [docs/project/releasen.md](docs/nl/project/releasen.md).
+**Lees eerst [docs/nl/project/ontwikkelen.md](docs/nl/project/ontwikkelen.md):** de opbouw, de afspraken en de checks.
+Releases: [docs/nl/project/releasen.md](docs/nl/project/releasen.md).
 
 ## De regels die je niet mag missen
 

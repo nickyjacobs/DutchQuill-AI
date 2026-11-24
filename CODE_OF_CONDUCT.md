@@ -1,20 +1,21 @@
-# Gedragscode
+<p align="right"><b>🇬🇧 English</b> · <a href="CODE_OF_CONDUCT.nl.md">🇳🇱 Dutch</a></p>
 
-DutchQuill is een klein project. Dit is hoe we met elkaar omgaan in issues, pull requests en discussies.
+# Code of conduct
 
-- **Wees vriendelijk en concreet.** Zeg wat je zag, wat je verwachtte en wat zou helpen. Kritiek gaat over het
-  idee of de code, nooit over de persoon.
-- **Ga uit van goede bedoelingen, en maak de jouwe makkelijk te zien.** Mensen hier schrijven in verschillende
-  talen en hebben verschillende ervaring. Een beginnersvraag is net zo welkom als een patch van een expert.
-- **Geen intimidatie.** Geen beledigingen, geen persoonlijke aanvallen, geen seksuele taal of beelden, geen
-  privégegevens van anderen publiceren, geen aandringen na een nee.
-- **Houd privé wat privé is.** Plaats nooit wachtwoorden, klantgegevens of teksten van anderen, ook niet in een
-  voorbeeld of een log.
+DutchQuill is a small project. This is how we treat each other in issues, pull requests and discussions.
 
-## Als er iets misgaat
+- **Be friendly and concrete.** Say what you saw, what you expected and what would help. Criticism is about the
+  idea or the code, never about the person.
+- **Assume good intentions, and make yours easy to see.** People here write in different languages and have
+  different levels of experience. A beginner's question is as welcome as a patch from an expert.
+- **No harassment.** No insults, no personal attacks, no sexual language or imagery, no publishing other people's
+  private information, no pushing after a no.
+- **Keep private what is private.** Never post passwords, customer data or other people's texts, not even in an
+  example or a log.
 
-Meld het privé aan de beheerder, via [een privémelding op GitHub](https://github.com/nickyjacobs/DutchQuill-AI/security/advisories/new).
-Zeg wat er gebeurde en waar. Alleen de beheerder leest meldingen, en gaat er discreet mee om.
+## When something goes wrong
 
-De beheerder mag reacties aanpassen of verwijderen, discussies sluiten en accounts blokkeren die zich niet aan deze
-code houden.
+Report it privately to the maintainer, through [a private report on GitHub](https://github.com/nickyjacobs/DutchQuill-AI/security/advisories/new).
+Say what happened and where. Only the maintainer reads reports, and handles them discreetly.
+
+The maintainer may edit or remove comments, close discussions and block accounts that don't follow this code.

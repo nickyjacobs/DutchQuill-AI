@@ -30,6 +30,6 @@ Everything that doesn't fit in the [README](../README.md), sorted by who reads i
 | [`project/`](project/) | Anyone who works on DutchQuill | The repo layout, conventions, checks and the release steps |
 | [`nl/`](nl/) | Dutch readers | The same documentation in Dutch |
 
-Elsewhere in the repo: [CHANGELOG.md](../CHANGELOG.md) (every release, in Dutch), [ROADMAP.md](../ROADMAP.md)
+Elsewhere in the repo: [CHANGELOG.md](../CHANGELOG.md) (every release), [ROADMAP.md](../ROADMAP.md)
 (what is coming), [CONTRIBUTING.md](../CONTRIBUTING.md) (contributing), [SECURITY.md](../SECURITY.md) (reporting a
 problem), [AGENTS.md](../AGENTS.md) (for AI assistants working on the repo).

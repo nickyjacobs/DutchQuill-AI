@@ -30,19 +30,20 @@ gitGraph
 
 ## The CHANGELOG
 
-The CHANGELOG is in Dutch. At the top a table with one row per release. Then `## [Unreleased]`, and per version:
+The CHANGELOG is in English only. At the top a table with one row per release. Then `## [Unreleased]`, and per
+version:
 
 ```markdown
 ## [2.1.0] - 2026-12-15
 
-> **Kort gezegd:** one sentence ("in short").
+> **In short:** one sentence.
 
-### 🧭 Voor jou          what a user notices or has to do, in plain words ("for you")
-### ✨ Nieuw              added
-### 🔧 Veranderd          changed
-### 🐛 Opgelost           fixed
-### 🗑️ Verwijderd         removed
-### 🔒 Beveiliging        security; in this order, leave out empty sections
+### 🧭 For you           what a user notices or has to do, in plain words
+### ✨ Added
+### 🔧 Changed
+### 🐛 Fixed
+### 🗑️ Removed
+### 🔒 Security          in this order; leave out empty sections
 ```
 
 Separate blocks with `---`. The links are at the bottom (`[2.1.0]: .../compare/v2.0.0...v2.1.0`). The release check

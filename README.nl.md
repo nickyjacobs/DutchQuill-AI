@@ -90,7 +90,7 @@ verandert geen metadata om iets te verbergen. Meer: [Humaniseren](docs/nl/handle
 
 ## Documentatie
 
-Het beginpunt is [docs/README.md](docs/nl/README.md).
+Het beginpunt is [docs/nl/README.md](docs/nl/README.md).
 
 - **Handleiding:** [aan de slag](docs/nl/handleiding/aan-de-slag.md), [werkmap](docs/nl/handleiding/werkmap.md),
   [Studio](docs/nl/handleiding/studio.md), [profielen en toon](docs/nl/handleiding/profielen-en-toon.md),
@@ -116,7 +116,7 @@ ik er veel van. [Lees het hele verhaal](docs/nl/verhaal.md).
 ## Feedback
 
 Een fout of een idee? Open een [issue](https://github.com/nickyjacobs/DutchQuill-AI/issues/new/choose) of start een
-[discussie](https://github.com/nickyjacobs/DutchQuill-AI/discussions). Meebouwen: [CONTRIBUTING.md](CONTRIBUTING.md).
+[discussie](https://github.com/nickyjacobs/DutchQuill-AI/discussions). Meebouwen: [CONTRIBUTING.nl.md](CONTRIBUTING.nl.md).
 
 ## Licentie
 

@@ -31,19 +31,20 @@ gitGraph
 
 ## De CHANGELOG
 
-Bovenaan een tabel met één regel per release. Daarna `## [Unreleased]`, en per versie:
+De CHANGELOG is Engels en bestaat in één taal. Bovenaan een tabel met één regel per release. Daarna
+`## [Unreleased]`, en per versie:
 
 ```markdown
 ## [2.1.0] - 2026-12-15
 
-> **Kort gezegd:** één zin.
+> **In short:** één zin.
 
-### 🧭 Voor jou          wat een gebruiker merkt of moet doen, in gewone taal
-### ✨ Nieuw
-### 🔧 Veranderd
-### 🐛 Opgelost
-### 🗑️ Verwijderd
-### 🔒 Beveiliging       in deze volgorde; lege secties laat je weg
+### 🧭 For you           wat een gebruiker merkt of moet doen, in gewone taal
+### ✨ Added             nieuw
+### 🔧 Changed           veranderd
+### 🐛 Fixed             opgelost
+### 🗑️ Removed           verwijderd
+### 🔒 Security          beveiliging; in deze volgorde, lege secties laat je weg
 ```
 
 Blokken scheid je met `---`. Onderaan staan de links (`[2.1.0]: .../compare/v2.0.0...v2.1.0`). De release-check

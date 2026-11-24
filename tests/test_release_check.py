@@ -17,7 +17,7 @@ def test_tag_moet_bij_changelog_passen():
     assert rc.controleer("v99.0.0")
 
 
-def test_notes_bevatten_kort_gezegd():
+def test_notes_beginnen_met_in_short():
     versie = rc.versies_in_code()["plugin.json"]
     tekst = rc.notes(f"v{versie}")
-    assert tekst.startswith("> **Kort gezegd:**") and "## [" not in tekst
+    assert tekst.startswith("> **In short:**") and "## [" not in tekst

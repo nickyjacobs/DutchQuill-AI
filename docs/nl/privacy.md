@@ -37,6 +37,6 @@ Typ `/plugin` in Claude Code, kies DutchQuill en verwijder hem. Je werkmap blijf
 ## Contact
 
 - Een vraag of een fout: [GitHub Issues](https://github.com/nickyjacobs/DutchQuill-AI/issues).
-- Een beveiligingsprobleem: meld het privé, zoals [SECURITY.md](../../SECURITY.md) beschrijft.
+- Een beveiligingsprobleem: meld het privé, zoals [SECURITY.nl.md](../../SECURITY.nl.md) beschrijft.
 
 Verandert dit beleid, dan staat dat in de [CHANGELOG](../../CHANGELOG.md). Laatst bijgewerkt: 2026-11-25.

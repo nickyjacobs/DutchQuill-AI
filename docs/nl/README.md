@@ -30,6 +30,6 @@ Alles wat niet in de [README](../../README.nl.md) past, ingedeeld naar wie het l
 | [`project/`](project/) | Wie aan DutchQuill werkt | De opbouw van de repo, afspraken, checks en de releasestappen |
 | [`docs/`](../) | Engelstalige lezers | Dezelfde documentatie in het Engels |
 
-Elders in de repo: [CHANGELOG.md](../../CHANGELOG.md) (elke release), [ROADMAP.nl.md](../../ROADMAP.nl.md) (wat eraan komt),
-[CONTRIBUTING.md](../../CONTRIBUTING.md) (bijdragen), [SECURITY.md](../../SECURITY.md) (een probleem melden),
+Elders in de repo: [CHANGELOG.md](../../CHANGELOG.md) (elke release, in het Engels), [ROADMAP.nl.md](../../ROADMAP.nl.md) (wat eraan komt),
+[CONTRIBUTING.nl.md](../../CONTRIBUTING.nl.md) (bijdragen), [SECURITY.nl.md](../../SECURITY.nl.md) (een probleem melden),
 [AGENTS.md](../../AGENTS.md) (voor AI-assistenten die aan de repo werken).
