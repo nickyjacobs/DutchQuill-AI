@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/reference/commands.md">🇬🇧 English</a></p>
+
 # Commando's
 
 ## In Claude Code

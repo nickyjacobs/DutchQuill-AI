@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/guide/faq.md">🇬🇧 English</a></p>
+
 # Vragen
 
 ## Wat gaat er naar internet?

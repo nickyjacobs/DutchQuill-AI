@@ -1,7 +1,8 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="en/README.md">🇬🇧 English</a></p>
+
 # Documentatie van DutchQuill
 
-Alles wat niet in de [README](../README.md) past, ingedeeld naar wie het leest. *English:
-[docs/en/README.md](en/README.md).*
+Alles wat niet in de [README](../README.md) past, ingedeeld naar wie het leest.
 
 | Als je wilt... | Lees |
 |---|---|

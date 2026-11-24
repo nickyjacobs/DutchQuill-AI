@@ -1,3 +1,5 @@
+<p align="right"><a href="../../handleiding/profielen-en-toon.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Profiles, checks and tone
 
 ## Profiles

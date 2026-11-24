@@ -1,7 +1,9 @@
+<p align="right"><a href="ROADMAP.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Roadmap
 
 What comes after 2.0. Ideas and wishes are welcome in the
-[Discussions](https://github.com/nickyjacobs/DutchQuill-AI/discussions). *Nederlands: [ROADMAP.md](ROADMAP.md).*
+[Discussions](https://github.com/nickyjacobs/DutchQuill-AI/discussions).
 
 ## 2.1
 

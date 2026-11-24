@@ -1,3 +1,5 @@
+<p align="right"><a href="../../handleiding/templates.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # Templates
 
 DutchQuill has two kinds: a **Word template** decides how a Word or PDF file looks, a **template per kind of text**

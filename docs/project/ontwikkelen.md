@@ -1,3 +1,5 @@
+<p align="right"><b>🇳🇱 Nederlands</b> · <a href="../en/project/development.md">🇬🇧 English</a></p>
+
 # Ontwikkelen aan DutchQuill
 
 Deze repo is de Claude Code-plugin `dutchquill` en tegelijk zijn eigen marketplace (`marketplace.json` met

@@ -1,3 +1,5 @@
+<p align="right"><a href="../../handleiding/vragen.md">🇳🇱 Nederlands</a> · <b>🇬🇧 English</b></p>
+
 # FAQ
 
 ## What goes to the internet?
