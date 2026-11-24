@@ -40,10 +40,12 @@ const TEKST = {
     g_start: "Start", g_schrijven: "Hoe je schrijft", g_uitvoer: "Wat je krijgt", g_jij: "Jij en je gegevens",
     g_systeem: "Systeem", s_over: "Over DutchQuill", menu_open: "Menu openen", menu_dicht: "Menu inklappen",
     over_titel: "Over DutchQuill",
-    over_1: "Ik begon met DutchQuill toen ik mijn eigen hbo-rapporten schreef. AI hielp me sneller schrijven, maar de tekst klonk niet als mij, en APA kostte me meer tijd dan de inhoud. Dus bouwde ik een assistent die de regels kent, de typische AI-patronen eruit haalt en mijn eigen stem laat staan.",
-    over_2: "Inmiddels schrijf ik er ook mails, LinkedIn-posts, procesdocumentatie en README's mee. Daarom is DutchQuill er nu voor iedereen die tekst maakt, met precies de controles die jij wilt.",
-    over_3: "DutchQuill is open source (MIT). Zie je een fout of heb je een idee, open dan een issue op GitHub.",
-    over_naam: "Nicky Jacobs", l_repo: "Broncode", l_github: "GitHub", l_site: "Website", l_linkedin: "LinkedIn",
+    over_1: "DutchQuill begon op de hogeschool. Mijn rapporten moesten volgens APA en op academisch niveau, en ik wilde precies weten wat dat betekende. Dat werd een flinke rabbit hole. De meeste mensen denken bij APA alleen aan bronvermelding, maar het gaat ook over de marges van je pagina, hoe je titelblad eruitziet, hoe je tabellen, figuren en bijlagen opneemt, het inspringen van elke alinea (ook de eerste) en de hangende inspringing in je literatuurlijst. En dan heb je nog de vraag wat academisch schrijven echt is, en hoe je AI daarbij gebruikt zonder jezelf voorbij te lopen.",
+    over_2: "Het begon met een Word-template die alles meteen goed zette. Daarna liet ik mijn rapporten nakijken, en met wat daaruit kwam maakte ik er volwaardige rapporten van.",
+    over_3: "Toen wilde ik meer. Sneller mails beantwoorden, makkelijker een LinkedIn-post schrijven, procesdocumentatie voor mijn werk of de README van een repo, allemaal vanuit ruwe notities, tekst en screenshots die ik al had verzameld. DutchQuill maakt daar een mooi eindresultaat van.",
+    over_4: "Op het eerste gezicht lijkt het misschien een tool van iemand die alles makkelijk wil. Deels klopt dat ook wel ;) Maar voor mij was het vooral een leerproject. Ik weet nu meer over APA dan ik ooit had verwacht; soms wist ik dingen over inspringen die docenten en medestudenten ook niet wisten. Ik leerde hoe AI tekst maakt, hoe plagiaatcontrole werkt en wat goed academisch schrijven is. Er zit veel tijd in, en het resultaat deel ik graag.",
+    over_5: "DutchQuill is open source (MIT). Zie je een fout of heb je een idee, open dan een issue op GitHub.",
+    over_naam: "- Nicky Jacobs", l_repo: "GitHub Repo: DutchQuill AI", l_github: "My GitHub Page", l_site: "My Website", l_linkedin: "My LinkedIn",
     nu_controleren: "Nu controleren", controleren_bezig: "Bezig met controleren, dat duurt ongeveer een halve minuut...",
     controle_ok: "Alles is actueel. De volgende herinnering komt over een maand.",
     controle_gewijzigd: "Deze bronnen zijn veranderd. Typ in Claude /dutchquill:bijwerken om de gidsen bij te werken:",
@@ -148,10 +150,12 @@ const TEKST = {
     g_start: "Start", g_schrijven: "How you write", g_uitvoer: "What you get", g_jij: "You and your data",
     g_systeem: "System", s_over: "About DutchQuill", menu_open: "Open menu", menu_dicht: "Collapse menu",
     over_titel: "About DutchQuill",
-    over_1: "I started DutchQuill while writing my own university reports. AI helped me write faster, but the text didn't sound like me, and APA took more time than the content. So I built an assistant that knows the rules, takes out the typical AI patterns and keeps my own voice.",
-    over_2: "These days I also use it for emails, LinkedIn posts, process documentation and READMEs. That is why DutchQuill is now for anyone who writes, with exactly the checks you want.",
-    over_3: "DutchQuill is open source (MIT). Found a bug or have an idea? Open an issue on GitHub.",
-    over_naam: "Nicky Jacobs", l_repo: "Source code", l_github: "GitHub", l_site: "Website", l_linkedin: "LinkedIn",
+    over_1: "DutchQuill started at university. My reports had to follow APA and meet an academic standard, and I wanted to know exactly what that meant. It turned into quite a rabbit hole. Most people think APA is only about citations, but it also covers your page margins, what your title page looks like, how you add tables, figures and appendices, indenting every paragraph (the first one too) and the hanging indent in your reference list. Then there is the question of what academic writing really is, and how to use AI for it without fooling yourself.",
+    over_2: "It started with a Word template that got all of that right from the start. Next I had my reports reviewed, and used the feedback to turn them into proper, finished reports.",
+    over_3: "Then I wanted more. Answering emails faster, writing a LinkedIn post more easily, process documentation for work or the README of a repo, all from rough notes, text and screenshots I had already collected. DutchQuill turns that into a polished result.",
+    over_4: "At first glance it may look like a tool made by someone who wants everything to be easy. That's partly true ;) But for me it was mostly a learning project. I now know more about APA than I ever expected; sometimes I knew things about indentation that teachers and classmates didn't. I learned how AI generates text, how plagiarism checks work and what good academic writing is. A lot of time went into it, and I am happy to share the result.",
+    over_5: "DutchQuill is open source (MIT). Found a bug or have an idea? Open an issue on GitHub.",
+    over_naam: "- Nicky Jacobs", l_repo: "GitHub Repo: DutchQuill AI", l_github: "My GitHub Page", l_site: "My Website", l_linkedin: "My LinkedIn",
     nu_controleren: "Check now", controleren_bezig: "Checking, this takes about half a minute...",
     controle_ok: "Everything is up to date. The next reminder comes in a month.",
     controle_gewijzigd: "These sources have changed. Type /dutchquill:bijwerken in Claude to update the guides:",
@@ -859,27 +863,39 @@ const SCHERMEN = {
   },
 
   over() {
-    const pijl = () => {
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("fill", "none"); svg.setAttribute("stroke", "currentColor");
-      svg.setAttribute("stroke-width", "1.8"); svg.setAttribute("stroke-linecap", "round"); svg.setAttribute("aria-hidden", "true");
-      const pad = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      pad.setAttribute("d", "M8 16L16 8M9 8h7v7"); svg.append(pad); return svg;
+    const NS = "http://www.w3.org/2000/svg";
+    const icoon = (soort) => {
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("aria-hidden", "true");
+      const pad = document.createElementNS(NS, "path");
+      if (soort === "globe") {
+        svg.setAttribute("fill", "none"); svg.setAttribute("stroke", "currentColor"); svg.setAttribute("stroke-width", "1.7");
+        pad.setAttribute("d", "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3.5 9h17M3.5 15h17M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z");
+      } else if (soort === "pijl") {
+        svg.setAttribute("fill", "none"); svg.setAttribute("stroke", "currentColor"); svg.setAttribute("stroke-width", "1.8");
+        svg.setAttribute("stroke-linecap", "round"); pad.setAttribute("d", "M8 16L16 8M9 8h7v7");
+      } else {
+        svg.setAttribute("fill", "currentColor");
+        pad.setAttribute("d", soort === "github"
+          ? "M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0C17.3 4.97 18.3 5.3 18.3 5.3c.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22l-.01 3.29c0 .32.21.69.82.57A12 12 0 0 0 12 .3"
+          : "M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z");
+      }
+      svg.append(pad); return svg;
     };
     const links = [
-      ["l_repo", "https://github.com/nickyjacobs/DutchQuill-AI", "github.com/nickyjacobs/DutchQuill-AI"],
-      ["l_github", "https://github.com/nickyjacobs", "github.com/nickyjacobs"],
-      ["l_site", "https://nickyjacobs.nl", "nickyjacobs.nl"],
-      ["l_linkedin", "https://www.linkedin.com/in/N-O-Jacobs", "linkedin.com/in/N-O-Jacobs"],
+      ["l_repo", "https://github.com/nickyjacobs/DutchQuill-AI", "github", "github"],
+      ["l_github", "https://github.com/nickyjacobs", "github", "github"],
+      ["l_site", "https://nickyjacobs.nl", "globe", "website"],
+      ["l_linkedin", "https://www.linkedin.com/in/N-O-Jacobs", "linkedin", "linkedin"],
     ];
     return [
       el("h1", { tekst: T("over_titel") }),
       el("p", { klasse: "versie", tekst: `${T("versie")} ${S.status.versie}` }),
-      el("div", { klasse: "verhaal" }, el("p", { tekst: T("over_1") }), el("p", { tekst: T("over_2") }),
-        el("p", { tekst: T("over_3") }), el("p", { klasse: "ondertekening", tekst: T("over_naam") })),
-      el("ul", { klasse: "links" }, links.map(([k, url, toon]) => el("li", {},
-        el("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, el("strong", { tekst: T(k) }),
-          el("span", { tekst: toon }), pijl())))),
+      el("div", { klasse: "verhaal" }, [1, 2, 3, 4, 5].map((n) => el("p", { tekst: T(`over_${n}`) })),
+        el("p", { klasse: "ondertekening", tekst: T("over_naam") })),
+      el("ul", { klasse: "merklinks" }, links.map(([k, url, ic, merk]) => el("li", {},
+        el("a", { href: url, target: "_blank", rel: "noopener noreferrer", klasse: `merk-${merk}` },
+          icoon(ic), el("span", { tekst: T(k) }), icoon("pijl"))))),
     ];
   },
 
@@ -984,6 +1000,15 @@ function vertaalVast() {
 }
 
 // ------------------------------------------------------------------ start
+// De wolken lopen op de klok: bij opnieuw openen staan ze waar ze waren, in plaats van opnieuw te beginnen.
+function wolkenOpDeKlok() {
+  const nu = Date.now() / 1000;
+  document.querySelectorAll(".wolk").forEach((w) => {
+    const duur = parseFloat(getComputedStyle(w).animationDuration) || 150;
+    w.style.animationDelay = `-${(nu % duur).toFixed(1)}s`;
+  });
+}
+
 function zetMenu(open) {
   document.body.classList.toggle("ingeklapt", !open);
   document.getElementById("menuopen").hidden = open;
@@ -993,6 +1018,7 @@ function zetMenu(open) {
 }
 
 async function start() {
+  wolkenOpDeKlok();
   let menu = "open";
   try { menu = localStorage.getItem("dq-menu") || "open"; } catch (e) { /* */ }
   zetMenu((START_MENU || menu) !== "dicht");
