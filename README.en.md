@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-donker.png">
+    <img src="assets/logo-licht.png" alt="DutchQuill AI" width="140">
+  </picture>
+</p>
+
 # DutchQuill AI
 
 A writing assistant for Claude Code, Dutch first and fully capable in English. DutchQuill writes, rewrites,
