@@ -1,43 +1,34 @@
-# Secrets & credentials
+# Secrets
 .env
 .mcp.json
 credentials.json
 token.json
 
-# Tijdelijke bestanden (inhoud, niet de mappenstructuur)
-.tmp/*
-!.tmp/.gitkeep
-!.tmp/schrijven/
-!.tmp/herschrijven/
-!.tmp/reviewen/
-!.tmp/humaniseer/
-.tmp/schrijven/*
-!.tmp/schrijven/.gitkeep
-.tmp/herschrijven/*
-!.tmp/herschrijven/.gitkeep
-.tmp/reviewen/*
-!.tmp/reviewen/.gitkeep
-.tmp/humaniseer/*
-!.tmp/humaniseer/.gitkeep
+# Lokale ontwikkeldata (dq zonder CLAUDE_PLUGIN_DATA) en werkbestanden
+.dev-data/
+.tmp/
+rapporten/
+config/user_profile.json
+config/quick_scans/
+config/beoordelingscriteria/
+.claude/settings.local.json
+
+# Klantdata en losse documenten horen nooit in deze repo
+config/klanten/
+*.docx
+*.pdf
+!templates/**/*.docx
+!tests/fixtures/**/*.docx
+!tests/fixtures/**/*.pdf
 
 # Python
 __pycache__/
 *.pyc
-venv/
 .venv/
+venv/
+.pytest_cache/
+.ruff_cache/
 
 # OS
 .DS_Store
 ~$*
-
-# Persoonlijke configuratie
-config/user_profile.json
-config/quick_scans/*.md
-!config/quick_scans/VOORBEELD.md
-config/beoordelingscriteria/*.md
-!config/beoordelingscriteria/VOORBEELD.md
-.claude/settings.local.json
-
-# Gebruikersrapporten
-rapporten/*.docx
-rapporten/*.pdf

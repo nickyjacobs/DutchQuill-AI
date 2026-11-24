@@ -1,0 +1,49 @@
+# DutchQuill AI: jouw instellingen
+#
+# Pas dit bestand gerust zelf aan, of zeg het tegen Claude ("zet APA uit", "maak de toon luchtiger")
+# via /dutchquill:instellen. Ook visueel: kies daar "visueel".
+# Alles wat je hier niet invult, krijgt een standaardwaarde.
+
+versie: 1
+
+# Taal: nl, en of auto (volgt de taal van je materiaal of je vraag)
+taal: __TAAL__
+
+# Actief profiel. Meegeleverd: student, zakelijk, social, techniek. Of een eigen profiel hieronder.
+profiel: __PROFIEL__
+
+# Eigen profielen. Bouw voort op een bestaand profiel met `basis:` en zet alleen wat anders moet.
+# Voorbeeld:
+#   mijn-linkedin:
+#     basis: social
+#     toon: {niveau: luchtig, mix: "persoonlijk, één concreet voorbeeld"}
+profielen: {}
+
+# Automatisch een profiel per soort tekst, bijvoorbeeld:  mail: zakelijk
+genre_profielen: {}
+
+# Elke nieuwe ronde over dezelfde titel in een nieuwe map (v1, v2, ...)
+versies: true
+
+privacy:
+  # Online spelling- en grammaticacheck via LanguageTool: je tekst gaat dan naar api.languagetool.org
+  languagetool: __LANGUAGETOOL__
+  # Illustraties laten maken via kie.ai (eigen API-key nodig)
+  visuals_ai: false
+
+stem:
+  # Schrijf in mijn stem: gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld
+  gebruiken: true
+
+# Studentgegevens voor de titelpagina (optioneel, alleen bij het profiel student)
+student: {}
+
+# Eigen templates. Zet het bestand in de map templates/ en geef het een naam, bijvoorbeeld:
+#   huisstijl:
+#     bestand: templates/huisstijl.docx
+#     beschrijving: Huisstijl van mijn werk
+templates: {}
+
+bijwerken:
+  # Na hoeveel dagen DutchQuill je herinnert om de referentiegidsen te controleren
+  herinnering_dagen: 30

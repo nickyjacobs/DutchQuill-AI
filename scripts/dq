@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# dq: de ene ingang naar alle DutchQuill-scripts.
+#
+# Gebruik vanuit een skill (omgevingsvariabelen van de plugin bestaan niet in Bash, dus inline meegeven):
+#   CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq" config toon
+#
+# Bij het eerste gebruik (of na een wijziging in requirements.txt) maakt dq een eigen Python-omgeving in
+# de datamap van de plugin: met uv als dat er is, anders met python3 -m venv en pip.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DATA="${CLAUDE_PLUGIN_DATA:-${DUTCHQUILL_DATA:-$ROOT/.dev-data}}"
+VENV="$DATA/venv"
+REQ="$ROOT/requirements.txt"
+mkdir -p "$DATA"
+
+if [ -x "$VENV/bin/python" ]; then
+  PY="$VENV/bin/python"
+else
+  PY="$VENV/Scripts/python.exe"   # Windows (Git Bash)
+fi
+
+hash_req() {
+  if command -v shasum >/dev/null 2>&1; then shasum -a 256 "$REQ" | cut -d' ' -f1
+  else sha256sum "$REQ" | cut -d' ' -f1; fi
+}
+
+WANT="$(hash_req)"
+HAVE="$(cat "$VENV/.req-hash" 2>/dev/null || true)"
+
+if [ "$WANT" != "$HAVE" ] || [ ! -x "$PY" ]; then
+  LOCK="$DATA/.installeren"
+  # Eén installatie tegelijk; een tweede dq wacht maximaal 5 minuten.
+  for _ in $(seq 1 300); do mkdir "$LOCK" 2>/dev/null && break; sleep 1; done
+  trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT
+  HAVE="$(cat "$VENV/.req-hash" 2>/dev/null || true)"
+  if [ "$WANT" != "$HAVE" ]; then
+    echo "DutchQuill: eenmalige installatie van de Python-pakketten (± 1 minuut)..." >&2
+    rm -rf "$VENV"
+    if command -v uv >/dev/null 2>&1; then
+      uv venv --quiet --python ">=3.10" "$VENV" >&2
+      [ -x "$VENV/bin/python" ] && PY="$VENV/bin/python" || PY="$VENV/Scripts/python.exe"
+      uv pip install --quiet --python "$PY" -r "$REQ" >&2
+    else
+      PYTHON_SYS="$(command -v python3 || command -v python || true)"
+      if [ -z "$PYTHON_SYS" ]; then
+        echo "DutchQuill: geen Python gevonden. Installeer Python 3.10+ (python.org) of uv (docs.astral.sh/uv)." >&2
+        exit 1
+      fi
+      "$PYTHON_SYS" -m venv "$VENV" >&2
+      [ -x "$VENV/bin/python" ] && PY="$VENV/bin/python" || PY="$VENV/Scripts/python.exe"
+      "$PY" -m pip install --quiet --disable-pip-version-check -r "$REQ" >&2
+    fi
+    echo "$WANT" > "$VENV/.req-hash"
+    echo "DutchQuill: installatie klaar." >&2
+  fi
+  [ -x "$VENV/bin/python" ] && PY="$VENV/bin/python" || PY="$VENV/Scripts/python.exe"
+  # exec hieronder vervangt de shell, dus de trap zou niet meer lopen: slot nu vrijgeven.
+  trap - EXIT
+  rmdir "$LOCK" 2>/dev/null || true
+fi
+
+export DUTCHQUILL_ROOT="$ROOT"
+export DUTCHQUILL_DATA="$DATA"
+export PYTHONPATH="$ROOT/scripts${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONIOENCODING="utf-8"
+exec "$PY" -m dutchquill "$@"

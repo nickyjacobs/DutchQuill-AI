@@ -1,0 +1,15 @@
+{
+  "name": "dutchquill",
+  "description": "DutchQuill AI: schrijfassistent voor Nederlands en Engels (schrijven, herschrijven, reviewen, humaniseren).",
+  "owner": {
+    "name": "Nicky Jacobs",
+    "url": "https://github.com/nickyjacobs"
+  },
+  "plugins": [
+    {
+      "name": "dutchquill",
+      "source": "./",
+      "description": "Schrijven, herschrijven, reviewen en humaniseren in het Nederlands en Engels, met jouw toon, templates en controles."
+    }
+  ]
+}

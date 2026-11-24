@@ -1,0 +1,38 @@
+# Meegeleverde profielen van DutchQuill AI (alleen-lezen).
+# Eigen profielen zet je in dutchquill.yaml onder `profielen:`; met `basis:` bouw je op een van deze voort.
+
+student:
+  beschrijving: Hbo-rapporten en scripties. Alles aan, formeel, APA 7.
+  controles: {apa: true, academische_stijl: true, taalregels: true, humaniseren: true}
+  toon: {niveau: formeel, aanspreekvorm: geen, mix: ""}
+  uitvoer:
+    formaten: [docx, pdf]
+    chat_voor: [mail, linkedin, social, kort]
+    template: apa-hbo
+
+zakelijk:
+  beschrijving: Rapporten, procesdocumenten en mails voor werk. Taal en humaniseren aan, geen APA.
+  controles: {apa: false, academische_stijl: false, taalregels: true, humaniseren: true}
+  toon: {niveau: zakelijk, aanspreekvorm: auto, mix: ""}
+  uitvoer:
+    formaten: [docx]
+    chat_voor: [mail, linkedin, social, kort]
+    template: zakelijk
+
+social:
+  beschrijving: Posts en korte teksten. Klinkt als jij, informeel, alles in de chat.
+  controles: {apa: false, academische_stijl: false, taalregels: true, humaniseren: true}
+  toon: {niveau: informeel, aanspreekvorm: je, mix: ""}
+  uitvoer:
+    formaten: [md]
+    chat_voor: [mail, linkedin, social, kort, memo]
+    template: notitie
+
+techniek:
+  beschrijving: README's, SOP's en technische documentatie. Neutraal en precies, Markdown.
+  controles: {apa: false, academische_stijl: false, taalregels: true, humaniseren: true}
+  toon: {niveau: neutraal, aanspreekvorm: je, mix: ""}
+  uitvoer:
+    formaten: [md]
+    chat_voor: [mail, linkedin, social, kort]
+    template: notitie
