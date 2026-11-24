@@ -1,8 +1,8 @@
 """
-word_export.py — APA 7 .docx generator voor DutchQuill AI
+export_apa: APA 7-.docx-generator van DutchQuill AI (intern, gebruikt door dq export)
 
 Gebruik:
-    python3 tools/word_export.py --input .tmp/export_payload.json --output .tmp/rapport.docx
+    python -m dutchquill.export_apa --input export_payload.json --output rapport.docx
 
 Stdout bij succes: absoluut pad naar het gegenereerde .docx-bestand
 Stderr + exit code 1 bij fout: foutmelding
@@ -90,7 +90,7 @@ Figuurplaatshouder:
     "type": "figure_placeholder",
     "number": 1,
     "caption": "Figuuronderschrift.",
-    "image_path": ".tmp/figuur_1.jpg",  — optioneel; .jpg, .jpeg of .png; bestand moet bestaan
+    "image_path": "figuur_1.jpg",  — optioneel; .jpg, .jpeg of .png; bestand moet bestaan
     "note": "Noot onder het figuur."    — optioneel
   }
   — Met image_path: beeldinbedding via add_picture(); zonder: grijze plaatshouder
@@ -140,7 +140,6 @@ COMPACT VOORBEELDPAYLOAD (minimaal werkend document)
   "appendices": []
 }
 
-Volledig werkend voorbeeld: zie .tmp/test_payload.json
 ===========================================================================
 """
 
@@ -1244,7 +1243,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Genereer een APA 7-conform Word-document (.docx) op basis van een JSON-payload."
     )
-    parser.add_argument("--input", required=True, help="Pad naar de JSON-invoer (.tmp/export_payload.json)")
+    parser.add_argument("--input", required=True, help="Pad naar de JSON-invoer (export_payload.json)")
     parser.add_argument("--output", required=False, help="Pad voor het uitvoer-.docx-bestand")
     args = parser.parse_args()
 

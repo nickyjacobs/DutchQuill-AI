@@ -28,7 +28,9 @@
       "www.scribbr.nl",
       "en.wikipedia.org",
       "apastyle.apa.org",
-      "api.github.com"
+      "api.github.com",
+      "pypi.org",
+      "files.pythonhosted.org"
     ]
   }
 }

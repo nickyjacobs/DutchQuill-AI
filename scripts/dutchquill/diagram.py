@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-generate_diagram.py — Diagrammen genereren voor professionele rapporten
+dq diagram: diagrammen voor rapporten (flow, architectuur, lagen, netwerk)
 
 Gebruik:
-    python3 tools/generate_diagram.py --type architecture --data '<json>' --output .tmp/diagram.png
-    python3 tools/generate_diagram.py --type flow --data '<json>' --output .tmp/flow.png
-    python3 tools/generate_diagram.py --type network --data '<json>' --output .tmp/network.png
-    python3 tools/generate_diagram.py --type layers --data '<json>' --output .tmp/layers.png
-    python3 tools/generate_diagram.py --type flow --data '<json>' --output .tmp/flow.png --theme light
+    dq diagram --type architecture --data '<json>' --output diagram.png
+    dq diagram --type flow --data '<json>' --output flow.png
+    dq diagram --type network --data '<json>' --output network.png
+    dq diagram --type layers --data '<json>' --output layers.png
+    dq diagram --type flow --data '<json>' --output flow.png --theme light
 
 Diagramtypen:
     architecture — Systeem-/infrastructuurarchitectuur (zones, nodes, verbindingen)

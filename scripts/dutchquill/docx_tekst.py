@@ -1,12 +1,12 @@
 """
-docx_to_text.py — Converteer een .docx bestand naar Markdown-tekst.
+dq docx-tekst: een .docx-bestand naar Markdown-tekst.
 
 Gebruik:
-    python3 tools/docx_to_text.py --input pad/naar/bestand.docx
-    python3 tools/docx_to_text.py --input pad/naar/bestand.docx --output .tmp/origineel.txt
+    dq docx-tekst --input pad/naar/bestand.docx
+    dq docx-tekst --input pad/naar/bestand.docx --output origineel.txt
 
 Output:
-    Tekst wordt geprint naar stdout én opgeslagen in .tmp/origineel.txt (standaard).
+    Tekst wordt geprint naar stdout én opgeslagen in origineel.txt (standaard).
     Inline opmaak wordt bewaard: **vet** en *cursief* als Markdown-markers.
     Dit is relevant voor de APA-check: cursieve titels in de literatuurlijst blijven zichtbaar.
 
@@ -230,8 +230,8 @@ def main():
     parser = argparse.ArgumentParser(description='Converteer .docx naar Markdown-tekst')
     parser.add_argument('--input', required=True, help='Pad naar het .docx bestand')
     parser.add_argument(
-        '--output', default='.tmp/origineel.txt',
-        help='Uitvoerbestand (standaard: .tmp/origineel.txt)'
+        '--output', default='origineel.txt',
+        help='Uitvoerbestand (standaard: origineel.txt)'
     )
     parser.add_argument(
         '--no-images', action='store_true',
