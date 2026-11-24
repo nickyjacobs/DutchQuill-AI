@@ -53,6 +53,7 @@ Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/l
 - Engelse gidsen (`en/humanize`, `en/style`) en een toongids.
 - AI citeren volgens het APA-formaat van september 2025, met een AI-verantwoording.
 - `dq doctor` controleert de omgeving en zegt hoe de pdf gemaakt wordt.
+- `dq tells` meet AI-patronen in Nederlandse en Engelse tekst, en rapporteert in de taal van de tekst.
 
 ### 🔧 Veranderd
 

@@ -372,27 +372,111 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
     }
 
 
-def rapport(r: dict, titel: str = "Analyse") -> str:
+# Weergave in het Engels voor Engelse tekst. Alleen de mensleesbare uitvoer; de JSON blijft gelijk voor de skills.
+EN_UITLEG = {
+    "Alle alinea's zijn ongeveer even lang.": "All paragraphs are about the same length.",
+    "Bekende LinkedIn-formule.": "Well-known LinkedIn formula.",
+    "Brede aanloop zonder inhoud: begin met de zaak zelf.":
+        "Broad opening without content: start with the point itself.",
+    "De eerste zin herhaalt de kop.": "The first sentence repeats the heading.",
+    "Elke zin een eigen alinea ('broetry').": "Every sentence its own paragraph ('broetry').",
+    "Emoji vooraan in een kop of opsomming.": "Emoji at the start of a heading or list item.",
+    "Emoji-opsommingen: herkenbare AI-post.": "Emoji lists: a recognisable AI post.",
+    "Gedachtestreepje als leesteken: zwak signaal (sinds 2026 minder typisch). Komma of punt?":
+        "Dash as punctuation: weak signal (less typical since 2026). Comma or full stop?",
+    "Herhaald alineabegin.": "Repeated paragraph opening.",
+    "Herhaald zinsbegin.": "Repeated sentence opening.",
+    "Hoge dichtheid van zwakke tells.": "High density of weak tells.",
+    "Hoofdletters Als In Een Engelse Kop; Nederlands schrijft alleen de eerste.":
+        "Title Case Headings; Dutch only capitalises the first word.",
+    "Korte vraag als aanloop ('Het resultaat? ...').": "Short question as a lead-in ('The result? ...').",
+    "Letterlijk vertaald uit het Engels.": "Literal translation from English.",
+    "Meer dan drie hashtags.": "More than three hashtags.",
+    "Meerdere zwakke tells dicht bij elkaar: zo klinkt AI-tekst.":
+        "Several weak tells close together: this is how AI text sounds.",
+    "Niet-X-maar-Y-constructie: zeg gewoon wat het wél is.": "Not-X-but-Y construction: just say what it is.",
+    "Overcorrectie: te veel korte, afgekapte zinnen (de nieuwe tell sinds 2026).":
+        "Overcorrection: too many short, clipped sentences (the new tell since 2026).",
+    "Restje chatbot-taal.": "Leftover chatbot language.",
+    "Samenvattende afsluiter die niets toevoegt.": "Summarising closer that adds nothing.",
+    "Staat in jouw eigen-regels.md onder 'nooit'.": "Listed in your eigen-regels.md under 'never'.",
+    "Te veel zinnen beginnen met bovendien/daarnaast/echter.":
+        "Too many sentences start with moreover/furthermore/however.",
+    "Tekst over de tekst: zeg het gewoon.": "Text about the text: just say it.",
+    "Vage bron: wie precies? Noem de bron of schrap de claim.":
+        "Vague source: who exactly? Name the source or drop the claim.",
+    "Veel drieslagen: AI zet dingen graag in drieën. Varieer: twee, vier, of één.":
+        "Many triplets: AI likes to list things in threes. Vary: two, four, or one.",
+    "Veel lijdende vorm: wie doet wat? Passief mag in een methodesectie.":
+        "Lots of passive voice: who does what? Passive is fine in a methods section.",
+    "Vet midden in een zin, als versiering.": "Bold in the middle of a sentence, as decoration.",
+    "Vulzin: schrappen of concreet maken.": "Filler sentence: cut it or make it concrete.",
+    "Weinig variatie in woordkeus: veel herhaling.": "Little variety in word choice: lots of repetition.",
+    "Zinnen zijn bijna allemaal even lang. Wissel kort en lang af.":
+        "Sentences are almost all the same length. Mix short and long.",
+    "Zwakke tell: alleen een probleem in een cluster.": "Weak tell: only a problem in a cluster.",
+    "Formule.": "Formula.",
+}
+EN_PATRONEN = [
+    (r"^Sterke AI-tell(.*)$", r"Strong AI tell\1"),
+    (r"^Vorm van '(.+)'\.$", r"Form of '\1'."),
+    (r"^(\d+) zwakke tells op (\d+) woorden$", r"\1 weak tells in \2 words"),
+    (r"^(\d+) opsommingen van drie$", r"\1 lists of three"),
+    (r"^'(.+)' begint (\d+) zinnen in één alinea$", r"'\1' starts \2 sentences in one paragraph"),
+    (r"^(\d+) alinea's beginnen met '(.+)'$", r"\1 paragraphs start with '\2'"),
+    (r"^(\d+)% van de zinnen begint met een verbindingswoord$", r"\1% of sentences start with a connector"),
+    (r"^zinslengte (.+) woorden$", r"sentence length \1 words"),
+    (r"^(\d+)% van de zinnen is korter dan 8 woorden$", r"\1% of sentences are shorter than 8 words"),
+    (r"^alinea's van (.+) woorden$", r"paragraphs of \1 words"),
+    (r"^(\d+) opsommingen beginnen met een emoji$", r"\1 list items start with an emoji"),
+    (r"^(\d+) van (\d+) alinea's is één zin$", r"\1 of \2 paragraphs are a single sentence"),
+    (r"^(\d+)% van de zinnen is passief$", r"\1% of sentences are passive"),
+]
+NIVEAU_EN = {"laag": "LOW", "gemiddeld": "MEDIUM", "hoog": "HIGH"}
+
+
+def _en(tekst: str) -> str:
+    if tekst in EN_UITLEG:
+        return EN_UITLEG[tekst]
+    for patroon, vervanging in EN_PATRONEN:
+        if re.match(patroon, tekst):
+            return re.sub(patroon, vervanging, tekst)
+    return tekst
+
+
+def rapport(r: dict, titel: str | None = None) -> str:
     s = r["statistiek"]
-    regels = [f"{titel}: AI-patronen {r['niveau'].upper()} ({r['score_per_1000']} per 1000 woorden; "
-              f"laag < {r['drempels']['laag_onder']}) | {s['woorden']} woorden, {s['zinnen']} zinnen, "
-              f"zinslengte {s['gem_zinslengte']} ± {s['stdev_zinslengte']}"
-              + (f", leesbaarheid {s['flesch']}" if s.get("flesch") is not None else "")]
+    en = r.get("taal") == "en"
+    if en:
+        titel = {"Voor": "Before", "Na": "After"}.get(titel, titel) or "Analysis"
+        regels = [f"{titel}: AI patterns {NIVEAU_EN[r['niveau']]} ({r['score_per_1000']} per 1000 words; "
+                  f"low < {r['drempels']['laag_onder']}) | {s['woorden']} words, {s['zinnen']} sentences, "
+                  f"sentence length {s['gem_zinslengte']} ± {s['stdev_zinslengte']}"
+                  + (f", readability {s['flesch']}" if s.get("flesch") is not None else "")]
+    else:
+        regels = [f"{titel or 'Analyse'}: AI-patronen {r['niveau'].upper()} ({r['score_per_1000']} per 1000 woorden; "
+                  f"laag < {r['drempels']['laag_onder']}) | {s['woorden']} woorden, {s['zinnen']} zinnen, "
+                  f"zinslengte {s['gem_zinslengte']} ± {s['stdev_zinslengte']}"
+                  + (f", leesbaarheid {s['flesch']}" if s.get("flesch") is not None else "")]
+    vertaal = _en if en else (lambda x: x)
     tellend = [b for b in r["bevindingen"] if b["punten"] > 0]
     zwak = [b for b in r["bevindingen"] if b["punten"] == 0 and b["cat"] == "woord_zwak"]
     for b in tellend[:25]:
-        plek = f"r{b['regel']}" if b["regel"] else "tekst"
+        plek = f"r{b['regel']}" if b["regel"] else ("text" if en else "tekst")
         alt = f"  → {', '.join(b['alt'][:3])}" if b.get("alt") else ""
-        regels.append(f"- [{b['cat']}] {plek}: {b['context']}\n    {b['uitleg']}{alt}")
+        regels.append(f"- [{b['cat']}] {plek}: {vertaal(b['context'])}\n    {vertaal(b['uitleg'])}{alt}")
     if len(tellend) > 25:
-        regels.append(f"- ... en nog {len(tellend) - 25} bevindingen (zie --json)")
+        regels.append(f"- ... and {len(tellend) - 25} more findings (see --json)" if en
+                      else f"- ... en nog {len(tellend) - 25} bevindingen (zie --json)")
     if zwak:
         woorden = ", ".join(sorted({b["match"].lower() for b in zwak}))
-        regels.append(f"Zwakke tells (alleen erg in een cluster): {woorden}")
+        regels.append(f"Weak tells (only a problem in a cluster): {woorden}" if en
+                      else f"Zwakke tells (alleen erg in een cluster): {woorden}")
     if r["stem_afwijkingen"]:
-        regels.append("Afwijkend van jouw stem: " + "; ".join(r["stem_afwijkingen"]))
+        regels.append(("Different from your voice: " if en else "Afwijkend van jouw stem: ")
+                      + "; ".join(r["stem_afwijkingen"]))
     if not tellend:
-        regels.append("Geen tellende patronen gevonden.")
+        regels.append("No counting patterns found." if en else "Geen tellende patronen gevonden.")
     return "\n".join(regels)
 
 
@@ -428,7 +512,12 @@ def main(argv: list[str] | None = None) -> None:
             print(rapport(voor, "Voor"))
             print()
             print(rapport(na, "Na"))
-            print(f"\nVerschil: {uit['delta_per_1000']:+} per 1000 woorden ({voor['niveau']} → {na['niveau']})")
+            if voor.get("taal") == "en":
+                print(f"\nDifference: {uit['delta_per_1000']:+} per 1000 words "
+                      f"({voor['niveau']} → {na['niveau']})".replace("laag", "low").replace("gemiddeld", "medium")
+                      .replace("hoog", "high"))
+            else:
+                print(f"\nVerschil: {uit['delta_per_1000']:+} per 1000 woorden ({voor['niveau']} → {na['niveau']})")
         return
     r = analyseer(_lees(a.input), a.taal, a.genre, stem, nooit, wel)
     print(json.dumps(r, ensure_ascii=False, indent=2) if a.json else rapport(r))
