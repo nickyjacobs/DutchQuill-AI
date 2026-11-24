@@ -601,7 +601,32 @@ def _browser() -> str | None:
     return None
 
 
+def pdf_metadata(uit: Path, meta: dict) -> None:
+    """Titel en auteur van de gebruiker; geen sporen van het gereedschap (browser, LibreOffice, pypdf)."""
+    try:
+        from pypdf import PdfReader, PdfWriter
+    except ImportError:
+        return
+    try:
+        w = PdfWriter(clone_from=PdfReader(str(uit)))
+        w.metadata = {"/Title": meta.get("titel", ""), "/Author": meta.get("auteur", ""),
+                      "/Creator": "", "/Producer": ""}
+        tmp = uit.with_suffix(".tmp.pdf")
+        with open(tmp, "wb") as f:
+            w.write(f)
+        tmp.replace(uit)
+    except Exception:  # noqa: BLE001 - metadata is bijzaak, de pdf zelf is goed
+        pass
+
+
 def pdf_maken(docx: Path | None, html_tekst: str, bl: list[dict], meta: dict, uit: Path, taal: str) -> tuple[str, list]:
+    via, waarschuwingen = _pdf_route(docx, html_tekst, bl, meta, uit, taal)
+    pdf_metadata(uit, meta)
+    return via, waarschuwingen
+
+
+def _pdf_route(docx: Path | None, html_tekst: str, bl: list[dict], meta: dict, uit: Path,
+               taal: str) -> tuple[str, list]:
     soffice = shutil.which("soffice") or shutil.which("libreoffice")
     if soffice and docx and docx.is_file():
         with tempfile.TemporaryDirectory() as tmp:

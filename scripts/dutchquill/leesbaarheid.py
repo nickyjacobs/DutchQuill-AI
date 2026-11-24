@@ -88,20 +88,21 @@ def split_words(text: str) -> List[str]:
 
 def flesch_douma(text: str) -> Dict:
     """
-    Berekent Flesch-Douma score.
-    Retourneert dict met score en alle tussenstappen.
+    Berekent de Flesch-Douma score, met dezelfde zinsindeling als `dq tells`: lopende tekst plus elk
+    opsommingspunt; koppen, code, tabellen en frontmatter tellen niet mee.
     """
-    sentences = split_sentences(text)
-    words = split_words(text)
+    from dutchquill import tekst as tk
 
-    n_sentences = max(len(sentences), 1)
-    n_words = max(len(words), 1)
-    n_syllables = sum(count_syllables(w) for w in words)
+    zinnen = tk.leeszinnen(tk.regels(text)) or tk.zinnen(text)
+    woorden = [w for z in zinnen for w in tk.woorden(z)]
+    n_sentences = max(len(zinnen), 1)
+    n_words = max(len(woorden), 1)
+    n_syllables = sum(tk.lettergrepen(w, "nl") for w in woorden)
 
     asl = n_words / n_sentences       # Gemiddelde zinslengte
     asw = n_syllables / n_words        # Gemiddeld lettergrepen per woord
 
-    raw_score = 206.835 - (0.93 * asl) - (77 * asw)
+    raw_score = 206.84 - (0.93 * asl) - (77 * asw)
     score = round(max(0.0, min(100.0, raw_score)), 1)
 
     return {

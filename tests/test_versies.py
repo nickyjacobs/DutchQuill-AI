@@ -20,3 +20,16 @@ def test_zonder_werkmap_duidelijke_fout():
 
 def test_lege_titel():
     assert versies.veilige_titel("  ///  ") == "zonder titel"
+
+
+def test_nieuwe_ronde_op_eerdere_output(werkmap):
+    v1 = versies.volgende("schrijven", "Studio instellen")
+    bron = f"{v1['map']}/bron.md"
+    # herschrijven op een eerdere output: v2 in dezelfde titelmap, niet herschrijven/.../v1
+    v2 = versies.volgende("herschrijven", "iets anders", van=bron)
+    assert v2["actie"] == "schrijven" and v2["versie"] == 2 and v2["map"].endswith("schrijven/Studio instellen/v2")
+    # een pad buiten 2-output: gewoon de opgegeven actie
+    los = versies.volgende("herschrijven", "Los", van=str(werkmap / "1-input" / "rapporten" / "x.md"))
+    assert los["actie"] == "herschrijven" and los["versie"] == 1
+    with pytest.raises(ConfigFout):
+        versies.volgende(None, None, van=str(werkmap / "elders.md"))
