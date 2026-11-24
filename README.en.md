@@ -16,6 +16,7 @@
   <a href="#dutchquill-studio">Studio</a> ·
   <a href="#your-workspace">Workspace</a> ·
   <a href="#humanizing-honestly">Humanizing</a> ·
+  <a href="#the-story">The story</a> ·
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="README.md">Nederlands</a>
 </p>
@@ -24,7 +25,7 @@ DutchQuill is a writing assistant for Claude Code. It writes, rewrites, reviews 
 academic report, a process document, an email, a LinkedIn post or a README. You decide what it checks, how it
 sounds and in which format you get it back.
 
-<p align="center"><img src="docs/img/studio-toon-en.png" width="880" alt="DutchQuill Studio: the tone slider, with an example email that changes along"></p>
+<p align="center"><img src="docs/img/toon-en.gif" width="800" alt="DutchQuill Studio: the same email at five tone levels, from formal to light"></p>
 
 ## Install
 
@@ -61,6 +62,11 @@ sound like AI?" works too.
 
 **Emails, posts and short texts** simply appear in the chat. **Documents** go to your workspace, per title and per
 version, in the formats you choose: Word, PDF, Markdown, text or HTML.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/zo-werkt-het-en-donker.png">
+  <img src="docs/img/zo-werkt-het-en-licht.png" alt="How DutchQuill works: your material in 1-input, DutchQuill writes, rewrites, reviews or humanizes with the checks you choose, and the result appears in the chat or in 2-output per title and version.">
+</picture>
 
 ## DutchQuill Studio
 
@@ -161,6 +167,10 @@ the disclosure and the citation (APA, September 2025 format).
 > Since January, students at our school may use AI, as long as they write down what for. Most use it to organise
 > sources or to get an explanation of a concept they don't understand.
 
+DutchQuill measures this itself too. This is `dq tells` on exactly these two texts:
+
+<p align="center"><img src="docs/img/tells-en.gif" width="880" alt="dq tells on the before text: AI patterns high, with five findings; on the after text: low, no patterns"></p>
+
 ## Privacy
 
 - Your texts stay on your computer and in your conversation with Claude.
@@ -182,6 +192,20 @@ contain rules in our own words, with references.
 Version 1 was a folder you opened in Claude Code. Version 2 is a plugin. Bring your old reports and profile details
 along by putting them in the new workspace (`1-input/reports/`) and filling in your details with
 `/dutchquill:instellen`. What changed: [CHANGELOG.md](CHANGELOG.md) (Dutch).
+
+## The story
+
+<p align="center"><img src="assets/brandfoto.jpg" width="880" alt="A laptop showing DutchQuill AI, next to a fountain pen on handwritten notes"></p>
+
+DutchQuill started at university. My reports had to follow APA and meet an academic standard, and I wanted to know exactly what that meant. It turned into quite a rabbit hole. Most people think APA is only about citations, but it also covers your page margins, what your title page looks like, how you add tables, figures and appendices, indenting every paragraph (the first one too) and the hanging indent in your reference list. Then there is the question of what academic writing really is, and how to use AI for it without fooling yourself.
+
+It started with a Word template that got all of that right from the start. Next I had my reports reviewed, and used the feedback to turn them into proper, finished reports.
+
+Then I wanted more. Answering emails faster, writing a LinkedIn post more easily, process documentation for work or the README of a repo, all from rough notes, text and screenshots I had already collected. DutchQuill turns that into a polished result.
+
+At first glance it may look like a tool made by someone who wants everything to be easy. That's partly true 😉 But for me it was mostly a learning project. I now know more about APA than I ever expected; sometimes I knew things about indentation, using appendices the right way and other APA rules that teachers and classmates didn't. I learned how AI generates text, how plagiarism checks work and what good academic writing is. A lot of time went into it, and I am happy to share the result.
+
+*Nicky Jacobs*
 
 ## Feedback
 

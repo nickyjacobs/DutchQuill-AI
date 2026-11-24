@@ -16,6 +16,7 @@
   <a href="#dutchquill-studio">Studio</a> ·
   <a href="#je-werkmap">Werkmap</a> ·
   <a href="#humaniseren-eerlijk-gezegd">Humaniseren</a> ·
+  <a href="#het-verhaal">Het verhaal</a> ·
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="README.en.md">English</a>
 </p>
@@ -24,7 +25,7 @@ DutchQuill is een schrijfassistent voor Claude Code. Hij schrijft, herschrijft, 
 een hbo-rapport, een procesbeschrijving, een mail, een LinkedIn-post of een README. Jij bepaalt waarop hij let, hoe
 het klinkt en in welke vorm het terugkomt.
 
-<p align="center"><img src="docs/img/studio-toon.png" width="880" alt="DutchQuill Studio: de toonschaal, met een voorbeeldmail die meeverandert"></p>
+<p align="center"><img src="docs/img/toon-nl.gif" width="800" alt="DutchQuill Studio: dezelfde mail op vijf toonniveaus, van formeel tot luchtig"></p>
 
 ## Installeren
 
@@ -58,6 +59,11 @@ als AI?" werkt ook.
 
 **Mails, posts en korte teksten** komen gewoon in de chat. **Documenten** gaan naar je werkmap, per titel en per
 versie, in de formaten die je kiest: Word, pdf, Markdown, tekst of html.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/zo-werkt-het-nl-donker.png">
+  <img src="docs/img/zo-werkt-het-nl-licht.png" alt="Zo werkt DutchQuill: jouw materiaal in 1-input, DutchQuill schrijft, herschrijft, reviewt of humaniseert met de controles die jij kiest, en het resultaat komt in de chat of in 2-output per titel en versie.">
+</picture>
 
 ## DutchQuill Studio
 
@@ -156,6 +162,10 @@ opleiding. DutchQuill helpt je met de verantwoording en de bronvermelding (APA, 
 > Sinds januari mogen leerlingen op onze school AI gebruiken, als ze opschrijven waarvoor. De meesten gebruiken
 > het om bronnen te ordenen of uitleg te krijgen bij een begrip dat ze niet snappen.
 
+DutchQuill meet dat ook zelf. Dit is `dq tells` op precies deze twee teksten:
+
+<p align="center"><img src="docs/img/tells-nl.gif" width="880" alt="dq tells op de voor-tekst: AI-patronen hoog, met vijf bevindingen; op de na-tekst: laag, geen patronen"></p>
+
 ## Privacy
 
 - Je teksten blijven op je computer en in je gesprek met Claude.
@@ -178,6 +188,20 @@ bevatten eigen geformuleerde regels met bronverwijzing.
 Versie 1 was een map die je opende in Claude Code. Versie 2 is een plugin. Je oude rapporten en profielgegevens
 neem je mee door ze in de nieuwe werkmap te zetten (`1-input/rapporten/`) en je gegevens in te vullen via
 `/dutchquill:instellen`. Wat er veranderd is: [CHANGELOG.md](CHANGELOG.md).
+
+## Het verhaal
+
+<p align="center"><img src="assets/brandfoto.jpg" width="880" alt="Een laptop met DutchQuill AI op het scherm, naast een vulpen op handgeschreven notities"></p>
+
+DutchQuill begon op de hogeschool. Mijn rapporten moesten volgens APA en op academisch niveau, en ik wilde precies weten wat dat betekende. Dat werd een flinke rabbit hole. De meeste mensen denken bij APA alleen aan bronvermelding, maar het gaat ook over de marges van je pagina, hoe je titelblad eruitziet, hoe je tabellen, figuren en bijlagen opneemt, het inspringen van elke alinea (ook de eerste) en de hangende inspringing in je literatuurlijst. En dan heb je nog de vraag wat academisch schrijven echt is, en hoe je AI daarbij gebruikt zonder jezelf voorbij te lopen.
+
+Het begon met een Word-template die alles meteen goed zette. Daarna liet ik mijn rapporten nakijken, en met wat daaruit kwam maakte ik er volwaardige rapporten van.
+
+Toen wilde ik meer. Sneller mails beantwoorden, makkelijker een LinkedIn-post schrijven, procesdocumentatie voor mijn werk of de README van een repo, allemaal vanuit ruwe notities, tekst en screenshots die ik al had verzameld. DutchQuill maakt daar een mooi eindresultaat van.
+
+Op het eerste gezicht lijkt het misschien een tool van iemand die alles makkelijk wil. Deels klopt dat ook wel 😉 Maar voor mij was het vooral een leerproject. Ik weet nu meer over APA dan ik ooit had verwacht; soms wist ik dingen over inspringen, het juiste gebruik van bijlagen en andere APA-regels die docenten en medestudenten ook niet wisten. Ik leerde hoe AI tekst maakt, hoe plagiaatcontrole werkt en wat goed academisch schrijven is. Er zit veel tijd in, en het resultaat deel ik graag.
+
+*Nicky Jacobs*
 
 ## Feedback
 
