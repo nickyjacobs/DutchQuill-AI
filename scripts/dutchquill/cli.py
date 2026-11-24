@@ -17,6 +17,7 @@ EIGEN = {
     "beeld": "beeld",
     "stem": "stem",
     "feiten": "feiten",
+    "gids": "gidsen",
 }
 
 # Bestaande tools uit v1 (worden in latere fases omgebouwd); hun main() leest sys.argv
