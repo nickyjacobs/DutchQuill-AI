@@ -20,6 +20,7 @@ Alle wijzigingen aan DutchQuill AI. Versies volgen [semver](https://semver.org/l
 
 - Engels is de standaardtaal van de documentatie: `README.md` en `docs/` zijn Engels, de Nederlandse versies staan
   in `README.nl.md` en `docs/nl/`. Rechtsboven op elke pagina wissel je tussen English en Dutch.
+- De beschrijving van de plugin en de marketplace is Engels, zodat de Claude Directory hem in het Engels toont.
 - Het pad naar het icoon in `plugin.json` begint met `./`, zoals de manifestreferentie voorschrijft.
 
 ---
