@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-donker.png">
+    <img src="assets/logo-licht.png" alt="DutchQuill AI" width="140">
+  </picture>
+</p>
+
 # DutchQuill AI
 
 ![Versie](https://img.shields.io/badge/versie-2.0.0-1f4e5f) ![Claude Code-plugin](https://img.shields.io/badge/Claude%20Code-plugin-2a9daf) ![Nederlands en Engels](https://img.shields.io/badge/taal-NL%20%2B%20EN-1f4e5f) ![Licentie: MIT](https://img.shields.io/badge/licentie-MIT-595f66)
