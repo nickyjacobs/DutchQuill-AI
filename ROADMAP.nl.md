@@ -7,8 +7,6 @@ Wat er hierna komt. Ideeën en wensen zijn welkom in de
 
 ## 2.2
 
-- **Illustraties** laten maken met een beeldmodel, als optionele module. De API-key komt in de sleutelhanger via
-  `/plugin configure`, niet in een bestand.
 - **Lengte en woordverdeling** controleren na het schrijven: een aantal pagina's omgerekend naar woorden, en het
   aandeel per hoofdstuk naast het sjabloon en de opzet gelegd.
 - **Meer evals** voor rapporten en herschrijven, en de beschrijvingen van de skills bijschaven zodat ze nog

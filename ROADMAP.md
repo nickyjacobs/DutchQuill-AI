@@ -7,8 +7,6 @@ What comes next. Ideas and wishes are welcome in the
 
 ## 2.2
 
-- **Illustrations** made by an image model, as an optional module. The API key goes in the keychain via
-  `/plugin configure`, not in a file.
 - **Length and word distribution** checked after writing: a page count turned into words, and the share per chapter
   compared with the template and the outline.
 - **More evals** for reports and rewriting, and sharper skill descriptions so they start even more reliably.
