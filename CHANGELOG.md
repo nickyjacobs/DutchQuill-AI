@@ -6,12 +6,31 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 | Release | Date | In short |
 |---|---|---|
+| [2.1.0](#210---2026-11-25) | 2026-11-25 | Course requirements, verdict and overview image in reviews, a language round for every text, My texts in the Studio |
 | [2.0.2](#202---2026-11-25) | 2026-11-25 | LinkedIn posts no longer invent a lesson you didn't give |
 | [2.0.1](#201---2026-11-25) | 2026-11-25 | Ready for the Claude Directory: privacy policy, English first, a cleaned git history |
 | [2.0.0](#200---2026-11-24) | 2026-11-24 | From a project folder for Dutch higher education reports to a Claude Code plugin for anyone who writes |
 | [1.2](#12---2026-03-24) | 2026-03-24 | Last version as a project folder for Dutch higher education reports |
 
 ## [Unreleased]
+
+---
+
+## [2.1.0] - 2026-11-25
+
+> **In short:** what v1 could and 2.0 couldn't is back: a review checks your course requirements and ends with a
+> verdict and an overview image, every text gets a language round, and the Studio shows everything you made.
+
+### 🧭 For you
+
+- **Nothing to do:** DutchQuill updates itself and your settings keep working.
+- **Course criteria:** put the submission requirements and rubric of a course in `templates/vakken/<CODE>/` in your
+  workspace, and add the course in the Studio (Student). A review then checks against them.
+- **New, optional settings** in the Studio: your level of education (Student), empty document properties (Output)
+  and whether the history keeps a copy of each text (Privacy; on by default, and the copies stay in your
+  workspace).
+- **No LibreOffice?** An APA PDF now still gets its title page, table of contents and page numbers. With
+  LibreOffice the PDF is an exact copy of the Word file.
 
 ### ✨ Added
 
@@ -22,13 +41,11 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 - Every text gets a language round as the last step: spelling, grammar (in Dutch also d/t), commas and
   consistency, from a short checklist (`gidsen/werkwijze/taalronde.md`). It runs always, also for a short mail and
   without LanguageTool. The online check stays off by default; the setup explains what it adds and what it sends.
-
 - A review loads the submission requirements and rubric of your course by itself when you have one course in your
   profile, and asks which course when you have more (`dq vak toon`, `dq vak lijst`). It says which criteria it
   loaded and only reads the `## Rapportage` section.
 - A review ends with a verdict (ready to submit, minor changes, rewrite recommended). Each submission requirement
   gets ✓, ⚠, ✗ or ?, with "X of Y met" and whether the text meets the requirements.
-
 - A review report starts with an overview image again (`dq reviewgrafiek`): AI patterns, readability, word
   variety, the language round and the patterns that weigh most, in the DutchQuill colours. A scan from
   `/dutchquill:humaniseren` saved as a file gets it too.
@@ -216,7 +233,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 > **In short:** last version as a project folder for Dutch higher education reports (APA 7, AI patterns, .docx export).
 
-[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.2...v2.1.0
 [2.0.2]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v1.2...v2.0.0
