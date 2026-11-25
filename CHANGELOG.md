@@ -13,6 +13,19 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ## [Unreleased]
 
+### ✨ Added
+
+- A review loads the submission requirements and rubric of your course by itself when you have one course in your
+  profile, and asks which course when you have more (`dq vak toon`, `dq vak lijst`). It says which criteria it
+  loaded and only reads the `## Rapportage` section.
+- A review ends with a verdict (ready to submit, minor changes, rewrite recommended). Each submission requirement
+  gets ✓, ⚠, ✗ or ?, with "X of Y met" and whether the text meets the requirements.
+
+### 🐛 Fixed
+
+- The example files for course criteria pointed to the old v1 location. They now say where the files go in your
+  workspace (`templates/vakken/<CODE>/`).
+
 ### 🔒 Security
 
 - The privacy policy now says which personal data `dutchquill.yaml` can hold (student and professional profile), that

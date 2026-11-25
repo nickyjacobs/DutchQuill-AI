@@ -21,6 +21,7 @@ EIGEN = {
     "export": "export",
     "template": "templates_docx",
     "bronnen": "bronnen",
+    "vak": "vakken",
     "studio": "studio.server",
 }
 

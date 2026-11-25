@@ -57,6 +57,9 @@ Wat elk niveau precies betekent (zinslengte, spreektaal, emoji, humor) staat in 
   afsluitende groet. DutchQuill gebruikt ze voor de afsluiting van zakelijke mails. Een handtekening of mailbanner
   (een afbeelding) zet je in je mailprogramma; DutchQuill noemt hem bij het schrijven.
 - **Student:** naam, studentnummer, instelling, faculteit en opleiding voor de titelpagina, en per vak de
-  checklist of rubric. Bij een review wordt je rapport daar ook op beoordeeld.
+  checklist of rubric. Bij een review wordt je rapport daar ook op beoordeeld. Staat er één vak in je profiel, dan
+  laadt de review de criteria vanzelf; bij meer vakken vraagt hij om welk vak het gaat. Hij eindigt met een oordeel
+  (klaar voor inlevering, kleine aanpassingen of herschrijven aanbevolen) en bij de checklist een teken per punt en
+  "X van Y voldaan".
 
 Alles is optioneel. De volledige lijst met instellingen: [Configuratie](../naslag/configuratie.md).

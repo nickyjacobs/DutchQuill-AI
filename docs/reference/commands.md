@@ -46,6 +46,7 @@ The skills call `dq`; you can use it yourself too. `dq <command> --help` shows t
 | `dq historie toon` / `log` | Show or add to the history of your tasks |
 | `dq gids voor` / `pad` / `diff` / `schrijf` | Which guides belong to a task; compare and write an updated guide |
 | `dq bronnen check` / `markeer` | Check the sources of the guides |
+| `dq vak toon` / `lijst` | The submission requirements and rubric of a course, only the `## Rapportage` section |
 | `dq apa-check`, `dq apa-bron` | APA checks and citations |
 | `dq taalcheck` | LanguageTool, only when the online language check is on |
 | `dq diff`, `dq docx-tekst`, `dq grafiek`, `dq diagram` | Word diff, .docx to Markdown, charts and diagrams as PNG |

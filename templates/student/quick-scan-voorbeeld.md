@@ -10,13 +10,16 @@ Dit bestand bevat de inlevereisen (quick scan) voor het vak. De agent leest alle
 
 ## Hoe in te vullen
 
-1. Kopieer dit bestand en hernoem naar je vakcode: `CODE.md` → bijv. `SYS.md`
+1. Kopieer dit bestand naar je werkmap, als `templates/vakken/<VAKCODE>/quick-scan.md`
+   (bijvoorbeeld `templates/vakken/ABC1/quick-scan.md`). Makkelijker: upload het in DutchQuill Studio onder Vakken.
 2. Plak de quick scan-items van je hogeschool
 3. Verdeel ze in **Rapportage** (relevant voor DutchQuill AI) en **Praktijk** (niet relevant)
 4. Elk item als Markdown-checkbox: `- [ ] Beschrijving van de eis`
 5. Pas de frontmatter aan (vak, vakcode)
 
-De vakcode moet overeenkomen met de `code` in `config/user_profile.json` → `vakken[].code`.
+De mapnaam is de vakcode. Zet hetzelfde vak in je profiel (in Studio onder Vakken, of met
+`dq config zet student.vakken '[{naam: Vaknaam, code: ABC1}]'`): heb je één vak, dan laadt de review de criteria vanzelf; heb je er meer, dan vraagt hij welk vak het is.
+`dq vak lijst` laat zien welke vakken en bestanden DutchQuill vindt.
 
 ---
 

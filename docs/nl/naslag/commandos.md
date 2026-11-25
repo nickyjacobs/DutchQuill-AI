@@ -46,6 +46,7 @@ De skills roepen `dq` aan; je kunt het ook zelf gebruiken. `dq <commando> --help
 | `dq historie toon` / `log` | De geschiedenis van je opdrachten tonen of aanvullen |
 | `dq gids voor` / `pad` / `diff` / `schrijf` | Welke gidsen bij een opdracht horen; een bijgewerkte gids vergelijken en wegschrijven |
 | `dq bronnen check` / `markeer` | De bronnen van de gidsen controleren |
+| `dq vak toon` / `lijst` | De inlevereisen en rubric van een vak, alleen de sectie `## Rapportage` |
 | `dq apa-check`, `dq apa-bron` | APA-controles en bronvermeldingen |
 | `dq taalcheck` | LanguageTool, alleen als de online taalcheck aan staat |
 | `dq diff`, `dq docx-tekst`, `dq grafiek`, `dq diagram` | Woordverschil, .docx naar Markdown, grafieken en diagrammen als png |
