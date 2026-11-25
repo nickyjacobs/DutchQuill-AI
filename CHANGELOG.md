@@ -65,6 +65,10 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🐛 Fixed
 
+- `dq tells` missed a pattern that ran across a line break inside a paragraph, such as a
+  hard-wrapped "X, Y, en Z"; it now searches each paragraph as a whole.
+- `dq tells` no longer counts a fixed label at the start of paragraphs ("Advies:") as a repeated opening, and no
+  longer flags names such as "DCSync" or headings in a technical report as English title case.
 - If the plugin's data folder isn't writable, `dq` falls back to a temporary folder instead of stopping.
 - The evals now test the `dq` scripts for real: three new cases (`tells-draait`, `review-met-rubric`,
   `humaniseren-feiten`) prepare the Python environment beforehand, because the eval sandbox can't install it.

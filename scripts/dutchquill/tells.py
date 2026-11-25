@@ -22,6 +22,7 @@ import re
 import statistics
 import sys
 from collections import Counter
+from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
@@ -64,6 +65,15 @@ def data(taal: str) -> dict:
 
 def _patroon(term: str) -> re.Pattern:
     return re.compile(r"(?<![\w-])" + re.escape(term) + r"(?![\w-])", re.IGNORECASE)
+
+
+LABEL = re.compile(r"\s*[\w-]+:\s")
+
+
+@dataclass
+class _Treffer(tk.Regel):
+    """Een treffer in een alinea: `nr` is de regel van de treffer, `blok` de eerste regel van de alinea."""
+    blok: int = 0
 
 
 def _context(tekst: str, start: int, eind: int, marge: int = 40) -> str:
@@ -117,8 +127,19 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
     uitzonderingen = [u.lower() for u in (d.get("genre_uitzonderingen", {}).get(genre or "", []) or [])]
     witte = [w.lower() for w in d.get("whitelist", [])] + [w.lower() for w in (wel or [])]
 
-    # Teksten om in te zoeken: proza en lijsten, per regel (voor regelnummers)
-    zoekregels = [r for r in rs if r.soort in ("proza", "lijst")]
+    # Teksten om in te zoeken: elke alinea als één blok, zodat een patroon over een harde regelafbreking heen ook
+    # gevonden wordt ("een snelle,⏎veilige en duurzame aanpak"); elk opsommingspunt apart. Per blok de beginpositie
+    # van elke regel, voor het regelnummer van een treffer.
+    zoekregels: list[tuple[tk.Regel, list[tuple[int, int]]]] = []
+    vorige_soort = None
+    for r in rs:
+        if r.soort == "proza" and vorige_soort == "proza":
+            blok, begins = zoekregels[-1]
+            begins.append((len(blok.tekst) + 1, r.nr))
+            blok.tekst = f"{blok.tekst} {r.tekst}"
+        elif r.soort in ("proza", "lijst"):
+            zoekregels.append((tk.Regel(r.nr, r.tekst, r.soort), [(0, r.nr)]))
+        vorige_soort = r.soort
 
     def in_citaat(regeltekst: str, pos: int) -> bool:
         """Staat deze positie tussen aanhalingstekens? Citaten en voorbeelden tellen niet mee."""
@@ -128,11 +149,13 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
         return False
 
     def treffers(rx: re.Pattern, woord: bool = False, filter_: bool = True):
-        for r in zoekregels:
-            for m in rx.finditer(r.tekst):
-                if in_citaat(r.tekst, m.start()):
+        for blok, begins in zoekregels:
+            for m in rx.finditer(blok.tekst):
+                if in_citaat(blok.tekst, m.start()):
                     continue
-                ctx = r.tekst.lower()
+                nr = max((n for pos, n in begins if pos <= m.start()), default=blok.nr)
+                r = _Treffer(nr, blok.tekst, blok.soort, blok.nr)
+                ctx = blok.tekst[max(0, m.start() - 60):m.end() + 60].lower()
                 if not filter_:  # eigen 'nooit'-regels gaan altijd voor
                     yield r, m
                     continue
@@ -147,9 +170,10 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
     def voeg(cat, punten, r, m_or_tekst, uitleg, alt=None, sterkte="sterk"):
         if isinstance(m_or_tekst, re.Match) and cat in ("woord", "woord_zwak", "anglicisme", "eigen_regel"):
             span = m_or_tekst.span()
-            if any(span[0] < e and s < span[1] for s, e in bezet.get(r.nr, [])):
+            sleutel = getattr(r, "blok", r.nr)
+            if any(span[0] < e and s < span[1] for s, e in bezet.get(sleutel, [])):
                 return  # valt binnen een langere treffer ("breed scala aan" en "scala aan")
-            bezet.setdefault(r.nr, []).append(span)
+            bezet.setdefault(sleutel, []).append(span)
         if isinstance(m_or_tekst, re.Match):
             ctx = _context(r.tekst, m_or_tekst.start(), m_or_tekst.end())
             match = m_or_tekst.group(0)
@@ -264,7 +288,7 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
                                   "tekst. Zeg waarom iets belangrijk is."})
 
     drie = re.compile(r"\b\w+(?:\s\w+)?,\s\w+(?:\s\w+)?,?\s(?:en|of|and|or)\s\w+", re.IGNORECASE)
-    n_drie = sum(len(drie.findall(r.tekst)) for r in zoekregels if r.soort == "proza")
+    n_drie = sum(len(drie.findall(r.tekst)) for r, _ in zoekregels if r.soort == "proza")
     if stat["woorden"] >= 120 and n_drie / stat["woorden"] * 150 > 1.2:
         bev.append({"cat": "drieslag", "sterkte": "sterk", "punten": 1, "regel": None, "match": None,
                     "context": f"{n_drie} opsommingen van drie",
@@ -279,7 +303,9 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
                 bev.append({"cat": "zinsbegin", "sterkte": "sterk", "punten": 0.5, "regel": a.regel, "match": w,
                             "context": f"'{w}' begint {n} zinnen in één alinea", "uitleg": "Herhaald zinsbegin."})
     if len(als) >= 4:
-        ab = Counter(tk.woorden(a.tekst)[0].lower() for a in als if tk.woorden(a.tekst))
+        # Een vast label ("Advies:", "Oorzaak:") aan het begin van een alinea is opbouw, geen tell
+        ab = Counter(tk.woorden(a.tekst)[0].lower() for a in als
+                     if tk.woorden(a.tekst) and not LABEL.match(a.tekst))
         for w, n in ab.items():
             if n >= 3 and w not in ("de", "het", "the"):
                 bev.append({"cat": "alineabegin", "sterkte": "sterk", "punten": 1, "regel": None, "match": w,
@@ -350,13 +376,14 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
             bev.append({"cat": "broetry", "sterkte": "sterk", "punten": 1, "regel": None, "match": None,
                         "context": f"{sum(len(a.zinnen) == 1 for a in als)} van {len(als)} alinea's is één zin",
                         "uitleg": "Elke zin een eigen alinea ('broetry')."})
-    if taal == "nl":
+    if taal == "nl" and groep(genre) != "technisch":  # technische koppen staan vol producten en namen
         n = 0
         for r in rs:
             if r.soort != "kop":
                 continue
             w = r.tekst.split()
-            hoofd = [x for x in w[1:] if len(x) > 3 and x[0].isupper() and not x.isupper()]
+            # "DCSync", "PowerShell": een hoofdletter midden in het woord is een naam of term, geen title case
+            hoofd = [x for x in w[1:] if len(x) > 3 and x[0].isupper() and not any(c.isupper() for c in x[1:])]
             if len(w) >= 3 and len(hoofd) >= 2:
                 n += 1
                 bev.append({"cat": "title_case", "sterkte": "zwak", "punten": 0.5 if n <= 3 else 0, "regel": r.nr,
