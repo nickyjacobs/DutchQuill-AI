@@ -40,12 +40,15 @@ def extraheer(tekst: str) -> dict[str, Counter]:
     proza = "\n".join(r.tekst for r in rs if r.soort != "leeg")
     ruw = tekst  # URL's en mail uit de ruwe tekst (regels() vervangt URL's)
     namen = Counter()
-    for z in tk.zinnen(proza.replace("\n", " ")):
+    # Per alinea, kop en opsommingspunt: een kop zonder punt mag niet aan de zin erna plakken ("Inleiding Steeds
+    # meer ..." maakte van "Steeds" een naam)
+    segmenten = [a.tekst for a in tk.alineas(rs)] + [r.tekst for r in rs if r.soort in ("kop", "lijst", "citaat")]
+    for z in (z for s in segmenten for z in tk.zinnen(s)):
         ws = z.split()
         for i, w in enumerate(ws[1:], 1):
-            schoon = w.strip(".,;:!?()\"'“”‘’")
+            schoon = w.strip(".,;:!?()\"'“”‘’*_`")
             if len(schoon) > 1 and schoon[0].isupper() and schoon.lower() not in NIET_NAAM and not schoon.isupper():
-                vorige = ws[i - 1]
+                vorige = ws[i - 1].rstrip("*_`)\"'”’")
                 if not vorige.endswith((".", "!", "?", ":")):
                     namen[schoon] += 1
             elif schoon.isupper() and len(schoon) >= 2 and schoon.isalpha():

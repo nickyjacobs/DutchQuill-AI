@@ -146,6 +146,8 @@ structuur:
     - "\\bit'?s not\\b[^.!?\\n]{1,60}[,;:]\\s*it'?s\\b"
     - "\\bisn'?t (?:about|just)\\b[^.!?\\n]{1,60}\\bit'?s\\b"
     - '\bnot because\b[^.!?\n]{1,60}\bbut because\b'
+    # "The question is not whether an incident will happen, but when"
+    - '\bnot (?:whether|if|who|what|how|why|when|where)\b[^.!?\n]{1,60},\s*but\b'
   retorische_aanloop: '(?:^|[.!]\s+)((?:\w+\s){0,3}\w+\?)\s+[A-Z]'
   # Three adjectives stacked before one noun ("a robust, scalable and innovative platform")
   bijvoeglijk_stapel: '\b(?:a|an|the)\s+\w+(?:ive|ous|able|ible|al|ic|ful|less|ent|ant|ed|ing|ust),\s*\w+(?:ive|ous|able|ible|al|ic|ful|less|ent|ant|ed|ing|ust),?\s+and\s+\w+(?:ive|ous|able|ible|al|ic|ful|less|ent|ant|ed|ing|ust)\s+\w{3,}'

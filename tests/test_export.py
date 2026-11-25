@@ -153,15 +153,45 @@ def test_metadata_leeg(bron, tmp_path, monkeypatch, apa):
         props = z.read("docProps/app.xml").decode() + z.read("docProps/core.xml").decode()
     for spoor in ("Jan Jansen", "Fietsgebruik", "Microsoft", "Normal.dotm", "python-docx"):
         assert spoor not in props, spoor
-    info = PdfReader(str(tmp_path / "uit" / "Fiets.pdf")).metadata or {}
-    assert not info.get("/Title") and not info.get("/Author") and not info.get("/Producer")
-    assert not info.get("/Creator")
+    # Geen documentgegevens, ook geen lege velden (testronde 2.1)
+    assert not (PdfReader(str(tmp_path / "uit" / "Fiets.pdf")).metadata or {})
 
 
 def test_metadata_normaal_houdt_titel_en_auteur(bron, tmp_path, monkeypatch):
     from pypdf import PdfReader
     monkeypatch.setattr(export, "_browser", lambda: None)
     monkeypatch.setattr(export.shutil, "which", lambda _: None)
-    export.exporteer(bron, "Fiets", tmp_path / "uit", ["pdf"], genre="zakelijk-rapport")
+    import zipfile
+    export.exporteer(bron, "Fiets", tmp_path / "uit", ["docx", "pdf"], genre="zakelijk-rapport")
     info = PdfReader(str(tmp_path / "uit" / "Fiets.pdf")).metadata
-    assert info["/Title"] == "Fietsgebruik onder studenten" and info["/Author"] == "Jan Jansen"
+    assert dict(info) == {"/Title": "Fietsgebruik onder studenten", "/Author": "Jan Jansen"}
+    with zipfile.ZipFile(tmp_path / "uit" / "Fiets.docx") as z:
+        app = z.read("docProps/app.xml").decode()
+    assert "Microsoft" not in app and "Normal.dotm" not in app  # template-sporen weg, ook in de gewone stand
+
+
+def test_html_apa_titelpagina_en_literatuur():
+    """De pdf via de browser krijgt bij APA dezelfde titelpagina als de docx (testronde 2.1: vak ontbrak)."""
+    tekst = ("# Inleiding\n\nTekst van de inleiding.\n\n## Aanleiding\n\nMeer tekst.\n\n"
+             "# Literatuurlijst\n\nJansen, A. (2024). *Fietsen*. Uitgever.\n")
+    apa = {"title": "Fietsgebruik", "subtitle": "Een onderzoek", "authors": ["Sam de Vries"],
+           "student_numbers": ["123456"], "institution": "Hogeschool X", "course": "Onderzoeksvaardigheden (OV1)",
+           "supervisor": "dr. B. Bakker", "submission_date": "25 november 2026"}
+    h = export.html_maken({"titel": "Fietsgebruik"}, tekst, "nl", None, apa)
+    titel = h.split("<section class='apa-titelpagina'>")[1].split("</section>")[0]
+    volgorde = ["Fietsgebruik", "Een onderzoek", "Sam de Vries", "123456", "Hogeschool X",
+                "Onderzoeksvaardigheden (OV1)", "dr. B. Bakker", "25 november 2026"]
+    assert [titel.index(x) for x in volgorde] == sorted(titel.index(x) for x in volgorde)
+    assert "<h1>Inhoudsopgave</h1>" in h and "<li class='niveau2'>Aanleiding</li>" in h
+    assert "<p class='apa-bron'>Jansen" in h and "<p class='apa-bron'>Tekst" not in h
+    assert "@top-right" in h and "line-height: 2" in h
+    assert "apa-titelpagina" not in export.html_maken({"titel": "X"}, tekst, "nl", None)
+
+
+def test_kop_gelijk_aan_titel_valt_weg():
+    """Testronde 2.1: de review-docx had "Review X" als titel en "Review: X" als eerste kop."""
+    tekst = "# Review: Fietsgebruik onder studenten\n\n![Overzicht](overzicht.png)\n\n## Eindoordeel\n"
+    zonder = export._zonder_dubbele_titel(tekst, "Review Fietsgebruik onder studenten")
+    assert zonder.startswith("![Overzicht]")
+    assert export._zonder_dubbele_titel(tekst, "Iets anders") == tekst
+    assert export._zonder_dubbele_titel("# Inleiding\n\nTekst.", "Fietsgebruik").startswith("# Inleiding")

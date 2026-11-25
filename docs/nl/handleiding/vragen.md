@@ -39,8 +39,10 @@ DutchQuill zelf is gratis (MIT). Het draait in Claude Code, dus je gebruikt je e
 
 ## Mijn pdf lijkt niet op mijn Word-bestand
 
-Zonder LibreOffice maakt DutchQuill de pdf via je browser, in een eigen opmaak. Installeer LibreOffice (gratis)
-voor een pdf die precies op het Word-bestand lijkt. `dq doctor` laat zien welke route je hebt en hoe je
+Zonder LibreOffice maakt DutchQuill de pdf via je browser, in een eigen opmaak. Staat APA aan, dan heeft die pdf
+toch de titelpagina (vak, begeleider, studentnummer), een inhoudsopgave, paginanummers en de APA-regelafstand,
+alleen zonder paginanummers in de inhoudsopgave. Installeer LibreOffice (gratis) voor een pdf die precies op het
+Word-bestand lijkt. `dq doctor` laat zien welke route je hebt en hoe je
 LibreOffice installeert.
 
 ## Werkt het op Windows?

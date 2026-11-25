@@ -24,7 +24,9 @@ Elk `dq`-commando draai je via Bash met het voorvoegsel uit de skill:
    je moet lezen. `DQ config toon --genre <genre>` geeft de volledige instellingen. Zegt de gebruiker iets dat
    afwijkt ("zonder APA", "luchtiger", "in het Engels", "als pdf"), geef dat dan mee met
    `--set controles.apa=false`, `--set toon.niveau=luchtig`, `--set taal=en` of `--set uitvoer.formaten=[pdf]`.
-   Bij elk volgend commando geef je dezelfde `--set`-waarden mee.
+   Bij elk volgend commando geef je dezelfde `--set`-waarden mee. Lees de config bij elke nieuwe opdracht
+   opnieuw, ook in hetzelfde gesprek: de gebruiker kan tussendoor iets in de Studio hebben veranderd. Zeg nooit
+   uit je hoofd wat er ingesteld staat; kijk het na met `DQ config toon`.
    **Werkt `dq` niet** (de melding zegt het, of het commando blijft hangen), ga dan verder zonder: lees de gidsen
    rechtstreeks uit de pluginmap. Altijd `templates/genres/<genre>.md` en `gidsen/toon.md`; voor Nederlands
    `gidsen/nl/kern.md`, voor Engels `gidsen/en/style.md`; bij humaniseren `gidsen/nl/humaniseren.md` of
@@ -121,8 +123,9 @@ krikken. Onder 100 woorden zegt `dq tells` dat de cijfers onbetrouwbaar zijn; le
 
 ## 7. Afronden in de chat
 
-- **Chat-uitvoer:** de tekst zelf, met daaronder hooguit twee regels: wat je aannam (bijvoorbeeld de toon) en
-  of er iets ontbreekt. Log ook deze tekst, vóór je `tmp/` opruimt: `DQ historie log --actie <actie> --titel
+- **Chat-uitvoer:** de tekst zelf, met daaronder de regel van de taalronde ("Taalronde: 2 verbeteringen (d/t)" of
+  "Taalronde: niets gevonden") en hooguit twee regels: wat je aannam (bijvoorbeeld de toon) en of er iets
+  ontbreekt. Pas je na de taalronde nog iets aan, doe de taalronde dan opnieuw voor die zinnen. Log ook deze tekst, vóór je `tmp/` opruimt: `DQ historie log --actie <actie> --titel
   "<korte titel>" --tekst <concept> --meta '{"genre": "...", "uitvoer": "chat"}'`. Is er geen werkmap, sla dit
   dan over.
 - **Bestandsuitvoer:** het pad naar de map, de formaten, de tells-score (voor en na bij herschrijven), en de
