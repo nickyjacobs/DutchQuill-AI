@@ -602,16 +602,59 @@ def _browser() -> str | None:
     return None
 
 
-def pdf_metadata(uit: Path, meta: dict) -> None:
-    """Titel en auteur van de gebruiker; geen sporen van het gereedschap (browser, LibreOffice, pypdf)."""
+APP_LEEG = ("Template", "Application", "AppVersion", "Company", "Manager", "HyperlinkBase")
+
+
+def docx_leeg(pad: Path) -> None:
+    """Instelling uitvoer.metadata = leeg: alles wat iets over persoon of gereedschap zegt eruit.
+
+    Er komt niets voor in de plaats: geen verzonnen naam, tijd of revisie. Aanmaak- en wijzigtijd en de revisie
+    blijven zoals python-docx ze zet (nu en 1)."""
+    import zipfile
+    from xml.etree import ElementTree as ET
+
+    from docx import Document
+    doc = Document(str(pad))
+    cp = doc.core_properties
+    for veld in ("author", "last_modified_by", "title", "subject", "keywords", "comments", "category",
+                 "content_status", "identifier", "language", "version"):
+        setattr(cp, veld, "")
+    doc.save(str(pad))
+
+    ns = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
+    vt = "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
+    tmp = pad.with_suffix(".tmp.docx")
+    with zipfile.ZipFile(pad) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zuit:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename == "docProps/app.xml":
+                ET.register_namespace("", ns)
+                ET.register_namespace("vt", vt)
+                root = ET.fromstring(data)
+                for naam in APP_LEEG:
+                    for el in root.findall(f"{{{ns}}}{naam}"):
+                        el.text = None
+                for el in root.iter(f"{{{vt}}}lpstr"):  # TitlesOfParts: de titel nog een keer
+                    el.text = None
+                data = ET.tostring(root, xml_declaration=True, encoding="UTF-8")
+            zuit.writestr(item, data)
+    tmp.replace(pad)
+
+
+def pdf_metadata(uit: Path, meta: dict, leeg: bool = False) -> None:
+    """Titel en auteur van de gebruiker; geen sporen van het gereedschap (browser, LibreOffice, pypdf).
+    Met leeg (uitvoer.metadata = leeg) ook geen titel en auteur, en geen XMP-blok."""
     try:
         from pypdf import PdfReader, PdfWriter
+        from pypdf.generic import NameObject
     except ImportError:
         return
     try:
         w = PdfWriter(clone_from=PdfReader(str(uit)))
-        w.metadata = {"/Title": meta.get("titel", ""), "/Author": meta.get("auteur", ""),
-                      "/Creator": "", "/Producer": ""}
+        w.metadata = {"/Title": "" if leeg else meta.get("titel", ""),
+                      "/Author": "" if leeg else meta.get("auteur", ""), "/Creator": "", "/Producer": ""}
+        if leeg and NameObject("/Metadata") in w._root_object:
+            del w._root_object[NameObject("/Metadata")]
         tmp = uit.with_suffix(".tmp.pdf")
         with open(tmp, "wb") as f:
             w.write(f)
@@ -620,9 +663,10 @@ def pdf_metadata(uit: Path, meta: dict) -> None:
         pass
 
 
-def pdf_maken(docx: Path | None, html_tekst: str, bl: list[dict], meta: dict, uit: Path, taal: str) -> tuple[str, list]:
+def pdf_maken(docx: Path | None, html_tekst: str, bl: list[dict], meta: dict, uit: Path, taal: str,
+              leeg: bool = False) -> tuple[str, list]:
     via, waarschuwingen = _pdf_route(docx, html_tekst, bl, meta, uit, taal)
-    pdf_metadata(uit, meta)
+    pdf_metadata(uit, meta, leeg)
     return via, waarschuwingen
 
 
@@ -743,7 +787,9 @@ def exporteer(bron: Path, naam: str, map_: Path | None = None, formaten: list[st
                                     (None, "zakelijk", "notitie") else None), e)
     bl = blokken(tekst)
     veilig = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "", naam).strip() or "document"
-    resultaat: dict = {"map": str(map_), "template": str(tpl), "apa": apa, "bestanden": [], "waarschuwingen": []}
+    leeg = e["uitvoer"].get("metadata") == "leeg"
+    resultaat: dict = {"map": str(map_), "template": str(tpl), "apa": apa, "bestanden": [], "waarschuwingen": [],
+                       "metadata": "leeg" if leeg else "normaal"}
 
     docx_pad = map_ / f"{veilig}.docx"
     tijdelijke_docx = None
@@ -752,6 +798,8 @@ def exporteer(bron: Path, naam: str, map_: Path | None = None, formaten: list[st
         if "docx" not in formaten:
             tijdelijke_docx = doel
         w = docx_apa(meta, tekst, tpl, doel, e) if apa else docx_generiek(meta, bl, tpl, doel, e, genre)
+        if leeg:
+            docx_leeg(doel)
         resultaat["waarschuwingen"] += w
         if "docx" in formaten:
             resultaat["bestanden"].append(str(doel))
@@ -762,7 +810,7 @@ def exporteer(bron: Path, naam: str, map_: Path | None = None, formaten: list[st
         resultaat["bestanden"].append(str(p))
     if "pdf" in formaten:
         p = map_ / f"{veilig}.pdf"
-        via, w = pdf_maken(docx_pad if docx_pad.is_file() else tijdelijke_docx, html_tekst, bl, meta, p, taal)
+        via, w = pdf_maken(docx_pad if docx_pad.is_file() else tijdelijke_docx, html_tekst, bl, meta, p, taal, leeg)
         resultaat["pdf_via"] = via
         resultaat["waarschuwingen"] += w
         resultaat["bestanden"].append(str(p))

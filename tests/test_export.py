@@ -133,3 +133,35 @@ def test_onbekend_formaat_en_template(bron):
         export.exporteer(bron, "x", formaten=["odt"])
     with pytest.raises(export.ExportFout):
         export.exporteer(bron, "x", formaten=["docx"], template="bestaat-niet")
+
+
+@pytest.mark.parametrize("apa", [False, True])
+def test_metadata_leeg(bron, tmp_path, monkeypatch, apa):
+    import zipfile
+
+    from pypdf import PdfReader
+    monkeypatch.setattr(export, "_browser", lambda: None)
+    monkeypatch.setattr(export.shutil, "which", lambda _: None)
+    r = export.exporteer(bron, "Fiets", tmp_path / "uit", ["docx", "pdf"], genre="rapport",
+                         sets=["uitvoer.metadata=leeg", f"controles.apa={str(apa).lower()}"])
+    assert r["metadata"] == "leeg"
+    docx = tmp_path / "uit" / "Fiets.docx"
+    cp = Document(str(docx)).core_properties
+    assert (cp.author, cp.last_modified_by, cp.title, cp.subject, cp.keywords, cp.comments) == ("",) * 6
+    assert cp.revision == 1  # niets verzonnen: de standaard van python-docx
+    with zipfile.ZipFile(docx) as z:
+        props = z.read("docProps/app.xml").decode() + z.read("docProps/core.xml").decode()
+    for spoor in ("Jan Jansen", "Fietsgebruik", "Microsoft", "Normal.dotm", "python-docx"):
+        assert spoor not in props, spoor
+    info = PdfReader(str(tmp_path / "uit" / "Fiets.pdf")).metadata or {}
+    assert not info.get("/Title") and not info.get("/Author") and not info.get("/Producer")
+    assert not info.get("/Creator")
+
+
+def test_metadata_normaal_houdt_titel_en_auteur(bron, tmp_path, monkeypatch):
+    from pypdf import PdfReader
+    monkeypatch.setattr(export, "_browser", lambda: None)
+    monkeypatch.setattr(export.shutil, "which", lambda _: None)
+    export.exporteer(bron, "Fiets", tmp_path / "uit", ["pdf"], genre="zakelijk-rapport")
+    info = PdfReader(str(tmp_path / "uit" / "Fiets.pdf")).metadata
+    assert info["/Title"] == "Fietsgebruik onder studenten" and info["/Author"] == "Jan Jansen"

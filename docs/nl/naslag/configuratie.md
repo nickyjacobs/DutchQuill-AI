@@ -84,6 +84,7 @@ Gegenereerd uit `config/schema.json`.
 | `uitvoer.formaten` | lijst van `docx` \| `pdf` \| `md` \| `txt` \| `html` | `["docx"]` | Bestandsformaten. |
 | `uitvoer.chat_voor` | lijst van `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `technisch-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Alleen in de chat (geen bestand). Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op. |
 | `uitvoer.template` | string | `"zakelijk"` | Template. Naam van een meegeleverde of eigen template. |
+| `uitvoer.metadata` | `normaal` \| `leeg` | `"normaal"` | Documentgegevens (metadata). Leeg: in Word en pdf blijven auteur, titel, onderwerp, trefwoorden, opmerkingen, bedrijf, manager en het programma leeg. Er wordt nooit iets ingevuld wat niet klopt. |
 | `basis` | profielnaam |  | Bouwt voort op. Naam van een ander profiel. Alles wat je hier niet zet, komt daarvandaan. |
 | `taal` | `nl` \| `en` \| `auto` |  | Overschrijft de algemene taal voor dit profiel. |
 <!-- tabel:eind -->
