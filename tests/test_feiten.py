@@ -21,3 +21,13 @@ def test_getal_citaat_en_bron_weg():
     assert v["ontbreekt"]["citaten"] and v["ontbreekt"]["urls"] == ["https://cbs.nl/fiets"]
     assert v["ontbreekt"]["bronverwijzingen"] == ["Jansen, 2024"]
     assert v["nieuw"]["bronverwijzingen"] == ["Jansen, 2023"]
+
+
+def test_kop_plakt_niet_aan_volgende_zin():
+    """Testronde 2.1: "Steeds", "Studenten" en "Twee" werden namen, omdat een kop aan de zin erna plakte."""
+    tekst = ("# Inleiding\n\nSteeds meer studenten fietsen, zegt Pieter Jansen van de gemeente Veldhoven.\n\n"
+             "## Resultaten\n\nDe vraag luidt: *waarom fietsen ze?* Twee redenen springen eruit.\n\n"
+             "- Studenten noemen de kosten.\n")
+    namen = set(feiten.extraheer(tekst)["namen"])
+    assert {"Pieter", "Jansen", "Veldhoven"} <= namen
+    assert not namen & {"Steeds", "Resultaten", "Twee", "Studenten", "Inleiding"}

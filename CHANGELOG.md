@@ -58,6 +58,9 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🔧 Changed
 
+- Text that only goes to the chat always ends with the language-round line ("Taalronde: ..."), and the skills read
+  the settings again for every new request, so a change in the Studio counts straight away. For the student
+  profile, writing a document always offers an AI statement.
 - DutchQuill Studio: "What will change" before saving names each setting as it reads on screen and shows old
   and new in plain words (On → Off, + Marketing (MK2)) instead of keys and JSON.
 - `dq vak`, `dq leesbaarheid`, `dq apa-check`, `dq apa-bron` and `dq diff` only need the light install now, not the
@@ -67,6 +70,16 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🐛 Fixed
 
+- A PDF made through the browser (no LibreOffice) now follows APA when APA is on: the title page with course,
+  supervisor and student number, a table of contents, Times 12 with double spacing, page numbers, every chapter on
+  a new page and a hanging indent in the reference list. Before, the title page and the course were missing.
+- The fact check no longer reads a heading and the sentence after it as one ("Inleiding Steeds ..." made "Steeds"
+  a name).
+- Document properties: with `metadata: leeg` the PDF has no properties at all instead of empty ones, and the Word
+  file keeps the label of its title list. In the normal setting the Word file no longer names Microsoft Word or
+  Normal.dotm from the template, and the PDF has only title and author.
+- A review exported to Word or PDF no longer shows its title twice: a first heading equal to the title is left out.
+- `dq tells` finds "niet of ..., maar wanneer" ("not whether ..., but when") as a not-X-but-Y construction.
 - `dq tells` missed a pattern that ran across a line break inside a paragraph, such as a
   hard-wrapped "X, Y, en Z"; it now searches each paragraph as a whole.
 - `dq tells` no longer counts a fixed label at the start of paragraphs ("Advies:") as a repeated opening, and no

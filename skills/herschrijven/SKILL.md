@@ -83,7 +83,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 - [ ] De feitencontrole is gedraaid en elk verschil is verklaard of hersteld.
 - [ ] De tells-score is niet gestegen.
-- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap.
+- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap; in de chat staat de regel "Taalronde: ...", bij een
+  bestand staat die in `wat-is-er-veranderd.md`.
 - [ ] De opbouw is behouden, of de wijziging is gemeld.
 - [ ] Het origineel van de gebruiker is onaangeroerd.
 - [ ] Elke figuur staat er nog, op de goede plek, met de verwijzing ervóór.

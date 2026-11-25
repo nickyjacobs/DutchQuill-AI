@@ -78,8 +78,9 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
      genre-sjabloon). De verdeling van de woorden per hoofdstuk staat in het sjabloon.
 7. **Controles en herstellus** (werkwijze 5).
 8. **Opslaan en exporteren** (werkwijze 6), of de tekst in de chat (werkwijze 7).
-9. **Bij het profiel student met AI-gebruik:** bied een AI-verantwoording en de bronvermelding van de chat
-   aan, volgens `ai-gebruik.md`. Vul alleen in wat de gebruiker echt heeft gedaan.
+9. **Bij het profiel student:** een tekst die DutchQuill schrijft is altijd AI-gebruik. Bied daarom bij elk
+   document een AI-verantwoording en de bronvermelding van de chat aan, volgens `ai-gebruik.md`. Vul alleen in
+   wat de gebruiker en jij echt hebben gedaan.
 
 ## Varianten
 
@@ -96,6 +97,6 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 - [ ] De controles zijn gedraaid. Het tells-niveau is laag, of het restant is uitgelegd.
 - [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap.
 - [ ] Er is geen verzonnen feit, cijfer, bron of voorbeeld in de tekst; open plekken zijn gemarkeerd.
-- [ ] Profiel student: de gegevens voor de titelpagina zijn bevestigd.
-- [ ] Chat: de tekst plus hooguit twee regels toelichting. Bestand: `bron.md`, de exports,
+- [ ] Profiel student: de gegevens voor de titelpagina zijn bevestigd en de AI-verantwoording is aangeboden.
+- [ ] Chat: de tekst, de regel "Taalronde: ..." en hooguit twee regels toelichting. Bestand: `bron.md`, de exports,
   `wat-is-er-veranderd.md` en een historieregel.

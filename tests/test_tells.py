@@ -245,3 +245,10 @@ def test_title_case_negeert_namen_en_technische_teksten():
     kop = "## Bevinding via Backup Operators\n\nTekst hier."
     assert "title_case" in tells.analyseer(kop, "nl", genre="rapport")["per_categorie"]
     assert "title_case" not in tells.analyseer(kop, "nl", genre="technisch-rapport")["per_categorie"]
+
+
+def test_niet_of_maar_wanneer():
+    nl = tells.analyseer("De vraag is niet of er een incident komt, maar wanneer het gebeurt.", "nl")
+    assert "niet_x_maar_y" in nl["per_categorie"]
+    en = tells.analyseer("The question is not whether an incident will happen, but when it happens.", "en")
+    assert "niet_x_maar_y" in en["per_categorie"]
