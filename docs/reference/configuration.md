@@ -52,7 +52,7 @@ Generated from `config/schema.json`.
 | `mappen.humaniseren` | string | `"humaniseren"` |  |
 | `mappen.templates` | string | `"templates"` |  |
 | `versies` | boolean | `true` | Keep versions. Every new round on the same title goes into a new folder (v2, v3 and so on). |
-| `privacy.languagetool` | boolean | `false` | Online grammar check (LanguageTool). Sends the text to api.languagetool.org for an extra check. Off = everything stays local. |
+| `privacy.languagetool` | boolean | `false` | Online grammar check (LanguageTool). An extra, automatic spelling and grammar check on top of the language round every text gets. Sends the text to api.languagetool.org. Off = only the language round, nothing extra leaves your computer. |
 | `stem.gebruiken` | boolean | `true` | Write in my voice. Uses your own texts in the my-style folder as the model for rhythm and word choice. |
 | `student` | object |  | Student details (optional). For the title page of an academic report. |
 | `professioneel.naam` | string |  | Name. |
@@ -68,6 +68,7 @@ Generated from `config/schema.json`.
 | `professioneel.banner` | string |  | Email banner (image). |
 | `templates` | object | `{}` | Custom templates. |
 | `stijlen` | object | `{}` | Style names in your template. Only needed if your template uses other style names. |
+| `historie.tekst_bewaren` | boolean | `true` | Keep the text in the history. Keeps a copy of the text with every action in .dutchquill/historie/ in your workspace, also for a scan or a text that only appeared in the chat. Everything stays local. Off = only title, date and paths. |
 | `bijwerken.herinnering_dagen` | integer | `30` | Reminder after (days). |
 
 **In a profile** (`profielen.<name>.…`):
@@ -82,8 +83,14 @@ Generated from `config/schema.json`.
 | `toon.aanspreekvorm` | `auto` \| `je` \| `u` \| `geen` | `"auto"` | Form of address. auto picks per genre and reader; geen means: do not address the reader (academic). |
 | `toon.mix` | string | `""` | Custom mix (free text). For example: businesslike, with a light closing line. |
 | `uitvoer.formaten` | list of `docx` \| `pdf` \| `md` \| `txt` \| `html` | `["docx"]` | File formats. |
-| `uitvoer.chat_voor` | list of `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Chat only (no file). These kinds of text only appear in the chat unless you say: save it. |
+| `uitvoer.chat_voor` | list of `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `technisch-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Chat only (no file). These kinds of text only appear in the chat unless you say: save it. |
 | `uitvoer.template` | string | `"zakelijk"` | Template. Name of a built-in or custom template. |
+| `uitvoer.metadata` | `normaal` \| `leeg` | `"normaal"` | Document properties (metadata). Empty: in Word and PDF the author, title, subject, keywords, comments, company, manager and the program stay empty. Nothing untrue is ever filled in. |
 | `basis` | profile name |  | Based on. Name of another profile. Anything you do not set here comes from that one. |
 | `taal` | `nl` \| `en` \| `auto` |  | Overrides the general language for this profile. |
 <!-- tabel:eind -->
+
+`student` holds `voornaam`, `tussenvoegsel`, `achternaam`, `studentnummer`, `instelling`, `faculteit`,
+`opleiding`, `niveau` (`mbo`, `hbo-bachelor` or `hbo-master`; default `hbo-bachelor`), `docenten` (list with
+`naam`, `rol`, `vak`) and `vakken` (list with `naam`, `code`). Submission requirements and grading criteria per
+course are in `templates/vakken/<CODE>/quick-scan.md` and `beoordelingscriteria.md`.

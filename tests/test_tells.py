@@ -139,3 +139,116 @@ def test_vervolgregel_hoort_bij_opsommingspunt():
     rs = [r for r in tekst.regels(md) if r.soort != "leeg"]
     assert [(r.soort, r.tekst) for r in rs] == [("lijst", "Eerste punt dat over twee regels doorloopt tot hier."),
                                                  ("lijst", "Tweede punt."), ("proza", "Gewone alinea.")]
+
+
+# ---- terug uit v1: Oxford-komma, gestapelde bijvoeglijke naamwoorden, niveau 3, leesbaarheid, korte tekst
+
+def test_oxford_komma_alleen_nederlands():
+    r = tells.analyseer("We kochten appels, peren, en bananen voor de kantine van het nieuwe kantoor.", taal="nl")
+    assert "oxford_komma" in r["per_categorie"]
+    r = tells.analyseer("We kochten appels, peren en bananen voor de kantine van het nieuwe kantoor.", taal="nl")
+    assert "oxford_komma" not in r["per_categorie"]
+    r = tells.analyseer("We bought apples, pears, and bananas for the canteen of the new office.", taal="en")
+    assert "oxford_komma" not in r["per_categorie"]
+
+
+def test_oxford_komma_niet_in_citaat():
+    r = tells.analyseer('Hij schreef: "appels, peren, en bananen" en ging daarna naar huis.', taal="nl")
+    assert "oxford_komma" not in r["per_categorie"]
+
+
+def test_gestapelde_bijvoeglijke_naamwoorden():
+    r = tells.analyseer("Dit is een innovatief, baanbrekend en duurzaam project voor de hele regio.", taal="nl")
+    assert "bijvoeglijk_stapel" in r["per_categorie"]
+    r = tells.analyseer("We spraken met de klanten, collega's en partners over het nieuwe plan.", taal="nl")
+    assert "bijvoeglijk_stapel" not in r["per_categorie"]
+    r = tells.analyseer("It is a robust, scalable and innovative platform for teams of every size.", taal="en")
+    assert "bijvoeglijk_stapel" in r["per_categorie"]
+
+
+def test_niveau3_dichtheid():
+    zin = "Het belangrijke punt is dat dit een effectief en uniek plan is voor ons team. "
+    vul = "We bespreken het plan morgen met de afdeling en maken dan een keuze over de planning. "
+    r = tells.analyseer((zin + vul) * 4, taal="nl")
+    b = [b for b in r["bevindingen"] if b["cat"] == "niveau3_dichtheid"]
+    assert b and b[0]["punten"] == 1 and "belangrijke" in b[0]["context"]
+    r = tells.analyseer(zin + vul * 8, taal="nl")
+    assert "niveau3_dichtheid" not in r["per_categorie"]
+
+
+def test_lage_leesbaarheid_telt_bij_rapport():
+    tekst = lees("rapport_moeilijk_nl.md")
+    r = tells.analyseer(tekst, taal="nl", genre="rapport")
+    assert r["statistiek"]["flesch"] < 30
+    assert "leesbaarheid" in r["per_categorie"] and r["niveau"] != "laag", tells.rapport(r)
+    assert r["acceptatie"] and not r["acceptatie"]["voldaan"]
+    assert any("Flesch" in t for t in r["acceptatie"]["tekort"])
+    mail = tells.analyseer(tekst, taal="nl", genre="mail")
+    assert "leesbaarheid" not in mail["per_categorie"] and mail["acceptatie"] is None
+
+
+def test_technisch_rapport_eigen_drempels():
+    tekst = lees("rapport_moeilijk_nl.md")
+    r = tells.analyseer(tekst, taal="nl", genre="technisch-rapport")
+    assert r["drempels"]["groep"] == "technisch" and r["drempels"]["laag_onder"] == 6
+    assert r["acceptatie"]["eisen"]["flesch_min"] == 25 and r["acceptatie"]["eisen"]["mattr_min"] == 0.70
+    assert tells.groep("rapport") == "streng" and tells.groep("mail") == "los"
+
+
+def test_bovengrens_leesbaarheid_alleen_academisch():
+    tekst = lees("mens_nl.md")
+    assert any("tot 50" in t for t in tells.analyseer(tekst, genre="rapport")["acceptatie"]["tekort"])
+    assert tells.analyseer(tekst, genre="zakelijk-rapport")["acceptatie"]["voldaan"]
+
+
+def test_korte_tekst_waarschuwt():
+    r = tells.analyseer("Hoi Sam, morgen om tien uur past prima. Tot dan!", taal="nl", genre="mail")
+    assert r["waarschuwingen"] and "Korte tekst" in r["waarschuwingen"][0]
+    assert "Let op: Korte tekst" in tells.rapport(r)
+    r = tells.analyseer("Hi Sam, ten tomorrow works fine. See you then!", taal="en", genre="mail")
+    assert "Note: Short text" in tells.rapport(r)
+    assert not tells.analyseer(lees("mens_nl.md"))["waarschuwingen"]
+
+
+# ---- testronde 2.1: harde regelafbrekingen, labels, technische koppen
+
+def test_patroon_over_regelafbreking():
+    tekst = ("Organisaties zoeken naar een snelle,\nveilige en duurzame aanpak. Het gaat niet alleen om\n"
+             "techniek, maar om mensen.")
+    r = tells.analyseer(tekst, "nl")
+    stapel = [b for b in r["bevindingen"] if b["cat"] == "bijvoeglijk_stapel"]
+    assert stapel and stapel[0]["regel"] == 1
+    par = [b for b in r["bevindingen"] if b["cat"] == "niet_x_maar_y"]
+    assert par and par[0]["regel"] == 2
+
+
+def test_geen_dubbele_treffer_over_regelafbreking():
+    r = tells.analyseer("Er is een breed\nscala aan opties voor de klant om uit te kiezen vandaag.", "nl")
+    assert [b["match"].lower() for b in r["bevindingen"] if b["cat"] == "woord"] == ["een breed scala aan"]
+
+
+def test_lijsten_en_koppen_blijven_los():
+    tekst = "# Een snelle,\n\n- veilige en duurzame aanpak voor iedereen"
+    assert "bijvoeglijk_stapel" not in tells.analyseer(tekst, "nl")["per_categorie"]
+
+
+def test_label_aan_alineabegin_telt_niet():
+    alineas = [f"Advies: zet onderdeel {i} uit via GPO en controleer het daarna." for i in range(3)]
+    tekst = "\n\n".join(["Dit is de inleiding van het stuk."] + alineas)
+    assert "alineabegin" not in tells.analyseer(tekst, "nl")["per_categorie"]
+    zonder = "\n\n".join(["Dit is de inleiding."] + [a.replace("Advies:", "Daarom") for a in alineas])
+    assert "alineabegin" in tells.analyseer(zonder, "nl")["per_categorie"]
+
+
+def test_title_case_negeert_namen_en_technische_teksten():
+    assert "title_case" not in tells.analyseer("## Inzet van PowerShell via DCSync\n\nTekst.", "nl")["per_categorie"]
+    kop = "## Bevinding via Backup Operators\n\nTekst hier."
+    assert "title_case" in tells.analyseer(kop, "nl", genre="rapport")["per_categorie"]
+    assert "title_case" not in tells.analyseer(kop, "nl", genre="technisch-rapport")["per_categorie"]
+
+
+def test_niet_of_maar_wanneer():
+    nl = tells.analyseer("De vraag is niet of er een incident komt, maar wanneer het gebeurt.", "nl")
+    assert "niet_x_maar_y" in nl["per_categorie"]
+    en = tells.analyseer("The question is not whether an incident will happen, but when it happens.", "en")
+    assert "niet_x_maar_y" in en["per_categorie"]

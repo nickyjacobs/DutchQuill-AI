@@ -13,6 +13,7 @@
         "onderzoeksrapport",
         "adviesrapport",
         "zakelijk-rapport",
+        "technisch-rapport",
         "sop",
         "research-notitie",
         "mail",
@@ -38,6 +39,10 @@
         "zakelijk-rapport": {
           "nl": "Zakelijk rapport",
           "en": "Business report"
+        },
+        "technisch-rapport": {
+          "nl": "Technisch rapport (pentest, audit)",
+          "en": "Technical report (pentest, audit)"
         },
         "sop": {
           "nl": "Procesdocument / SOP",
@@ -282,6 +287,32 @@
                 "nl": "Naam van een meegeleverde of eigen template.",
                 "en": "Name of a built-in or custom template."
               }
+            },
+            "metadata": {
+              "type": "string",
+              "enum": [
+                "normaal",
+                "leeg"
+              ],
+              "default": "normaal",
+              "x-label": {
+                "nl": "Documentgegevens (metadata)",
+                "en": "Document properties (metadata)"
+              },
+              "x-uitleg": {
+                "nl": "Leeg: in Word en pdf blijven auteur, titel, onderwerp, trefwoorden, opmerkingen, bedrijf, manager en het programma leeg. Er wordt nooit iets ingevuld wat niet klopt.",
+                "en": "Empty: in Word and PDF the author, title, subject, keywords, comments, company, manager and the program stay empty. Nothing untrue is ever filled in."
+              },
+              "x-labels": {
+                "normaal": {
+                  "nl": "Normaal: titel en auteur",
+                  "en": "Normal: title and author"
+                },
+                "leeg": {
+                  "nl": "Leeg: niets herleidbaars",
+                  "en": "Empty: nothing traceable"
+                }
+              }
             }
           }
         }
@@ -442,8 +473,8 @@
             "en": "Online grammar check (LanguageTool)"
           },
           "x-uitleg": {
-            "nl": "Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal.",
-            "en": "Sends the text to api.languagetool.org for an extra check. Off = everything stays local."
+            "nl": "Een extra, automatische spelling- en grammaticacheck naast de taalronde die elke tekst krijgt. Stuurt de tekst naar api.languagetool.org. Uit = alleen de taalronde, er gaat niets extra naar buiten.",
+            "en": "An extra, automatic spelling and grammar check on top of the language round every text gets. Sends the text to api.languagetool.org. Off = only the language round, nothing extra leaves your computer."
           }
         }
       }
@@ -483,28 +514,91 @@
       },
       "properties": {
         "voornaam": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Voornaam",
+            "en": "First name"
+          }
         },
         "tussenvoegsel": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Tussenvoegsel",
+            "en": "Name prefix"
+          }
         },
         "achternaam": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Achternaam",
+            "en": "Last name"
+          }
         },
         "studentnummer": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Studentnummer",
+            "en": "Student number"
+          }
         },
         "instelling": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Onderwijsinstelling",
+            "en": "School or university"
+          }
         },
         "faculteit": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Faculteit",
+            "en": "Faculty"
+          }
         },
         "opleiding": {
-          "type": "string"
+          "type": "string",
+          "x-label": {
+            "nl": "Opleiding",
+            "en": "Programme"
+          }
+        },
+        "niveau": {
+          "type": "string",
+          "enum": [
+            "mbo",
+            "hbo-bachelor",
+            "hbo-master"
+          ],
+          "default": "hbo-bachelor",
+          "x-label": {
+            "nl": "Opleidingsniveau",
+            "en": "Level of education"
+          },
+          "x-uitleg": {
+            "nl": "Bepaalt hoeveel theorie, onderbouwing en reflectie een rapport krijgt.",
+            "en": "Sets how much theory, justification and reflection a report gets."
+          },
+          "x-labels": {
+            "mbo": {
+              "nl": "Mbo",
+              "en": "Secondary vocational (mbo)"
+            },
+            "hbo-bachelor": {
+              "nl": "Hbo-bachelor",
+              "en": "Bachelor (university of applied sciences)"
+            },
+            "hbo-master": {
+              "nl": "Hbo-master",
+              "en": "Master (university of applied sciences)"
+            }
+          }
         },
         "docenten": {
           "type": "array",
+          "x-label": {
+            "nl": "Docenten",
+            "en": "Teachers"
+          },
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -523,6 +617,10 @@
         },
         "vakken": {
           "type": "array",
+          "x-label": {
+            "nl": "Vakken",
+            "en": "Courses"
+          },
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -682,6 +780,28 @@
       },
       "additionalProperties": {
         "type": "string"
+      }
+    },
+    "historie": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-label": {
+        "nl": "Historie",
+        "en": "History"
+      },
+      "properties": {
+        "tekst_bewaren": {
+          "type": "boolean",
+          "default": true,
+          "x-label": {
+            "nl": "Tekst bewaren in de historie",
+            "en": "Keep the text in the history"
+          },
+          "x-uitleg": {
+            "nl": "Bewaart bij elke actie een kopie van de tekst in .dutchquill/historie/ in je werkmap, ook bij een scan of een tekst die alleen in de chat kwam. Alles blijft lokaal. Uit = alleen titel, datum en paden.",
+            "en": "Keeps a copy of the text with every action in .dutchquill/historie/ in your workspace, also for a scan or a text that only appeared in the chat. Everything stays local. Off = only title, date and paths."
+          }
+        }
       }
     },
     "bijwerken": {

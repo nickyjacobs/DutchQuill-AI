@@ -12,6 +12,7 @@ Everything that doesn't fit in the [README](../README.md), sorted by who reads i
 | Pick or create a profile, set checks and tone | [guide/profiles-and-tone.md](guide/profiles-and-tone.md) |
 | Use your own house style or template | [guide/templates.md](guide/templates.md) |
 | Know what humanizing does, and what it doesn't | [guide/humanizing.md](guide/humanizing.md) |
+| Know what it costs in tokens, and which model does what | [guide/costs.md](guide/costs.md) |
 | Get a quick answer: privacy, PDFs, Windows, removing it, coming from v1 | [guide/faq.md](guide/faq.md) |
 | Know exactly which data goes where | [privacy.md](privacy.md) |
 | Look up every setting in `dutchquill.yaml` | [reference/configuration.md](reference/configuration.md) |
@@ -25,7 +26,7 @@ Everything that doesn't fit in the [README](../README.md), sorted by who reads i
 
 | Folder | For | What is in it |
 |---|---|---|
-| [`guide/`](guide/) | Everyone who uses DutchQuill | Getting started, the workspace, the Studio, profiles and tone, templates, humanizing, FAQ |
+| [`guide/`](guide/) | Everyone who uses DutchQuill | Getting started, the workspace, the Studio, profiles and tone, templates, humanizing, costs, FAQ |
 | [`reference/`](reference/) | Anyone who wants to look something up precisely | Every setting, every command, the guides and their sources |
 | [`project/`](project/) | Anyone who works on DutchQuill | The repo layout, conventions, checks and the release steps |
 | [`nl/`](nl/) | Dutch readers | The same documentation in Dutch |

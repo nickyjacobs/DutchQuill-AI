@@ -58,8 +58,11 @@ Stel deze vier vragen in één AskUserQuestion. Zet je aanbeveling bovenaan; leg
    - techniek: README's en SOP's.
 
    Later is alles los aan te passen.
-4. **Online taalcheck?** LanguageTool geeft een extra spelling- en grammaticacheck, maar stuurt je tekst naar
-   api.languagetool.org. Nee houdt alles lokaal. Aanbeveling: nee voor vertrouwelijk werk.
+4. **Online taalcheck?** Elke tekst krijgt hoe dan ook een taalronde: Claude leest hem na op d/t, spelling,
+   komma's en consistentie. LanguageTool is een extra, automatische controle die meer kleine fouten vangt, maar je
+   tekst naar api.languagetool.org stuurt. Nee: alleen de taalronde, en er gaat niets extra naar buiten.
+   Aanbeveling: nee voor vertrouwelijk werk (klantstukken, persoonsgegevens); ja als je vooral eigen, openbare
+   teksten schrijft en een extra check wilt.
 
 Daarna:
 
@@ -104,7 +107,7 @@ kunnen bewerken: dq bewaart het commentaar en de opmaak van de gebruiker, valide
 | ander profiel gebruiken | `DQ config profiel kies <naam>`; zie eerst `DQ config profielen` |
 | nieuw profiel | `DQ config profiel nieuw <naam> --basis <profiel> --beschrijving "<tekst>"`, daarna `kies` en de afwijkende instellingen zetten |
 | profiel weg | `DQ config profiel verwijder <naam>` (alleen eigen profielen) |
-| automatisch profiel per soort tekst | `DQ config zet genre_profielen.<genre> <profiel>`. Genres: rapport, onderzoeksrapport, adviesrapport, zakelijk-rapport, sop, research-notitie, mail, linkedin, social, readme, memo, kort |
+| automatisch profiel per soort tekst | `DQ config zet genre_profielen.<genre> <profiel>`. Genres: rapport, onderzoeksrapport, adviesrapport, zakelijk-rapport, technisch-rapport, sop, research-notitie, mail, linkedin, social, readme, memo, kort |
 
 Regels:
 

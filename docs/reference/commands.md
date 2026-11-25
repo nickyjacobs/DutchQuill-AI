@@ -43,11 +43,13 @@ The skills call `dq`; you can use it yourself too. `dq <command> --help` shows t
 | `dq export` | Markdown to docx, pdf, html, md and txt, with a template |
 | `dq template lijst` / `check` / `aanpas` | List Word templates, check them, make an adjusted copy |
 | `dq versie volgende` / `laatste` / `lijst` | Version folders in `2-output/` |
-| `dq historie toon` / `log` | Show or add to the history of your tasks |
+| `dq historie toon` / `log` | Show or add to the history of your tasks; `log --tekst` keeps a copy of the text |
 | `dq gids voor` / `pad` / `diff` / `schrijf` | Which guides belong to a task; compare and write an updated guide |
 | `dq bronnen check` / `markeer` | Check the sources of the guides |
+| `dq vak toon` / `lijst` | The submission requirements and rubric of a course, only the `## Rapportage` section |
 | `dq apa-check`, `dq apa-bron` | APA checks and citations |
 | `dq taalcheck` | LanguageTool, only when the online language check is on |
+| `dq reviewgrafiek` | The overview image at the top of a review: AI patterns, readability, word variety, language round and the heaviest patterns |
 | `dq diff`, `dq docx-tekst`, `dq grafiek`, `dq diagram` | Word diff, .docx to Markdown, charts and diagrams as PNG |
 
 Outside Claude Code, `dq` is in the plugin folder (`scripts/dq`). On first use it creates its own Python environment

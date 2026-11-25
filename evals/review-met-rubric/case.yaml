@@ -1,0 +1,16 @@
+schema_version: "1.1"
+name: review-met-rubric
+description: >-
+  Een review voor het profiel student met één vak: de review laadt de quick scan vanzelf, leest alleen
+  ## Rapportage, geeft elk punt een teken met een telling, en eindigt met een eindoordeel. dq draait echt (scaffold).
+tags: [dq, reviewen]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 30
+  allowed_tools: [Read, Glob, Grep, Skill, Bash]
+  env:
+    EVAL_DQ_DATA: .dq-data
+  prompt: |
+    /dutchquill:reviewen Kijk rapport.md na voor mijn vak. Geef de review hier in de chat, geen bestand.

@@ -22,6 +22,7 @@ import re
 import statistics
 import sys
 from collections import Counter
+from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
@@ -32,7 +33,22 @@ LOS = {"mail", "linkedin", "social", "kort"}
 # Soorten tekst waarin korte zinnen en herhaalde vaste termen normaal zijn (labels, stappen, verwijzingen).
 BEKNOPT = {"readme", "sop"}
 CITAAT = re.compile(r'"[^"\n]{2,300}"|“[^”\n]{2,300}”|„[^”“\n]{2,300}[”“]|‘[^’\n]{2,200}’')
-DREMPELS = {"streng": (4, 9), "los": (6, 12)}  # (laag <, gemiddeld <) punten per 1000 woorden
+DREMPELS = {"streng": (4, 9), "los": (6, 12), "technisch": (6, 12)}  # (laag <, gemiddeld <) punten per 1000 woorden
+RAPPORT = {"rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "technisch-rapport"}
+TECHNISCH = {"technisch-rapport"}
+# Wanneer een rapport "klaar" is (werkwijze 5). Technische rapporten hebben langere zinnen en vaste termen.
+# De bovengrens geldt alleen academisch: een hbo-rapport dat leest als een folder is te simpel.
+ACCEPTATIE = {
+    "academisch": {"flesch_min": 30, "flesch_max": 50, "mattr_min": 0.75},
+    "zakelijk": {"flesch_min": 30, "flesch_max": None, "mattr_min": 0.75},
+    "technisch": {"flesch_min": 25, "flesch_max": None, "mattr_min": 0.70},
+}
+ACADEMISCH = {"rapport", "onderzoeksrapport", "adviesrapport"}
+KORT = 100  # onder dit aantal woorden zijn de cijfers onbetrouwbaar
+
+
+def groep(genre: str | None) -> str:
+    return "los" if genre in LOS else "technisch" if genre in TECHNISCH else "streng"
 
 
 @lru_cache(maxsize=4)
@@ -49,6 +65,15 @@ def data(taal: str) -> dict:
 
 def _patroon(term: str) -> re.Pattern:
     return re.compile(r"(?<![\w-])" + re.escape(term) + r"(?![\w-])", re.IGNORECASE)
+
+
+LABEL = re.compile(r"\s*[\w-]+:\s")
+
+
+@dataclass
+class _Treffer(tk.Regel):
+    """Een treffer in een alinea: `nr` is de regel van de treffer, `blok` de eerste regel van de alinea."""
+    blok: int = 0
 
 
 def _context(tekst: str, start: int, eind: int, marge: int = 40) -> str:
@@ -102,8 +127,19 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
     uitzonderingen = [u.lower() for u in (d.get("genre_uitzonderingen", {}).get(genre or "", []) or [])]
     witte = [w.lower() for w in d.get("whitelist", [])] + [w.lower() for w in (wel or [])]
 
-    # Teksten om in te zoeken: proza en lijsten, per regel (voor regelnummers)
-    zoekregels = [r for r in rs if r.soort in ("proza", "lijst")]
+    # Teksten om in te zoeken: elke alinea als één blok, zodat een patroon over een harde regelafbreking heen ook
+    # gevonden wordt ("een snelle,⏎veilige en duurzame aanpak"); elk opsommingspunt apart. Per blok de beginpositie
+    # van elke regel, voor het regelnummer van een treffer.
+    zoekregels: list[tuple[tk.Regel, list[tuple[int, int]]]] = []
+    vorige_soort = None
+    for r in rs:
+        if r.soort == "proza" and vorige_soort == "proza":
+            blok, begins = zoekregels[-1]
+            begins.append((len(blok.tekst) + 1, r.nr))
+            blok.tekst = f"{blok.tekst} {r.tekst}"
+        elif r.soort in ("proza", "lijst"):
+            zoekregels.append((tk.Regel(r.nr, r.tekst, r.soort), [(0, r.nr)]))
+        vorige_soort = r.soort
 
     def in_citaat(regeltekst: str, pos: int) -> bool:
         """Staat deze positie tussen aanhalingstekens? Citaten en voorbeelden tellen niet mee."""
@@ -113,11 +149,13 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
         return False
 
     def treffers(rx: re.Pattern, woord: bool = False, filter_: bool = True):
-        for r in zoekregels:
-            for m in rx.finditer(r.tekst):
-                if in_citaat(r.tekst, m.start()):
+        for blok, begins in zoekregels:
+            for m in rx.finditer(blok.tekst):
+                if in_citaat(blok.tekst, m.start()):
                     continue
-                ctx = r.tekst.lower()
+                nr = max((n for pos, n in begins if pos <= m.start()), default=blok.nr)
+                r = _Treffer(nr, blok.tekst, blok.soort, blok.nr)
+                ctx = blok.tekst[max(0, m.start() - 60):m.end() + 60].lower()
                 if not filter_:  # eigen 'nooit'-regels gaan altijd voor
                     yield r, m
                     continue
@@ -132,9 +170,10 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
     def voeg(cat, punten, r, m_or_tekst, uitleg, alt=None, sterkte="sterk"):
         if isinstance(m_or_tekst, re.Match) and cat in ("woord", "woord_zwak", "anglicisme", "eigen_regel"):
             span = m_or_tekst.span()
-            if any(span[0] < e and s < span[1] for s, e in bezet.get(r.nr, [])):
+            sleutel = getattr(r, "blok", r.nr)
+            if any(span[0] < e and s < span[1] for s, e in bezet.get(sleutel, [])):
                 return  # valt binnen een langere treffer ("breed scala aan" en "scala aan")
-            bezet.setdefault(r.nr, []).append(span)
+            bezet.setdefault(sleutel, []).append(span)
         if isinstance(m_or_tekst, re.Match):
             ctx = _context(r.tekst, m_or_tekst.start(), m_or_tekst.end())
             match = m_or_tekst.group(0)
@@ -222,8 +261,34 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
                 voeg("retorische_aanloop", 0.5 if n <= 4 else 0, r, m,
                      "Korte vraag als aanloop ('Het resultaat? ...').")
 
+    if struct.get("oxford_komma"):
+        n = 0
+        for r, m in treffers(re.compile(struct["oxford_komma"], re.IGNORECASE)):
+            n += 1
+            voeg("oxford_komma", 0.5 if n <= 4 else 0, r, m,
+                 "Komma voor 'en' in een opsomming (Oxford-komma): Engels, in het Nederlands zonder komma.")
+    if struct.get("bijvoeglijk_stapel"):
+        n = 0
+        for r, m in treffers(re.compile(struct["bijvoeglijk_stapel"], re.IGNORECASE)):
+            n += 1
+            voeg("bijvoeglijk_stapel", 1 if n <= 3 else 0, r, m,
+                 "Drie bijvoeglijke naamwoorden op een rij: kies het ene dat er echt toe doet.")
+    n3 = d.get("niveau3") or {}
+    if n3.get("woorden") and stat["woorden"] >= 50:
+        rx3 = re.compile(r"(?<![\w-])(?:" + "|".join(re.escape(w) for w in n3["woorden"]) + r")(?![\w-])",
+                         re.IGNORECASE)
+        tel = Counter(m.group(0).lower() for _, m in treffers(rx3))
+        aandeel = sum(tel.values()) / stat["woorden"]
+        if aandeel > n3.get("drempel", 0.03):
+            top = ", ".join(f"{w} {k}x" for w, k in tel.most_common(5))
+            bev.append({"cat": "niveau3_dichtheid", "sterkte": "sterk", "punten": 1, "regel": None, "match": None,
+                        "context": f"{sum(tel.values())} keer op {stat['woorden']} woorden "
+                                   f"({round(aandeel * 100, 1)}%): {top}",
+                        "uitleg": "Veel gewone nadrukwoorden (belangrijk, effectief, uniek): samen meer dan 3% van de "
+                                  "tekst. Zeg waarom iets belangrijk is."})
+
     drie = re.compile(r"\b\w+(?:\s\w+)?,\s\w+(?:\s\w+)?,?\s(?:en|of|and|or)\s\w+", re.IGNORECASE)
-    n_drie = sum(len(drie.findall(r.tekst)) for r in zoekregels if r.soort == "proza")
+    n_drie = sum(len(drie.findall(r.tekst)) for r, _ in zoekregels if r.soort == "proza")
     if stat["woorden"] >= 120 and n_drie / stat["woorden"] * 150 > 1.2:
         bev.append({"cat": "drieslag", "sterkte": "sterk", "punten": 1, "regel": None, "match": None,
                     "context": f"{n_drie} opsommingen van drie",
@@ -238,7 +303,9 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
                 bev.append({"cat": "zinsbegin", "sterkte": "sterk", "punten": 0.5, "regel": a.regel, "match": w,
                             "context": f"'{w}' begint {n} zinnen in één alinea", "uitleg": "Herhaald zinsbegin."})
     if len(als) >= 4:
-        ab = Counter(tk.woorden(a.tekst)[0].lower() for a in als if tk.woorden(a.tekst))
+        # Een vast label ("Advies:", "Oorzaak:") aan het begin van een alinea is opbouw, geen tell
+        ab = Counter(tk.woorden(a.tekst)[0].lower() for a in als
+                     if tk.woorden(a.tekst) and not LABEL.match(a.tekst))
         for w, n in ab.items():
             if n >= 3 and w not in ("de", "het", "the"):
                 bev.append({"cat": "alineabegin", "sterkte": "sterk", "punten": 1, "regel": None, "match": w,
@@ -309,13 +376,14 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
             bev.append({"cat": "broetry", "sterkte": "sterk", "punten": 1, "regel": None, "match": None,
                         "context": f"{sum(len(a.zinnen) == 1 for a in als)} van {len(als)} alinea's is één zin",
                         "uitleg": "Elke zin een eigen alinea ('broetry')."})
-    if taal == "nl":
+    if taal == "nl" and groep(genre) != "technisch":  # technische koppen staan vol producten en namen
         n = 0
         for r in rs:
             if r.soort != "kop":
                 continue
             w = r.tekst.split()
-            hoofd = [x for x in w[1:] if len(x) > 3 and x[0].isupper() and not x.isupper()]
+            # "DCSync", "PowerShell": een hoofdletter midden in het woord is een naam of term, geen title case
+            hoofd = [x for x in w[1:] if len(x) > 3 and x[0].isupper() and not any(c.isupper() for c in x[1:])]
             if len(w) >= 3 and len(hoofd) >= 2:
                 n += 1
                 bev.append({"cat": "title_case", "sterkte": "zwak", "punten": 0.5 if n <= 3 else 0, "regel": r.nr,
@@ -341,17 +409,46 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
         pas = [re.compile(p, re.IGNORECASE) for p in d.get("passief", [])]
         n_pas = sum(any(p.search(z) for p in pas) for _, z in alle_zinnen)
         aandeel = n_pas / stat["zinnen"]
-        grens = 0.45 if genre in ("rapport", "onderzoeksrapport", "adviesrapport") else 0.30
+        grens = 0.45 if genre in ("rapport", "onderzoeksrapport", "adviesrapport", "technisch-rapport") else 0.30
         if aandeel > grens:
             bev.append({"cat": "passief", "sterkte": "zwak", "punten": 1, "regel": None, "match": None,
                         "context": f"{round(aandeel * 100)}% van de zinnen is passief",
                         "uitleg": "Veel lijdende vorm: wie doet wat? Passief mag in een methodesectie."})
 
+    # 8. Leesbaarheid bij rapporten: een lage Flesch-Douma (lange zinnen, lange woorden) is een sterk signaal
+    acc = None
+    if genre in RAPPORT:
+        acc = ACCEPTATIE["technisch" if genre in TECHNISCH else "academisch" if genre in ACADEMISCH else "zakelijk"]
+    flesch = stat.get("flesch")
+    if acc and taal == "nl" and flesch is not None and stat["woorden"] >= KORT and flesch < acc["flesch_min"]:
+        bev.append({"cat": "leesbaarheid", "sterkte": "sterk", "punten": 2, "regel": None, "match": None,
+                    "context": f"Flesch-Douma {flesch} (rapport: vanaf {acc['flesch_min']})",
+                    "uitleg": "Moeilijk leesbaar voor een rapport: lange zinnen en lange woorden. Knip zinnen en "
+                              "kies kortere woorden."})
+
     # Score
     punten = sum(b["punten"] for b in bev)
     per1000 = round(punten / max(stat["woorden"], 250) * 1000, 1)
-    laag, midden = DREMPELS["los" if genre in LOS else "streng"]
+    laag, midden = DREMPELS[groep(genre)]
     niveau = "laag" if per1000 < laag else "gemiddeld" if per1000 < midden else "hoog"
+
+    waarschuwingen = []
+    if stat["woorden"] < KORT:
+        waarschuwingen.append(f"Korte tekst ({stat['woorden']} woorden): onder {KORT} woorden zijn de cijfers "
+                              "onbetrouwbaar. Lees zelf mee in plaats van op de score te varen.")
+    acceptatie = None
+    if acc:
+        tekort = []
+        if niveau != "laag":
+            tekort.append(f"AI-patronen {niveau} (moet laag zijn)")
+        if taal == "nl" and flesch is not None:
+            if flesch < acc["flesch_min"]:
+                tekort.append(f"Flesch-Douma {flesch} (vanaf {acc['flesch_min']})")
+            elif acc["flesch_max"] and flesch > acc["flesch_max"]:
+                tekort.append(f"Flesch-Douma {flesch} (tot {acc['flesch_max']}: eenvoudiger dan een rapport vraagt)")
+        if stat.get("mattr") is not None and stat["woorden"] >= 300 and stat["mattr"] < acc["mattr_min"]:
+            tekort.append(f"MATTR {stat['mattr']} (vanaf {acc['mattr_min']})")
+        acceptatie = {"eisen": {**acc, "niveau": "laag"}, "voldaan": not tekort, "tekort": tekort}
 
     stem_adv = []
     if stem:
@@ -366,7 +463,9 @@ def analyseer(tekst: str, taal: str = "auto", genre: str | None = None, stem: di
         "score_per_1000": per1000,
         "punten": round(punten, 1),
         "niveau": niveau,
-        "drempels": {"laag_onder": laag, "gemiddeld_onder": midden},
+        "drempels": {"laag_onder": laag, "gemiddeld_onder": midden, "groep": groep(genre)},
+        "waarschuwingen": waarschuwingen,
+        "acceptatie": acceptatie,
         "statistiek": stat,
         "bevindingen": sorted(bev, key=lambda b: (-b["punten"], b["regel"] or 0)),
         "per_categorie": dict(Counter(b["cat"] for b in bev if b["punten"] > 0)),
@@ -418,6 +517,8 @@ EN_UITLEG = {
         "Sentences are almost all the same length. Mix short and long.",
     "Zwakke tell: alleen een probleem in een cluster.": "Weak tell: only a problem in a cluster.",
     "Formule.": "Formula.",
+    "Drie bijvoeglijke naamwoorden op een rij: kies het ene dat er echt toe doet.":
+        "Three adjectives in a row: pick the one that really matters.",
 }
 EN_PATRONEN = [
     (r"^Sterke AI-tell(.*)$", r"Strong AI tell\1"),
@@ -460,6 +561,19 @@ def rapport(r: dict, titel: str | None = None) -> str:
                   f"laag < {r['drempels']['laag_onder']}) | {s['woorden']} woorden, {s['zinnen']} zinnen, "
                   f"zinslengte {s['gem_zinslengte']} ± {s['stdev_zinslengte']}"
                   + (f", leesbaarheid {s['flesch']}" if s.get("flesch") is not None else "")]
+    for w in r.get("waarschuwingen", []):
+        if en:
+            w = re.sub(r"^Korte tekst \((\d+) woorden\): onder (\d+) woorden.*$",
+                       r"Short text (\1 words): below \2 words the figures are unreliable. Read it yourself rather "
+                       r"than going by the score.", w)
+        regels.append(("Note: " if en else "Let op: ") + w)
+    acc = r.get("acceptatie")
+    if acc and not en:
+        regels.append("Klaar voor een rapport: ja" if acc["voldaan"] else
+                      "Klaar voor een rapport: nog niet (" + "; ".join(acc["tekort"]) + ")")
+    elif acc:
+        regels.append("Ready for a report: yes" if acc["voldaan"] else
+                      "Ready for a report: not yet (" + "; ".join(acc["tekort"]) + ")")
     vertaal = _en if en else (lambda x: x)
     tellend = [b for b in r["bevindingen"] if b["punten"] > 0]
     zwak = [b for b in r["bevindingen"] if b["punten"] == 0 and b["cat"] == "woord_zwak"]

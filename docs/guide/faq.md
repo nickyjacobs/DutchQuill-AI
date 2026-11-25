@@ -15,14 +15,34 @@
 The hosts the plugin may reach are listed in `.claude-plugin/plugin.json` under `network.hosts`. The full overview
 is in the [privacy policy](../privacy.md).
 
+## Does DutchQuill check my spelling without LanguageTool?
+
+Yes. Every text gets a language round as the last step: Claude reads it sentence by sentence for spelling,
+grammar (in Dutch also d/t), commas and consistency, and fixes what it finds; a review lists it as findings. The
+online check with LanguageTool comes on top of that and catches more small slips, but sends your text to
+api.languagetool.org. That is why it is off by default.
+
+## What metadata does DutchQuill put in my file?
+
+By default the title and the author from your text or profile, and nothing about the tool: a PDF has no creator
+or producer. In Word the creation time and revision are the ones python-docx sets (now, and 1). DutchQuill never
+invents metadata such as an editing time, a number of revisions or an earlier date.
+
+Want nothing traceable in the file, for example for a document that goes outside? Set **Document properties** to
+**Empty** in the Studio (Output), or `dq config zet uitvoer.metadata leeg`. Then author, last modified by, title,
+subject, keywords, comments, company, manager and the program stay empty in Word, and title and author stay empty
+in the PDF. Nothing is filled in instead.
+
 ## Does it cost anything?
 
 DutchQuill itself is free (MIT). It runs in Claude Code, so you use your own Claude subscription or API credit.
 
 ## My PDF doesn't look like my Word file
 
-Without LibreOffice DutchQuill makes the PDF through your browser, in its own layout. Install LibreOffice (free) for a
-PDF that looks exactly like the Word file. `dq doctor` shows which route you have and how to install LibreOffice.
+Without LibreOffice DutchQuill makes the PDF through your browser, in its own layout. With APA on, that PDF still has
+the title page (course, supervisor, student number), a table of contents, page numbers and the APA line spacing,
+but no page numbers in the table of contents. Install LibreOffice (free) for a PDF that looks exactly like the Word
+file. `dq doctor` shows which route you have and how to install LibreOffice.
 
 ## Does it work on Windows?
 

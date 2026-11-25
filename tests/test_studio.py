@@ -3,6 +3,7 @@ import json
 import threading
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 import pytest
 from dutchquill import config, paden
@@ -58,6 +59,14 @@ def test_installatie_en_opslaan(studio, tmp_path):
     ruw["profiel"] = "mijn-linkedin"
     _, v = vraag(studio, "POST", "/api/config/voorbeeld", {"ruw": ruw})
     assert v["fouten"] == [] and any("mijn-linkedin" in s for s in v["samenvatting"])
+    paden = [w["pad"] for w in v["wijzigingen"]]
+    assert ["profiel"] in paden and ["profielen", "mijn-linkedin", "toon", "niveau"] in paden
+    vak = json.loads(json.dumps(c["ruw"]))
+    vak.setdefault("student", {})["vakken"] = [{"naam": "Bedrijfskunde", "code": "BK1"}]
+    vak["student"]["voornaam"] = ""  # leeg tegenover niet ingesteld is geen wijziging
+    _, v = vraag(studio, "POST", "/api/config/voorbeeld", {"ruw": vak})
+    student = [w for w in v["wijzigingen"] if w["pad"][0] == "student"]
+    assert student == [{"pad": ["student", "vakken"], "oud": None, "nieuw": [{"naam": "Bedrijfskunde", "code": "BK1"}]}]
     slecht = json.loads(json.dumps(ruw))
     slecht["profielen"]["mijn-linkedin"]["toon"]["niveau"] = "superformeel"
     assert vraag(studio, "POST", "/api/config/opslaan", {"ruw": slecht})[0] == 400
@@ -136,3 +145,37 @@ def test_sjablonen_en_professioneel(studio, tmp_path):
     assert status == 200 and r["pad"] == "templates/email/banner.png" and r["voorbeeld"].startswith("data:image/png")
     # De upload schrijft de config niet zelf: dat gaat via opslaan.
     assert not (config.laad_yaml(pad / "dutchquill.yaml") or {}).get("professioneel")
+
+
+def test_mijn_teksten_en_map_openen(studio, tmp_path, monkeypatch):
+    from dutchquill import versies
+    assert vraag(studio, "GET", "/api/teksten")[1]["teksten"] == []
+    pad = tmp_path / "DutchQuill"
+    vraag(studio, "POST", "/api/werkmap", {"pad": str(pad), "taal": "nl", "profiel": "zakelijk"})
+    v1 = versies.volgende("schrijven", "Plan voor Q1")
+    (Path(v1["map"]) / "Plan voor Q1.docx").write_bytes(b"x")
+    versies.volgende("schrijven", "Plan voor Q1")
+    versies.volgende("reviewen", "Mail aan team")
+    status, r = vraag(studio, "GET", "/api/teksten")
+    assert status == 200 and {t["titel"] for t in r["teksten"]} == {"Plan voor Q1", "Mail aan team"}
+    plan = next(t for t in r["teksten"] if t["titel"] == "Plan voor Q1")
+    assert [v["versie"] for v in plan["versies"]] == [2, 1] and plan["actie"] == "schrijven"
+    assert plan["versies"][1]["bestanden"] == ["Plan voor Q1.docx"]
+    assert plan["map"] == "2-output/schrijven/Plan voor Q1"
+
+    geopend = []
+    monkeypatch.setattr(server.subprocess, "run", lambda args, **kw: geopend.append(args))
+    status, r = vraag(studio, "POST", "/api/open-map", {"map": plan["versies"][0]["map"]})
+    assert status == 200 and geopend and Path(geopend[0][-1]).parts[-2:] == ("Plan voor Q1", "v2")
+    assert vraag(studio, "POST", "/api/open-map", {"map": "../../"})[0] == 400
+    assert vraag(studio, "POST", "/api/open-map", {"map": "/etc"})[0] == 400
+    assert len(geopend) == 1
+    # Een document openen; alleen documenten, en alleen uit die map
+    v1map = plan["versies"][1]["map"]
+    status, _ = vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "Plan voor Q1.docx"})
+    assert status == 200 and Path(geopend[-1][-1]).name == "Plan voor Q1.docx"
+    (pad / v1map / "kwaad.command").write_text("echo x")
+    assert vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "kwaad.command"})[0] == 400
+    assert vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "../../../dutchquill.yaml"})[0] == 400
+    assert vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "bestaat-niet.pdf"})[0] == 400
+    assert len(geopend) == 2

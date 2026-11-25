@@ -6,12 +6,114 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 | Release | Date | In short |
 |---|---|---|
+| [2.1.0](#210---2026-11-25) | 2026-11-25 | Course requirements, verdict and overview image in reviews, a language round for every text, My texts in the Studio |
 | [2.0.2](#202---2026-11-25) | 2026-11-25 | LinkedIn posts no longer invent a lesson you didn't give |
 | [2.0.1](#201---2026-11-25) | 2026-11-25 | Ready for the Claude Directory: privacy policy, English first, a cleaned git history |
 | [2.0.0](#200---2026-11-24) | 2026-11-24 | From a project folder for Dutch higher education reports to a Claude Code plugin for anyone who writes |
 | [1.2](#12---2026-03-24) | 2026-03-24 | Last version as a project folder for Dutch higher education reports |
 
 ## [Unreleased]
+
+---
+
+## [2.1.0] - 2026-11-25
+
+> **In short:** what v1 could and 2.0 couldn't is back: a review checks your course requirements and ends with a
+> verdict and an overview image, every text gets a language round, and the Studio shows everything you made.
+
+### 🧭 For you
+
+- **Nothing to do:** DutchQuill updates itself and your settings keep working.
+- **Course criteria:** put the submission requirements and rubric of a course in `templates/vakken/<CODE>/` in your
+  workspace, and add the course in the Studio (Student). A review then checks against them.
+- **New, optional settings** in the Studio: your level of education (Student), empty document properties (Output)
+  and whether the history keeps a copy of each text (Privacy; on by default, and the copies stay in your
+  workspace).
+- **No LibreOffice?** An APA PDF now still gets its title page, table of contents and page numbers. With
+  LibreOffice the PDF is an exact copy of the Word file.
+
+### ✨ Added
+
+- "My texts" in DutchQuill Studio: everything DutchQuill made, per title and newest first, with the versions and
+  files: an icon opens the document itself, the folder icon opens its folder.
+- A page on costs and models (`docs/guide/costs.md`, Dutch in `docs/nl/handleiding/kosten.md`): where the tokens
+  go, why the skills use your own model and the subagents a fixed one, and how to keep usage down.
+- Every text gets a language round as the last step: spelling, grammar (in Dutch also d/t), commas and
+  consistency, from a short checklist (`gidsen/werkwijze/taalronde.md`). It runs always, also for a short mail and
+  without LanguageTool. The online check stays off by default; the setup explains what it adds and what it sends.
+- A review loads the submission requirements and rubric of your course by itself when you have one course in your
+  profile, and asks which course when you have more (`dq vak toon`, `dq vak lijst`). It says which criteria it
+  loaded and only reads the `## Rapportage` section.
+- A review ends with a verdict (ready to submit, minor changes, rewrite recommended). Each submission requirement
+  gets ✓, ⚠, ✗ or ?, with "X of Y met" and whether the text meets the requirements.
+- A review report starts with an overview image again (`dq reviewgrafiek`): AI patterns, readability, word
+  variety, the language round and the patterns that weigh most, in the DutchQuill colours. A scan from
+  `/dutchquill:humaniseren` saved as a file gets it too.
+- A built-in Word template `review` for review and scan reports, with a fixed order: overview, verdict, submission
+  requirements, five actions, findings per domain, figures.
+- A setting for your level of education (`student.niveau`: mbo, hbo bachelor, hbo master), in the Studio and the
+  academic style guide. It sets how much theory, justification and reflection a report gets.
+- Before writing a report for the student profile, DutchQuill shows the title page details and asks whether they
+  are right; with more courses it asks which one.
+- The report templates explain the optional parts again (preface, glossary, reflection) and give a rule of thumb
+  for the number of words per chapter.
+- Writing and rewriting call `dq apa-bron` again to turn raw source details into an APA reference.
+- Rewriting keeps every figure in place, with the reference ("see Figure 2") before the figure.
+- The history keeps a copy of each text again (`dq historie log --tekst`), also of scans and texts that only
+  appeared in the chat, in `.dutchquill/historie/` in your workspace. Switch it off with
+  `historie.tekst_bewaren` (Studio, Privacy).
+- A setting for empty document properties (`uitvoer.metadata: leeg`, Studio > Output). Word and PDF files then
+  carry no author, title, subject, keywords, comments, company, manager or program. Nothing is filled in
+  instead.
+- Three AI patterns from v1 are back in `dq tells`: the Oxford comma in Dutch ("X, Y, en Z"), three stacked
+  adjectives before one noun (Dutch and English), and a high share of plain emphasis words like *belangrijk*,
+  *effectief* and *uniek* (over 3% of the text).
+- A new kind of text, `technisch-rapport` (pentest, audit), with its own template and more room for fixed terms and
+  long technical sentences.
+- For reports, `dq tells` says whether the text is ready (AI patterns, Flesch-Douma, MATTR); the requirements per
+  kind of report are in the working method.
+
+### 🔧 Changed
+
+- Every word count in an answer comes from `dq tells` (running text only), so a review no longer gives two
+  different numbers.
+- Text that only goes to the chat always ends with the language-round line ("Taalronde: ..."), and the skills read
+  the settings again for every new request, so a change in the Studio counts straight away. For the student
+  profile, writing a document always offers an AI statement.
+- DutchQuill Studio: "What will change" before saving names each setting as it reads on screen and shows old
+  and new in plain words (On → Off, + Marketing (MK2)) instead of keys and JSON.
+- `dq vak`, `dq leesbaarheid`, `dq apa-check`, `dq apa-bron` and `dq diff` only need the light install now, not the
+  document packages (about a minute less the first time).
+- In Dutch reports a Flesch-Douma score under 30 (technical report: under 25) counts as a pattern again.
+- `dq tells` warns when a text has fewer than 100 words: the figures are unreliable then.
+
+### 🐛 Fixed
+
+- A PDF made through the browser (no LibreOffice) now follows APA when APA is on: the title page with course,
+  supervisor and student number, a table of contents, Times 12 with double spacing, page numbers, every chapter on
+  a new page and a hanging indent in the reference list. Before, the title page and the course were missing.
+- The fact check no longer reads a heading and the sentence after it as one ("Inleiding Steeds ..." made "Steeds"
+  a name).
+- Document properties: with `metadata: leeg` the PDF has no properties at all instead of empty ones, and the Word
+  file keeps the label of its title list. In the normal setting the Word file no longer names Microsoft Word or
+  Normal.dotm from the template, and the PDF has only title and author.
+- A review exported to Word or PDF no longer shows its title twice: a first heading equal to the title is left out.
+- `dq tells` finds "niet of ..., maar wanneer" ("not whether ..., but when") as a not-X-but-Y construction.
+- `dq tells` missed a pattern that ran across a line break inside a paragraph, such as a
+  hard-wrapped "X, Y, en Z"; it now searches each paragraph as a whole.
+- `dq tells` no longer counts a fixed label at the start of paragraphs ("Advies:") as a repeated opening, and no
+  longer flags names such as "DCSync" or headings in a technical report as English title case.
+- If the plugin's data folder isn't writable, `dq` falls back to a temporary folder instead of stopping.
+- The evals now test the `dq` scripts for real: three new cases (`tells-draait`, `review-met-rubric`,
+  `humaniseren-feiten`) prepare the Python environment beforehand, because the eval sandbox can't install it.
+- A review for the student profile no longer comes out in the APA layout of a paper.
+- The example files for course criteria pointed to the old v1 location. They now say where the files go in your
+  workspace (`templates/vakken/<CODE>/`).
+
+### 🔒 Security
+
+- The privacy policy now says which personal data `dutchquill.yaml` can hold (student and professional profile), that
+  it stays in that file and how to remove it.
 
 ---
 
@@ -131,7 +233,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 > **In short:** last version as a project folder for Dutch higher education reports (APA 7, AI patterns, .docx export).
 
-[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.2...v2.1.0
 [2.0.2]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/nickyjacobs/DutchQuill-AI/compare/v1.2...v2.0.0

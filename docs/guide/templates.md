@@ -14,6 +14,7 @@ Built in:
 | `apa-hbo` | APA 7 the way Dutch universities of applied sciences want it: title page, table of contents, hanging indent in the reference list, figure and table labels |
 | `zakelijk` (business) | Reports and documents for work |
 | `notitie` (note) | Short pieces, process documents |
+| `review` | Review and scan reports, with the overview image at the top. Never uses the APA layout |
 
 **Your own house style:** put a .docx in `templates/` in your workspace, or upload it in the Studio. DutchQuill checks
 which styles it contains (Normal, Heading 1 to 5, Caption, List Bullet, Bibliography) and translates Dutch style names
@@ -28,8 +29,8 @@ route you have.
 
 ## Templates per kind of text
 
-There are twelve: email, LinkedIn post, other social post, short text, report (hbo), research report, advisory report,
-business report, process document (SOP), research note, memo and README. A template describes the structure: which
+There are thirteen: email, LinkedIn post, other social post, short text, report (hbo), research report, advisory
+report, business report, technical report (pentest, audit), process document (SOP), research note, memo and README. A template describes the structure: which
 parts belong in an email or an SOP, and in which order.
 
 Making your own version:

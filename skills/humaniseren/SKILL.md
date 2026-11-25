@@ -44,16 +44,20 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - Staan er teksten in `mijn-stijl` maar is er nog geen `stem.json`: draai `DQ stem analyse`.
    - Is er niets van de gebruiker zelf, dan volg je genre en toon. Zeg dat in één regel: met een paar eigen
      teksten in `mijn-stijl` wordt het resultaat persoonlijker.
-5. **Analyse:** `DQ tells --input <origineel> --genre <genre>`. Lees daarna zelf de categorieën uit de gids na
-   die het script niet ziet:
+5. **Analyse:** `DQ tells --input <origineel> --genre <genre>`. Meldt het een korte tekst (onder 100 woorden),
+   zeg dan in de chat dat de score weinig zegt en oordeel vooral op wat je zelf leest. Lees daarna zelf de
+   categorieën uit de gids na die het script niet ziet:
    - een gezegde dat diep klinkt;
    - opgeblazen belang;
    - de verkeerde lezer;
    - tekst over de tekst;
    - of het specifiek genoeg is.
-6. **Scan: rapporteer en stop.** Geef het niveau, de vijf belangrijkste patronen met een voorbeeld uit de tekst
+6. **Scan: rapporteer, log en stop.** Log de scan: `DQ historie log --actie humaniseren --titel "<titel>"
+   --tekst <origineel> --meta '{"modus": "scan", "niveau": "<niveau>"}'`. Geef het niveau, de vijf belangrijkste patronen met een voorbeeld uit de tekst
    en een alternatief, en wat goed is aan de tekst. Bij een document mag dit ook als bestand
-   (`2-output/humaniseren/<titel>/vN/`, via `DQ export --genre memo`).
+   (`2-output/humaniseren/<titel>/vN/`): maak eerst het overzichtsbeeld met `DQ reviewgrafiek --input <origineel>
+   --genre <genre> --titel "<titel>" --output <map>/overzicht.png`, zet het als `![Overzicht](overzicht.png)`
+   bovenaan `bron.md`, en exporteer met `DQ export --bron <map>/bron.md --naam "Scan <titel>" --template review`.
 7. **Herschrijf.**
    - Werk volgens sectie 1 van de gids: sterke patronen eerst, en verander niet meer dan nodig.
    - Respecteer "Wanneer niet ingrijpen".
@@ -76,3 +80,4 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 - [ ] De feitencontrole is schoon of elk verschil is verklaard.
 - [ ] Het niveau is laag, of het restant is uitgelegd (bijvoorbeeld vaktermen of de eigen stijl van de gebruiker).
 - [ ] Niets verzonnen, niets binnen citaten veranderd.
+- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap; citaten blijven zoals ze zijn.

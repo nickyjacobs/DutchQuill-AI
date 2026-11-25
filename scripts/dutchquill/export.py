@@ -34,8 +34,9 @@ from dutchquill import paden
 from dutchquill.config import ConfigFout, effectief, naar_dict
 
 FORMATEN = ("docx", "pdf", "html", "md", "txt")
-INGEBOUWD = {"apa-hbo", "zakelijk", "notitie"}
-LANG_RAPPORT = {"rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport"}
+INGEBOUWD = {"apa-hbo", "zakelijk", "notitie", "review"}
+GEEN_APA = {"review"}  # een reviewrapport is geen paper: nooit de APA-opmaak, ook niet bij het profiel student
+LANG_RAPPORT = {"rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "technisch-rapport"}
 STIJL_STANDAARD = {
     "titel": "Title", "ondertitel": "Subtitle", "kop1": "Heading 1", "kop2": "Heading 2", "kop3": "Heading 3",
     "kop4": "Heading 4", "normaal": "Normal", "lijst_bullet": "List Bullet", "lijst_nummer": "List Number",
@@ -78,6 +79,17 @@ def lees_bron(pad: Path) -> tuple[dict, str]:
         return f"![{m.group(1)}]({p})"
     tekst = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", abs_beeld, tekst)
     return {str(k): ("" if v is None else str(v)) for k, v in meta.items()}, tekst
+
+
+def _zonder_dubbele_titel(tekst: str, titel: str) -> str:
+    """Begint de tekst met een kop die gelijk is aan de titel ("# Review: X" bij titel "Review X"), laat die kop
+    dan weg: de titel staat al bovenaan het document."""
+    m = re.match(r"\s*#\s+(.+?)\s*#*\s*(?:\n|$)", tekst)
+    def gelijk(s: str) -> str:
+        return re.sub(r"\W+", "", s).lower()
+    if m and titel and gelijk(m.group(1)) == gelijk(titel):
+        return tekst[m.end():].lstrip("\n")
+    return tekst
 
 
 def datum_nl(d: date) -> str:
@@ -463,8 +475,10 @@ def _eerlijke_metadata(doc, meta: dict) -> None:
 # ---------------------------------------------------------------- docx (APA)
 
 
-def docx_apa(meta: dict, tekst: str, template: Path, uit: Path, e: dict) -> list[str]:
-    from dutchquill import export_apa, md_docx
+def _apa_payload(meta: dict, tekst: str) -> dict:
+    """Wat de APA-export uit de tekst, de frontmatter en het studentprofiel haalt: titelpagina, hoofdstukken,
+    literatuur. De docx en de pdf via de browser gebruiken dezelfde gegevens."""
+    from dutchquill import md_docx
     # De APA-parser herkent de titelpagina aan een frontmatter-blok; zonder blok neemt hij de eerste kop als
     # titel. Links worden "tekst (url)" en geneste opsommingen één niveau (APA kent er maar één).
     tekst = re.sub(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)", r"\1 (\2)", tekst)
@@ -478,7 +492,12 @@ def docx_apa(meta: dict, tekst: str, template: Path, uit: Path, e: dict) -> list
         "begeleider": meta.get("begeleider"), "datum": meta.get("datum"),
     }.items() if v}
     profiel = md_docx._load_user_profile()
-    payload = md_docx.build_payload(titel, bl, refs, extra, fm, bijlagen, user_profile=profiel)
+    return md_docx.build_payload(titel, bl, refs, extra, fm, bijlagen, user_profile=profiel)
+
+
+def docx_apa(meta: dict, tekst: str, template: Path, uit: Path, e: dict) -> list[str]:
+    from dutchquill import export_apa
+    payload = _apa_payload(meta, tekst)
     export_apa._build_warnings.clear()
     export_apa.build_document(payload, str(uit), template=str(template))
     return list(export_apa._build_warnings)
@@ -498,7 +517,62 @@ def _template_fonts(template: Path | None) -> tuple[str, str]:
         return "Calibri", "Calibri"
 
 
-def html_maken(meta: dict, tekst: str, taal: str, template: Path | None) -> str:
+def _apa_html(apa: dict, tekst: str, lichaam: str, taal: str, body_font: str) -> tuple[str, str, str]:
+    """De APA-onderdelen voor de pdf via de browser, zoals de docx ze heeft: titelpagina (volgorde van Scribbr),
+    inhoudsopgave, elk hoofdstuk op een nieuwe pagina, en een hangende inspringing in de literatuurlijst. Geeft
+    (voor de tekst, de tekst, css)."""
+    w = WOORDEN["en" if taal == "en" else "nl"]
+    regels = [f"<p class='apa-titel'><strong>{html.escape(apa.get('title', ''))}</strong></p>"]
+    if apa.get("subtitle"):
+        regels.append(f"<p>{html.escape(apa['subtitle'])}</p>")
+    regels.append("<p>&nbsp;</p>")
+    nummers = apa.get("student_numbers", [])
+    for i, auteur in enumerate(apa.get("authors", [])):
+        regels.append(f"<p>{html.escape(auteur)}</p>")
+        if i < len(nummers):
+            regels.append(f"<p>{html.escape(nummers[i])}</p>")
+    for sleutel in ("institution", "faculty", "opleiding", "course", "supervisor", "submission_date"):
+        if apa.get(sleutel):
+            regels.append(f"<p>{html.escape(apa[sleutel])}</p>")
+    titelpagina = f"<section class='apa-titelpagina'>{''.join(regels)}</section>"
+
+    koppen = [(len(m.group(1)), m.group(2).strip()) for m in re.finditer(r"(?m)^(#{1,2})\s+(.+?)\s*#*$", tekst)
+              if not re.fullmatch(r"(?i)inhoudsopgave|table of contents|contents", m.group(2).strip())]
+    items = "".join(f"<li class='niveau{n}'>{html.escape(re.sub(r'[*_`]', '', k))}</li>" for n, k in koppen)
+    inhoud = f"<nav class='apa-inhoud'><h1>{w['inhoud']}</h1><ul>{items}</ul></nav>" if koppen else ""
+
+    # Literatuurlijst: alle alinea's na de kop, tot de volgende hoofdstukkop, krijgen een hangende inspringing
+    def literatuur(m):
+        blok = m.group(2)
+        return m.group(1) + re.sub(r"<p>", "<p class='apa-bron'>", blok)
+    lichaam = re.sub(r"(<h[12][^>]*>\s*(?:\d+\.?\d*\.?\s*)?(?:literatuurlijst|bronnenlijst|referentielijst|bronnen|"
+                     r"literatuur|references|reference list|bibliography)\s*</h[12]>)(.*?)(?=<h1|$)",
+                     literatuur, lichaam, flags=re.IGNORECASE | re.DOTALL)
+    css = f"""
+    @page {{ size: A4; margin: 2.54cm; @top-right {{ content: counter(page); font-family: '{body_font}',
+             'Times New Roman', serif; font-size: 12pt; }} }}
+    body {{ font-family: '{body_font}', 'Times New Roman', Times, serif; font-size: 12pt; line-height: 2;
+            color: #000; max-width: none; margin: 0; padding: 0; }}
+    p {{ margin: 0; text-indent: 1.27cm; }}
+    h1, h2, h3, h4 {{ font-family: inherit; color: #000; font-size: 12pt; line-height: 2; margin: 0; }}
+    h1 {{ text-align: center; break-before: page; }} h2 {{ text-align: left; }}
+    h3 {{ font-style: italic; }} h4 {{ text-indent: 1.27cm; }}
+    li p, td p, th p, blockquote p, figure p, .apa-titelpagina p, .apa-inhoud p {{ text-indent: 0; }}
+    .apa-titelpagina {{ text-align: center; padding-top: 16em; }}
+    .apa-titelpagina p {{ text-indent: 0; }}
+    .apa-inhoud {{ break-before: page; }} .apa-inhoud ul {{ list-style: none; padding: 0; margin: 0; }}
+    .apa-inhoud .niveau2 {{ padding-left: 1.27cm; }}
+    p.apa-bron {{ text-indent: -1.27cm; padding-left: 1.27cm; }}
+    figcaption {{ color: #000; }} th {{ background: none; }}
+    @media print {{ body {{ margin: 0; }} }}
+    """
+    return titelpagina + inhoud, lichaam, css
+
+
+def html_maken(meta: dict, tekst: str, taal: str, template: Path | None, apa: dict | None = None) -> str:
+    """Html voor het formaat html en voor de pdf via de browser. Met `apa` (de titelpaginagegevens uit
+    _apa_payload) krijgt de html de APA-opmaak van de docx: titelpagina, inhoudsopgave, Times 12, dubbele
+    regelafstand, paginanummers rechtsboven."""
     import markdown
     w = WOORDEN["en" if taal == "en" else "nl"]
     n = {"fig": 0}
@@ -543,6 +617,9 @@ def html_maken(meta: dict, tekst: str, taal: str, template: Path | None) -> str:
     pre {{ background: #f4f6f8; padding: .8em; overflow-x: auto; }}
     @media print {{ body {{ margin: 0; max-width: none; }} }}
     """
+    if apa is not None:
+        kop, lichaam, apa_css = _apa_html(apa, tekst, lichaam, taal, body_font)
+        css += apa_css
     return (f"<!doctype html><html lang='{taal}'><head><meta charset='utf-8'>"
             f"<meta name='viewport' content='width=device-width, initial-scale=1'>"
             f"<title>{html.escape(meta.get('titel', ''))}</title><style>{css}</style></head>"
@@ -601,16 +678,73 @@ def _browser() -> str | None:
     return None
 
 
-def pdf_metadata(uit: Path, meta: dict) -> None:
-    """Titel en auteur van de gebruiker; geen sporen van het gereedschap (browser, LibreOffice, pypdf)."""
+APP_GEREEDSCHAP = ("Template", "Application", "AppVersion")  # uit de template: zegt "Word" terwijl wij het maakten
+APP_LEEG = (*APP_GEREEDSCHAP, "Company", "Manager", "HyperlinkBase")
+
+
+def _app_xml(pad: Path, velden: tuple[str, ...], titels: bool) -> None:
+    """Maak velden in docProps/app.xml leeg; met titels ook TitlesOfParts (daar staat de titel nog een keer)."""
+    import zipfile
+    from xml.etree import ElementTree as ET
+    ns = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
+    vt = "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
+    tmp = pad.with_suffix(".tmp.docx")
+    with zipfile.ZipFile(pad) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zuit:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename == "docProps/app.xml":
+                ET.register_namespace("", ns)
+                ET.register_namespace("vt", vt)
+                root = ET.fromstring(data)
+                for naam in velden:
+                    for el in root.findall(f"{{{ns}}}{naam}"):
+                        el.text = None
+                if titels:
+                    for deel in root.findall(f"{{{ns}}}TitlesOfParts"):
+                        for el in deel.iter(f"{{{vt}}}lpstr"):
+                            el.text = None
+                data = ET.tostring(root, xml_declaration=True, encoding="UTF-8")
+            zuit.writestr(item, data)
+    tmp.replace(pad)
+
+
+def docx_gereedschap_weg(pad: Path) -> None:
+    """Gewone stand: titel en auteur blijven, maar app.xml noemt geen Word-versie of template die er niet bij
+    hoort (de template is in Word gemaakt, het document niet)."""
+    _app_xml(pad, APP_GEREEDSCHAP, titels=False)
+
+
+def docx_leeg(pad: Path) -> None:
+    """Instelling uitvoer.metadata = leeg: alles wat iets over persoon of gereedschap zegt eruit.
+
+    Er komt niets voor in de plaats: geen verzonnen naam, tijd of revisie. Aanmaak- en wijzigtijd en de revisie
+    blijven zoals python-docx ze zet (nu en 1)."""
+    from docx import Document
+    doc = Document(str(pad))
+    cp = doc.core_properties
+    for veld in ("author", "last_modified_by", "title", "subject", "keywords", "comments", "category",
+                 "content_status", "identifier", "language", "version"):
+        setattr(cp, veld, "")
+    doc.save(str(pad))
+    _app_xml(pad, APP_LEEG, titels=True)
+
+
+def pdf_metadata(uit: Path, meta: dict, leeg: bool = False) -> None:
+    """Titel en auteur van de gebruiker, verder niets: geen sporen van het gereedschap (browser, LibreOffice, pypdf)
+    en geen XMP-blok. Met leeg (uitvoer.metadata = leeg) ook geen titel en auteur: de pdf heeft dan geen
+    documentgegevens, ook geen lege velden."""
     try:
         from pypdf import PdfReader, PdfWriter
+        from pypdf.generic import NameObject
     except ImportError:
         return
     try:
         w = PdfWriter(clone_from=PdfReader(str(uit)))
-        w.metadata = {"/Title": meta.get("titel", ""), "/Author": meta.get("auteur", ""),
-                      "/Creator": "", "/Producer": ""}
+        # De setter vervangt alles (pypdf 5 tot en met 7); None haalt het Info-blok helemaal weg
+        w.metadata = None if leeg else {k: v for k, v in (("/Title", meta.get("titel")),
+                                                           ("/Author", meta.get("auteur"))) if v}
+        if NameObject("/Metadata") in w._root_object:
+            del w._root_object[NameObject("/Metadata")]
         tmp = uit.with_suffix(".tmp.pdf")
         with open(tmp, "wb") as f:
             w.write(f)
@@ -619,9 +753,10 @@ def pdf_metadata(uit: Path, meta: dict) -> None:
         pass
 
 
-def pdf_maken(docx: Path | None, html_tekst: str, bl: list[dict], meta: dict, uit: Path, taal: str) -> tuple[str, list]:
+def pdf_maken(docx: Path | None, html_tekst: str, bl: list[dict], meta: dict, uit: Path, taal: str,
+              leeg: bool = False) -> tuple[str, list]:
     via, waarschuwingen = _pdf_route(docx, html_tekst, bl, meta, uit, taal)
-    pdf_metadata(uit, meta)
+    pdf_metadata(uit, meta, leeg)
     return via, waarschuwingen
 
 
@@ -729,20 +864,23 @@ def exporteer(bron: Path, naam: str, map_: Path | None = None, formaten: list[st
     map_ = map_ or bron.parent
     map_.mkdir(parents=True, exist_ok=True)
     meta, tekst = lees_bron(bron)
+    if not meta.get("titel"):
+        meta["titel"] = naam
+    tekst = _zonder_dubbele_titel(tekst, meta["titel"])
     taal = e["taal"] if e["taal"] in ("nl", "en") else "nl"
     st = e.get("student") or {}
     if e["controles"].get("apa") and not meta.get("auteur"):
         meta["auteur"] = " ".join(x for x in (st.get("voornaam"), st.get("tussenvoegsel"), st.get("achternaam")) if x)
     meta.setdefault("datum", datum_nl(date.today()) if taal == "nl" else date.today().strftime("%-d %B %Y"
                     if platform.system() != "Windows" else "%d %B %Y"))
-    if not meta.get("titel"):
-        meta["titel"] = naam
-    apa = bool(e["controles"].get("apa"))
+    apa = bool(e["controles"].get("apa")) and template not in GEEN_APA
     tpl = template_pad(template or ("apa-hbo" if apa and not template and e["uitvoer"].get("template") in
                                     (None, "zakelijk", "notitie") else None), e)
     bl = blokken(tekst)
     veilig = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "", naam).strip() or "document"
-    resultaat: dict = {"map": str(map_), "template": str(tpl), "apa": apa, "bestanden": [], "waarschuwingen": []}
+    leeg = e["uitvoer"].get("metadata") == "leeg"
+    resultaat: dict = {"map": str(map_), "template": str(tpl), "apa": apa, "bestanden": [], "waarschuwingen": [],
+                       "metadata": "leeg" if leeg else "normaal"}
 
     docx_pad = map_ / f"{veilig}.docx"
     tijdelijke_docx = None
@@ -751,17 +889,22 @@ def exporteer(bron: Path, naam: str, map_: Path | None = None, formaten: list[st
         if "docx" not in formaten:
             tijdelijke_docx = doel
         w = docx_apa(meta, tekst, tpl, doel, e) if apa else docx_generiek(meta, bl, tpl, doel, e, genre)
+        if leeg:
+            docx_leeg(doel)
+        else:
+            docx_gereedschap_weg(doel)
         resultaat["waarschuwingen"] += w
         if "docx" in formaten:
             resultaat["bestanden"].append(str(doel))
-    html_tekst = html_maken(meta, tekst, taal, tpl) if ("html" in formaten or "pdf" in formaten) else ""
+    apa_meta = _apa_payload(meta, tekst)["metadata"] if apa and ("html" in formaten or "pdf" in formaten) else None
+    html_tekst = html_maken(meta, tekst, taal, tpl, apa_meta) if ("html" in formaten or "pdf" in formaten) else ""
     if "html" in formaten:
         p = map_ / f"{veilig}.html"
         p.write_text(html_tekst, encoding="utf-8")
         resultaat["bestanden"].append(str(p))
     if "pdf" in formaten:
         p = map_ / f"{veilig}.pdf"
-        via, w = pdf_maken(docx_pad if docx_pad.is_file() else tijdelijke_docx, html_tekst, bl, meta, p, taal)
+        via, w = pdf_maken(docx_pad if docx_pad.is_file() else tijdelijke_docx, html_tekst, bl, meta, p, taal, leeg)
         resultaat["pdf_via"] = via
         resultaat["waarschuwingen"] += w
         resultaat["bestanden"].append(str(p))

@@ -32,7 +32,7 @@ from dutchquill.schema_check import standaardwaarden, valideer
 PROFIEL_SLEUTELS = ("controles", "toon", "uitvoer", "taal")
 # Bij `dq config zet` gaan alleen deze naar het actieve profiel; `taal` blijft dan een algemene instelling.
 NAAR_PROFIEL = ("controles", "toon", "uitvoer")
-INGEBOUWDE_TEMPLATES = ("apa-hbo", "zakelijk", "notitie")
+INGEBOUWDE_TEMPLATES = ("apa-hbo", "zakelijk", "notitie", "review")
 
 
 class ConfigFout(Exception):
@@ -207,6 +207,7 @@ def effectief(genre: str | None = None, profiel: str | None = None, sets: list[s
         "stijlen": alg.get("stijlen", {}),
         "genre_profielen": alg.get("genre_profielen", {}),
         "eigen_profielen": sorted(alg.get("profielen", {})),
+        "historie": alg.get("historie", {"tekst_bewaren": True}),
         "bijwerken": alg["bijwerken"],
         "mappen": abs_mappen,
         "configbestanden": [str(p) for p in (cfg_pad, project_pad) if p and p.is_file()],

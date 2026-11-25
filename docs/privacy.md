@@ -8,7 +8,16 @@ there is no account, no telemetry, no analytics and no DutchQuill server.
 ## What stays on your computer
 
 - Your texts, sources and output are in your workspace. That folder is yours.
-- Your settings are in `dutchquill.yaml` in your workspace.
+- Your settings are in `dutchquill.yaml` in your workspace. That file can hold personal data you entered yourself:
+  for the student profile your name, student number, institution, faculty, programme, teachers and courses
+  (`student.*`); for the professional profile your name, job title, organisation, phone number, e-mail address,
+  website, LinkedIn and signature (`professioneel.*`). DutchQuill uses them only for the title page and the
+  signature, keeps them in that one file and sends them nowhere. Claude reads them when a skill needs them, as
+  described below. To remove them, empty the fields in DutchQuill Studio or delete the lines from the file.
+- The history of your tasks is in `.dutchquill/` in your workspace: `historie.jsonl` with the date, the action, the
+  title and the paths, and in `historie/` a copy of each text, also of a scan or a text that only appeared in the
+  chat. Turn the copies off in DutchQuill Studio (Privacy) or with `dq config zet historie.tekst_bewaren false`;
+  delete the folder to remove what is there.
 - The Python environment and the cache are in the plugin's data folder, under `~/.claude/plugins/data/`.
 - DutchQuill Studio runs on 127.0.0.1, with a one-time key. Other devices can't reach it.
 

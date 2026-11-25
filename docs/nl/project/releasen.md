@@ -61,7 +61,7 @@ controleert dit allemaal.
    uv run --script scripts/dev/release_check.py
    uv run --no-project --python 3.12 --with-requirements requirements.txt --with pytest pytest -q
    claude plugin validate .
-   claude plugin eval . --runs 3 --model sonnet --allow-tools Bash --no-publish
+   claude plugin eval . --runs 3 --model sonnet --allow-tools Bash --scaffold --no-publish
    ```
 
 3. **Pull request** van `develop` naar `main`, titel `Release: vX.Y.Z`. Merge met een merge-commit zodra de checks

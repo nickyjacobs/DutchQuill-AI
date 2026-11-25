@@ -42,6 +42,13 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    `${CLAUDE_PLUGIN_ROOT}/gidsen/toon.md` en `${CLAUDE_PLUGIN_ROOT}/gidsen/nl/kern.md` (Engels:
    `gidsen/en/style.md`). Schrijf nooit zonder het genre-sjabloon gelezen te hebben.
 4. **Materiaal** (werkwijze 3), als de opdracht erom vraagt of naar de werkmap verwijst.
+   **Titelpagina (profiel student, of APA aan, bij een document).** Vraag vóór de opzet in één bericht of de
+   gegevens kloppen: "Ik gebruik deze gegevens voor de titelpagina: naam, studentnummer, instelling, opleiding,
+   vak, docent(en), opleidingsniveau. Klopt dit voor dit rapport?" Haal ze uit `DQ config toon` (`student`).
+   Staan er meer vakken in het profiel, vraag dan welk vak het is (`DQ vak lijst`). Wat de gebruiker kiest of
+   verandert, zet je in de frontmatter van `bron.md` (`vak: Naam (CODE)`, `begeleider: ...`, `naam: ...`); de
+   frontmatter gaat voor het profiel. Ontbreekt er iets, laat het dan leeg in plaats van het te raden. Het
+   opleidingsniveau (`student.niveau`) bepaalt de diepgang: zie de tabel bovenaan `academische-stijl.md`.
 5. **Opzet (alleen bij documenten).** Laat een korte opzet zien: koppen met per kop één regel over de inhoud, de
    figuren met hun plek, en wat er nog ontbreekt. Wacht op akkoord of aanpassingen. Bij chat-uitvoer sla je
    deze stap over.
@@ -63,10 +70,17 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
      `DQ grafiek --help` toont het JSON-formaat.
    - Is het document langer dan ± 1500 woorden, schrijf het dan hoofdstuk voor hoofdstuk in `bron.md`. Begin
      met een paar alinea's en voeg toe.
+   - **Bronnen (als APA aan staat):** verwerk de bronvermelding tijdens het schrijven, niet achteraf. Heb je de
+     gegevens van een bron (auteurs, jaar, titel, uitgever, url) maar nog geen opgemaakte regel, laat
+     `DQ apa-bron --input <bronnen.json>` de literatuurregel en de verwijzing in de tekst maken (15 brontypen;
+     `DQ apa-bron --help-schema` toont het formaat). Ontbreekt een gegeven, vraag het of zet `[bron nodig]`.
+   - Voorwoord, begrippenlijst en reflectie alleen als de opdracht of de gebruiker erom vraagt (zie het
+     genre-sjabloon). De verdeling van de woorden per hoofdstuk staat in het sjabloon.
 7. **Controles en herstellus** (werkwijze 5).
 8. **Opslaan en exporteren** (werkwijze 6), of de tekst in de chat (werkwijze 7).
-9. **Bij het profiel student met AI-gebruik:** bied een AI-verantwoording en de bronvermelding van de chat
-   aan, volgens `ai-gebruik.md`. Vul alleen in wat de gebruiker echt heeft gedaan.
+9. **Bij het profiel student:** een tekst die DutchQuill schrijft is altijd AI-gebruik. Bied daarom bij elk
+   document een AI-verantwoording en de bronvermelding van de chat aan, volgens `ai-gebruik.md`. Vul alleen in
+   wat de gebruiker en jij echt hebben gedaan.
 
 ## Varianten
 
@@ -81,6 +95,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 - [ ] De werkwijze en alle gidsen uit `DQ gids voor` zijn gelezen.
 - [ ] De controles zijn gedraaid. Het tells-niveau is laag, of het restant is uitgelegd.
+- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap.
 - [ ] Er is geen verzonnen feit, cijfer, bron of voorbeeld in de tekst; open plekken zijn gemarkeerd.
-- [ ] Chat: de tekst plus hooguit twee regels toelichting. Bestand: `bron.md`, de exports,
+- [ ] Profiel student: de gegevens voor de titelpagina zijn bevestigd en de AI-verantwoording is aangeboden.
+- [ ] Chat: de tekst, de regel "Taalronde: ..." en hooguit twee regels toelichting. Bestand: `bron.md`, de exports,
   `wat-is-er-veranderd.md` en een historieregel.

@@ -3,7 +3,7 @@ titel: Humanize (English)
 module: humaniseren
 geldt: when controles.humaniseren is on and the text is English
 versie: 1
-gecontroleerd: 2026-11-24
+gecontroleerd: 2026-11-25
 data: gidsen/data/tells_en.yaml
 bronnen:
   - https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing
@@ -71,6 +71,8 @@ together.
   it is.
 - **Rhetorical set-up**: "The result? A faster app." Write the sentence.
 - **Rule of three** everywhere. Use two, four or one when that is the real number.
+- **Stacked adjectives**: three in a row before one noun ("a robust, scalable and innovative platform"): the
+  promotional tone Wikipedia's Signs of AI writing lists for older models (2023-2025). Keep the one that matters, or show why.
 - **Inflated significance**: "marks a turning point", "has shaped the discourse", "invaluable".
 - **Trailing -ing clause**: "..., highlighting the importance of teamwork." Cut it or make it a claim with
   evidence.
@@ -105,7 +107,8 @@ together.
 ## 5. Score
 
 Same scale as Dutch: points per 1000 words. Strict genres (report, SOP, README, memo): low under 4, medium
-4-9. Loose genres (email, LinkedIn, social, short): low under 6, medium 6-12. Aim for low; the number matters
+4-9. Technical reports (pentest, audit) and loose genres (email, LinkedIn, social, short): low under 6, medium
+6-12. Under 100 words the figures are unreliable and `dq tells` says so: read short texts yourself. Aim for low; the number matters
 less than whether the strong tells and clusters are gone and the fact check passes.
 
 ## 6. About detectors

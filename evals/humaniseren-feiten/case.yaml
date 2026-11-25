@@ -1,0 +1,22 @@
+schema_version: "1.1"
+name: humaniseren-feiten
+description: >-
+  Humaniseren van een tekst vol cijfers: de AI-patronen gaan eruit, de feitencontrole (dq feiten) draait echt, en
+  geen getal, naam of datum verandert. dq draait echt (scaffold).
+tags: [dq, humaniseren]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 30
+  allowed_tools: [Read, Glob, Grep, Skill, Bash]
+  env:
+    EVAL_DQ_DATA: .dq-data
+  prompt: |
+    /dutchquill:humaniseren Maak dit menselijker, het is een stukje voor de nieuwsbrief:
+
+    "In de huidige snel veranderende wereld speelt duurzaamheid een cruciale rol voor gemeente Veldhoven. Het
+    gaat niet alleen om zonnepanelen, maar om een holistische aanpak. In 2025 kregen 1.240 huishoudens een
+    subsidie van gemiddeld 850 euro, een stijging van 18% ten opzichte van 2024. Bovendien opende wethouder
+    Sanne de Bruijn op 3 maart een nieuw energieloket. Kortom, Veldhoven zet naadloos de volgende stap richting
+    een duurzame toekomst."

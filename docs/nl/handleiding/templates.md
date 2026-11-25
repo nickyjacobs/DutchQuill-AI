@@ -14,6 +14,7 @@ Meegeleverd:
 | `apa-hbo` | APA 7 zoals een hogeschool het wil: titelpagina, inhoudsopgave, hangende inspringing in de literatuurlijst, figuur- en tabellabels |
 | `zakelijk` | Rapporten en documenten voor werk |
 | `notitie` | Korte stukken, procesdocumenten |
+| `review` | Review- en scanrapporten, met het overzichtsbeeld bovenaan. Gebruikt nooit de APA-opmaak |
 
 **Je eigen huisstijl:** zet een .docx in `templates/` in je werkmap, of upload hem in de Studio. DutchQuill
 controleert welke stijlen erin zitten (Normal, Heading 1 tot 5, Caption, List Bullet, Bibliography) en vertaalt
@@ -29,8 +30,8 @@ DutchQuill de pdf via Chrome of Edge, in een eigen nette opmaak, of als laatste 
 
 ## Sjablonen per soort tekst
 
-Er zijn twaalf sjablonen: mail, LinkedIn-post, andere social post, korte tekst, rapport (hbo), onderzoeksrapport,
-adviesrapport, zakelijk rapport, procesdocument (SOP), research-notitie, memo en README. Een sjabloon beschrijft de
+Er zijn dertien sjablonen: mail, LinkedIn-post, andere social post, korte tekst, rapport (hbo), onderzoeksrapport,
+adviesrapport, zakelijk rapport, technisch rapport (pentest, audit), procesdocument (SOP), research-notitie, memo en README. Een sjabloon beschrijft de
 opbouw: welke onderdelen er in een mail of een SOP horen, en in welke volgorde.
 
 Je eigen versie maken:

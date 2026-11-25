@@ -51,7 +51,7 @@ Gegenereerd uit `config/schema.json`.
 | `mappen.humaniseren` | string | `"humaniseren"` |  |
 | `mappen.templates` | string | `"templates"` |  |
 | `versies` | boolean | `true` | Versies bijhouden. Elke nieuwe ronde over dezelfde titel komt in een nieuwe map (v2, v3 enzovoort). |
-| `privacy.languagetool` | boolean | `false` | Online taalcheck (LanguageTool). Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal. |
+| `privacy.languagetool` | boolean | `false` | Online taalcheck (LanguageTool). Een extra, automatische spelling- en grammaticacheck naast de taalronde die elke tekst krijgt. Stuurt de tekst naar api.languagetool.org. Uit = alleen de taalronde, er gaat niets extra naar buiten. |
 | `stem.gebruiken` | boolean | `true` | Schrijf in mijn stem. Gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld voor ritme, woordkeus en zinsopbouw. |
 | `student` | object |  | Studentgegevens (optioneel). Voor de titelpagina van een hbo-rapport. |
 | `professioneel.naam` | string |  | Naam. |
@@ -67,6 +67,7 @@ Gegenereerd uit `config/schema.json`.
 | `professioneel.banner` | string |  | Mailbanner (afbeelding). |
 | `templates` | object | `{}` | Eigen templates. |
 | `stijlen` | object | `{}` | Stijlnamen in je template. Alleen nodig als je template andere stijlnamen gebruikt, bijvoorbeeld kop1: Kop 1 in een Nederlandse Word. |
+| `historie.tekst_bewaren` | boolean | `true` | Tekst bewaren in de historie. Bewaart bij elke actie een kopie van de tekst in .dutchquill/historie/ in je werkmap, ook bij een scan of een tekst die alleen in de chat kwam. Alles blijft lokaal. Uit = alleen titel, datum en paden. |
 | `bijwerken.herinnering_dagen` | integer | `30` | Herinnering na (dagen). |
 
 **In een profiel** (`profielen.<naam>.…`):
@@ -81,14 +82,16 @@ Gegenereerd uit `config/schema.json`.
 | `toon.aanspreekvorm` | `auto` \| `je` \| `u` \| `geen` | `"auto"` | Aanspreekvorm. auto kiest per genre en lezer; geen betekent: de lezer niet aanspreken (academisch). |
 | `toon.mix` | string | `""` | Eigen mix (vrij). Bijvoorbeeld: zakelijk, maar met een luchtige afsluiting. |
 | `uitvoer.formaten` | lijst van `docx` \| `pdf` \| `md` \| `txt` \| `html` | `["docx"]` | Bestandsformaten. |
-| `uitvoer.chat_voor` | lijst van `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Alleen in de chat (geen bestand). Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op. |
+| `uitvoer.chat_voor` | lijst van `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `technisch-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Alleen in de chat (geen bestand). Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op. |
 | `uitvoer.template` | string | `"zakelijk"` | Template. Naam van een meegeleverde of eigen template. |
+| `uitvoer.metadata` | `normaal` \| `leeg` | `"normaal"` | Documentgegevens (metadata). Leeg: in Word en pdf blijven auteur, titel, onderwerp, trefwoorden, opmerkingen, bedrijf, manager en het programma leeg. Er wordt nooit iets ingevuld wat niet klopt. |
 | `basis` | profielnaam |  | Bouwt voort op. Naam van een ander profiel. Alles wat je hier niet zet, komt daarvandaan. |
 | `taal` | `nl` \| `en` \| `auto` |  | Overschrijft de algemene taal voor dit profiel. |
 <!-- tabel:eind -->
 
 `student` bevat `voornaam`, `tussenvoegsel`, `achternaam`, `studentnummer`, `instelling`, `faculteit`,
-`opleiding`, `docenten` (lijst met `naam`, `rol`, `vak`) en `vakken` (lijst met `naam`, `code`). Inlevereisen en
+`opleiding`, `niveau` (`mbo`, `hbo-bachelor` of `hbo-master`; standaard `hbo-bachelor`), `docenten` (lijst met
+`naam`, `rol`, `vak`) en `vakken` (lijst met `naam`, `code`). Inlevereisen en
 beoordelingscriteria per vak staan in `templates/vakken/<CODE>/quick-scan.md` en `beoordelingscriteria.md`.
 
 ## Stijlnamen van een eigen template

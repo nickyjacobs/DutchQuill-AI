@@ -6,7 +6,7 @@
 # tijdperk: welke modelgeneratie het patroon groot maakte (gpt-4, gpt-4o, gpt-5, 2026); informatief
 
 taal: nl
-bijgewerkt: 2026-11-24
+bijgewerkt: 2026-11-25
 
 woorden:
   sterk:
@@ -204,8 +204,20 @@ structuur:
     - '\bhet gaat niet om\b[^.!?\n]{1,70}\bhet gaat om\b'
     - '\b(?:dit|het) is geen\b[^.!?\n]{1,60}[,.]\s*(?:het|dit) is\b'
     - '\bgeen\s+\w+(?:\s+\w+)?,\s*maar\b'
+    # "De vraag is niet of er een incident komt, maar wanneer"
+    - '\bniet (?:of|wie|wat|hoe|waarom|wanneer|waar)\b[^.!?\n]{1,60},\s*maar\b'
   # Korte vraag als aanloop: "Het resultaat? ..."
   retorische_aanloop: '(?:^|[.!]\s+)((?:\w+\s){0,3}\w+\?)\s+[A-Z]'
+  # Komma voor "en" in een opsomming van drie ("X, Y, en Z"): de Engelse Oxford-komma (taal.md 9)
+  oxford_komma: '\b\w{2,}(?:\s\w+){0,2},\s*\w{2,}(?:\s\w+){0,2},\s+en\s+\w{2,}'
+  # Drie bijvoeglijke naamwoorden voor één zelfstandig naamwoord ("een innovatief, baanbrekend en duurzaam plan")
+  bijvoeglijk_stapel: '\b(?:een|de|het)\s+\w+(?:ief|ieve|isch|ische|baar|bare|lijk|lijke|end|ende|ig|ige|eel|ele|aal|ale|ant|ante|ent|ente|loos|loze|vol|volle|zaam|zame|e),\s*\w+(?:ief|ieve|isch|ische|baar|bare|lijk|lijke|end|ende|ig|ige|eel|ele|aal|ale|ant|ante|ent|ente|loos|loze|vol|volle|zaam|zame|e),?\s+en\s+\w+(?:ief|ieve|isch|ische|baar|bare|lijk|lijke|end|ende|ig|ige|eel|ele|aal|ale|ant|ante|ent|ente|loos|loze|vol|volle|zaam|zame|e)\s+\w{3,}'
+
+# Gewone woorden die pas opvallen als ze samen een groot deel van de tekst zijn (in v1: niveau 3)
+niveau3:
+  drempel: 0.03
+  woorden: [belangrijk, belangrijke, effectief, effectieve, uniek, unieke, waardevol, waardevolle, opmerkelijk,
+            opmerkelijke, substantieel, substantiële]
 
 connectoren: [bovendien, tevens, daarnaast, echter, desalniettemin, voorts, derhalve, aldus, daarentegen,
               niettemin, evenwel, zodoende, hierdoor, hierbij, daarenboven, kortom, samenvattend, ten slotte, allereerst]

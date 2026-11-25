@@ -21,6 +21,7 @@ EIGEN = {
     "export": "export",
     "template": "templates_docx",
     "bronnen": "bronnen",
+    "vak": "vakken",
     "studio": "studio.server",
 }
 
@@ -34,6 +35,7 @@ TOOLS = {
     "diff": ("diff", "Woordverschil origineel/nieuw (was diff_viewer.py)"),
     "docx-tekst": ("docx_tekst", ".docx naar Markdown en afbeeldingen (was docx_to_text.py)"),
     "grafiek": ("grafiek", "Grafieken als png (was generate_chart.py)"),
+    "reviewgrafiek": ("reviewgrafiek", "Overzichtsbeeld bovenaan een review (was generate_review_chart.py)"),
     "diagram": ("diagram", "Diagrammen als png (was generate_diagram.py)"),
 }
 
