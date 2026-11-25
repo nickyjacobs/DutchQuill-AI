@@ -17,8 +17,9 @@ Elk `dq`-commando draai je via Bash met het voorvoegsel uit de skill:
 ## 1. Opdracht, genre en uitvoer
 
 1. **Genre bepalen.** Kies er één: rapport (hbo), onderzoeksrapport, adviesrapport, zakelijk-rapport,
-   technisch-rapport (pentest, audit), sop, research-notitie, mail, linkedin, social, readme, memo, kort. Twijfel je tussen twee, kies dan het meest
-   voor de hand liggende en zeg welk het werd. Vraag alleen als het echt onduidelijk is.
+   technisch-rapport (pentest, audit), sop, research-notitie, mail, linkedin, social, readme, memo, kort. Twijfel je
+   tussen twee, kies dan het meest voor de hand liggende en zeg welk het werd. Vraag alleen als het echt onduidelijk
+   is.
 2. **Config laden voor dat genre:** `DQ gids voor --genre <genre>` geeft het profiel, de taal en de gidsen die
    je moet lezen. `DQ config toon --genre <genre>` geeft de volledige instellingen. Zegt de gebruiker iets dat
    afwijkt ("zonder APA", "luchtiger", "in het Engels", "als pdf"), geef dat dan mee met

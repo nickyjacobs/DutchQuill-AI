@@ -93,10 +93,30 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - Mail, post of korte tekst: de review in de chat. Hooguit tien bevindingen, de belangrijkste eerst.
    - Document:
      1. `DQ versie volgende --actie reviewen --titel "<titel van de tekst>"`.
-     2. Schrijf het rapport als `<map>/bron.md`, met als titel "Review: <titel>".
-     3. `DQ export --bron <map>/bron.md --naam "Review <titel>" --genre memo` (de reviewtemplate komt uit het
-        genre memo).
-     4. In de chat: het pad, het eindoordeel, bij inlevereisen de telling, en de vijf acties.
+     2. Het overzichtsbeeld: `DQ reviewgrafiek --input <tekst> --genre <genre> --titel "<titel>" --oordeel
+        "<eindoordeel>" --taalronde <aantal taalfouten> --output <map>/overzicht.png`. De cijfers komen uit
+        `dq tells`; vul niets zelf in.
+     3. Schrijf het rapport als `<map>/bron.md`, in deze volgorde:
+
+        ```markdown
+        # Review: <titel>
+
+        ![Overzicht van de review](overzicht.png)
+
+        ## Eindoordeel
+        <het oordeel, en in twee of drie zinnen waarom>
+
+        ## Inlevereisen            (alleen met een quick scan: tabel eis | ✓ ⚠ ✗ ? | waar, plus "X van Y voldaan")
+        ## De vijf belangrijkste acties
+        ## Bevindingen per domein  (per domein het oordeel in één zin, dan de bevindingen: plek, wat, voorstel, prioriteit)
+        ## Cijfers                 (AI-patronen, leesbaarheid, woordvariatie; bij een rapport of het klaar is)
+        ```
+
+        In het Engels: Review, Overview of the review, Verdict, Submission requirements, The five most important
+        actions, Findings per domain, Figures.
+     4. `DQ export --bron <map>/bron.md --naam "Review <titel>" --template review`. De template `review` gebruikt
+        nooit de APA-opmaak, ook niet bij het profiel student.
+     5. In de chat: het pad, het eindoordeel, bij inlevereisen de telling, en de vijf acties.
    - Historie: `DQ historie log --actie reviewen ...`.
 
 ## Klaar als
@@ -107,4 +127,5 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 - [ ] Er zijn alleen domeinen beoordeeld die aan staan of waar de gebruiker om vroeg; de rubric is gebruikt als
       die er is.
 - [ ] Er is een eindoordeel; bij een quick scan heeft elk item een teken en staat de telling erbij.
+- [ ] Bij een document staat het overzichtsbeeld bovenaan het rapport.
 - [ ] De vijf belangrijkste acties staan in de chat.

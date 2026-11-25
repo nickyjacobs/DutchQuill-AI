@@ -34,7 +34,8 @@ from dutchquill import paden
 from dutchquill.config import ConfigFout, effectief, naar_dict
 
 FORMATEN = ("docx", "pdf", "html", "md", "txt")
-INGEBOUWD = {"apa-hbo", "zakelijk", "notitie"}
+INGEBOUWD = {"apa-hbo", "zakelijk", "notitie", "review"}
+GEEN_APA = {"review"}  # een reviewrapport is geen paper: nooit de APA-opmaak, ook niet bij het profiel student
 LANG_RAPPORT = {"rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "technisch-rapport"}
 STIJL_STANDAARD = {
     "titel": "Title", "ondertitel": "Subtitle", "kop1": "Heading 1", "kop2": "Heading 2", "kop3": "Heading 3",
@@ -737,7 +738,7 @@ def exporteer(bron: Path, naam: str, map_: Path | None = None, formaten: list[st
                     if platform.system() != "Windows" else "%d %B %Y"))
     if not meta.get("titel"):
         meta["titel"] = naam
-    apa = bool(e["controles"].get("apa"))
+    apa = bool(e["controles"].get("apa")) and template not in GEEN_APA
     tpl = template_pad(template or ("apa-hbo" if apa and not template and e["uitvoer"].get("template") in
                                     (None, "zakelijk", "notitie") else None), e)
     bl = blokken(tekst)

@@ -14,6 +14,7 @@ Meegeleverd:
 | `apa-hbo` | APA 7 zoals een hogeschool het wil: titelpagina, inhoudsopgave, hangende inspringing in de literatuurlijst, figuur- en tabellabels |
 | `zakelijk` | Rapporten en documenten voor werk |
 | `notitie` | Korte stukken, procesdocumenten |
+| `review` | Review- en scanrapporten, met het overzichtsbeeld bovenaan. Gebruikt nooit de APA-opmaak |
 
 **Je eigen huisstijl:** zet een .docx in `templates/` in je werkmap, of upload hem in de Studio. DutchQuill
 controleert welke stijlen erin zitten (Normal, Heading 1 tot 5, Caption, List Bullet, Bibliography) en vertaalt

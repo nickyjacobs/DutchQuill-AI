@@ -2,7 +2,8 @@
 
   uv run --no-project --with-requirements requirements.txt python scripts/dev/bouw_templates.py
 
-Maakt templates/docx/apa-hbo.docx (de APA-opmaak uit export_apa.setup_document), zakelijk.docx en notitie.docx.
+Maakt templates/docx/apa-hbo.docx (de APA-opmaak uit export_apa.setup_document), zakelijk.docx, notitie.docx en
+review.docx (voor review- en humaniseringsrapporten).
 Pas je de opmaak aan, draai dit script dan opnieuw en commit de .docx-bestanden.
 """
 
@@ -119,7 +120,7 @@ def apa_hbo() -> None:
 
 
 def zakelijk(naam: str, body: float, titel: float, h1: float, h2: float, h3: float, regel: float, na: float,
-             marge: float) -> None:
+             marge: float, voettekst: str = "") -> None:
     doc = Document()
     sectie = a4(doc, marge)
     stijl(doc, "Normal", font="Calibri", size=body, after=na, spacing=regel, color=RGBColor(0x22, 0x26, 0x2A))
@@ -137,7 +138,7 @@ def zakelijk(naam: str, body: float, titel: float, h1: float, h2: float, h3: flo
     code.paragraph_format.line_spacing_rule = WD_LINE_SPACING.SINGLE
     stijl(doc, "List Bullet", font="Calibri", size=body)
     stijl(doc, "List Number", font="Calibri", size=body)
-    paginanummer(sectie)
+    paginanummer(sectie, voettekst)
     leeg(doc)
     doc.save(DOEL / f"{naam}.docx")
 
@@ -147,4 +148,6 @@ if __name__ == "__main__":
     apa_hbo()
     zakelijk("zakelijk", body=11, titel=26, h1=16, h2=13, h3=11.5, regel=1.15, na=8, marge=2.5)
     zakelijk("notitie", body=10.5, titel=18, h1=13, h2=11.5, h3=10.5, regel=1.05, na=5, marge=2.0)
+    zakelijk("review", body=10.5, titel=20, h1=14, h2=12, h3=10.5, regel=1.1, na=6, marge=2.0,
+             voettekst="DutchQuill-review  ·  ")
     print("\n".join(str(p) for p in sorted(DOEL.glob("*.docx"))))
