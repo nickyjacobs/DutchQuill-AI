@@ -9,7 +9,8 @@ def namen(r):
 
 def test_standaard_zonder_werkmap():
     r = gidsen.voor("mail")
-    assert namen(r) == ["werkwijze/basis", "toon", "nl/kern", "nl/taal", "nl/humaniseren", "genres/mail"]
+    assert namen(r) == ["werkwijze/basis", "werkwijze/taalronde", "toon", "nl/kern", "nl/taal", "nl/humaniseren",
+                        "genres/mail"]
 
 
 def test_student_krijgt_apa_en_academisch(werkmap):
@@ -21,6 +22,12 @@ def test_student_krijgt_apa_en_academisch(werkmap):
 def test_engels_en_set(werkmap):
     n = namen(gidsen.voor("readme", sets=["taal=en", "controles.humaniseren=false"]))
     assert "en/style" in n and "en/humanize" not in n and "nl/taal" not in n
+    assert "werkwijze/taalronde" in n  # de taalronde geldt altijd, ook in het Engels
+
+
+def test_taalronde_ook_zonder_taalregels(werkmap):
+    n = namen(gidsen.voor("mail", sets=["controles.taalregels=false"]))
+    assert "werkwijze/taalronde" in n and "nl/taal" not in n
 
 
 def test_eigen_genresjabloon_en_bijgewerkte_gids(werkmap, tmp_path):

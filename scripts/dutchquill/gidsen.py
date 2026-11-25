@@ -60,7 +60,8 @@ def voor(genre: str | None = None, profiel: str | None = None, sets: list[str] |
     e = effectief(genre, profiel, sets)
     taal = e["taal"] if e["taal"] in ("nl", "en") else "nl"
     c = e["controles"]
-    lijst: list[tuple[str, str]] = [("werkwijze", "werkwijze/basis"), ("toon", "toon")]
+    lijst: list[tuple[str, str]] = [("werkwijze", "werkwijze/basis"), ("taalronde", "werkwijze/taalronde"),
+                                    ("toon", "toon")]
     lijst.append(("kern", "nl/kern" if taal == "nl" else "en/style"))
     if c.get("taalregels") and taal == "nl":
         lijst.append(("taalregels", "nl/taal"))

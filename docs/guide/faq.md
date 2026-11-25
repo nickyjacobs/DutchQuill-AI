@@ -15,6 +15,13 @@
 The hosts the plugin may reach are listed in `.claude-plugin/plugin.json` under `network.hosts`. The full overview
 is in the [privacy policy](../privacy.md).
 
+## Does DutchQuill check my spelling without LanguageTool?
+
+Yes. Every text gets a language round as the last step: Claude reads it sentence by sentence for spelling,
+grammar (in Dutch also d/t), commas and consistency, and fixes what it finds; a review lists it as findings. The
+online check with LanguageTool comes on top of that and catches more small slips, but sends your text to
+api.languagetool.org. That is why it is off by default.
+
 ## Does it cost anything?
 
 DutchQuill itself is free (MIT). It runs in Claude Code, so you use your own Claude subscription or API credit.
