@@ -94,8 +94,8 @@ def aanpas(van: str, naar: str, stijlen: list[str], marge: float | None, beschri
     if not e["ingesteld"]:
         raise ConfigFout("Nog geen werkmap ingesteld. Draai eerst /dutchquill:instellen.")
     if not re.fullmatch(r"[a-z0-9][a-z0-9\-]{1,40}", naar) or naar in INGEBOUWD:
-        raise ConfigFout("Kies een nieuwe naam met kleine letters, cijfers en streepjes, anders dan apa-hbo, zakelijk "
-                         "of notitie.")
+        raise ConfigFout("Kies een nieuwe naam met kleine letters, cijfers en streepjes, anders dan apa-hbo, zakelijk, "
+                         "notitie of review.")
     bron = template_pad(van, e)
     doelmap = Path(e["mappen"]["templates"])
     doelmap.mkdir(parents=True, exist_ok=True)

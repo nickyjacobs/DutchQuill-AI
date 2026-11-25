@@ -54,7 +54,9 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - of het specifiek genoeg is.
 6. **Scan: rapporteer en stop.** Geef het niveau, de vijf belangrijkste patronen met een voorbeeld uit de tekst
    en een alternatief, en wat goed is aan de tekst. Bij een document mag dit ook als bestand
-   (`2-output/humaniseren/<titel>/vN/`, via `DQ export --genre memo`).
+   (`2-output/humaniseren/<titel>/vN/`): maak eerst het overzichtsbeeld met `DQ reviewgrafiek --input <origineel>
+   --genre <genre> --titel "<titel>" --output <map>/overzicht.png`, zet het als `![Overzicht](overzicht.png)`
+   bovenaan `bron.md`, en exporteer met `DQ export --bron <map>/bron.md --naam "Scan <titel>" --template review`.
 7. **Herschrijf.**
    - Werk volgens sectie 1 van de gids: sterke patronen eerst, en verander niet meer dan nodig.
    - Respecteer "Wanneer niet ingrijpen".

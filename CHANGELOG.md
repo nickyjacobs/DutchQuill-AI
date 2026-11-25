@@ -25,6 +25,11 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 - A review ends with a verdict (ready to submit, minor changes, rewrite recommended). Each submission requirement
   gets ✓, ⚠, ✗ or ?, with "X of Y met" and whether the text meets the requirements.
 
+- A review report starts with an overview image again (`dq reviewgrafiek`): AI patterns, readability, word
+  variety, the language round and the patterns that weigh most, in the DutchQuill colours. A scan from
+  `/dutchquill:humaniseren` saved as a file gets it too.
+- A built-in Word template `review` for review and scan reports, with a fixed order: overview, verdict, submission
+  requirements, five actions, findings per domain, figures.
 - Three AI patterns from v1 are back in `dq tells`: the Oxford comma in Dutch ("X, Y, en Z"), three stacked
   adjectives before one noun (Dutch and English), and a high share of plain emphasis words like *belangrijk*,
   *effectief* and *uniek* (over 3% of the text).
@@ -40,6 +45,7 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🐛 Fixed
 
+- A review for the student profile no longer comes out in the APA layout of a paper.
 - The example files for course criteria pointed to the old v1 location. They now say where the files go in your
   workspace (`templates/vakken/<CODE>/`).
 

@@ -49,6 +49,7 @@ De skills roepen `dq` aan; je kunt het ook zelf gebruiken. `dq <commando> --help
 | `dq vak toon` / `lijst` | De inlevereisen en rubric van een vak, alleen de sectie `## Rapportage` |
 | `dq apa-check`, `dq apa-bron` | APA-controles en bronvermeldingen |
 | `dq taalcheck` | LanguageTool, alleen als de online taalcheck aan staat |
+| `dq reviewgrafiek` | Het overzichtsbeeld bovenaan een review: AI-patronen, leesbaarheid, woordvariatie, taalronde en de zwaarste patronen |
 | `dq diff`, `dq docx-tekst`, `dq grafiek`, `dq diagram` | Woordverschil, .docx naar Markdown, grafieken en diagrammen als png |
 
 Buiten Claude Code staat `dq` in de pluginmap (`scripts/dq`). Bij het eerste gebruik maakt het een eigen

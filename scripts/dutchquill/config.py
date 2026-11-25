@@ -32,7 +32,7 @@ from dutchquill.schema_check import standaardwaarden, valideer
 PROFIEL_SLEUTELS = ("controles", "toon", "uitvoer", "taal")
 # Bij `dq config zet` gaan alleen deze naar het actieve profiel; `taal` blijft dan een algemene instelling.
 NAAR_PROFIEL = ("controles", "toon", "uitvoer")
-INGEBOUWDE_TEMPLATES = ("apa-hbo", "zakelijk", "notitie")
+INGEBOUWDE_TEMPLATES = ("apa-hbo", "zakelijk", "notitie", "review")
 
 
 class ConfigFout(Exception):
