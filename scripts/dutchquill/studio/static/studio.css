@@ -484,3 +484,17 @@ input[type="color"] { width: 100%; height: 2.55rem; padding: .25rem; border: 1px
 input[type="text"], input[type="email"], input[type="number"], select { height: 2.6rem; box-sizing: border-box; }
 input[type="color"] { height: 2.6rem; box-sizing: border-box; }
 .label-klein.los { margin-top: 1.4rem; }
+
+/* Mijn teksten */
+.lijst.teksten li { align-items: flex-start; }
+.lijst.teksten details { flex: 1; min-width: 0; }
+.lijst.teksten summary { cursor: pointer; list-style: none; }
+.lijst.teksten summary::-webkit-details-marker { display: none; }
+.lijst.teksten summary::before { content: ""; display: inline-block; width: .42rem; height: .42rem; margin: 0 .7rem .12rem .1rem;
+  border-right: 2px solid var(--inkt-zacht); border-bottom: 2px solid var(--inkt-zacht); transform: rotate(-45deg); transition: transform .15s; }
+.lijst.teksten details[open] summary::before { transform: rotate(45deg); }
+.lijst.teksten .tekst-titel { display: inline-flex; flex-wrap: wrap; gap: .25rem .6rem; align-items: baseline; }
+.lijst.teksten .versies { list-style: none; margin: .6rem 0 .2rem 1rem; padding: 0; }
+.lijst.teksten .versies li { padding: .45rem 0; border-top: 1px solid var(--lijn); }
+.lijst.teksten .versies .label-klein { overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { .lijst.teksten summary::before { transition: none; } }

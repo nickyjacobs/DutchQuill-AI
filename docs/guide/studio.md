@@ -27,17 +27,20 @@ is on them. Back in Claude, Claude sees which settings changed.
 | Group | Screen | What you do there |
 |---|---|---|
 | Start | Workspace | Where your workspace is (as a picture), the language of your texts, versions on or off |
+| | My texts | Everything DutchQuill made, per title and newest first, with its versions and files, and a button that opens the folder in Finder or Explorer |
 | | Profile | Pick a profile or make your own; automatically a profile per kind of text |
 | How you write | Tone | The tone slider, informal or formal "you" or not addressing the reader, your own mix, with an example email that changes along |
 | | Checks | APA, academic style, language and humanizing on or off, with an example per check |
 | | My voice | Upload your own texts and measure your voice |
-| What you get | Output | File formats, what only appears in the chat, the default template |
+| What you get | Output | File formats, what only appears in the chat, the default template, normal or empty document properties |
 | | Templates | Add, check or adjust Word templates; templates per kind of text |
-| You and your data | Privacy | The online language check on or off |
-| | Student | Details for the title page, courses with their rubric or checklist |
+| You and your data | Privacy | The online language check on or off; a copy of your texts in the history on or off |
+| | Student | Details for the title page, your level of education, courses with their rubric or checklist |
 | | Professional | Name, job title, organisation and contact for your emails, plus a signature or email banner |
 | System | Maintenance | When the guides were checked, check now, moving clouds on or off |
 | | About DutchQuill | Why DutchQuill exists, what the humanizer measures, links |
+
+![My texts in DutchQuill Studio](../img/studio-teksten-en.png)
 
 ![Output in DutchQuill Studio](../img/studio-uitvoer-en.png)
 
