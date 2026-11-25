@@ -16,7 +16,7 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 ### ✨ Added
 
 - "My texts" in DutchQuill Studio: everything DutchQuill made, per title and newest first, with the versions and
-  files, and a button that opens the folder in Finder, Explorer or your file manager.
+  files: an icon opens the document itself, the folder icon opens its folder.
 - A page on costs and models (`docs/guide/costs.md`, Dutch in `docs/nl/handleiding/kosten.md`): where the tokens
   go, why the skills use your own model and the subagents a fixed one, and how to keep usage down.
 - Every text gets a language round as the last step: spelling, grammar (in Dutch also d/t), commas and
@@ -58,6 +58,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🔧 Changed
 
+- DutchQuill Studio: "What will change" before saving names each setting as it reads on screen and shows old
+  and new in plain words (On → Off, + Marketing (MK2)) instead of keys and JSON.
 - `dq vak`, `dq leesbaarheid`, `dq apa-check`, `dq apa-bron` and `dq diff` only need the light install now, not the
   document packages (about a minute less the first time).
 - In Dutch reports a Flesch-Douma score under 30 (technical report: under 25) counts as a pattern again.

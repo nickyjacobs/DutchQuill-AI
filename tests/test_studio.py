@@ -59,6 +59,14 @@ def test_installatie_en_opslaan(studio, tmp_path):
     ruw["profiel"] = "mijn-linkedin"
     _, v = vraag(studio, "POST", "/api/config/voorbeeld", {"ruw": ruw})
     assert v["fouten"] == [] and any("mijn-linkedin" in s for s in v["samenvatting"])
+    paden = [w["pad"] for w in v["wijzigingen"]]
+    assert ["profiel"] in paden and ["profielen", "mijn-linkedin", "toon", "niveau"] in paden
+    vak = json.loads(json.dumps(c["ruw"]))
+    vak.setdefault("student", {})["vakken"] = [{"naam": "Bedrijfskunde", "code": "BK1"}]
+    vak["student"]["voornaam"] = ""  # leeg tegenover niet ingesteld is geen wijziging
+    _, v = vraag(studio, "POST", "/api/config/voorbeeld", {"ruw": vak})
+    student = [w for w in v["wijzigingen"] if w["pad"][0] == "student"]
+    assert student == [{"pad": ["student", "vakken"], "oud": None, "nieuw": [{"naam": "Bedrijfskunde", "code": "BK1"}]}]
     slecht = json.loads(json.dumps(ruw))
     slecht["profielen"]["mijn-linkedin"]["toon"]["niveau"] = "superformeel"
     assert vraag(studio, "POST", "/api/config/opslaan", {"ruw": slecht})[0] == 400
@@ -162,3 +170,12 @@ def test_mijn_teksten_en_map_openen(studio, tmp_path, monkeypatch):
     assert vraag(studio, "POST", "/api/open-map", {"map": "../../"})[0] == 400
     assert vraag(studio, "POST", "/api/open-map", {"map": "/etc"})[0] == 400
     assert len(geopend) == 1
+    # Een document openen; alleen documenten, en alleen uit die map
+    v1map = plan["versies"][1]["map"]
+    status, _ = vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "Plan voor Q1.docx"})
+    assert status == 200 and Path(geopend[-1][-1]).name == "Plan voor Q1.docx"
+    (pad / v1map / "kwaad.command").write_text("echo x")
+    assert vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "kwaad.command"})[0] == 400
+    assert vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "../../../dutchquill.yaml"})[0] == 400
+    assert vraag(studio, "POST", "/api/open-map", {"map": v1map, "bestand": "bestaat-niet.pdf"})[0] == 400
+    assert len(geopend) == 2

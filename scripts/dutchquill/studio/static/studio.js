@@ -36,8 +36,8 @@ const TEKST = {
     installatie: "Installatie", instellingen: "Instellingen",
     s_teksten: "Mijn teksten", teksten_uitleg: "Alles wat DutchQuill voor je maakte, per titel, het nieuwste bovenaan. Elke ronde staat in een eigen versiemap.",
     teksten_leeg: "Nog niets gemaakt. Vraag Claude om een tekst te schrijven, te herschrijven of te reviewen; die verschijnt dan hier.",
-    teksten_geen_werkmap: "Kies eerst een werkmap.", open_Darwin: "Toon in Finder", open_Windows: "Open in Verkenner",
-    open_anders: "Open map", versies_n: "%s versies", versie_1: "1 versie", gewijzigd_op: "laatst %s", m_open_fout: "Openen lukte niet",
+    teksten_geen_werkmap: "Kies eerst een werkmap.", open_map: "Map openen", open_bestand: "%s openen",
+    versies_n: "%s versies", versie_1: "1 versie", gewijzigd_op: "laatst %s", m_open_fout: "Openen lukte niet",
     s_welkom: "Welkom", s_werkmap: "Werkmap", s_profiel: "Profiel", s_controles: "Controles", s_toon: "Toon",
     s_uitvoer: "Uitvoer", s_templates: "Templates", s_stem: "Mijn stem", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Onderhoud", s_afronden: "Afronden",
@@ -235,6 +235,8 @@ const TEKST = {
     afronden_uitleg: "Dit wordt je startinstelling. Je kunt alles later aanpassen, hier of in een gesprek.",
     verder_instellen: "Opslaan en verder instellen", opslaan_klaar: "Opslaan en klaar",
     wijzigingen: "%s wijziging(en) nog niet opgeslagen.", opgeslagen: "Opgeslagen.",
+    w_aan: "Aan", w_uit: "Uit", w_niet_ingesteld: "niet ingesteld", w_leeg: "leeg", w_verwijderd: "verwijderd",
+    w_volgorde: "andere volgorde",
     voorbeeld_titel: "Dit verandert er",     fouten_titel: "Zo kan het niet worden opgeslagen",
     onopgeslagen: "Je hebt nog wijzigingen die niet zijn opgeslagen. Toch sluiten?",
     toch_sluiten: "Toch sluiten",
@@ -250,8 +252,8 @@ const TEKST = {
     installatie: "Setup", instellingen: "Settings",
     s_teksten: "My texts", teksten_uitleg: "Everything DutchQuill made for you, per title, newest first. Every round has its own version folder.",
     teksten_leeg: "Nothing made yet. Ask Claude to write, rewrite or review a text; it then shows up here.",
-    teksten_geen_werkmap: "Choose a workspace first.", open_Darwin: "Show in Finder", open_Windows: "Open in Explorer",
-    open_anders: "Open folder", versies_n: "%s versions", versie_1: "1 version", gewijzigd_op: "last %s", m_open_fout: "Could not open it",
+    teksten_geen_werkmap: "Choose a workspace first.", open_map: "Open folder", open_bestand: "Open %s",
+    versies_n: "%s versions", versie_1: "1 version", gewijzigd_op: "last %s", m_open_fout: "Could not open it",
     s_welkom: "Welcome", s_werkmap: "Workspace", s_profiel: "Profile", s_controles: "Checks", s_toon: "Tone",
     s_uitvoer: "Output", s_templates: "Templates", s_stem: "My voice", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Maintenance", s_afronden: "Finish",
@@ -449,6 +451,8 @@ const TEKST = {
     afronden_uitleg: "This becomes your starting setup. You can change everything later, here or in a conversation.",
     verder_instellen: "Save and keep going", opslaan_klaar: "Save and finish",
     wijzigingen: "%s unsaved change(s).", opgeslagen: "Saved.",
+    w_aan: "On", w_uit: "Off", w_niet_ingesteld: "not set", w_leeg: "empty", w_verwijderd: "removed",
+    w_volgorde: "new order",
     voorbeeld_titel: "What will change",     fouten_titel: "This can't be saved yet",
     onopgeslagen: "You have unsaved changes. Close anyway?",
     toch_sluiten: "Close anyway",
@@ -678,7 +682,7 @@ async function bekijkEnOpslaan(daarna) {
   }
   if (!v.samenvatting.length) { melding(T("m_geen_titel"), T("geen_wijzigingen"), "info"); if (daarna) daarna(); return true; }
   return new Promise((klaar) => {
-    dialoog(T("voorbeeld_titel"), el("ul", {}, v.samenvatting.map((s) => el("li", { tekst: s }))), [
+    dialoog(T("voorbeeld_titel"), el("ul", { klasse: "wijzigingen" }, (v.wijzigingen || []).map(wijzigingRegel)), [
       { tekst: T("annuleren"), actie: () => { sluitDialoog(); klaar(false); } },
       { tekst: T("opslaan"), klasse: "eerste", actie: async () => {
         try {
@@ -691,6 +695,73 @@ async function bekijkEnOpslaan(daarna) {
       } },
     ]);
   });
+}
+
+// Een wijziging in gewone taal: de naam van de instelling uit het schema, dan oud → nieuw. Lijsten (vakken,
+// docenten, formaten) als + en −, zodat niemand JSON hoeft te lezen.
+function schemaRef(o) {
+  while (o && o.$ref) {
+    let doel = S.schema;
+    for (const d of o.$ref.replace(/^#\//, "").split("/")) doel = doel && doel[d];
+    const { $ref, ...rest } = o;
+    o = { ...(doel || {}), ...rest };
+  }
+  return o;
+}
+function schemaBij(pad) {
+  let o = S.schema; const labels = [];
+  for (const k of pad) {
+    o = schemaRef(o);
+    let v = o && o.properties && o.properties[k];
+    if (!v && o && o.additionalProperties && typeof o.additionalProperties === "object") {
+      const genre = S.schema.$defs && S.schema.$defs.genre && (S.schema.$defs.genre["x-labels"] || {})[k];
+      labels.push(genre ? lab(genre) : k); o = o.additionalProperties; continue;
+    }
+    if (!v) { labels.push(k); o = null; continue; }
+    v = schemaRef(v);
+    labels.push(v["x-label"] ? lab(v["x-label"]) : k);
+    o = v;
+  }
+  return { labels, schema: o ? schemaRef(o) : null };
+}
+function waardeTekst(v, sch) {
+  if (isLeeg(v)) return T(v === undefined || v === null ? "w_niet_ingesteld" : "w_leeg");
+  if (typeof v === "boolean") return T(v ? "w_aan" : "w_uit");
+  const labels = sch && sch["x-labels"];
+  if (labels && typeof v !== "object" && labels[v]) return lab(labels[v]);
+  if (Array.isArray(v)) return v.map((x) => itemTekst(x, sch && schemaRef(sch.items))).join(", ");
+  if (typeof v === "object") return itemTekst(v);
+  const s = String(v);
+  return s.length > 90 ? `${s.slice(0, 87)}…` : s;
+}
+function itemTekst(x, sch) {
+  if (x && typeof x === "object" && !Array.isArray(x)) {
+    const w = Object.values(x).filter((y) => !isLeeg(y) && typeof y !== "object").map(String);
+    return w.length > 1 ? `${w[0]} (${w.slice(1).join(", ")})` : (w[0] || T("w_leeg"));
+  }
+  return waardeTekst(x, sch);
+}
+function wijzigingRegel(w) {
+  const { labels, schema } = schemaBij(w.pad);
+  const kop = el("strong", { tekst: labels.join(" › ") });
+  if (Array.isArray(w.oud) || Array.isArray(w.nieuw)) {
+    const a = w.oud || [], b = w.nieuw || [], sleutel = (x) => JSON.stringify(x);
+    const itemSch = schema && schemaRef(schema.items);
+    const erbij = b.filter((x) => !a.some((y) => sleutel(y) === sleutel(x)));
+    const eraf = a.filter((x) => !b.some((y) => sleutel(y) === sleutel(x)));
+    const regels = [...erbij.map((x) => el("span", { klasse: "erbij", tekst: `+ ${itemTekst(x, itemSch)}` })),
+      ...eraf.map((x) => el("span", { klasse: "eraf", tekst: `− ${itemTekst(x, itemSch)}` }))];
+    return el("li", {}, kop, regels.length ? el("div", { klasse: "wijziging" }, regels)
+      : el("div", { klasse: "wijziging", tekst: T("w_volgorde") }));
+  }
+  if (w.nieuw === undefined || w.nieuw === null) {
+    return el("li", {}, kop, el("div", { klasse: "wijziging" }, el("span", { klasse: "eraf", tekst: T("w_verwijderd") })));
+  }
+  // Niet ingesteld betekent: de standaardwaarde. Laat die zien, dat zegt meer dan "niet ingesteld".
+  const oud = (w.oud === undefined || w.oud === null) && schema && schema.default !== undefined ? schema.default : w.oud;
+  return el("li", {}, kop, el("div", { klasse: "wijziging" },
+    el("span", { klasse: "oud", tekst: waardeTekst(oud, schema) }), el("span", { klasse: "pijl", tekst: "→" }),
+    el("span", { klasse: "nieuw", tekst: waardeTekst(w.nieuw, schema) })));
 }
 
 // ------------------------------------------------------------------ laden
@@ -746,7 +817,8 @@ function bestandKnop(label, accept, meerdere, bij, klasse = "tweede") {
   return el("span", {}, invoer, el("button", { type: "button", klasse: `${klasse} upload`, onclick: () => invoer.click() },
     lijnIcoon(ICOON_UPLOAD), el("span", { tekst: label })));
 }
-const FORMAAT_KLEUR = { docx: ["#185abd", "W"], pdf: ["#d9342b", "PDF"], md: ["#3d4a52", "MD"], txt: ["#6b7c83", "TXT"], html: ["#e44d26", "</>"] };
+const FORMAAT_KLEUR = { docx: ["#185abd", "W"], pdf: ["#d9342b", "PDF"], md: ["#3d4a52", "MD"], txt: ["#6b7c83", "TXT"], html: ["#e44d26", "</>"],
+  pptx: ["#c4472b", "P"], xlsx: ["#1d7044", "X"], png: ["#2f7f8f", "IMG"], jpg: ["#2f7f8f", "IMG"], jpeg: ["#2f7f8f", "IMG"], svg: ["#2f7f8f", "SVG"] };
 function formaatIcoon(f) {
   const [kleur, letters] = FORMAAT_KLEUR[f];
   const svg = document.createElementNS(NS_SVG, "svg");
@@ -1335,8 +1407,17 @@ const SCHERMEN = {
   teksten() {
     const d = S.teksten || { teksten: [] };
     if (!S.status.ingesteld) return [...kop(T("s_teksten"), T("teksten_geen_werkmap"))];
-    const openKnop = (map) => el("button", { type: "button", klasse: "tweede", tekst: T(["Darwin", "Windows"].includes(d.os) ? `open_${d.os}` : "open_anders"),
-      onclick: async () => { try { await api("POST", "/api/open-map", { map }); } catch (e) { melding(T("m_open_fout"), e.message, "fout"); } } });
+    const open = async (map, bestand) => {
+      try { await api("POST", "/api/open-map", bestand ? { map, bestand } : { map }); }
+      catch (e) { melding(T("m_open_fout"), e.message, "fout"); }
+    };
+    const mapKnop = (map) => el("button", { type: "button", klasse: "icoonknop", title: T("open_map"), "aria-label": T("open_map"),
+      onclick: (e) => { e.preventDefault(); open(map); } }, lijnIcoon(ICOON_MAP));
+    // De documenten zelf, als icoon dat het bestand opent; hulpbestanden (bron, origineel, wat er veranderde) staan in de map
+    const HULP = new Set(["bron.md", "origineel.md", "wat-is-er-veranderd.md", "materiaal.md", "manifest.json"]);
+    const documenten = (v) => v.bestanden.filter((b) => !HULP.has(b) && FORMAAT_KLEUR[b.split(".").pop().toLowerCase()])
+      .map((b) => el("button", { type: "button", klasse: "docknop", title: T("open_bestand", b), "aria-label": T("open_bestand", b),
+        onclick: () => open(v.map, b) }, formaatIcoon(b.split(".").pop().toLowerCase())));
     const datum = (iso) => new Date(iso).toLocaleString(S.taal === "nl" ? "nl-NL" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
     const actieLabel = (a) => T(`w_${a}`);
     return [
@@ -1345,12 +1426,12 @@ const SCHERMEN = {
         el("details", { open: i === 0 },
           el("summary", {},
             el("span", { klasse: "tekst-titel" }, el("strong", { tekst: tk.titel }), " ",
-              el("span", { klasse: "label-klein", tekst: `${actieLabel(tk.actie)} · ${tk.versies.length === 1 ? T("versie_1") : T("versies_n", tk.versies.length)} · ${T("gewijzigd_op", datum(tk.gewijzigd))}` }))),
+              el("span", { klasse: "label-klein", tekst: `${actieLabel(tk.actie)} · ${tk.versies.length === 1 ? T("versie_1") : T("versies_n", tk.versies.length)} · ${T("gewijzigd_op", datum(tk.gewijzigd))}` })),
+            mapKnop(tk.map)),
           el("ul", { klasse: "versies" }, tk.versies.map((v) => el("li", {},
-            el("span", {}, el("strong", { tekst: `v${v.versie}` }), " ",
-              el("span", { klasse: "label-klein", tekst: `${datum(v.gewijzigd)} · ${v.bestanden.join(", ")}` })),
-            openKnop(v.map))))),
-        openKnop(tk.map))))
+            el("span", { klasse: "versie-info" }, el("strong", { tekst: `v${v.versie}` }),
+              el("span", { klasse: "label-klein", tekst: datum(v.gewijzigd) })),
+            el("span", { klasse: "versie-acties" }, ...documenten(v), mapKnop(v.map)))))))))
         : el("p", { klasse: "uitleg", tekst: T("teksten_leeg") }),
     ];
   },
