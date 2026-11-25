@@ -9,16 +9,35 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DATA="${CLAUDE_PLUGIN_DATA:-${DUTCHQUILL_DATA:-$ROOT/.dev-data}}"
+# EVAL_DQ_DATA bestaat alleen in de evals (claude plugin eval): daar is de datamap van de plugin niet beschrijfbaar
+# en zet een scaffold-script de omgeving vooraf klaar in de werkmap van de run.
+DATA="${EVAL_DQ_DATA:-${CLAUDE_PLUGIN_DATA:-${DUTCHQUILL_DATA:-$ROOT/.dev-data}}}"
+case "$DATA" in /*|[A-Za-z]:*) ;; *) DATA="$PWD/$DATA" ;; esac
+# Is de datamap niet beschrijfbaar (een sandbox, een alleen-lezen schijf), val dan terug op een tijdelijke map in
+# plaats van meteen te stoppen. Een bestaande omgeving in de datamap blijft bruikbaar als die alleen te lezen is.
+if ! mkdir -p "$DATA" 2>/dev/null || [ ! -w "$DATA" ]; then
+  if [ -x "$DATA/venv/bin/python" ] || [ -x "$DATA/venv/Scripts/python.exe" ]; then
+    :
+  else
+    ALT="${TMPDIR:-/tmp}"
+    ALT="${ALT%/}/dutchquill-data-$(id -u 2>/dev/null || echo 0)"
+    if mkdir -p "$ALT" 2>/dev/null && [ -w "$ALT" ]; then
+      echo "DutchQuill: kan niet schrijven in $DATA; ik gebruik $ALT." >&2
+      DATA="$ALT"
+    else
+      echo "DutchQuill: kan niet schrijven in $DATA of $ALT. Ga verder zonder dq." >&2
+      exit 1
+    fi
+  fi
+fi
 VENV="$DATA/venv"
-mkdir -p "$DATA"
 
 # Lichte commando's hebben alleen requirements-basis.txt nodig (ruamel.yaml, seconden). De rest (python-docx,
 # reportlab, matplotlib, ...) komt pas als een commando het nodig heeft, of als er een .docx/.pdf/.pptx/.xlsx
 # als argument meegaat.
 NIVEAU="volledig"
 case "${1:-}" in
-  config|werkmap|versie|historie|gids|tells|feiten|--help|-h|help|"") NIVEAU="basis" ;;
+  config|werkmap|versie|historie|gids|tells|feiten|vak|leesbaarheid|apa-check|apa-bron|diff|--help|-h|help|"") NIVEAU="basis" ;;
 esac
 for arg in "$@"; do
   case "$arg" in *.docx|*.pdf|*.pptx|*.xlsx) NIVEAU="volledig" ;; esac

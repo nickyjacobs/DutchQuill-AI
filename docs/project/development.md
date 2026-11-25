@@ -50,10 +50,18 @@ uv run --no-project --python 3.12 --with-requirements requirements.txt --with py
 uvx ruff check scripts hooks tests
 uv run --script scripts/dev/release_check.py
 claude plugin validate .
-claude plugin eval . --runs 1 --model sonnet --allow-tools Bash --no-publish
+claude plugin eval . --runs 1 --model sonnet --allow-tools Bash --scaffold --no-publish
 ```
 
 CI runs the tests and ruff on Linux, macOS and Windows, plus gitleaks and a link check.
+
+**Evals in which `dq` really runs** (`tells-draait`, `review-met-rubric`, `humaniseren-feiten`, tag `dq`). In the
+sandbox of `claude plugin eval` the plugin's data folder isn't writable and nothing can be installed. Those cases
+therefore have a `scaffold.sh` that builds the Python environment in the run's workspace beforehand, outside the
+sandbox (shared part: `evals/scaffold-dq.sh`), and set `EVAL_DQ_DATA: .dq-data` so `scripts/dq` uses it. The
+scaffold needs a system Python 3.10+ outside your home folder (Homebrew, `/usr/local` or `/usr`), because the
+sandbox can't read your home folder. Run with `--scaffold --allow-tools Bash`; with `--ablation none` you skip the
+no-plugin arm, which says nothing for these cases. Without `--scaffold` they fail.
 
 ## Trying it locally
 
