@@ -68,6 +68,7 @@ Generated from `config/schema.json`.
 | `professioneel.banner` | string |  | Email banner (image). |
 | `templates` | object | `{}` | Custom templates. |
 | `stijlen` | object | `{}` | Style names in your template. Only needed if your template uses other style names. |
+| `historie.tekst_bewaren` | boolean | `true` | Keep the text in the history. Keeps a copy of the text with every action in .dutchquill/historie/ in your workspace, also for a scan or a text that only appeared in the chat. Everything stays local. Off = only title, date and paths. |
 | `bijwerken.herinnering_dagen` | integer | `30` | Reminder after (days). |
 
 **In a profile** (`profielen.<name>.…`):

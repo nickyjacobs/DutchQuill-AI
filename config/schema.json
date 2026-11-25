@@ -720,6 +720,28 @@
         "type": "string"
       }
     },
+    "historie": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-label": {
+        "nl": "Historie",
+        "en": "History"
+      },
+      "properties": {
+        "tekst_bewaren": {
+          "type": "boolean",
+          "default": true,
+          "x-label": {
+            "nl": "Tekst bewaren in de historie",
+            "en": "Keep the text in the history"
+          },
+          "x-uitleg": {
+            "nl": "Bewaart bij elke actie een kopie van de tekst in .dutchquill/historie/ in je werkmap, ook bij een scan of een tekst die alleen in de chat kwam. Alles blijft lokaal. Uit = alleen titel, datum en paden.",
+            "en": "Keeps a copy of the text with every action in .dutchquill/historie/ in your workspace, also for a scan or a text that only appeared in the chat. Everything stays local. Off = only title, date and paths."
+          }
+        }
+      }
+    },
     "bijwerken": {
       "type": "object",
       "additionalProperties": false,

@@ -67,6 +67,7 @@ Gegenereerd uit `config/schema.json`.
 | `professioneel.banner` | string |  | Mailbanner (afbeelding). |
 | `templates` | object | `{}` | Eigen templates. |
 | `stijlen` | object | `{}` | Stijlnamen in je template. Alleen nodig als je template andere stijlnamen gebruikt, bijvoorbeeld kop1: Kop 1 in een Nederlandse Word. |
+| `historie.tekst_bewaren` | boolean | `true` | Tekst bewaren in de historie. Bewaart bij elke actie een kopie van de tekst in .dutchquill/historie/ in je werkmap, ook bij een scan of een tekst die alleen in de chat kwam. Alles blijft lokaal. Uit = alleen titel, datum en paden. |
 | `bijwerken.herinnering_dagen` | integer | `30` | Herinnering na (dagen). |
 
 **In een profiel** (`profielen.<naam>.…`):

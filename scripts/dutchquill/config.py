@@ -207,6 +207,7 @@ def effectief(genre: str | None = None, profiel: str | None = None, sets: list[s
         "stijlen": alg.get("stijlen", {}),
         "genre_profielen": alg.get("genre_profielen", {}),
         "eigen_profielen": sorted(alg.get("profielen", {})),
+        "historie": alg.get("historie", {"tekst_bewaren": True}),
         "bijwerken": alg["bijwerken"],
         "mappen": abs_mappen,
         "configbestanden": [str(p) for p in (cfg_pad, project_pad) if p and p.is_file()],

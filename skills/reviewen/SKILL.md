@@ -117,7 +117,9 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
      4. `DQ export --bron <map>/bron.md --naam "Review <titel>" --template review`. De template `review` gebruikt
         nooit de APA-opmaak, ook niet bij het profiel student.
      5. In de chat: het pad, het eindoordeel, bij inlevereisen de telling, en de vijf acties.
-   - Historie: `DQ historie log --actie reviewen ...`.
+   - Historie, ook bij een review in de chat: `DQ historie log --actie reviewen --titel "<titel>" --tekst <de
+     review als bestand> --meta '{"genre": "...", "oordeel": "...", "uitvoer": "chat|bestand"}'` (plus
+     `--bestand` bij een document).
 
 ## Klaar als
 
