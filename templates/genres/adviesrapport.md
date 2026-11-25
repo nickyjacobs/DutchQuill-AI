@@ -21,6 +21,8 @@ modules: taal, humaniseren; apa bij een studieopdracht
 6. Implementatie: stappen, planning, kosten, risico's.
 7. Bronnen en bijlagen.
 
+Een voorwoord en een begrippenlijst op verzoek, zoals in `rapport.md`.
+
 ## Let op
 
 - Het advies staat vooraan, niet pas aan het eind.
