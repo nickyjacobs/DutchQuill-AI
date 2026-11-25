@@ -12,6 +12,7 @@ Alles wat niet in de [README](../../README.nl.md) past, ingedeeld naar wie het l
 | Een profiel kiezen of maken, controles en toon instellen | [handleiding/profielen-en-toon.md](handleiding/profielen-en-toon.md) |
 | Je eigen huisstijl of sjabloon gebruiken | [handleiding/templates.md](handleiding/templates.md) |
 | Weten wat humaniseren doet, en wat niet | [handleiding/humaniseren.md](handleiding/humaniseren.md) |
+| Weten wat het kost aan tokens, en welk model wat doet | [handleiding/kosten.md](handleiding/kosten.md) |
 | Een snel antwoord: privacy, pdf's, Windows, verwijderen, van v1 naar v2 | [handleiding/vragen.md](handleiding/vragen.md) |
 | Precies weten welke gegevens waarheen gaan | [privacy.md](privacy.md) |
 | Alle instellingen in `dutchquill.yaml` opzoeken | [naslag/configuratie.md](naslag/configuratie.md) |
@@ -25,7 +26,7 @@ Alles wat niet in de [README](../../README.nl.md) past, ingedeeld naar wie het l
 
 | Map | Voor | Wat erin staat |
 |---|---|---|
-| [`handleiding/`](handleiding/) | Iedereen die DutchQuill gebruikt | Aan de slag, de werkmap, de Studio, profielen en toon, templates, humaniseren, vragen |
+| [`handleiding/`](handleiding/) | Iedereen die DutchQuill gebruikt | Aan de slag, de werkmap, de Studio, profielen en toon, templates, humaniseren, kosten, vragen |
 | [`naslag/`](naslag/) | Wie iets precies wil opzoeken | Alle instellingen, alle commando's, de gidsen en hun bronnen |
 | [`project/`](project/) | Wie aan DutchQuill werkt | De opbouw van de repo, afspraken, checks en de releasestappen |
 | [`docs/`](../) | Engelstalige lezers | Dezelfde documentatie in het Engels |
