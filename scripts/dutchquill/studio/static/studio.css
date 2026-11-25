@@ -497,4 +497,29 @@ input[type="color"] { height: 2.6rem; box-sizing: border-box; }
 .lijst.teksten .versies { list-style: none; margin: .6rem 0 .2rem 1rem; padding: 0; }
 .lijst.teksten .versies li { padding: .45rem 0; border-top: 1px solid var(--lijn); }
 .lijst.teksten .versies .label-klein { overflow-wrap: anywhere; }
+.lijst.teksten .versies li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.versie-info { display: inline-flex; align-items: baseline; gap: .7rem; }
+.versie-acties { display: inline-flex; align-items: center; gap: .35rem; flex-shrink: 0; }
+.docknop, .icoonknop { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; padding: 0;
+  border: 1px solid transparent; border-radius: 8px; background: none; color: var(--inkt-zacht);
+  transition: background-color .15s, border-color .15s, color .15s; }
+.docknop svg { width: 1.45rem; height: 1.45rem; }
+.icoonknop svg { width: 1.15rem; height: 1.15rem; }
+.docknop:hover, .icoonknop:hover { background: var(--vlak-2); border-color: var(--lijn); color: var(--inkt); }
+.docknop:focus-visible, .icoonknop:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lijst.teksten summary { display: flex; align-items: center; gap: .5rem; }
+.lijst.teksten summary .tekst-titel { flex: 1; min-width: 0; }
+@media (prefers-reduced-motion: reduce) { .docknop, .icoonknop { transition: none; } }
+
+/* Dit verandert er: per instelling oud → nieuw in gewone taal */
+.dialoog ul.wijzigingen { list-style: none; padding: 0; margin: 0 0 .4rem; }
+.wijzigingen li { padding: .65rem 0; }
+.wijzigingen li + li { border-top: 1px solid var(--lijn); }
+.wijzigingen strong { display: block; font-weight: 600; }
+.wijziging { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem .5rem; margin-top: .2rem;
+  color: var(--inkt-zacht); overflow-wrap: anywhere; }
+.wijziging .oud { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--inkt-zacht) 55%, transparent); }
+.wijziging .nieuw { color: var(--inkt); font-weight: 500; }
+.wijziging .erbij, .wijziging .eraf { display: block; flex-basis: 100%; }
+.wijziging .erbij { color: var(--inkt); }
 @media (prefers-reduced-motion: reduce) { .lijst.teksten summary::before { transition: none; } }

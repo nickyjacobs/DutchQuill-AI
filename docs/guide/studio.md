@@ -27,7 +27,7 @@ is on them. Back in Claude, Claude sees which settings changed.
 | Group | Screen | What you do there |
 |---|---|---|
 | Start | Workspace | Where your workspace is (as a picture), the language of your texts, versions on or off |
-| | My texts | Everything DutchQuill made, per title and newest first, with its versions and files, and a button that opens the folder in Finder or Explorer |
+| | My texts | Everything DutchQuill made, per title and newest first, with its versions; the Word and PDF icons open the document, the folder icon opens its folder |
 | | Profile | Pick a profile or make your own; automatically a profile per kind of text |
 | How you write | Tone | The tone slider, informal or formal "you" or not addressing the reader, your own mix, with an example email that changes along |
 | | Checks | APA, academic style, language and humanizing on or off, with an example per check |

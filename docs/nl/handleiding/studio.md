@@ -27,7 +27,7 @@ staat. Terug in Claude ziet Claude welke instellingen er veranderd zijn.
 | Groep | Scherm | Wat je er doet |
 |---|---|---|
 | Start | Werkmap | De plek van je werkmap (als plaatje), de taal van je teksten, versies aan of uit |
-| | Mijn teksten | Alles wat DutchQuill maakte, per titel en het nieuwste bovenaan, met de versies en bestanden, en een knop die de map opent in Finder of Verkenner |
+| | Mijn teksten | Alles wat DutchQuill maakte, per titel en het nieuwste bovenaan, met de versies; de Word- en pdf-iconen openen het document, het mapicoon opent de map |
 | | Profiel | Een profiel kiezen of een eigen profiel maken; automatisch een profiel per soort tekst |
 | Hoe je schrijft | Toon | De toonschaal, je/u of de lezer niet aanspreken, een eigen mix, met een voorbeeldmail die meeverandert |
 | | Controles | APA, academische stijl, taal en humaniseren los aan of uit, met een voorbeeld per controle |

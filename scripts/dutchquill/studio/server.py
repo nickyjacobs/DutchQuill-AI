@@ -159,7 +159,9 @@ class Studio:
         oud_tekst, nieuw_tekst = self._yaml_tekst(self.ruw()), self._yaml_tekst(nieuw)
         diff = "".join(difflib.unified_diff(oud_tekst.splitlines(True), nieuw_tekst.splitlines(True),
                                             "nu", "straks", n=1))
-        return {"fouten": fouten, "diff": diff, "samenvatting": self._samenvatting(self.ruw(), nieuw)}
+        oud = self.ruw()
+        return {"fouten": fouten, "diff": diff, "samenvatting": self._samenvatting(oud, nieuw),
+                "wijzigingen": self._verschillen(oud, nieuw)}
 
     def config_opslaan(self, body: dict) -> dict:
         nieuw = body.get("ruw") or {}
@@ -225,11 +227,18 @@ class Studio:
         return {"teksten": uit, "os": platform.system()}
 
     def open_map(self, body: dict) -> dict:
-        """Open een map uit de werkmap in Finder, Verkenner of de bestandsbeheerder. Alleen binnen de werkmap."""
+        """Open een map uit de werkmap in Finder, Verkenner of de bestandsbeheerder, of met `bestand` een document
+        uit die map in het programma dat erbij hoort. Alleen binnen de werkmap, en alleen documenten: nooit iets dat
+        zelf code uitvoert."""
         werkmap = self._vereist_werkmap().resolve()
         doel = (werkmap / str(body.get("map", ""))).resolve()
         if not doel.is_relative_to(werkmap) or not doel.is_dir():
             raise Fout("Die map staat niet in je werkmap.")
+        if body.get("bestand"):
+            bestand = (doel / str(body["bestand"])).resolve()
+            if bestand.parent != doel or not bestand.is_file() or bestand.suffix.lower() not in OPENBAAR:
+                raise Fout("Dat bestand kan de Studio niet openen.")
+            doel = bestand
         systeem = platform.system()
         if systeem == "Darwin":
             subprocess.run(["open", str(doel)], check=False, timeout=30)
@@ -426,18 +435,33 @@ class Studio:
         return buf.getvalue()
 
     @staticmethod
-    def _samenvatting(oud: dict, nieuw: dict, prefix: str = "") -> list[str]:
+    def _verschillen(oud: dict, nieuw: dict, pad: tuple = ()) -> list[dict]:
+        """Wat er verandert, per instelling: het pad, de oude en de nieuwe waarde. De Studio maakt daar gewone taal
+        van, met de labels uit het schema. Leeg tegenover leeg (niets, "", [], {}) is geen wijziging."""
         uit = []
         for k in sorted(set(oud) | set(nieuw)):
-            pad = f"{prefix}{k}"
             a, b = oud.get(k), nieuw.get(k)
-            if isinstance(a, dict) and isinstance(b, dict):
-                uit += Studio._samenvatting(a, b, pad + ".")
+            if _leeg(a) and _leeg(b):
+                continue
+            if isinstance(b, dict) and (isinstance(a, dict) or a is None):
+                uit += Studio._verschillen(a or {}, b, (*pad, k))  # ook een nieuw blok, zoals een nieuw profiel
+            elif isinstance(a, dict) and isinstance(b, dict):
+                uit += Studio._verschillen(a, b, (*pad, k))
             elif a != b:
-                if b is None:
-                    uit.append(f"{pad} verwijderd")
-                else:
-                    uit.append(f"{pad}: {json.dumps(a, ensure_ascii=False)} wordt {json.dumps(b, ensure_ascii=False)}")
+                uit.append({"pad": [*pad, k], "oud": a, "nieuw": b})
+        return uit
+
+    @staticmethod
+    def _samenvatting(oud: dict, nieuw: dict) -> list[str]:
+        """Dezelfde wijzigingen als korte regels, voor studio-laatste.json (die leest Claude, niet de gebruiker)."""
+        uit = []
+        for w in Studio._verschillen(oud, nieuw):
+            pad = ".".join(w["pad"])
+            if w["nieuw"] is None:
+                uit.append(f"{pad} verwijderd")
+            else:
+                uit.append(f"{pad}: {json.dumps(w['oud'], ensure_ascii=False)} wordt "
+                           f"{json.dumps(w['nieuw'], ensure_ascii=False)}")
         return uit
 
     def _stop(self):
@@ -454,6 +478,11 @@ class Studio:
                 return
 
 
+def _leeg(v) -> bool:
+    return v is None or v == "" or (isinstance(v, (list, dict)) and all(_leeg(x) for x in
+                                                                       (v.values() if isinstance(v, dict) else v)))
+
+
 def _sync(rt, nieuw: dict) -> None:
     """Breng de round-trip YAML (met commentaar) in lijn met de nieuwe dict, zonder commentaar te verliezen."""
     for k in list(rt.keys()):
@@ -464,6 +493,10 @@ def _sync(rt, nieuw: dict) -> None:
             _sync(rt[k], v)
         elif rt.get(k) != v:
             rt[k] = copy.deepcopy(v)
+
+
+# Wat "Openen" in Mijn teksten mag openen: documenten en beelden, nooit scripts of programma's
+OPENBAAR = {".docx", ".pdf", ".pptx", ".xlsx", ".md", ".txt", ".html", ".png", ".jpg", ".jpeg", ".svg"}
 
 
 ROUTES = {
