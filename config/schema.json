@@ -508,6 +508,37 @@
         "opleiding": {
           "type": "string"
         },
+        "niveau": {
+          "type": "string",
+          "enum": [
+            "mbo",
+            "hbo-bachelor",
+            "hbo-master"
+          ],
+          "default": "hbo-bachelor",
+          "x-label": {
+            "nl": "Opleidingsniveau",
+            "en": "Level of education"
+          },
+          "x-uitleg": {
+            "nl": "Bepaalt hoeveel theorie, onderbouwing en reflectie een rapport krijgt.",
+            "en": "Sets how much theory, justification and reflection a report gets."
+          },
+          "x-labels": {
+            "mbo": {
+              "nl": "Mbo",
+              "en": "Secondary vocational (mbo)"
+            },
+            "hbo-bachelor": {
+              "nl": "Hbo-bachelor",
+              "en": "Bachelor (university of applied sciences)"
+            },
+            "hbo-master": {
+              "nl": "Hbo-master",
+              "en": "Master (university of applied sciences)"
+            }
+          }
+        },
         "docenten": {
           "type": "array",
           "items": {

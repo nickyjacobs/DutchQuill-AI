@@ -1229,6 +1229,7 @@ const SCHERMEN = {
     const tekstveld = (k, label) => veld(label, el("input", { type: "text", value: st()[k] || "",
       oninput: (e) => zetSt(k, e.target.value.trim()) }));
     const vakken = st().vakken || [];
+    const nivSchema = S.schema.properties.student.properties.niveau;
     const vakNaam = el("input", { type: "text" });
     const vakCode = el("input", { type: "text", placeholder: "SYS" });
     const vakkenLijst = vakken.length ? el("ul", { klasse: "lijst" }, vakken.map((v, i) => el("li", {},
@@ -1255,7 +1256,10 @@ const SCHERMEN = {
       tekstveld("studentnummer", S.taal === "nl" ? "Studentnummer" : "Student number"),
       tekstveld("instelling", S.taal === "nl" ? "Hogeschool of universiteit" : "University"),
       tekstveld("faculteit", S.taal === "nl" ? "Faculteit of instituut" : "Faculty"),
-      tekstveld("opleiding", S.taal === "nl" ? "Opleiding" : "Programme")),
+      tekstveld("opleiding", S.taal === "nl" ? "Opleiding" : "Programme"),
+      veld(lab(nivSchema["x-label"]), el("select", { onchange: (e) => zetSt("niveau", e.target.value) },
+        nivSchema.enum.map((n) => el("option", { value: n, tekst: lab(nivSchema["x-labels"][n]),
+          selected: n === (st().niveau || nivSchema.default) }))), lab(nivSchema["x-uitleg"]))),
       el("h2", { tekst: T("vakken") }), vakkenLijst,
       el("div", { klasse: "kader rij-invoer" }, veld(T("vak"), vakNaam), veld(T("code"), vakCode),
         el("button", { type: "button", klasse: "tweede", tekst: T("toevoegen"), onclick: () => {

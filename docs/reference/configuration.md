@@ -87,3 +87,8 @@ Generated from `config/schema.json`.
 | `basis` | profile name |  | Based on. Name of another profile. Anything you do not set here comes from that one. |
 | `taal` | `nl` \| `en` \| `auto` |  | Overrides the general language for this profile. |
 <!-- tabel:eind -->
+
+`student` holds `voornaam`, `tussenvoegsel`, `achternaam`, `studentnummer`, `instelling`, `faculteit`,
+`opleiding`, `niveau` (`mbo`, `hbo-bachelor` or `hbo-master`; default `hbo-bachelor`), `docenten` (list with
+`naam`, `rol`, `vak`) and `vakken` (list with `naam`, `code`). Submission requirements and grading criteria per
+course are in `templates/vakken/<CODE>/quick-scan.md` and `beoordelingscriteria.md`.

@@ -116,3 +116,11 @@ def test_hook_json_wordt_bijgewerkt(werkmap):
     from dutchquill import paden
     config.zet("bijwerken.herinnering_dagen", 45)
     assert json.loads((paden.data() / "hook.json").read_text())["herinnering_dagen"] == 45
+
+
+def test_opleidingsniveau(werkmap):
+    assert config.effectief()["student"].get("niveau", "hbo-bachelor") == "hbo-bachelor"
+    config.zet("student.niveau", "hbo-master")
+    assert config.effectief()["student"]["niveau"] == "hbo-master"
+    with pytest.raises(config.ConfigFout):
+        config.zet("student.niveau", "universiteit")

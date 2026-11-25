@@ -88,7 +88,8 @@ Gegenereerd uit `config/schema.json`.
 <!-- tabel:eind -->
 
 `student` bevat `voornaam`, `tussenvoegsel`, `achternaam`, `studentnummer`, `instelling`, `faculteit`,
-`opleiding`, `docenten` (lijst met `naam`, `rol`, `vak`) en `vakken` (lijst met `naam`, `code`). Inlevereisen en
+`opleiding`, `niveau` (`mbo`, `hbo-bachelor` of `hbo-master`; standaard `hbo-bachelor`), `docenten` (lijst met
+`naam`, `rol`, `vak`) en `vakken` (lijst met `naam`, `code`). Inlevereisen en
 beoordelingscriteria per vak staan in `templates/vakken/<CODE>/quick-scan.md` en `beoordelingscriteria.md`.
 
 ## Stijlnamen van een eigen template

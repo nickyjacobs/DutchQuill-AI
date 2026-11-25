@@ -77,7 +77,7 @@ Draai de controles die horen bij de modules die aan staan:
 | humaniseren | zelfde commando; herstel sterke tells, clusters, formules en ritme volgens de gids |
 | altijd | de taalronde uit `gidsen/werkwijze/taalronde.md`: zin voor zin op d/t, spelling, komma's en consistentie; met `privacy.languagetool` aan ook `DQ taalcheck --input <concept> --lang <taal>` |
 | taalregels | `DQ leesbaarheid --input <concept>` (Nederlands), en de stijlregels uit `gidsen/nl/taal.md` |
-| apa | `DQ apa-check --input <concept>` |
+| apa | `DQ apa-check --input <concept>`; ruwe brongegevens naar een APA-regel met `DQ apa-bron --input <bronnen.json>` |
 | herschrijven en humaniseren | `DQ feiten --origineel <origineel> --nieuw <concept>` |
 
 De taalronde doe je als laatste, na de inhoud en het humaniseren: elke herschreven zin kan een nieuwe fout

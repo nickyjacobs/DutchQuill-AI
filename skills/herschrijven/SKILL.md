@@ -39,6 +39,12 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
    Bewaar het origineel als `origineel.md` in de werkmap (`.dutchquill/tmp/`, of de nieuwe versiemap bij
    bestandsuitvoer). Het originele bestand van de gebruiker raak je nooit aan.
+
+   **Figuren.** Geeft `DQ extraheer` een map `-beelden/` terug, bekijk dan elke afbeelding met Read: wat toont
+   ze, en bij welke alinea hoort ze. In het concept blijft elke `![bijschrift](pad)` staan, op de plek waar de
+   tekst erover gaat. De verwijzing ("zie Figuur 2") staat in de tekst vóór de figuur, niet erna. Verandert de
+   volgorde van de figuren, controleer dan de nummers in de verwijzingen. Een nieuwe figuur van de gebruiker
+   kopieer je naar de versiemap en zet je er op dezelfde manier in.
 3. **Wat moet er anders?** Bepaal de modus. Meerdere tegelijk kan.
 
    | Modus | Wat je doet |
@@ -59,7 +65,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - De opbouw (koppen, volgorde, opsommingen) blijft, tenzij de gebruiker anders vraagt of de opbouw het
      probleem is. Zeg het als je de opbouw verandert.
    - Verander niets binnen citaten.
-   - Bronvermeldingen, getallen en namen blijven precies.
+   - Bronvermeldingen, getallen en namen blijven precies. Bij parafraseren met APA: geef de gebruiker een
+     bronvermelding; heb je alleen ruwe gegevens, maak de regel met `DQ apa-bron --input <bron.json>`.
    - In de stem van de gebruiker. Komt de tekst van de gebruiker zelf, dan bewaar je ook de eigenaardigheden
      van de schrijver; zie `humaniseren.md`, sectie 2.
 7. **Controles** (werkwijze 5), verplicht:
@@ -79,3 +86,4 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 - [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap.
 - [ ] De opbouw is behouden, of de wijziging is gemeld.
 - [ ] Het origineel van de gebruiker is onaangeroerd.
+- [ ] Elke figuur staat er nog, op de goede plek, met de verwijzing ervóór.

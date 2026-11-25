@@ -30,6 +30,14 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
   `/dutchquill:humaniseren` saved as a file gets it too.
 - A built-in Word template `review` for review and scan reports, with a fixed order: overview, verdict, submission
   requirements, five actions, findings per domain, figures.
+- A setting for your level of education (`student.niveau`: mbo, hbo bachelor, hbo master), in the Studio and the
+  academic style guide. It sets how much theory, justification and reflection a report gets.
+- Before writing a report for the student profile, DutchQuill shows the title page details and asks whether they
+  are right; with more courses it asks which one.
+- The report templates explain the optional parts again (preface, glossary, reflection) and give a rule of thumb
+  for the number of words per chapter.
+- Writing and rewriting call `dq apa-bron` again to turn raw source details into an APA reference.
+- Rewriting keeps every figure in place, with the reference ("see Figure 2") before the figure.
 - Three AI patterns from v1 are back in `dq tells`: the Oxford comma in Dutch ("X, Y, en Z"), three stacked
   adjectives before one noun (Dutch and English), and a high share of plain emphasis words like *belangrijk*,
   *effectief* and *uniek* (over 3% of the text).

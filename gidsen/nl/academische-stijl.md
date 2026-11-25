@@ -3,7 +3,7 @@ titel: Academische stijl
 module: academische_stijl
 geldt: alleen als controles.academische_stijl aan staat (hbo-rapport, scriptie, onderzoeksrapport)
 versie: 2
-gecontroleerd: 2026-11-24
+gecontroleerd: 2026-11-25
 bronnen:
   - https://www.scribbr.nl/category/academische-stijlregels/
   - https://www.scribbr.nl/scriptie-structuur/structuur-academische-tekst/
@@ -24,6 +24,16 @@ Regels die alleen gelden voor academische tekst: hbo-rapporten, scripties, onder
 bovenop `kern.md`. Daarin staan getallen, fragmenten, naamwoordstijl, zinslengte, Engelse woorden, vaag
 taalgebruik en het woordje "er"; die gelden voor elke tekst en staan hier dus niet meer.
 Gebaseerd op Scribbr NL.
+
+**Opleidingsniveau** (`student.niveau`, standaard hbo-bachelor). De regels hieronder gelden voor alle drie; het
+niveau bepaalt hoe diep je gaat. Dit is een vuistregel van DutchQuill, geen regel van een opleiding: de
+opdracht en de rubric van het vak gaan altijd voor.
+
+| Niveau | Theorie en bronnen | Onderbouwing | Taal |
+|---|---|---|---|
+| Mbo | weinig theorie; vooral praktijk, het eigen werk en de werkplek; een paar bronnen | wat je deed en waarom, stap voor stap | kortere zinnen, vaktermen uitleggen |
+| Hbo-bachelor | een theoretisch kader met vakliteratuur; de bronnen ondersteunen elke keuze | methode verantwoord, conclusies volgen uit de resultaten | formeel, vaktermen bij het eerste gebruik uitgelegd |
+| Hbo-master | literatuur vergelijken en kritisch wegen, ook waar bronnen elkaar tegenspreken | keuzes in de methode afgezet tegen alternatieven, beperkingen en betekenis voor de praktijk | formeel en compact; vaktermen bekend bij de lezer |
 
 ---
 
