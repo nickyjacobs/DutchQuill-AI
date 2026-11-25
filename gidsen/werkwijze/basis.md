@@ -100,7 +100,7 @@ feitenverlies, geen APA-fouten.
 
 Voldoet een rapport na drie rondes niet, meld dan welke eis openstaat en waarom (bijvoorbeeld: veel vaktermen
 houden de leesbaarheid laag). Verlaag de leesbaarheid nooit kunstmatig en wissel geen synoniemen om de MATTR op te
-krikken. Onder 100 woorden zegt `dq tells` dat de cijfers onbetrouwbaar zijn; lees dan zelf. Een script dat faalt sla je niet over: meld de fout en ga door.
+krikken. Onder 100 woorden zegt `dq tells` dat de cijfers onbetrouwbaar zijn; lees dan zelf. Noem je een aantal woorden, neem dan het getal uit `dq tells` (`woorden`, alleen de lopende tekst) en tel niet zelf met `wc`: twee verschillende getallen in één antwoord verwarren. Een script dat faalt sla je niet over: meld de fout en ga door.
 
 ## 6. Opslaan en exporteren (alleen bij bestandsuitvoer)
 

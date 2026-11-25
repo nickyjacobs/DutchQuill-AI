@@ -58,6 +58,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🔧 Changed
 
+- Every word count in an answer comes from `dq tells` (running text only), so a review no longer gives two
+  different numbers.
 - Text that only goes to the chat always ends with the language-round line ("Taalronde: ..."), and the skills read
   the settings again for every new request, so a change in the Studio counts straight away. For the student
   profile, writing a document always offers an AI statement.
