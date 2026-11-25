@@ -8,7 +8,12 @@ niets: er is geen account, geen telemetrie, geen analytics en geen server van Du
 ## Wat op je computer blijft
 
 - Je teksten, bronnen en uitvoer staan in je werkmap. Die map is van jou.
-- Je instellingen staan in `dutchquill.yaml` in je werkmap.
+- Je instellingen staan in `dutchquill.yaml` in je werkmap. Daarin kunnen persoonsgegevens staan die je zelf
+  invult: bij het profiel student je naam, studentnummer, instelling, faculteit, opleiding, docenten en vakken (`student.*`);
+  bij het profiel professioneel je naam, functie, organisatie, telefoonnummer, e-mailadres, website, LinkedIn en
+  handtekening (`professioneel.*`). DutchQuill gebruikt ze alleen voor de titelpagina en de ondertekening, bewaart
+  ze in dat ene bestand en stuurt ze nergens heen. Claude leest ze als een skill ze nodig heeft, zoals hieronder
+  staat. Weghalen kan door de velden in DutchQuill Studio leeg te maken of de regels uit het bestand te wissen.
 - De Python-omgeving en de cache staan in de datamap van de plugin, onder `~/.claude/plugins/data/`.
 - DutchQuill Studio draait op 127.0.0.1, met een eenmalige sleutel. Andere apparaten kunnen er niet bij.
 
