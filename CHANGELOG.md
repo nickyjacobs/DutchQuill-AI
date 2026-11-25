@@ -38,6 +38,9 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
   for the number of words per chapter.
 - Writing and rewriting call `dq apa-bron` again to turn raw source details into an APA reference.
 - Rewriting keeps every figure in place, with the reference ("see Figure 2") before the figure.
+- The history keeps a copy of each text again (`dq historie log --tekst`), also of scans and texts that only
+  appeared in the chat, in `.dutchquill/historie/` in your workspace. Switch it off with
+  `historie.tekst_bewaren` (Studio, Privacy).
 - Three AI patterns from v1 are back in `dq tells`: the Oxford comma in Dutch ("X, Y, en Z"), three stacked
   adjectives before one noun (Dutch and English), and a high share of plain emphasis words like *belangrijk*,
   *effectief* and *uniek* (over 3% of the text).

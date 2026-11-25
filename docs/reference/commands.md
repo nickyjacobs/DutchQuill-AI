@@ -43,7 +43,7 @@ The skills call `dq`; you can use it yourself too. `dq <command> --help` shows t
 | `dq export` | Markdown to docx, pdf, html, md and txt, with a template |
 | `dq template lijst` / `check` / `aanpas` | List Word templates, check them, make an adjusted copy |
 | `dq versie volgende` / `laatste` / `lijst` | Version folders in `2-output/` |
-| `dq historie toon` / `log` | Show or add to the history of your tasks |
+| `dq historie toon` / `log` | Show or add to the history of your tasks; `log --tekst` keeps a copy of the text |
 | `dq gids voor` / `pad` / `diff` / `schrijf` | Which guides belong to a task; compare and write an updated guide |
 | `dq bronnen check` / `markeer` | Check the sources of the guides |
 | `dq vak toon` / `lijst` | The submission requirements and rubric of a course, only the `## Rapportage` section |

@@ -52,7 +52,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - de verkeerde lezer;
    - tekst over de tekst;
    - of het specifiek genoeg is.
-6. **Scan: rapporteer en stop.** Geef het niveau, de vijf belangrijkste patronen met een voorbeeld uit de tekst
+6. **Scan: rapporteer, log en stop.** Log de scan: `DQ historie log --actie humaniseren --titel "<titel>"
+   --tekst <origineel> --meta '{"modus": "scan", "niveau": "<niveau>"}'`. Geef het niveau, de vijf belangrijkste patronen met een voorbeeld uit de tekst
    en een alternatief, en wat goed is aan de tekst. Bij een document mag dit ook als bestand
    (`2-output/humaniseren/<titel>/vN/`): maak eerst het overzichtsbeeld met `DQ reviewgrafiek --input <origineel>
    --genre <genre> --titel "<titel>" --output <map>/overzicht.png`, zet het als `![Overzicht](overzicht.png)`

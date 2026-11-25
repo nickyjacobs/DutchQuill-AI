@@ -115,12 +115,16 @@ krikken. Onder 100 woorden zegt `dq tells` dat de cijfers onbetrouwbaar zijn; le
    de formaten uit de config, met de template van het profiel.
 4. Schrijf `<map>/wat-is-er-veranderd.md`: drie tot tien regels over wat je deed, de gebruikte instellingen
    (profiel, toon, modules), de uitkomst van de controles en de taalronde, en wat de gebruiker nog moet aanvullen.
-5. `DQ historie log --actie <actie> --titel "<titel>" --bestand <bestand> ... --meta '{"genre": "...", "profiel": "..."}'`.
+5. `DQ historie log --actie <actie> --titel "<titel>" --bestand <bestand> ... --tekst <map>/bron.md --meta
+   '{"genre": "...", "profiel": "..."}'`. Met `--tekst` komt er een kopie van de tekst in de historie (tenzij
+   `historie.tekst_bewaren` uit staat).
 
 ## 7. Afronden in de chat
 
 - **Chat-uitvoer:** de tekst zelf, met daaronder hooguit twee regels: wat je aannam (bijvoorbeeld de toon) en
-  of er iets ontbreekt.
+  of er iets ontbreekt. Log ook deze tekst, vóór je `tmp/` opruimt: `DQ historie log --actie <actie> --titel
+  "<korte titel>" --tekst <concept> --meta '{"genre": "...", "uitvoer": "chat"}'`. Is er geen werkmap, sla dit
+  dan over.
 - **Bestandsuitvoer:** het pad naar de map, de formaten, de tells-score (voor en na bij herschrijven), en de
   open punten (`[bron nodig]`, `[voorbeeld nodig]`). Geen samenvatting van de hele tekst.
 - Ruim `<werkmap>/.dutchquill/tmp/` op.

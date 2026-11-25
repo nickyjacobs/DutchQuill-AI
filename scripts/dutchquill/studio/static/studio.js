@@ -1210,10 +1210,14 @@ const SCHERMEN = {
     const pr = S.ruw.privacy || {};
     const zet = (k, v) => { S.ruw.privacy = { ...(S.ruw.privacy || {}), [k]: v }; gewijzigd(); };
     const props = S.schema.properties.privacy.properties;
+    const hist = S.schema.properties.historie.properties.tekst_bewaren;
+    const hs = S.ruw.historie || {};
     return [
       ...kop(T("privacy_titel"), T("privacy_uitleg")),
       el("div", { klasse: "schakelaars" }, schakelaar(lab(props.languagetool["x-label"]),
-        lab(props.languagetool["x-uitleg"]), pr.languagetool, (v) => zet("languagetool", v), T("lt_extra"))),
+        lab(props.languagetool["x-uitleg"]), pr.languagetool, (v) => zet("languagetool", v), T("lt_extra")),
+        schakelaar(lab(hist["x-label"]), lab(hist["x-uitleg"]), hs.tekst_bewaren !== false, (v) => {
+          S.ruw.historie = { ...(S.ruw.historie || {}), tekst_bewaren: v }; gewijzigd(); })),
       S.installatie ? stapknoppen() : null,
     ];
   },
