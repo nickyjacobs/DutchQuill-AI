@@ -35,7 +35,7 @@ from dutchquill.config import ConfigFout, effectief, naar_dict
 
 FORMATEN = ("docx", "pdf", "html", "md", "txt")
 INGEBOUWD = {"apa-hbo", "zakelijk", "notitie"}
-LANG_RAPPORT = {"rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport"}
+LANG_RAPPORT = {"rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "technisch-rapport"}
 STIJL_STANDAARD = {
     "titel": "Title", "ondertitel": "Subtitle", "kop1": "Heading 1", "kop2": "Heading 2", "kop3": "Heading 3",
     "kop4": "Heading 4", "normaal": "Normal", "lijst_bullet": "List Bullet", "lijst_nummer": "List Number",

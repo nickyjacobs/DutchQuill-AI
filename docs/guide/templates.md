@@ -28,8 +28,8 @@ route you have.
 
 ## Templates per kind of text
 
-There are twelve: email, LinkedIn post, other social post, short text, report (hbo), research report, advisory report,
-business report, process document (SOP), research note, memo and README. A template describes the structure: which
+There are thirteen: email, LinkedIn post, other social post, short text, report (hbo), research report, advisory
+report, business report, technical report (pentest, audit), process document (SOP), research note, memo and README. A template describes the structure: which
 parts belong in an email or an SOP, and in which order.
 
 Making your own version:

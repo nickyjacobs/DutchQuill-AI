@@ -82,7 +82,7 @@ Generated from `config/schema.json`.
 | `toon.aanspreekvorm` | `auto` \| `je` \| `u` \| `geen` | `"auto"` | Form of address. auto picks per genre and reader; geen means: do not address the reader (academic). |
 | `toon.mix` | string | `""` | Custom mix (free text). For example: businesslike, with a light closing line. |
 | `uitvoer.formaten` | list of `docx` \| `pdf` \| `md` \| `txt` \| `html` | `["docx"]` | File formats. |
-| `uitvoer.chat_voor` | list of `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Chat only (no file). These kinds of text only appear in the chat unless you say: save it. |
+| `uitvoer.chat_voor` | list of `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `technisch-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Chat only (no file). These kinds of text only appear in the chat unless you say: save it. |
 | `uitvoer.template` | string | `"zakelijk"` | Template. Name of a built-in or custom template. |
 | `basis` | profile name |  | Based on. Name of another profile. Anything you do not set here comes from that one. |
 | `taal` | `nl` \| `en` \| `auto` |  | Overrides the general language for this profile. |

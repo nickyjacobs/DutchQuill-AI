@@ -29,8 +29,8 @@ DutchQuill de pdf via Chrome of Edge, in een eigen nette opmaak, of als laatste 
 
 ## Sjablonen per soort tekst
 
-Er zijn twaalf sjablonen: mail, LinkedIn-post, andere social post, korte tekst, rapport (hbo), onderzoeksrapport,
-adviesrapport, zakelijk rapport, procesdocument (SOP), research-notitie, memo en README. Een sjabloon beschrijft de
+Er zijn dertien sjablonen: mail, LinkedIn-post, andere social post, korte tekst, rapport (hbo), onderzoeksrapport,
+adviesrapport, zakelijk rapport, technisch rapport (pentest, audit), procesdocument (SOP), research-notitie, memo en README. Een sjabloon beschrijft de
 opbouw: welke onderdelen er in een mail of een SOP horen, en in welke volgorde.
 
 Je eigen versie maken:

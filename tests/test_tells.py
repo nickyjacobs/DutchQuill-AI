@@ -139,3 +139,72 @@ def test_vervolgregel_hoort_bij_opsommingspunt():
     rs = [r for r in tekst.regels(md) if r.soort != "leeg"]
     assert [(r.soort, r.tekst) for r in rs] == [("lijst", "Eerste punt dat over twee regels doorloopt tot hier."),
                                                  ("lijst", "Tweede punt."), ("proza", "Gewone alinea.")]
+
+
+# ---- terug uit v1: Oxford-komma, gestapelde bijvoeglijke naamwoorden, niveau 3, leesbaarheid, korte tekst
+
+def test_oxford_komma_alleen_nederlands():
+    r = tells.analyseer("We kochten appels, peren, en bananen voor de kantine van het nieuwe kantoor.", taal="nl")
+    assert "oxford_komma" in r["per_categorie"]
+    r = tells.analyseer("We kochten appels, peren en bananen voor de kantine van het nieuwe kantoor.", taal="nl")
+    assert "oxford_komma" not in r["per_categorie"]
+    r = tells.analyseer("We bought apples, pears, and bananas for the canteen of the new office.", taal="en")
+    assert "oxford_komma" not in r["per_categorie"]
+
+
+def test_oxford_komma_niet_in_citaat():
+    r = tells.analyseer('Hij schreef: "appels, peren, en bananen" en ging daarna naar huis.', taal="nl")
+    assert "oxford_komma" not in r["per_categorie"]
+
+
+def test_gestapelde_bijvoeglijke_naamwoorden():
+    r = tells.analyseer("Dit is een innovatief, baanbrekend en duurzaam project voor de hele regio.", taal="nl")
+    assert "bijvoeglijk_stapel" in r["per_categorie"]
+    r = tells.analyseer("We spraken met de klanten, collega's en partners over het nieuwe plan.", taal="nl")
+    assert "bijvoeglijk_stapel" not in r["per_categorie"]
+    r = tells.analyseer("It is a robust, scalable and innovative platform for teams of every size.", taal="en")
+    assert "bijvoeglijk_stapel" in r["per_categorie"]
+
+
+def test_niveau3_dichtheid():
+    zin = "Het belangrijke punt is dat dit een effectief en uniek plan is voor ons team. "
+    vul = "We bespreken het plan morgen met de afdeling en maken dan een keuze over de planning. "
+    r = tells.analyseer((zin + vul) * 4, taal="nl")
+    b = [b for b in r["bevindingen"] if b["cat"] == "niveau3_dichtheid"]
+    assert b and b[0]["punten"] == 1 and "belangrijke" in b[0]["context"]
+    r = tells.analyseer(zin + vul * 8, taal="nl")
+    assert "niveau3_dichtheid" not in r["per_categorie"]
+
+
+def test_lage_leesbaarheid_telt_bij_rapport():
+    tekst = lees("rapport_moeilijk_nl.md")
+    r = tells.analyseer(tekst, taal="nl", genre="rapport")
+    assert r["statistiek"]["flesch"] < 30
+    assert "leesbaarheid" in r["per_categorie"] and r["niveau"] != "laag", tells.rapport(r)
+    assert r["acceptatie"] and not r["acceptatie"]["voldaan"]
+    assert any("Flesch" in t for t in r["acceptatie"]["tekort"])
+    mail = tells.analyseer(tekst, taal="nl", genre="mail")
+    assert "leesbaarheid" not in mail["per_categorie"] and mail["acceptatie"] is None
+
+
+def test_technisch_rapport_eigen_drempels():
+    tekst = lees("rapport_moeilijk_nl.md")
+    r = tells.analyseer(tekst, taal="nl", genre="technisch-rapport")
+    assert r["drempels"]["groep"] == "technisch" and r["drempels"]["laag_onder"] == 6
+    assert r["acceptatie"]["eisen"]["flesch_min"] == 25 and r["acceptatie"]["eisen"]["mattr_min"] == 0.70
+    assert tells.groep("rapport") == "streng" and tells.groep("mail") == "los"
+
+
+def test_bovengrens_leesbaarheid_alleen_academisch():
+    tekst = lees("mens_nl.md")
+    assert any("tot 50" in t for t in tells.analyseer(tekst, genre="rapport")["acceptatie"]["tekort"])
+    assert tells.analyseer(tekst, genre="zakelijk-rapport")["acceptatie"]["voldaan"]
+
+
+def test_korte_tekst_waarschuwt():
+    r = tells.analyseer("Hoi Sam, morgen om tien uur past prima. Tot dan!", taal="nl", genre="mail")
+    assert r["waarschuwingen"] and "Korte tekst" in r["waarschuwingen"][0]
+    assert "Let op: Korte tekst" in tells.rapport(r)
+    r = tells.analyseer("Hi Sam, ten tomorrow works fine. See you then!", taal="en", genre="mail")
+    assert "Note: Short text" in tells.rapport(r)
+    assert not tells.analyseer(lees("mens_nl.md"))["waarschuwingen"]

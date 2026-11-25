@@ -16,8 +16,8 @@ Elk `dq`-commando draai je via Bash met het voorvoegsel uit de skill:
 
 ## 1. Opdracht, genre en uitvoer
 
-1. **Genre bepalen.** Kies er één: rapport (hbo), onderzoeksrapport, adviesrapport, zakelijk-rapport, sop,
-   research-notitie, mail, linkedin, social, readme, memo, kort. Twijfel je tussen twee, kies dan het meest
+1. **Genre bepalen.** Kies er één: rapport (hbo), onderzoeksrapport, adviesrapport, zakelijk-rapport,
+   technisch-rapport (pentest, audit), sop, research-notitie, mail, linkedin, social, readme, memo, kort. Twijfel je tussen twee, kies dan het meest
    voor de hand liggende en zeg welk het werd. Vraag alleen als het echt onduidelijk is.
 2. **Config laden voor dat genre:** `DQ gids voor --genre <genre>` geeft het profiel, de taal en de gidsen die
    je moet lezen. `DQ config toon --genre <genre>` geeft de volledige instellingen. Zegt de gebruiker iets dat
@@ -84,7 +84,20 @@ hebben. Ze is verplicht, ook voor een mail van drie zinnen.
 
 Herstel wat de controles vinden en draai ze opnieuw, **hooguit drie rondes**. Is het daarna nog niet goed, meld
 dan wat er overblijft en waarom. Doel: tells-niveau laag (of gemiddeld met alleen zwakke tells), geen
-feitenverlies, geen APA-fouten. Een script dat faalt sla je niet over: meld de fout en ga door.
+feitenverlies, geen APA-fouten.
+
+**Wanneer een rapport klaar is.** Bij rapporten geeft `DQ tells --json` een blok `acceptatie` met `voldaan` en
+`tekort`. De eisen (Flesch-Douma en MATTR alleen voor Nederlands; MATTR pas vanaf 300 woorden):
+
+| Soort | Genres | AI-patronen | Flesch-Douma | MATTR |
+|---|---|---|---|---|
+| Academisch | rapport, onderzoeksrapport, adviesrapport | laag (onder 4) | 30 tot 50 | vanaf 0,75 |
+| Zakelijk | zakelijk-rapport | laag (onder 4) | vanaf 30 | vanaf 0,75 |
+| Technisch | technisch-rapport | laag (onder 6) | vanaf 25 | vanaf 0,70 |
+
+Voldoet een rapport na drie rondes niet, meld dan welke eis openstaat en waarom (bijvoorbeeld: veel vaktermen
+houden de leesbaarheid laag). Verlaag de leesbaarheid nooit kunstmatig en wissel geen synoniemen om de MATTR op te
+krikken. Onder 100 woorden zegt `dq tells` dat de cijfers onbetrouwbaar zijn; lees dan zelf. Een script dat faalt sla je niet over: meld de fout en ga door.
 
 ## 6. Opslaan en exporteren (alleen bij bestandsuitvoer)
 

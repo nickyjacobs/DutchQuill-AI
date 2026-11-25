@@ -3,7 +3,7 @@
 # Main sources: Wikipedia "Signs of AI writing" (WikiProject AI Cleanup, checked 2026-11), blader/humanizer v4.0.0.
 
 taal: en
-bijgewerkt: 2026-11-24
+bijgewerkt: 2026-11-25
 
 woorden:
   sterk:
@@ -147,6 +147,8 @@ structuur:
     - "\\bisn'?t (?:about|just)\\b[^.!?\\n]{1,60}\\bit'?s\\b"
     - '\bnot because\b[^.!?\n]{1,60}\bbut because\b'
   retorische_aanloop: '(?:^|[.!]\s+)((?:\w+\s){0,3}\w+\?)\s+[A-Z]'
+  # Three adjectives stacked before one noun ("a robust, scalable and innovative platform")
+  bijvoeglijk_stapel: '\b(?:a|an|the)\s+\w+(?:ive|ous|able|ible|al|ic|ful|less|ent|ant|ed|ing|ust),\s*\w+(?:ive|ous|able|ible|al|ic|ful|less|ent|ant|ed|ing|ust),?\s+and\s+\w+(?:ive|ous|able|ible|al|ic|ful|less|ent|ant|ed|ing|ust)\s+\w{3,}'
 
 connectoren: [furthermore, moreover, additionally, however, consequently, therefore, thus, notably, importantly,
               ultimately, overall, indeed, nevertheless]

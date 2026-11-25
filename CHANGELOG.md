@@ -25,6 +25,19 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 - A review ends with a verdict (ready to submit, minor changes, rewrite recommended). Each submission requirement
   gets ✓, ⚠, ✗ or ?, with "X of Y met" and whether the text meets the requirements.
 
+- Three AI patterns from v1 are back in `dq tells`: the Oxford comma in Dutch ("X, Y, en Z"), three stacked
+  adjectives before one noun (Dutch and English), and a high share of plain emphasis words like *belangrijk*,
+  *effectief* and *uniek* (over 3% of the text).
+- A new kind of text, `technisch-rapport` (pentest, audit), with its own template and more room for fixed terms and
+  long technical sentences.
+- For reports, `dq tells` says whether the text is ready (AI patterns, Flesch-Douma, MATTR); the requirements per
+  kind of report are in the working method.
+
+### 🔧 Changed
+
+- In Dutch reports a Flesch-Douma score under 30 (technical report: under 25) counts as a pattern again.
+- `dq tells` warns when a text has fewer than 100 words: the figures are unreliable then.
+
 ### 🐛 Fixed
 
 - The example files for course criteria pointed to the old v1 location. They now say where the files go in your

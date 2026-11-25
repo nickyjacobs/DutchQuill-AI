@@ -2,8 +2,8 @@
 titel: Humaniseren (Nederlands)
 module: humaniseren
 geldt: als controles.humaniseren aan staat
-versie: 3
-gecontroleerd: 2026-11-24
+versie: 4
+gecontroleerd: 2026-11-25
 data: gidsen/data/tells_nl.yaml
 bronnen:
   - https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing
@@ -13,6 +13,7 @@ bronnen:
   - https://onzetaal.nl/uploads/editor/Invloed.pdf
   - https://arxiv.org/html/2507.00838v2
   - https://arxiv.org/pdf/2509.10179
+  - https://www.scribbr.nl/taalregels-schrijftips/kommas/
 ---
 
 # Humaniseren (Nederlands)
@@ -67,6 +68,11 @@ genoeg om te kijken.
 benutten, optimaliseren, proactief, in het kader van, met betrekking tot, kortom. Eén zo'n woord zegt niets.
 Drie verschillende in dezelfde alinea vormen een **cluster**, en dat klinkt wel als AI.
 
+**Gewone nadrukwoorden in groten getale**: belangrijk, effectief, uniek, waardevol, opmerkelijk, substantieel.
+Elk woord is gewoon Nederlands. Maken ze samen meer dan 3% van de tekst uit, dan wordt er overal nadruk gelegd en
+nergens uitgelegd waarom. Zeg wat iets belangrijk maakt. (In v1 heette dit niveau 3; `dq tells` meldt het als
+`niveau3_dichtheid`.)
+
 **Woorden wisselen per modelgeneratie.** Lijsten verouderen; daarom worden ze maandelijks bijgewerkt.
 
 | Tijdperk | Engels (Wikipedia) | Nederlandse tegenhanger |
@@ -106,6 +112,12 @@ Drie verschillende in dezelfde alinea vormen een **cluster**, en dat klinkt wel 
 - **Retorische aanloop** ("Het resultaat? Een snellere app."). Schrijf de zin gewoon uit.
 - **Drieslag**: alles in drieën ("snel, veilig en betrouwbaar"). Varieer met twee, vier of één, en
   alleen als het er ook echt zoveel zijn.
+- **Oxford-komma**: een komma voor "en" in een opsomming ("analyse, ontwerp, en uitvoering"). Dat is Engelse
+  interpunctie; Nederlands schrijft "analyse, ontwerp en uitvoering" (Scribbr, komma's). Een vertaalde of door
+  een Engelstalig model geschreven tekst heeft hem vaak. Eén keer is een slordigheid, vaker een patroon.
+- **Gestapelde bijvoeglijke naamwoorden**: drie op een rij voor één zelfstandig naamwoord ("een innovatief,
+  baanbrekend en duurzaam project"). Dat is de reclametoon die Wikipedia (Signs of AI writing) vooral bij oudere
+  modellen zag, van 2023 tot 2025. Kies het ene woord dat er echt toe doet, of laat zien waarom het zo is.
 - **Opgeblazen belang**: "markeert een keerpunt", "van onschatbare waarde", "heeft het debat blijvend gevormd".
   Wat gebeurde er concreet?
 - **Oppervlakkige bijzin aan het eind**: "..., waarmee het belang van samenwerking wordt onderstreept". Die
@@ -175,7 +187,14 @@ Patronen weghalen is de helft. Dit voegt toe:
 | Genre | Laag | Gemiddeld | Hoog |
 |---|---|---|---|
 | Rapport, SOP, README, memo (streng) | onder 4 | 4 tot 9 | 9 of meer |
+| Technisch rapport: pentest, audit (technisch) | onder 6 | 6 tot 12 | 12 of meer |
 | Mail, LinkedIn, social, kort (los) | onder 6 | 6 tot 12 | 12 of meer |
+
+Een technisch rapport krijgt meer ruimte omdat vaste termen, lijdende vorm in het bewijs en lange technische
+zinnen daar horen.
+
+**Korte tekst.** Onder 100 woorden zijn de cijfers onbetrouwbaar: één treffer weegt dan zwaar, en ritme en
+woordvariatie zijn niet te meten. `dq tells` meldt dat. Lees een korte tekst zelf, en vaar niet op de score.
 
 Doel na humaniseren: laag. Een gemiddelde score met alleen zwakke tells is vaak prima. Belangrijker dan het
 getal: zijn de sterke tells weg, is er geen cluster meer, en klopt de feitencontrole?
@@ -185,6 +204,11 @@ getal: zijn de sterke tells weg, is er geen cluster meer, en klopt de feitencont
 Een makkelijke tekst is niet automatisch menselijk, en een moeilijke tekst niet automatisch AI. Flesch-Douma
 (`dq leesbaarheid`) is een hulpmiddel. Een hbo-rapport zit meestal tussen 30 en 50, een mail of post hoger.
 Verlaag de leesbaarheid nooit om "academischer" te klinken.
+
+Bij rapporten telt een lage leesbaarheid wel mee: onder 30 (technisch rapport: onder 25) geeft `dq tells` twee
+punten (`leesbaarheid`). Lange zinnen vol lange woorden zijn typisch voor AI-tekst die "formeel" moest zijn. Bij
+rapporten geeft `dq tells` ook of de tekst klaar is (`acceptatie`): de eisen per soort rapport staan in de
+werkwijze, sectie 5.
 
 ## 8. Voor en na
 

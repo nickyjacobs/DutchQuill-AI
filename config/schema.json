@@ -13,6 +13,7 @@
         "onderzoeksrapport",
         "adviesrapport",
         "zakelijk-rapport",
+        "technisch-rapport",
         "sop",
         "research-notitie",
         "mail",
@@ -38,6 +39,10 @@
         "zakelijk-rapport": {
           "nl": "Zakelijk rapport",
           "en": "Business report"
+        },
+        "technisch-rapport": {
+          "nl": "Technisch rapport (pentest, audit)",
+          "en": "Technical report (pentest, audit)"
         },
         "sop": {
           "nl": "Procesdocument / SOP",

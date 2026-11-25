@@ -107,7 +107,7 @@ kunnen bewerken: dq bewaart het commentaar en de opmaak van de gebruiker, valide
 | ander profiel gebruiken | `DQ config profiel kies <naam>`; zie eerst `DQ config profielen` |
 | nieuw profiel | `DQ config profiel nieuw <naam> --basis <profiel> --beschrijving "<tekst>"`, daarna `kies` en de afwijkende instellingen zetten |
 | profiel weg | `DQ config profiel verwijder <naam>` (alleen eigen profielen) |
-| automatisch profiel per soort tekst | `DQ config zet genre_profielen.<genre> <profiel>`. Genres: rapport, onderzoeksrapport, adviesrapport, zakelijk-rapport, sop, research-notitie, mail, linkedin, social, readme, memo, kort |
+| automatisch profiel per soort tekst | `DQ config zet genre_profielen.<genre> <profiel>`. Genres: rapport, onderzoeksrapport, adviesrapport, zakelijk-rapport, technisch-rapport, sop, research-notitie, mail, linkedin, social, readme, memo, kort |
 
 Regels:
 

@@ -18,7 +18,9 @@ inhoud verandert niet.
 - **Een feitencontrole.** Na elke herschrijfronde controleert `dq feiten` dat er geen getal, naam, datum, citaat
   of bron verdwenen of bijgekomen is. DutchQuill verzint niets; ontbreekt er iets, dan staat er `[bron nodig]`.
 - **Drempels per soort tekst.** Een LinkedIn-post mag luchtiger dan een rapport; bij informele tekst grijpt
-  DutchQuill minder snel in.
+  DutchQuill minder snel in. Een technisch rapport (pentest, audit) krijgt meer ruimte voor vaste termen en lange
+  technische zinnen. Bij rapporten telt een lage leesbaarheid mee als patroon, en zegt `dq tells` of de tekst klaar
+  is (AI-patronen, leesbaarheid, woordvariatie). Onder 100 woorden waarschuwt het dat de cijfers weinig zeggen.
 
 ## Zelf meten
 
