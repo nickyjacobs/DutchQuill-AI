@@ -22,6 +22,17 @@ consistentie en herstelt wat hij vindt; een review zet het als bevindingen in he
 LanguageTool komt daar bovenop en vangt meer kleine fouten, maar stuurt je tekst naar api.languagetool.org. Daarom
 staat die standaard uit.
 
+## Welke metadata zet DutchQuill in mijn bestand?
+
+Standaard de titel en de auteur uit je tekst of profiel, en niets over het gereedschap: een pdf heeft geen
+maker of producent. In Word zijn de aanmaaktijd en de revisie wat python-docx zet (nu, en 1). DutchQuill verzint
+nooit metadata zoals een bewerkingstijd, een aantal revisies of een eerdere datum.
+
+Wil je niets herleidbaars in het bestand, bijvoorbeeld voor een stuk dat naar buiten gaat? Zet
+**Documentgegevens** op **Leeg** in de Studio (Uitvoer), of `dq config zet uitvoer.metadata leeg`. Dan blijven in
+Word auteur, laatst gewijzigd door, titel, onderwerp, trefwoorden, opmerkingen, bedrijf, manager en het programma
+leeg, en in de pdf titel en auteur. Er komt niets anders voor in de plaats.
+
 ## Kost het iets?
 
 DutchQuill zelf is gratis (MIT). Het draait in Claude Code, dus je gebruikt je eigen Claude-abonnement of API-tegoed.

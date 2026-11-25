@@ -1041,6 +1041,10 @@ const SCHERMEN = {
       veld(T("template"), el("select", { onchange: (e) => zetProfiel("uitvoer", "template", e.target.value) },
         S.templates.map((t) => el("option", { value: t.naam, selected: t.naam === p.uitvoer.template,
           tekst: `${t.naam} (${T(t.soort === "eigen" ? "eigen" : "meegeleverd")})` })))),
+      (() => { const md = S.schema.$defs.profiel.properties.uitvoer.properties.metadata;
+        return veld(lab(md["x-label"]), el("select", { onchange: (e) => zetProfiel("uitvoer", "metadata", e.target.value) },
+          md.enum.map((w) => el("option", { value: w, tekst: lab(md["x-labels"][w]),
+            selected: w === (p.uitvoer.metadata || md.default) }))), lab(md["x-uitleg"])); })(),
     ];
   },
 
