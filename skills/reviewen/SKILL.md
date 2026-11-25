@@ -37,11 +37,15 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    Bepaal het genre en laad de config: `DQ gids voor --genre <genre>`. Een review gaat over de modules die aan
    staan. Vraagt de gebruiker expliciet om iets anders ("let ook op APA"), doe dat dan ook.
 3. **Gidsen lezen** (werkwijze 2), plus bij het studentprofiel de criteria van het vak:
-   - `<werkmap>/templates/vakken/<VAKCODE>/quick-scan.md` (inlevereisen);
-   - `beoordelingscriteria.md` in diezelfde map (rubric).
-
-   De vakcode komt uit de tekst (titelpagina) of uit de vraag. Voorbeelden van het formaat staan in
-   `${CLAUDE_PLUGIN_ROOT}/templates/student/`.
+   - Draai `DQ vak toon --json`. Heeft de gebruiker één vak, dan kiest het commando dat vanzelf. Geeft het
+     `"status": "kies"`, vraag dan welk vak (noem de opties; staat de vakcode op de titelpagina, stel die voor) en
+     draai `DQ vak toon --code <CODE> --json`. Bij `"geen"` of `"leeg"` is er geen rubric: ga door zonder.
+   - Meld in één regel welke criteria geladen zijn (de `melding`, bijvoorbeeld "Criteria geladen voor ABC1: 8
+     inlevereisen; 12 beoordelingscriteria").
+   - Het commando geeft alleen de items onder `## Rapportage`; die onder `## Praktijk` gaan niet over de tekst en
+     tellen niet mee. Staat er geen sectie Rapportage in het bestand, dan zijn alle items gelezen; zeg dat erbij.
+   - De bestanden staan in `<werkmap>/templates/vakken/<VAKCODE>/` (`quick-scan.md` en
+     `beoordelingscriteria.md`). Voorbeelden van het formaat: `${CLAUDE_PLUGIN_ROOT}/templates/student/`.
 4. **Scripts** (de subagent `dutchquill:tekst-analist` kan ze voor je draaien en samenvatten):
    - `DQ tells --input <tekst> --genre <genre> --json`
    - `DQ leesbaarheid --input <tekst>` (Nederlands)
@@ -65,8 +69,25 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - een voorstel;
    - een prioriteit: **moet** (fout of eis), **beter** (duidelijke winst), **kan** (smaak).
 
-   Geef per domein een kort oordeel in één zin, en eindig met de vijf acties die het meeste opleveren.
-   Schrijf het rapport in de taal van de tekst.
+   Geef per domein een kort oordeel in één zin.
+
+   **Inlevereisen** (als er een quick scan is): loop elk item na en geef het een teken:
+   ✓ voldaan, ⚠ deels, ✗ niet voldaan, ? niet te beoordelen uit de tekst (bijvoorbeeld de paginanummers in een
+   Markdown-bestand). Een tabel met eis, teken en waar het blijkt. Daaronder de telling "X van Y voldaan" (alleen ✓
+   telt) en het oordeel **Voldoet aan de inlevereisen** (geen ✗ en geen ⚠) of **Nog niet klaar voor inlevering**.
+   De rubric (beoordelingscriteria) beoordeel je per criterium in het domein Vakcriteria, met dezelfde tekens.
+
+   **Eindoordeel**, bovenaan het rapport en in de chat, een van drie:
+   - **Klaar voor inlevering**: geen bevindingen met prioriteit moet, en de inlevereisen voldoen (als die er zijn);
+   - **Kleine aanpassingen**: hooguit vijf keer moet, elk snel op te lossen, en geen ✗ bij de inlevereisen die veel
+     werk is;
+   - **Herschrijven aanbevolen**: meer of zwaardere moet-bevindingen, of de opbouw of de hoofdvraag klopt niet.
+
+   Voor een mail, post of ander niet-academisch stuk heet het eerste oordeel **Klaar om te versturen** (of te
+   plaatsen). Eindig met de vijf acties die het meeste opleveren.
+   Schrijf het rapport in de taal van de tekst; in het Engels: Ready to submit / Minor changes / Rewrite
+   recommended, Meets the submission requirements / Not ready to submit yet.
+
 7. **Uitvoer.**
    - Mail, post of korte tekst: de review in de chat. Hooguit tien bevindingen, de belangrijkste eerst.
    - Document:
@@ -74,7 +95,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
      2. Schrijf het rapport als `<map>/bron.md`, met als titel "Review: <titel>".
      3. `DQ export --bron <map>/bron.md --naam "Review <titel>" --genre memo` (de reviewtemplate komt uit het
         genre memo).
-     4. In de chat: het pad, het oordeel in drie zinnen en de vijf acties.
+     4. In de chat: het pad, het eindoordeel, bij inlevereisen de telling, en de vijf acties.
    - Historie: `DQ historie log --actie reviewen ...`.
 
 ## Klaar als
@@ -83,4 +104,5 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 - [ ] Elke bevinding heeft een plek, een voorstel en een prioriteit.
 - [ ] Er zijn alleen domeinen beoordeeld die aan staan of waar de gebruiker om vroeg; de rubric is gebruikt als
       die er is.
+- [ ] Er is een eindoordeel; bij een quick scan heeft elk item een teken en staat de telling erbij.
 - [ ] De vijf belangrijkste acties staan in de chat.

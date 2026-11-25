@@ -58,6 +58,8 @@ What each level means exactly (sentence length, colloquial language, emoji, humo
   DutchQuill uses them to sign off business emails. A signature or email banner (an image) goes in your email app;
   DutchQuill mentions it when writing.
 - **Student:** name, student number, institution, faculty and programme for the title page, and per course the
-  checklist or rubric. A review then also checks your report against it.
+  checklist or rubric. A review then also checks your report against it. With one course in your profile the
+  review loads its criteria by itself; with more it asks which course the text is for. It ends with a verdict
+  (ready to submit, minor changes, or rewrite recommended) and, for the checklist, a mark per item and "X of Y met".
 
 Everything is optional. The full list of settings: [Configuration](../reference/configuration.md).
