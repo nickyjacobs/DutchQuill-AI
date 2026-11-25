@@ -3,6 +3,7 @@ import json
 import threading
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 import pytest
 from dutchquill import config, paden
@@ -136,3 +137,28 @@ def test_sjablonen_en_professioneel(studio, tmp_path):
     assert status == 200 and r["pad"] == "templates/email/banner.png" and r["voorbeeld"].startswith("data:image/png")
     # De upload schrijft de config niet zelf: dat gaat via opslaan.
     assert not (config.laad_yaml(pad / "dutchquill.yaml") or {}).get("professioneel")
+
+
+def test_mijn_teksten_en_map_openen(studio, tmp_path, monkeypatch):
+    from dutchquill import versies
+    assert vraag(studio, "GET", "/api/teksten")[1]["teksten"] == []
+    pad = tmp_path / "DutchQuill"
+    vraag(studio, "POST", "/api/werkmap", {"pad": str(pad), "taal": "nl", "profiel": "zakelijk"})
+    v1 = versies.volgende("schrijven", "Plan voor Q1")
+    (Path(v1["map"]) / "Plan voor Q1.docx").write_bytes(b"x")
+    versies.volgende("schrijven", "Plan voor Q1")
+    versies.volgende("reviewen", "Mail aan team")
+    status, r = vraag(studio, "GET", "/api/teksten")
+    assert status == 200 and {t["titel"] for t in r["teksten"]} == {"Plan voor Q1", "Mail aan team"}
+    plan = next(t for t in r["teksten"] if t["titel"] == "Plan voor Q1")
+    assert [v["versie"] for v in plan["versies"]] == [2, 1] and plan["actie"] == "schrijven"
+    assert plan["versies"][1]["bestanden"] == ["Plan voor Q1.docx"]
+    assert plan["map"] == "2-output/schrijven/Plan voor Q1"
+
+    geopend = []
+    monkeypatch.setattr(server.subprocess, "run", lambda args, **kw: geopend.append(args))
+    status, r = vraag(studio, "POST", "/api/open-map", {"map": plan["versies"][0]["map"]})
+    assert status == 200 and geopend and Path(geopend[0][-1]).parts[-2:] == ("Plan voor Q1", "v2")
+    assert vraag(studio, "POST", "/api/open-map", {"map": "../../"})[0] == 400
+    assert vraag(studio, "POST", "/api/open-map", {"map": "/etc"})[0] == 400
+    assert len(geopend) == 1

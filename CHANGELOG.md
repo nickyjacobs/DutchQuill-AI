@@ -15,6 +15,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### ✨ Added
 
+- "My texts" in DutchQuill Studio: everything DutchQuill made, per title and newest first, with the versions and
+  files, and a button that opens the folder in Finder, Explorer or your file manager.
 - A page on costs and models (`docs/guide/costs.md`, Dutch in `docs/nl/handleiding/kosten.md`): where the tokens
   go, why the skills use your own model and the subagents a fixed one, and how to keep usage down.
 - Every text gets a language round as the last step: spelling, grammar (in Dutch also d/t), commas and

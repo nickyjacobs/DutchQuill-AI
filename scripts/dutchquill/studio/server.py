@@ -200,6 +200,45 @@ class Studio:
         except Exception:
             return {"pad": None, "melding": "Geen mapkiezer beschikbaar; typ het pad."}
 
+    def teksten(self, _: dict) -> dict:
+        """Mijn teksten: per titel de versies in 2-output, nieuwste eerst, met de bestanden per versie."""
+        from dutchquill import versies
+        werkmap = self.werkmap()
+        if not werkmap:
+            return {"teksten": [], "os": platform.system()}
+        uit = []
+        for actie in versies.ACTIES:
+            basis = Path(cfg.effectief()["mappen"][actie])
+            if not basis.is_dir():
+                continue
+            for titelmap in (d for d in basis.iterdir() if d.is_dir()):
+                lijst = []
+                for n in reversed(versies.bestaande(titelmap)):
+                    m = titelmap / f"v{n}"
+                    bestanden = sorted(f.name for f in m.iterdir() if f.is_file() and not f.name.startswith("."))
+                    lijst.append({"versie": n, "map": m.relative_to(werkmap).as_posix(), "bestanden": bestanden,
+                                  "gewijzigd": datetime.fromtimestamp(m.stat().st_mtime).isoformat(timespec="minutes")})
+                if lijst:
+                    uit.append({"actie": actie, "titel": titelmap.name, "map": titelmap.relative_to(werkmap).as_posix(),
+                                "versies": lijst, "gewijzigd": max(v["gewijzigd"] for v in lijst)})
+        uit.sort(key=lambda t: t["gewijzigd"], reverse=True)
+        return {"teksten": uit, "os": platform.system()}
+
+    def open_map(self, body: dict) -> dict:
+        """Open een map uit de werkmap in Finder, Verkenner of de bestandsbeheerder. Alleen binnen de werkmap."""
+        werkmap = self._vereist_werkmap().resolve()
+        doel = (werkmap / str(body.get("map", ""))).resolve()
+        if not doel.is_relative_to(werkmap) or not doel.is_dir():
+            raise Fout("Die map staat niet in je werkmap.")
+        systeem = platform.system()
+        if systeem == "Darwin":
+            subprocess.run(["open", str(doel)], check=False, timeout=30)
+        elif systeem == "Windows":
+            subprocess.run(["explorer", str(doel)], check=False, timeout=30)
+        else:
+            subprocess.run(["xdg-open", str(doel)], check=False, timeout=30)
+        return {"geopend": doel.relative_to(werkmap).as_posix()}
+
     def templates(self, _: dict) -> dict:
         from dutchquill import templates_docx
         return {"templates": templates_docx.lijst()}
@@ -435,6 +474,8 @@ ROUTES = {
     ("POST", "/api/config/opslaan"): "config_opslaan",
     ("POST", "/api/werkmap"): "werkmap_init",
     ("POST", "/api/kies-map"): "kies_map",
+    ("GET", "/api/teksten"): "teksten",
+    ("POST", "/api/open-map"): "open_map",
     ("GET", "/api/templates"): "templates",
     ("POST", "/api/templates/upload"): "template_upload",
     ("POST", "/api/templates/check"): "template_check",

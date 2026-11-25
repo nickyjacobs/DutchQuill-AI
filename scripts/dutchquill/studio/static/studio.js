@@ -34,6 +34,10 @@ const TEKST = {
     fout_algemeen: "Er ging iets mis. Probeer het opnieuw.",
     geen_token: "Deze pagina hoort bij een Studio-sessie. Open de Studio opnieuw via /dutchquill:instellen.",
     installatie: "Installatie", instellingen: "Instellingen",
+    s_teksten: "Mijn teksten", teksten_uitleg: "Alles wat DutchQuill voor je maakte, per titel, het nieuwste bovenaan. Elke ronde staat in een eigen versiemap.",
+    teksten_leeg: "Nog niets gemaakt. Vraag Claude om een tekst te schrijven, te herschrijven of te reviewen; die verschijnt dan hier.",
+    teksten_geen_werkmap: "Kies eerst een werkmap.", open_Darwin: "Toon in Finder", open_Windows: "Open in Verkenner",
+    open_anders: "Open map", versies_n: "%s versies", versie_1: "1 versie", gewijzigd_op: "laatst %s", m_open_fout: "Openen lukte niet",
     s_welkom: "Welkom", s_werkmap: "Werkmap", s_profiel: "Profiel", s_controles: "Controles", s_toon: "Toon",
     s_uitvoer: "Uitvoer", s_templates: "Templates", s_stem: "Mijn stem", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Onderhoud", s_afronden: "Afronden",
@@ -244,6 +248,10 @@ const TEKST = {
     fout_algemeen: "Something went wrong. Try again.",
     geen_token: "This page belongs to a Studio session. Open the Studio again with /dutchquill:instellen.",
     installatie: "Setup", instellingen: "Settings",
+    s_teksten: "My texts", teksten_uitleg: "Everything DutchQuill made for you, per title, newest first. Every round has its own version folder.",
+    teksten_leeg: "Nothing made yet. Ask Claude to write, rewrite or review a text; it then shows up here.",
+    teksten_geen_werkmap: "Choose a workspace first.", open_Darwin: "Show in Finder", open_Windows: "Open in Explorer",
+    open_anders: "Open folder", versies_n: "%s versions", versie_1: "1 version", gewijzigd_op: "last %s", m_open_fout: "Could not open it",
     s_welkom: "Welcome", s_werkmap: "Workspace", s_profiel: "Profile", s_controles: "Checks", s_toon: "Tone",
     s_uitvoer: "Output", s_templates: "Templates", s_stem: "My voice", s_privacy: "Privacy",
     s_student: "Student", s_onderhoud: "Maintenance", s_afronden: "Finish",
@@ -1324,6 +1332,29 @@ const SCHERMEN = {
     ];
   },
 
+  teksten() {
+    const d = S.teksten || { teksten: [] };
+    if (!S.status.ingesteld) return [...kop(T("s_teksten"), T("teksten_geen_werkmap"))];
+    const openKnop = (map) => el("button", { type: "button", klasse: "tweede", tekst: T(["Darwin", "Windows"].includes(d.os) ? `open_${d.os}` : "open_anders"),
+      onclick: async () => { try { await api("POST", "/api/open-map", { map }); } catch (e) { melding(T("m_open_fout"), e.message, "fout"); } } });
+    const datum = (iso) => new Date(iso).toLocaleString(S.taal === "nl" ? "nl-NL" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+    const actieLabel = (a) => T(`w_${a}`);
+    return [
+      ...kop(T("s_teksten"), T("teksten_uitleg")),
+      d.teksten.length ? el("ul", { klasse: "lijst teksten" }, d.teksten.map((tk, i) => el("li", {},
+        el("details", { open: i === 0 },
+          el("summary", {},
+            el("span", { klasse: "tekst-titel" }, el("strong", { tekst: tk.titel }), " ",
+              el("span", { klasse: "label-klein", tekst: `${actieLabel(tk.actie)} · ${tk.versies.length === 1 ? T("versie_1") : T("versies_n", tk.versies.length)} · ${T("gewijzigd_op", datum(tk.gewijzigd))}` }))),
+          el("ul", { klasse: "versies" }, tk.versies.map((v) => el("li", {},
+            el("span", {}, el("strong", { tekst: `v${v.versie}` }), " ",
+              el("span", { klasse: "label-klein", tekst: `${datum(v.gewijzigd)} · ${v.bestanden.join(", ")}` })),
+            openKnop(v.map))))),
+        openKnop(tk.map))))
+        : el("p", { klasse: "uitleg", tekst: T("teksten_leeg") }),
+    ];
+  },
+
   over() {
     const NS = "http://www.w3.org/2000/svg";
     const icoon = (soort) => {
@@ -1390,7 +1421,7 @@ const SCHERMEN = {
 
 // ------------------------------------------------------------------ navigatie
 const GROEPEN = [
-  { kop: "g_start", schermen: ["werkmap", "profiel"] },
+  { kop: "g_start", schermen: ["werkmap", "teksten", "profiel"] },
   { kop: "g_schrijven", schermen: ["toon", "controles", "stem"] },
   { kop: "g_uitvoer", schermen: ["uitvoer", "templates"] },
   { kop: "g_jij", schermen: ["privacy", "student", "professioneel"] },
@@ -1422,6 +1453,7 @@ async function ga(scherm) {
   if (scherm === "stem" && !S.stem) { try { S.stem = await api("GET", "/api/stem"); } catch (e) { S.stem = null; } }
   if (scherm === "templates" && !S.sjablonen) { try { S.sjablonen = (await api("GET", "/api/sjablonen")).sjablonen; } catch (e) { S.sjablonen = []; } }
   if (scherm === "professioneel" && !S.profVb) { try { S.profVb = (await api("GET", "/api/professioneel")).voorbeeld; } catch (e) { S.profVb = {}; } }
+  if (scherm === "teksten") { try { S.teksten = await api("GET", "/api/teksten"); } catch (e) { S.teksten = { teksten: [] }; } }
   if (scherm === "student") { try { S.vakken = (await api("GET", "/api/vakken")).vakken; } catch (e) { S.vakken = {}; } }
   toon();
   document.getElementById("inhoud").focus({ preventScroll: true });

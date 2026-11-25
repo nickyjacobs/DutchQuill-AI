@@ -27,17 +27,20 @@ staat. Terug in Claude ziet Claude welke instellingen er veranderd zijn.
 | Groep | Scherm | Wat je er doet |
 |---|---|---|
 | Start | Werkmap | De plek van je werkmap (als plaatje), de taal van je teksten, versies aan of uit |
+| | Mijn teksten | Alles wat DutchQuill maakte, per titel en het nieuwste bovenaan, met de versies en bestanden, en een knop die de map opent in Finder of Verkenner |
 | | Profiel | Een profiel kiezen of een eigen profiel maken; automatisch een profiel per soort tekst |
 | Hoe je schrijft | Toon | De toonschaal, je/u of de lezer niet aanspreken, een eigen mix, met een voorbeeldmail die meeverandert |
 | | Controles | APA, academische stijl, taal en humaniseren los aan of uit, met een voorbeeld per controle |
 | | Mijn stem | Eigen teksten uploaden en je stem meten |
-| Wat je krijgt | Uitvoer | Bestandsformaten, wat alleen in de chat komt, de standaardtemplate |
+| Wat je krijgt | Uitvoer | Bestandsformaten, wat alleen in de chat komt, de standaardtemplate, documentgegevens normaal of leeg |
 | | Templates | Word-templates toevoegen, controleren of aanpassen; sjablonen per soort tekst |
-| Jij en je gegevens | Privacy | De online taalcheck aan of uit |
-| | Student | Gegevens voor de titelpagina, vakken met hun rubric of checklist |
+| Jij en je gegevens | Privacy | De online taalcheck aan of uit; een kopie van je teksten in de historie aan of uit |
+| | Student | Gegevens voor de titelpagina, je opleidingsniveau, vakken met hun rubric of checklist |
 | | Professioneel | Naam, functie, organisatie en contact voor je mails, plus handtekening of mailbanner |
 | Systeem | Onderhoud | Wanneer de gidsen gecontroleerd zijn, nu controleren, bewegende wolken aan of uit |
 | | Over DutchQuill | Waarom DutchQuill bestaat, wat de humanizer meet, links |
+
+![Mijn teksten in DutchQuill Studio](../../img/studio-teksten.png)
 
 ![Uitvoer in DutchQuill Studio](../../img/studio-uitvoer.png)
 
