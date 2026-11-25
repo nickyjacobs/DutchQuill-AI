@@ -44,8 +44,9 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - Staan er teksten in `mijn-stijl` maar is er nog geen `stem.json`: draai `DQ stem analyse`.
    - Is er niets van de gebruiker zelf, dan volg je genre en toon. Zeg dat in één regel: met een paar eigen
      teksten in `mijn-stijl` wordt het resultaat persoonlijker.
-5. **Analyse:** `DQ tells --input <origineel> --genre <genre>`. Lees daarna zelf de categorieën uit de gids na
-   die het script niet ziet:
+5. **Analyse:** `DQ tells --input <origineel> --genre <genre>`. Meldt het een korte tekst (onder 100 woorden),
+   zeg dan in de chat dat de score weinig zegt en oordeel vooral op wat je zelf leest. Lees daarna zelf de
+   categorieën uit de gids na die het script niet ziet:
    - een gezegde dat diep klinkt;
    - opgeblazen belang;
    - de verkeerde lezer;

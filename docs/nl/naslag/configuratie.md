@@ -81,7 +81,7 @@ Gegenereerd uit `config/schema.json`.
 | `toon.aanspreekvorm` | `auto` \| `je` \| `u` \| `geen` | `"auto"` | Aanspreekvorm. auto kiest per genre en lezer; geen betekent: de lezer niet aanspreken (academisch). |
 | `toon.mix` | string | `""` | Eigen mix (vrij). Bijvoorbeeld: zakelijk, maar met een luchtige afsluiting. |
 | `uitvoer.formaten` | lijst van `docx` \| `pdf` \| `md` \| `txt` \| `html` | `["docx"]` | Bestandsformaten. |
-| `uitvoer.chat_voor` | lijst van `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Alleen in de chat (geen bestand). Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op. |
+| `uitvoer.chat_voor` | lijst van `rapport` \| `onderzoeksrapport` \| `adviesrapport` \| `zakelijk-rapport` \| `technisch-rapport` \| `sop` \| `research-notitie` \| `mail` \| `linkedin` \| `social` \| `readme` \| `memo` \| `kort` | `["mail", "linkedin", "social", "kort"]` | Alleen in de chat (geen bestand). Deze soorten tekst komen alleen in de chat, tenzij je zegt: sla op. |
 | `uitvoer.template` | string | `"zakelijk"` | Template. Naam van een meegeleverde of eigen template. |
 | `basis` | profielnaam |  | Bouwt voort op. Naam van een ander profiel. Alles wat je hier niet zet, komt daarvandaan. |
 | `taal` | `nl` \| `en` \| `auto` |  | Overschrijft de algemene taal voor dit profiel. |

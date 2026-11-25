@@ -18,7 +18,9 @@ writer. The result is a better text: more precise, more personal, more pleasant 
   disappeared or appeared. DutchQuill makes nothing up; if something is missing, it marks it with `[bron nodig]`
   ("source needed").
 - **Thresholds per kind of text.** A LinkedIn post may be lighter than a report; with informal text DutchQuill steps
-  in less quickly.
+  in less quickly. A technical report (pentest, audit) gets more room for fixed terms and long technical sentences.
+  For reports, low readability counts as a pattern, and `dq tells` says whether the text is ready (AI patterns,
+  readability, word variety). Under 100 words it warns that the figures say little.
 
 ## Measuring it yourself
 

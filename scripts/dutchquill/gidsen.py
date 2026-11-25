@@ -20,8 +20,8 @@ from pathlib import Path
 from dutchquill import paden
 from dutchquill.config import ConfigFout, effectief
 
-GENRES = ("rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "sop", "research-notitie", "mail",
-          "linkedin", "social", "readme", "memo", "kort")
+GENRES = ("rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "technisch-rapport", "sop",
+          "research-notitie", "mail", "linkedin", "social", "readme", "memo", "kort")
 
 
 def _gecontroleerd(pad: Path) -> str:

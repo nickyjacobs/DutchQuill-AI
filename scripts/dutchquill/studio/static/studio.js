@@ -791,7 +791,7 @@ async function bewaarSjabloon(genre, inhoud) {
   } catch (e) { fout(e); }
 }
 const GENRE_GROEPEN = { berichten: ["mail", "linkedin", "social", "kort"],
-  documenten: ["rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "sop", "research-notitie", "memo", "readme"] };
+  documenten: ["rapport", "onderzoeksrapport", "adviesrapport", "zakelijk-rapport", "technisch-rapport", "sop", "research-notitie", "memo", "readme"] };
 const ICOON_MAP = "M3.5 7.5A1.5 1.5 0 0 1 5 6h4.2l1.8 2H19a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5z";
 const ICOON_BESTAND = "M13.5 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8.5zM13.5 3.5v5h5";
 function mapBoom(mappen) {
