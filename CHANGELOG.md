@@ -13,6 +13,11 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ## [Unreleased]
 
+### 🔒 Security
+
+- The privacy policy now says which personal data `dutchquill.yaml` can hold (student and professional profile), that
+  it stays in that file and how to remove it.
+
 ---
 
 ## [2.0.2] - 2026-11-25
