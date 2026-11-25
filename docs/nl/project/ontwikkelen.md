@@ -49,10 +49,18 @@ uv run --no-project --python 3.12 --with-requirements requirements.txt --with py
 uvx ruff check scripts hooks tests
 uv run --script scripts/dev/release_check.py
 claude plugin validate .
-claude plugin eval . --runs 1 --model sonnet --allow-tools Bash --no-publish
+claude plugin eval . --runs 1 --model sonnet --allow-tools Bash --scaffold --no-publish
 ```
 
 De CI draait de tests en ruff op Linux, macOS en Windows, plus gitleaks en een linkcheck.
+
+**Evals waarin `dq` echt draait** (`tells-draait`, `review-met-rubric`, `humaniseren-feiten`, tag `dq`). In de
+sandbox van `claude plugin eval` is de datamap van de plugin niet beschrijfbaar en kan er niets geïnstalleerd
+worden. Die cases hebben daarom een `scaffold.sh` die de Python-omgeving vooraf in de werkmap van de run zet,
+buiten de sandbox (gedeeld deel: `evals/scaffold-dq.sh`), en zetten `EVAL_DQ_DATA: .dq-data` zodat `scripts/dq`
+die gebruikt. Het scaffold-script heeft een systeem-Python 3.10+ buiten je thuismap nodig (Homebrew, `/usr/local`
+of `/usr`), omdat de sandbox je thuismap niet kan lezen. Draai met `--scaffold --allow-tools Bash`; met
+`--ablation none` sla je de arm zonder plugin over, die voor deze cases niets zegt. Zonder `--scaffold` falen ze.
 
 ## Lokaal proberen
 

@@ -60,7 +60,7 @@ verifies all of this.
    uv run --script scripts/dev/release_check.py
    uv run --no-project --python 3.12 --with-requirements requirements.txt --with pytest pytest -q
    claude plugin validate .
-   claude plugin eval . --runs 3 --model sonnet --allow-tools Bash --no-publish
+   claude plugin eval . --runs 3 --model sonnet --allow-tools Bash --scaffold --no-publish
    ```
 
 3. **Pull request** from `develop` to `main`, titled `Release: vX.Y.Z`. Merge with a merge commit once the checks are

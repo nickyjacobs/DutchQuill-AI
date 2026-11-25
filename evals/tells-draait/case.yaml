@@ -1,0 +1,21 @@
+schema_version: "1.1"
+name: tells-draait
+description: >-
+  Een AI-scan waarin dq tells echt draait. Het scaffold-script zet de Python-omgeving van dq klaar in de werkmap
+  van de run; EVAL_DQ_DATA wijst dq ernaartoe. Draai met --scaffold en --allow-tools Bash.
+tags: [dq]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 25
+  allowed_tools: [Read, Glob, Grep, Skill, Bash]
+  env:
+    EVAL_DQ_DATA: .dq-data
+  prompt: |
+    /dutchquill:humaniseren Klinkt dit als AI? Alleen een scan, niet herschrijven.
+
+    "In de huidige digitale wereld speelt kunstmatige intelligentie een cruciale rol in het onderwijs. Het is niet
+    alleen een hulpmiddel, maar een transformatieve kracht. Bovendien biedt AI een breed scala aan mogelijkheden
+    voor gepersonaliseerd leren. Daarnaast stelt het docenten in staat om naadloos in te spelen op de behoeften van
+    elke leerling. Kortom, de toekomst ziet er rooskleurig uit."

@@ -58,11 +58,16 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### 🔧 Changed
 
+- `dq vak`, `dq leesbaarheid`, `dq apa-check`, `dq apa-bron` and `dq diff` only need the light install now, not the
+  document packages (about a minute less the first time).
 - In Dutch reports a Flesch-Douma score under 30 (technical report: under 25) counts as a pattern again.
 - `dq tells` warns when a text has fewer than 100 words: the figures are unreliable then.
 
 ### 🐛 Fixed
 
+- If the plugin's data folder isn't writable, `dq` falls back to a temporary folder instead of stopping.
+- The evals now test the `dq` scripts for real: three new cases (`tells-draait`, `review-met-rubric`,
+  `humaniseren-feiten`) prepare the Python environment beforehand, because the eval sandbox can't install it.
 - A review for the student profile no longer comes out in the APA layout of a paper.
 - The example files for course criteria pointed to the old v1 location. They now say where the files go in your
   workspace (`templates/vakken/<CODE>/`).
