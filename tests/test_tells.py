@@ -208,3 +208,40 @@ def test_korte_tekst_waarschuwt():
     r = tells.analyseer("Hi Sam, ten tomorrow works fine. See you then!", taal="en", genre="mail")
     assert "Note: Short text" in tells.rapport(r)
     assert not tells.analyseer(lees("mens_nl.md"))["waarschuwingen"]
+
+
+# ---- testronde 2.1: harde regelafbrekingen, labels, technische koppen
+
+def test_patroon_over_regelafbreking():
+    tekst = ("Organisaties zoeken naar een snelle,\nveilige en duurzame aanpak. Het gaat niet alleen om\n"
+             "techniek, maar om mensen.")
+    r = tells.analyseer(tekst, "nl")
+    stapel = [b for b in r["bevindingen"] if b["cat"] == "bijvoeglijk_stapel"]
+    assert stapel and stapel[0]["regel"] == 1
+    par = [b for b in r["bevindingen"] if b["cat"] == "niet_x_maar_y"]
+    assert par and par[0]["regel"] == 2
+
+
+def test_geen_dubbele_treffer_over_regelafbreking():
+    r = tells.analyseer("Er is een breed\nscala aan opties voor de klant om uit te kiezen vandaag.", "nl")
+    assert [b["match"].lower() for b in r["bevindingen"] if b["cat"] == "woord"] == ["een breed scala aan"]
+
+
+def test_lijsten_en_koppen_blijven_los():
+    tekst = "# Een snelle,\n\n- veilige en duurzame aanpak voor iedereen"
+    assert "bijvoeglijk_stapel" not in tells.analyseer(tekst, "nl")["per_categorie"]
+
+
+def test_label_aan_alineabegin_telt_niet():
+    alineas = [f"Advies: zet onderdeel {i} uit via GPO en controleer het daarna." for i in range(3)]
+    tekst = "\n\n".join(["Dit is de inleiding van het stuk."] + alineas)
+    assert "alineabegin" not in tells.analyseer(tekst, "nl")["per_categorie"]
+    zonder = "\n\n".join(["Dit is de inleiding."] + [a.replace("Advies:", "Daarom") for a in alineas])
+    assert "alineabegin" in tells.analyseer(zonder, "nl")["per_categorie"]
+
+
+def test_title_case_negeert_namen_en_technische_teksten():
+    assert "title_case" not in tells.analyseer("## Inzet van PowerShell via DCSync\n\nTekst.", "nl")["per_categorie"]
+    kop = "## Bevinding via Backup Operators\n\nTekst hier."
+    assert "title_case" in tells.analyseer(kop, "nl", genre="rapport")["per_categorie"]
+    assert "title_case" not in tells.analyseer(kop, "nl", genre="technisch-rapport")["per_categorie"]
