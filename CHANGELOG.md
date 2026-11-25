@@ -15,6 +15,8 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### ✨ Added
 
+- A page on costs and models (`docs/guide/costs.md`, Dutch in `docs/nl/handleiding/kosten.md`): where the tokens
+  go, why the skills use your own model and the subagents a fixed one, and how to keep usage down.
 - Every text gets a language round as the last step: spelling, grammar (in Dutch also d/t), commas and
   consistency, from a short checklist (`gidsen/werkwijze/taalronde.md`). It runs always, also for a short mail and
   without LanguageTool. The online check stays off by default; the setup explains what it adds and what it sends.
