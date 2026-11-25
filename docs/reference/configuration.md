@@ -52,7 +52,7 @@ Generated from `config/schema.json`.
 | `mappen.humaniseren` | string | `"humaniseren"` |  |
 | `mappen.templates` | string | `"templates"` |  |
 | `versies` | boolean | `true` | Keep versions. Every new round on the same title goes into a new folder (v2, v3 and so on). |
-| `privacy.languagetool` | boolean | `false` | Online grammar check (LanguageTool). Sends the text to api.languagetool.org for an extra check. Off = everything stays local. |
+| `privacy.languagetool` | boolean | `false` | Online grammar check (LanguageTool). An extra, automatic spelling and grammar check on top of the language round every text gets. Sends the text to api.languagetool.org. Off = only the language round, nothing extra leaves your computer. |
 | `stem.gebruiken` | boolean | `true` | Write in my voice. Uses your own texts in the my-style folder as the model for rhythm and word choice. |
 | `student` | object |  | Student details (optional). For the title page of an academic report. |
 | `professioneel.naam` | string |  | Name. |

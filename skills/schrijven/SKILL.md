@@ -81,6 +81,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 - [ ] De werkwijze en alle gidsen uit `DQ gids voor` zijn gelezen.
 - [ ] De controles zijn gedraaid. Het tells-niveau is laag, of het restant is uitgelegd.
+- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap.
 - [ ] Er is geen verzonnen feit, cijfer, bron of voorbeeld in de tekst; open plekken zijn gemarkeerd.
 - [ ] Chat: de tekst plus hooguit twee regels toelichting. Bestand: `bron.md`, de exports,
   `wat-is-er-veranderd.md` en een historieregel.

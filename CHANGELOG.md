@@ -15,6 +15,10 @@ Every change to DutchQuill AI. Versions follow [semver](https://semver.org/), th
 
 ### ✨ Added
 
+- Every text gets a language round as the last step: spelling, grammar (in Dutch also d/t), commas and
+  consistency, from a short checklist (`gidsen/werkwijze/taalronde.md`). It runs always, also for a short mail and
+  without LanguageTool. The online check stays off by default; the setup explains what it adds and what it sends.
+
 - A review loads the submission requirements and rubric of your course by itself when you have one course in your
   profile, and asks which course when you have more (`dq vak toon`, `dq vak lijst`). It says which criteria it
   loaded and only reads the `## Rapportage` section.

@@ -50,7 +50,8 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
    - `DQ tells --input <tekst> --genre <genre> --json`
    - `DQ leesbaarheid --input <tekst>` (Nederlands)
    - `DQ apa-check --input <tekst>` als APA aan staat
-   - `DQ taalcheck --input <tekst> --lang nl` alleen als `privacy.languagetool` aan staat
+   - de taalronde uit `${CLAUDE_PLUGIN_ROOT}/gidsen/werkwijze/taalronde.md`, altijd: elke fout wordt een
+     bevinding in het domein Taal; met `privacy.languagetool` aan ook `DQ taalcheck --input <tekst> --lang <taal>`
 5. **Zelf lezen.** De scripts vangen niet alles. Loop deze domeinen na:
 
    | Domein | Waarop | Geldt |
@@ -101,6 +102,7 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 ## Klaar als
 
 - [ ] Er is niets aan de tekst zelf veranderd.
+- [ ] De taalronde is gedaan en de fouten staan als bevinding in het domein Taal.
 - [ ] Elke bevinding heeft een plek, een voorstel en een prioriteit.
 - [ ] Er zijn alleen domeinen beoordeeld die aan staan of waar de gebruiker om vroeg; de rubric is gebruikt als
       die er is.

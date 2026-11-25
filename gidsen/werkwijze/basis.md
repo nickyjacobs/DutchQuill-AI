@@ -1,7 +1,7 @@
 ---
 titel: Werkwijze voor alle DutchQuill-skills
 versie: 1
-gecontroleerd: 2026-11-24
+gecontroleerd: 2026-11-25
 ---
 
 # Werkwijze voor alle DutchQuill-skills
@@ -74,9 +74,13 @@ Draai de controles die horen bij de modules die aan staan:
 |---|---|
 | altijd | `DQ tells --input <concept> --genre <genre> --taal <taal>` (ook als humaniseren uit staat: dan alleen chatbotresten, eigen regels en vage bronnen herstellen) |
 | humaniseren | zelfde commando; herstel sterke tells, clusters, formules en ritme volgens de gids |
-| taalregels | `DQ leesbaarheid --input <concept>` (Nederlands); `DQ taalcheck --input <concept> --lang nl` alleen als `privacy.languagetool` aan staat |
+| altijd | de taalronde uit `gidsen/werkwijze/taalronde.md`: zin voor zin op d/t, spelling, komma's en consistentie; met `privacy.languagetool` aan ook `DQ taalcheck --input <concept> --lang <taal>` |
+| taalregels | `DQ leesbaarheid --input <concept>` (Nederlands), en de stijlregels uit `gidsen/nl/taal.md` |
 | apa | `DQ apa-check --input <concept>` |
 | herschrijven en humaniseren | `DQ feiten --origineel <origineel> --nieuw <concept>` |
+
+De taalronde doe je als laatste, na de inhoud en het humaniseren: elke herschreven zin kan een nieuwe fout
+hebben. Ze is verplicht, ook voor een mail van drie zinnen.
 
 Herstel wat de controles vinden en draai ze opnieuw, **hooguit drie rondes**. Is het daarna nog niet goed, meld
 dan wat er overblijft en waarom. Doel: tells-niveau laag (of gemiddeld met alleen zwakke tells), geen
@@ -96,7 +100,7 @@ feitenverlies, geen APA-fouten. Een script dat faalt sla je niet over: meld de f
 3. `DQ export --bron <map>/bron.md --naam "<titel>" --genre <genre>` (met dezelfde `--set`-waarden). Dat maakt
    de formaten uit de config, met de template van het profiel.
 4. Schrijf `<map>/wat-is-er-veranderd.md`: drie tot tien regels over wat je deed, de gebruikte instellingen
-   (profiel, toon, modules), de uitkomst van de controles, en wat de gebruiker nog moet aanvullen.
+   (profiel, toon, modules), de uitkomst van de controles en de taalronde, en wat de gebruiker nog moet aanvullen.
 5. `DQ historie log --actie <actie> --titel "<titel>" --bestand <bestand> ... --meta '{"genre": "...", "profiel": "..."}'`.
 
 ## 7. Afronden in de chat

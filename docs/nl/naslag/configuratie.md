@@ -51,7 +51,7 @@ Gegenereerd uit `config/schema.json`.
 | `mappen.humaniseren` | string | `"humaniseren"` |  |
 | `mappen.templates` | string | `"templates"` |  |
 | `versies` | boolean | `true` | Versies bijhouden. Elke nieuwe ronde over dezelfde titel komt in een nieuwe map (v2, v3 enzovoort). |
-| `privacy.languagetool` | boolean | `false` | Online taalcheck (LanguageTool). Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal. |
+| `privacy.languagetool` | boolean | `false` | Online taalcheck (LanguageTool). Een extra, automatische spelling- en grammaticacheck naast de taalronde die elke tekst krijgt. Stuurt de tekst naar api.languagetool.org. Uit = alleen de taalronde, er gaat niets extra naar buiten. |
 | `stem.gebruiken` | boolean | `true` | Schrijf in mijn stem. Gebruikt je eigen teksten uit de map mijn-stijl als voorbeeld voor ritme, woordkeus en zinsopbouw. |
 | `student` | object |  | Studentgegevens (optioneel). Voor de titelpagina van een hbo-rapport. |
 | `professioneel.naam` | string |  | Naam. |

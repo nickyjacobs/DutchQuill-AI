@@ -442,8 +442,8 @@
             "en": "Online grammar check (LanguageTool)"
           },
           "x-uitleg": {
-            "nl": "Stuurt de tekst naar api.languagetool.org voor een extra spelling- en grammaticacheck. Uit = alles blijft lokaal.",
-            "en": "Sends the text to api.languagetool.org for an extra check. Off = everything stays local."
+            "nl": "Een extra, automatische spelling- en grammaticacheck naast de taalronde die elke tekst krijgt. Stuurt de tekst naar api.languagetool.org. Uit = alleen de taalronde, er gaat niets extra naar buiten.",
+            "en": "An extra, automatic spelling and grammar check on top of the language round every text gets. Sends the text to api.languagetool.org. Off = only the language round, nothing extra leaves your computer."
           }
         }
       }

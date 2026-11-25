@@ -76,5 +76,6 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 
 - [ ] De feitencontrole is gedraaid en elk verschil is verklaard of hersteld.
 - [ ] De tells-score is niet gestegen.
+- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap.
 - [ ] De opbouw is behouden, of de wijziging is gemeld.
 - [ ] Het origineel van de gebruiker is onaangeroerd.

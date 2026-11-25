@@ -76,3 +76,4 @@ CLAUDE_PLUGIN_DATA="${CLAUDE_PLUGIN_DATA}" "${CLAUDE_PLUGIN_ROOT}/scripts/dq"
 - [ ] De feitencontrole is schoon of elk verschil is verklaard.
 - [ ] Het niveau is laag, of het restant is uitgelegd (bijvoorbeeld vaktermen of de eigen stijl van de gebruiker).
 - [ ] Niets verzonnen, niets binnen citaten veranderd.
+- [ ] De taalronde (werkwijze 5) is gedaan, als laatste stap; citaten blijven zoals ze zijn.
